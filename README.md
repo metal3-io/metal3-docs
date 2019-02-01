@@ -30,7 +30,11 @@ Actuator](https://github.com/metalkube/cluster-api-provider-bare-metal).  This
 is the component with logic specific to this architecture for handling changes
 to the lifecycle of Machine objects.  This actuator may be integrated with the
 existing [Machine API
-Operator](https://github.com/openshift/machine-api-operator).
+Operator](https://github.com/openshift/machine-api-operator) or some other
+implementation of the cluster API.
+
+This actuator will associate Machine objects with a bare metal host from the
+inventory of bare metal hosts managed by the Bare Metal Operator.
 
 #### Bare Metal Operator
 
