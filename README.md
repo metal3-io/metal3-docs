@@ -55,6 +55,13 @@ following:
   detail under the hood such that alternatives could be added in the future if
   the need arises.
 
+The creation of the BareMetalHost inventory can be done in two ways:
+
+1. Manually via creating BareMetalHost objects.
+2. Optionally, automatically created via a bare metal host discovery process.
+   Ironic is capable of doing this, which will also be integrated into
+   MetalKube as an option.
+
 ## APIs
 
 1. Enroll nodes by creating BareMetalHost resources.  This would either be
