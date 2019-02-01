@@ -1,5 +1,7 @@
 # MetalKube Documentation
 
+![MetalKube Logo](images/metalkube.svg)
+
 The MetalKube project exists to provide components that allow you to do bare
 metal host management for Kubernetes.  MetalKube works as a Kubernetes
 application, meaning it runs on Kubernetes and is managed through Kubernetes
