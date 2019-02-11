@@ -67,40 +67,8 @@ The creation of the BareMetalHost inventory can be done in two ways:
 1. Enroll nodes by creating BareMetalHost resources.  This would either be
    manually or done by a component doing node discovery and introspection.
 
-```
-apiVersion: metalkube.org/v1alpha1
-kind: BareMetalHost
-metadata:
-    name: baremetal-node-1
-    labels:
-        node-profile: master
-spec:
-    mac: 00:11:22:33:44:01
-    image: http://www.example.com/images/image.qcow2
-    image_sha256sum: 4ed79aace680d9af89bdcf8a042238031eb147b5c8825499aa3314269647c300
-    management_interface:
-        type: ipmi
-        username: admin
-        password: <SECRET>
-        address: 192.168.45.101
-
-
-apiVersion: metalkube.org/v1alpha1
-kind: BareMetalHost
-metadata:
-    name: baremetal-node-2
-    labels:
-        node-profile: node
-spec:
-    mac: 00:11:22:33:44:02
-    image: http://www.example.com/images/image.qcow2
-    image_sha256sum: 4ed79aace680d9af89bdcf8a042238031eb147b5c8825499aa3314269647c300
-    management_interface:
-        type: idrac
-        username: admin
-        password: <SECRET>
-        url: http://host.domain
-```
+   See the documentation in the
+   [baremetal-operator](../baremetal-operator) repository for details.
 
 2. Use the machine API to allocate a machine.
 
