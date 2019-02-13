@@ -68,7 +68,7 @@ The creation of the BareMetalHost inventory can be done in two ways:
    manually or done by a component doing node discovery and introspection.
 
    See the documentation in the
-   [baremetal-operator](../baremetal-operator) repository for details.
+   [baremetal-operator](https://github.com/metalkube/baremetal-operator/blob/master/docs/api.md) repository for details.
 
 2. Use the machine API to allocate a machine.
 
