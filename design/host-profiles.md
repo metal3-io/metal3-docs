@@ -36,8 +36,11 @@ One of: provisional
       * [Drawbacks [optional]](#drawbacks-optional)
       * [Alternatives [optional]](#alternatives-optional)
       * [References](#references)
+         * [Example Ironic Inventory Results](#example-ironic-inventory-results)
+            * [Virtual Machine](#virtual-machine)
+            * [Bare Metal](#bare-metal)
 
-<!-- Added by: stack, at: 2019-02-15T13:56-05:00 -->
+<!-- Added by: stack, at: 2019-02-15T16:58-05:00 -->
 
 <!--te-->
 
