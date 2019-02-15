@@ -46,8 +46,7 @@ To get started with this template:
 1. **Make a copy of this template.**
 
     Copy this template into the `design` directory and name it
-    `YYYYMMDD-my-title.md`, where `YYYYMMDD` is the date the document
-    was first drafted.
+    `my-title.md`.
 
 1. **Fill out the "overview" sections.**
 
