@@ -347,3 +347,1659 @@ of inspecting the host and that could be applied to the profile.*
   }
 }
 ```
+
+#### Bare Metal
+
+Below is a payload containing data returned for a baremetal server.
+
+Note the following:
+* lldp_processed contains interesting data from a network switch
+  received via LLDP packets from each switch port
+* Introspection on this baremetal server ran with `extra-hardware` and
+  `numa-topology` set so there is a lot more data.  We don't plan on
+  using these inspector options with Metalkube.
+
+```
+{
+  "cpu_arch": "x86_64",
+  "macs": [
+    "b0:83:fe:c6:63:86"
+  ],
+  "root_disk": {
+    "rotational": true,
+    "vendor": "DELL",
+    "name": "/dev/sda",
+    "wwn_vendor_extension": "0x1bd2cc7e0fc68486",
+    "hctl": "0:2:0:0",
+    "wwn_with_extension": "0x6b083fe0d2d0eb001bd2cc7e0fc68486",
+    "by_path": "/dev/disk/by-path/pci-0000:01:00.0-scsi-0:2:0:0",
+    "model": "PERC H710",
+    "wwn": "0x6b083fe0d2d0eb00",
+    "serial": "6b083fe0d2d0eb001bd2cc7e0fc68486",
+    "size": 599550590976
+  },
+  "extra": {
+    "network": {
+      "p2p2": {
+        "tx-udp_tnl-csum-segmentation": "on",
+        "vlan-challenged": "off [fixed]",
+        "rx-vlan-offload": "on",
+        "tx-vlan-stag-hw-insert": "off [fixed]",
+        "rx-vlan-stag-filter": "off [fixed]",
+        "highdma": "on [fixed]",
+        "autonegotiation": "on",
+        "tx-gso-robust": "off [fixed]",
+        "tcp-segmentation-offload/tx-tcp-mangleid-segmentation": "off",
+        "rx-udp_tunnel-port-offload": "off [fixed]",
+        "netns-local": "off [fixed]",
+        "vendor": "Intel Corporation",
+        "serial": "a0:36:9f:52:7f:b3",
+        "speed": "1Gbit/s",
+        "size": 1000000000,
+        "l2-fwd-offload": "off [fixed]",
+        "latency": 0,
+        "tx-checksumming/tx-checksum-ipv6": "off [fixed]",
+        "tx-gre-segmentation": "on",
+        "tx-checksumming/tx-checksum-ipv4": "off [fixed]",
+        "tx-fcoe-segmentation": "off [fixed]",
+        "duplex": "full",
+        "tcp-segmentation-offload": "on",
+        "Autonegotiate": "on",
+        "tx-udp_tnl-segmentation": "on",
+        "RX": "on",
+        "firmware": "1.67, 0x80000cc9, 16.0.22",
+        "fcoe-mtu": "off [fixed]",
+        "tcp-segmentation-offload/tx-tcp-ecn-segmentation": "off [fixed]",
+        "large-receive-offload": "off [fixed]",
+        "tx-sctp-segmentation": "off [fixed]",
+        "tx-checksumming/tx-checksum-fcoe-crc": "off [fixed]",
+        "rx-vlan-stag-hw-parse": "off [fixed]",
+        "businfo": "pci@0000:08:00.1",
+        "tx-vlan-offload": "on",
+        "product": "I350 Gigabit Network Connection",
+        "tx-nocache-copy": "off",
+        "udp-fragmentation-offload": "off [fixed]",
+        "tx-checksumming/tx-checksum-sctp": "on",
+        "driver": "igb",
+        "tx-sit-segmentation": "on",
+        "busy-poll": "off [fixed]",
+        "scatter-gather/tx-scatter-gather": "on",
+        "tx-checksumming/tx-checksum-ip-generic": "on",
+        "link": "yes",
+        "rx-all": "off",
+        "tx-ipip-segmentation": "on",
+        "tcp-segmentation-offload/tx-tcp6-segmentation": "on",
+        "rx-checksumming": "on",
+        "tcp-segmentation-offload/tx-tcp-segmentation": "on",
+        "TX": "off",
+        "generic-segmentation-offload": "on",
+        "loopback": "off [fixed]",
+        "tx-lockless": "off [fixed]",
+        "tx-checksumming": "on",
+        "ntuple-filters": "off",
+        "rx-vlan-filter": "on [fixed]",
+        "tx-gre-csum-segmentation": "on",
+        "tx-gso-partial": "on",
+        "receive-hashing": "on",
+        "scatter-gather/tx-scatter-gather-fraglist": "off [fixed]",
+        "generic-receive-offload": "on",
+        "rx-fcs": "off [fixed]",
+        "scatter-gather": "on",
+        "hw-tc-offload": "off [fixed]"
+      },
+      "p2p1": {
+        "tx-udp_tnl-csum-segmentation": "on",
+        "vlan-challenged": "off [fixed]",
+        "rx-vlan-offload": "on",
+        "tx-vlan-stag-hw-insert": "off [fixed]",
+        "rx-vlan-stag-filter": "off [fixed]",
+        "highdma": "on [fixed]",
+        "autonegotiation": "on",
+        "tx-gso-robust": "off [fixed]",
+        "tcp-segmentation-offload/tx-tcp-mangleid-segmentation": "off",
+        "rx-udp_tunnel-port-offload": "off [fixed]",
+        "netns-local": "off [fixed]",
+        "vendor": "Intel Corporation",
+        "serial": "a0:36:9f:52:7f:b2",
+        "speed": "1Gbit/s",
+        "size": 1000000000,
+        "l2-fwd-offload": "off [fixed]",
+        "latency": 0,
+        "tx-checksumming/tx-checksum-ipv6": "off [fixed]",
+        "tx-gre-segmentation": "on",
+        "tx-checksumming/tx-checksum-ipv4": "off [fixed]",
+        "tx-fcoe-segmentation": "off [fixed]",
+        "duplex": "full",
+        "tcp-segmentation-offload": "on",
+        "Autonegotiate": "on",
+        "tx-udp_tnl-segmentation": "on",
+        "RX": "on",
+        "firmware": "1.67, 0x80000cc9, 16.0.22",
+        "fcoe-mtu": "off [fixed]",
+        "tcp-segmentation-offload/tx-tcp-ecn-segmentation": "off [fixed]",
+        "large-receive-offload": "off [fixed]",
+        "tx-sctp-segmentation": "off [fixed]",
+        "tx-checksumming/tx-checksum-fcoe-crc": "off [fixed]",
+        "rx-vlan-stag-hw-parse": "off [fixed]",
+        "businfo": "pci@0000:08:00.0",
+        "tx-vlan-offload": "on",
+        "product": "I350 Gigabit Network Connection",
+        "tx-nocache-copy": "off",
+        "udp-fragmentation-offload": "off [fixed]",
+        "tx-checksumming/tx-checksum-sctp": "on",
+        "driver": "igb",
+        "tx-sit-segmentation": "on",
+        "busy-poll": "off [fixed]",
+        "scatter-gather/tx-scatter-gather": "on",
+        "tx-checksumming/tx-checksum-ip-generic": "on",
+        "link": "yes",
+        "rx-all": "off",
+        "tx-ipip-segmentation": "on",
+        "tcp-segmentation-offload/tx-tcp6-segmentation": "on",
+        "rx-checksumming": "on",
+        "tcp-segmentation-offload/tx-tcp-segmentation": "on",
+        "TX": "off",
+        "generic-segmentation-offload": "on",
+        "loopback": "off [fixed]",
+        "tx-lockless": "off [fixed]",
+        "tx-checksumming": "on",
+        "ntuple-filters": "off",
+        "rx-vlan-filter": "on [fixed]",
+        "tx-gre-csum-segmentation": "on",
+        "tx-gso-partial": "on",
+        "receive-hashing": "on",
+        "scatter-gather/tx-scatter-gather-fraglist": "off [fixed]",
+        "generic-receive-offload": "on",
+        "rx-fcs": "off [fixed]",
+        "scatter-gather": "on",
+        "hw-tc-offload": "off [fixed]"
+      },
+      "em1": {
+        "tx-udp_tnl-csum-segmentation": "off [fixed]",
+        "vlan-challenged": "off [fixed]",
+        "rx-vlan-offload": "on [fixed]",
+        "ipv4-network": "10.8.146.0",
+        "rx-vlan-stag-filter": "off [fixed]",
+        "highdma": "on",
+        "autonegotiation": "on",
+        "tx-gso-robust": "off [fixed]",
+        "tcp-segmentation-offload/tx-tcp-mangleid-segmentation": "off",
+        "rx-udp_tunnel-port-offload": "off [fixed]",
+        "netns-local": "off [fixed]",
+        "TX negotiated": "on",
+        "serial": "b0:83:fe:c6:63:86",
+        "speed": "1Gbit/s",
+        "size": 1000000000,
+        "l2-fwd-offload": "off [fixed]",
+        "latency": 0,
+        "tx-checksumming/tx-checksum-ipv6": "on",
+        "tx-gre-segmentation": "off [fixed]",
+        "TX": "on",
+        "ipv4-netmask": "255.255.255.0",
+        "duplex": "full",
+        "tcp-segmentation-offload": "on",
+        "Autonegotiate": "on",
+        "tx-udp_tnl-segmentation": "off [fixed]",
+        "RX": "on",
+        "firmware": "FFV7.10.17 bc 5720-v1.34",
+        "fcoe-mtu": "off [fixed]",
+        "tcp-segmentation-offload/tx-tcp-ecn-segmentation": "on",
+        "vendor": "Broadcom Limited",
+        "large-receive-offload": "off [fixed]",
+        "tx-sctp-segmentation": "off [fixed]",
+        "RX negotiated": "on",
+        "ipv4": "10.8.146.101",
+        "tx-gso-partial": "off [fixed]",
+        "ipv4-cidr": 24,
+        "rx-vlan-stag-hw-parse": "off [fixed]",
+        "tx-vlan-offload": "on [fixed]",
+        "product": "NetXtreme BCM5720 Gigabit Ethernet PCIe",
+        "tx-nocache-copy": "off",
+        "udp-fragmentation-offload": "off [fixed]",
+        "tx-checksumming/tx-checksum-sctp": "off [fixed]",
+        "driver": "tg3",
+        "tx-sit-segmentation": "off [fixed]",
+        "busy-poll": "off [fixed]",
+        "scatter-gather/tx-scatter-gather": "on",
+        "tx-checksumming/tx-checksum-ip-generic": "off [fixed]",
+        "tx-vlan-stag-hw-insert": "off [fixed]",
+        "loopback": "off [fixed]",
+        "rx-all": "off [fixed]",
+        "tx-ipip-segmentation": "off [fixed]",
+        "tcp-segmentation-offload/tx-tcp6-segmentation": "on",
+        "rx-checksumming": "on",
+        "tcp-segmentation-offload/tx-tcp-segmentation": "on",
+        "generic-receive-offload": "on",
+        "tx-checksumming/tx-checksum-ipv4": "on",
+        "generic-segmentation-offload": "on",
+        "tx-fcoe-segmentation": "off [fixed]",
+        "tx-lockless": "off [fixed]",
+        "tx-checksumming/tx-checksum-fcoe-crc": "off [fixed]",
+        "tx-checksumming": "on",
+        "ntuple-filters": "off [fixed]",
+        "rx-vlan-filter": "off [fixed]",
+        "tx-gre-csum-segmentation": "off [fixed]",
+        "businfo": "pci@0000:02:00.0",
+        "receive-hashing": "off [fixed]",
+        "scatter-gather/tx-scatter-gather-fraglist": "off [fixed]",
+        "link": "yes",
+        "rx-fcs": "off [fixed]",
+        "scatter-gather": "on",
+        "hw-tc-offload": "off [fixed]"
+      },
+      "em2": {
+        "tx-udp_tnl-csum-segmentation": "off [fixed]",
+        "vlan-challenged": "off [fixed]",
+        "rx-vlan-offload": "on [fixed]",
+        "tx-vlan-stag-hw-insert": "off [fixed]",
+        "rx-vlan-stag-filter": "off [fixed]",
+        "highdma": "on",
+        "autonegotiation": "on",
+        "tx-gso-robust": "off [fixed]",
+        "tcp-segmentation-offload/tx-tcp-mangleid-segmentation": "off",
+        "rx-udp_tunnel-port-offload": "off [fixed]",
+        "netns-local": "off [fixed]",
+        "TX negotiated": "on",
+        "serial": "b0:83:fe:c6:63:87",
+        "speed": "1Gbit/s",
+        "size": 1000000000,
+        "l2-fwd-offload": "off [fixed]",
+        "latency": 0,
+        "tx-checksumming/tx-checksum-ipv6": "on",
+        "tx-gre-segmentation": "off [fixed]",
+        "tx-checksumming/tx-checksum-ipv4": "on",
+        "tx-fcoe-segmentation": "off [fixed]",
+        "duplex": "full",
+        "tcp-segmentation-offload": "on",
+        "Autonegotiate": "on",
+        "tx-udp_tnl-segmentation": "off [fixed]",
+        "RX": "on",
+        "firmware": "FFV7.10.17 bc 5720-v1.34",
+        "fcoe-mtu": "off [fixed]",
+        "tcp-segmentation-offload/tx-tcp-ecn-segmentation": "on",
+        "vendor": "Broadcom Limited",
+        "large-receive-offload": "off [fixed]",
+        "tx-sctp-segmentation": "off [fixed]",
+        "RX negotiated": "on",
+        "rx-vlan-stag-hw-parse": "off [fixed]",
+        "businfo": "pci@0000:02:00.1",
+        "tx-vlan-offload": "on [fixed]",
+        "product": "NetXtreme BCM5720 Gigabit Ethernet PCIe",
+        "tx-nocache-copy": "off",
+        "udp-fragmentation-offload": "off [fixed]",
+        "tx-checksumming/tx-checksum-sctp": "off [fixed]",
+        "driver": "tg3",
+        "tx-sit-segmentation": "off [fixed]",
+        "busy-poll": "off [fixed]",
+        "scatter-gather/tx-scatter-gather": "on",
+        "tx-checksumming/tx-checksum-ip-generic": "off [fixed]",
+        "link": "yes",
+        "rx-all": "off [fixed]",
+        "tx-ipip-segmentation": "off [fixed]",
+        "tcp-segmentation-offload/tx-tcp6-segmentation": "on",
+        "rx-checksumming": "on",
+        "tcp-segmentation-offload/tx-tcp-segmentation": "on",
+        "TX": "on",
+        "generic-segmentation-offload": "on",
+        "loopback": "off [fixed]",
+        "tx-lockless": "off [fixed]",
+        "tx-checksumming/tx-checksum-fcoe-crc": "off [fixed]",
+        "tx-checksumming": "on",
+        "ntuple-filters": "off [fixed]",
+        "rx-vlan-filter": "off [fixed]",
+        "tx-gre-csum-segmentation": "off [fixed]",
+        "tx-gso-partial": "off [fixed]",
+        "receive-hashing": "off [fixed]",
+        "scatter-gather/tx-scatter-gather-fraglist": "off [fixed]",
+        "generic-receive-offload": "on",
+        "rx-fcs": "off [fixed]",
+        "scatter-gather": "on",
+        "hw-tc-offload": "off [fixed]"
+      }
+    },
+    "ipmi": {
+      "Mem Fatal SB CRC": {
+        "value": "Not Readable"
+      },
+      "Redundancy": {
+        "value": "Not Readable"
+      },
+      "Fan4A RPM": {
+        "value": 1920,
+        "unit": "RPM"
+      },
+      "Fan3B RPM": {
+        "value": 1800,
+        "unit": "RPM"
+      },
+      "Unknown": {
+        "value": "Not Readable"
+      },
+      "SBE Log Disabled": {
+        "value": "Not Readable"
+      },
+      "Voltage 2": {
+        "value": 206,
+        "unit": "Volts"
+      },
+      "CPU Init Err": {
+        "value": "Not Readable"
+      },
+      "Mem CRC Err": {
+        "value": "Not Readable"
+      },
+      "Dedicated NIC": {
+        "value": "0x00"
+      },
+      "PCIe Slot3": {
+        "value": "Not Readable"
+      },
+      "PCIe Slot2": {
+        "value": "0x00"
+      },
+      "PCIe Slot1": {
+        "value": "Not Readable"
+      },
+      "ROMB Battery": {
+        "value": "Not Readable"
+      },
+      "PCIe Slot4": {
+        "value": "Not Readable"
+      },
+      "Memory Added": {
+        "value": "0x00"
+      },
+      "Fan1B RPM": {
+        "value": 2280,
+        "unit": "RPM"
+      },
+      "3.3V PG": {
+        "value": "0x00"
+      },
+      "CMOS Battery": {
+        "value": "0x00"
+      },
+      "POST Err": {
+        "value": "0x00"
+      },
+      "Fan5A RPM": {
+        "value": 1920,
+        "unit": "RPM"
+      },
+      "Power Cable": {
+        "value": "0x00"
+      },
+      "Drive 0": {
+        "value": "0x00"
+      },
+      "Memory Mirrored": {
+        "value": "Not Readable"
+      },
+      "Riser 2 Presence": {
+        "value": "0x00"
+      },
+      "Presence": {
+        "value": "0x00"
+      },
+      "Mem Fatal NB CRC": {
+        "value": "Not Readable"
+      },
+      "Memory Cfg Err": {
+        "value": "Not Readable"
+      },
+      "PS Redundancy": {
+        "value": "0x00"
+      },
+      "Riser Config Err": {
+        "value": "0x00"
+      },
+      "PS1 PG Fail": {
+        "value": "0x00"
+      },
+      "Riser 1 Presence": {
+        "value": "0x00"
+      },
+      "Cable SAS D": {
+        "value": "Not Readable"
+      },
+      "lan": {
+        "802.1q-vlan-id": "Disabled",
+        "802.1q-vlan-priority": 0,
+        "default-gateway-ip": "10.9.31.254",
+        "set-in-progress": "Set Complete",
+        "rmcp+-cipher-suites": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14",
+        "ip-address-source": "DHCP Address",
+        "gratituous-arp-intrvl": "2.0 seconds",
+        "backup-gateway-ip": "0.0.0.0",
+        "bmc-arp-control": "ARP Responses Enabled, Gratuitous ARP Disabled",
+        "auth-type-enable": "Callback : MD2 MD5",
+        "ip-header": "TTL=0x40 Flags=0x40 Precedence=0x00 TOS=0x10",
+        "bad-password-threshold": "Not Available",
+        "ip-address": "10.9.10.109",
+        "default-gateway-mac": "00:00:00:00:00:00",
+        "auth-type-support": "NONE MD2 MD5 PASSWORD",
+        "snmp-community-string": "public",
+        "backup-gateway-mac": "00:00:00:00:00:00",
+        "cipher-suite-priv-max": "Xaaaaaaaaaaaaaa",
+        "mac-address": "b0:83:fe:c6:63:88",
+        "subnet-mask": "255.255.224.0"
+      },
+      "Non Fatal PCI Er": {
+        "value": "Not Readable"
+      },
+      "Memory RAID": {
+        "value": "Not Readable"
+      },
+      "VGA Cable Pres": {
+        "value": "0x00"
+      },
+      "BP1 5V PG": {
+        "value": "0x00"
+      },
+      "Intrusion": {
+        "value": "0x00"
+      },
+      "OS Watchdog Time": {
+        "value": "0x00"
+      },
+      "PFault Fail Safe": {
+        "value": "Not Readable"
+      },
+      "Status": {
+        "value": "0x00"
+      },
+      "Fan5B RPM": {
+        "value": 1800,
+        "unit": "RPM"
+      },
+      "VSA PG": {
+        "value": "0x00"
+      },
+      "OS Watchdog": {
+        "value": "0x00"
+      },
+      "Fan2B RPM": {
+        "value": 1800,
+        "unit": "RPM"
+      },
+      "CPU Protocol Err": {
+        "value": "Not Readable"
+      },
+      "PCI Parity Err": {
+        "value": "0x95"
+      },
+      "Fan1A RPM": {
+        "value": 3120,
+        "unit": "RPM"
+      },
+      "PCIE Fatal Err": {
+        "value": "Not Readable"
+      },
+      "CPU Machine Chk": {
+        "value": "Not Readable"
+      },
+      "Cable SAS C": {
+        "value": "Not Readable"
+      },
+      "Cable SAS B": {
+        "value": "0x00"
+      },
+      "Cable SAS A": {
+        "value": "0x00"
+      },
+      "Current 2": {
+        "value": "0.20",
+        "unit": "Amps"
+      },
+      "Current 1": {
+        "value": "0.40",
+        "unit": "Amps"
+      },
+      "MSR Info Log": {
+        "value": "0x00"
+      },
+      "Fan3A RPM": {
+        "value": 1800,
+        "unit": "RPM"
+      },
+      "1.5V PG": {
+        "value": "0x00"
+      },
+      "5V PG": {
+        "value": "0x00"
+      },
+      "Inlet Temp": {
+        "value": 21,
+        "unit": "degrees C"
+      },
+      "Logging Disabled": {
+        "value": "Not Readable"
+      },
+      "Mem ECC Warning": {
+        "value": "Not Readable"
+      },
+      "CPU Bus PERR": {
+        "value": "Not Readable"
+      },
+      "SEL": {
+        "value": "Not Readable"
+      },
+      "MEM VDDQ PG": {
+        "value": "0x00"
+      },
+      "Pwr Consumption": {
+        "value": 70,
+        "unit": "Watts"
+      },
+      "Signal Cable": {
+        "value": "0x00"
+      },
+      "Fan Redundancy": {
+        "value": "0x00"
+      },
+      "ECC Uncorr Err": {
+        "value": "Not Readable"
+      },
+      "Hdwr version err": {
+        "value": "Not Readable"
+      },
+      "VTT PG": {
+        "value": "0x00"
+      },
+      "LCD Cable Pres": {
+        "value": "0x00"
+      },
+      "Memory Removed": {
+        "value": "Not Readable"
+      },
+      "SD1": {
+        "value": "Not Readable"
+      },
+      "SD2": {
+        "value": "Not Readable"
+      },
+      "MEM VTT PG": {
+        "value": "0x00"
+      },
+      "Fan4B RPM": {
+        "value": 1920,
+        "unit": "RPM"
+      },
+      "Mem Redun Gain": {
+        "value": "Not Readable"
+      },
+      "ECC Corr Err": {
+        "value": "Not Readable"
+      },
+      "Fan2A RPM": {
+        "value": 1920,
+        "unit": "RPM"
+      },
+      "Err Reg Pointer": {
+        "value": "0x00"
+      },
+      "Memory Spared": {
+        "value": "Not Readable"
+      },
+      "A": {
+        "value": "0x00"
+      },
+      "I/O Channel Chk": {
+        "value": "Not Readable"
+      },
+      "VCORE PG": {
+        "value": "0x00"
+      },
+      "Temp": {
+        "value": 50,
+        "unit": "degrees C"
+      },
+      "Power Optimized": {
+        "value": "0x00"
+      },
+      "PLL PG": {
+        "value": "0x00"
+      },
+      "Voltage 1": {
+        "value": 206,
+        "unit": "Volts"
+      },
+      "vFlash": {
+        "value": "0x00"
+      },
+      "USB Cable Pres": {
+        "value": "0x00"
+      },
+      "Chipset Err": {
+        "value": "0x00"
+      },
+      "USB Over-current": {
+        "value": "Not Readable"
+      },
+      "PS2 PG Fail": {
+        "value": "0x00"
+      },
+      "1.1V PG": {
+        "value": "0x00"
+      },
+      "PCI System Err": {
+        "value": "Not Readable"
+      },
+      "Mem Overtemp": {
+        "value": "0x00"
+      },
+      "Fatal IO Error": {
+        "value": "0x00"
+      }
+    },
+    "firmware": {
+      "bios": {
+        "date": "07/10/2014",
+        "version": "2.3.3",
+        "vendor": "Dell Inc."
+      }
+    },
+    "system": {
+      "motherboard": {
+        "serial": "..CN7792148C00M7.",
+        "version": "A01",
+        "vendor": "Dell Inc.",
+        "name": "0KM5PX"
+      },
+      "kernel": {
+        "cmdline": "ipa-inspection-callback-url=http://10.8.146.1:5050/v1/continue ipa-inspection-collectors=default,extra-hardware,numa-topology,logs systemd.journald.forward_to_console=yes BOOTIF=b0:83:fe:c6:63:86 ipa-debug=1 ipa-inspection-dhcp-all-interfaces=1 ipa-collect-lldp=1 initrd=agent.ramdisk",
+        "version": "3.10.0-862.3.2.el7.x86_64",
+        "arch": "x86_64"
+      },
+      "product": {
+        "serial": "JLRCY12",
+        "vendor": "Dell Inc.",
+        "name": "PowerEdge R320 (SKU=NotProvided;ModelName=PowerEdge R320)",
+        "uuid": "4C4C4544-004C-5210-8043-CAC04F593132"
+      },
+      "ipmi": {
+        "channel": 1
+      }
+    },
+    "memory": {
+      "bank:2": {
+        "slot": "DIMM_A3",
+        "product": "HMT41GR7AFR4A-PB",
+        "vendor": "00AD04B300AD",
+        "description": "DIMM DDR3 Synchronous Registered (Buffered) 1600 MHz (0.6 ns)",
+        "clock": 1600000000,
+        "serial": "50764EED",
+        "size": 8589934592
+      },
+      "bank:3": {
+        "slot": "DIMM_A4",
+        "product": "M393B2G70QH0-YK0",
+        "vendor": "00CE00B300CE",
+        "description": "DIMM DDR3 Synchronous Registered (Buffered) 1600 MHz (0.6 ns)",
+        "clock": 1600000000,
+        "serial": "1428D2BE",
+        "size": 17179869184
+      },
+      "bank:0": {
+        "slot": "DIMM_A1",
+        "product": "M393B2G70QH0-YK0",
+        "vendor": "00CE00B300CE",
+        "description": "DIMM DDR3 Synchronous Registered (Buffered) 1600 MHz (0.6 ns)",
+        "clock": 1600000000,
+        "serial": "1324B867",
+        "size": 17179869184
+      },
+      "bank:1": {
+        "slot": "DIMM_A2",
+        "product": "M393B2G70QH0-YK0",
+        "vendor": "00CE00B300CE",
+        "description": "DIMM DDR3 Synchronous Registered (Buffered) 1600 MHz (0.6 ns)",
+        "clock": 1600000000,
+        "serial": "1428D3C9",
+        "size": 17179869184
+      },
+      "bank:4": {
+        "slot": "DIMM_A5",
+        "product": "M393B2G70QH0-YK0",
+        "vendor": "00CE00B300CE",
+        "description": "DIMM DDR3 Synchronous Registered (Buffered) 1600 MHz (0.6 ns)",
+        "clock": 1600000000,
+        "serial": "1324B7B3",
+        "size": 17179869184
+      },
+      "bank:5": {
+        "slot": "DIMM_A6",
+        "product": "HMT41GR7AFR4A-PB",
+        "vendor": "00AD04B300AD",
+        "description": "DIMM DDR3 Synchronous Registered (Buffered) 1600 MHz (0.6 ns)",
+        "clock": 1600000000,
+        "serial": "50764F6F",
+        "size": 8589934592
+      },
+      "banks": {
+        "count": 6
+      },
+      "total": {
+        "size": 85899345920
+      }
+    },
+    "disk": {
+      "sda{megaraid,1}": {
+        "SMART/specified_start_stop_cycle_count_over_lifetime": 10000,
+        "SMART/non_medium_errors_count": 55,
+        "SMART/blocks_received": 1487990569,
+        "SMART/health": "OK",
+        "SMART/power_on_hours": "20393.68",
+        "SMART/drive_trip_temperature_unit": "C",
+        "SMART/verify_gigabytes_processed": "87726.547",
+        "SMART/manufacture_date": "week 33 of year 2014",
+        "SMART/verify_total_corrected_errors": 3540276270,
+        "SMART/write_total_uncorrected_errors": 0,
+        "SMART/write_gigabytes_processed": "18954.897",
+        "SMART/write_total_corrected_errors": 0,
+        "SMART/vendor": "SEAGATE",
+        "SMART/serial_number": "S0M3EX0G",
+        "SMART/specified_load_count_over_lifetime": 300000,
+        "SMART/current_drive_temperature_unit": "C",
+        "SMART/blocks_read_from_cache": 1294981828,
+        "SMART/load_count": 4228,
+        "SMART/drive_trip_temperature": 50,
+        "SMART/read_gigabytes_processed": "8969.755",
+        "SMART/read_total_corrected_errors": 2628931962,
+        "SMART/read_total_uncorrected_errors": 0,
+        "SMART/verify_total_uncorrected_errors": 0,
+        "SMART/blocks_sent": 401498517,
+        "SMART/current_drive_temperature": 27,
+        "SMART/start_stop_cycle_count": 738,
+        "SMART/product": "ST600MM0006"
+      },
+      "sda": {
+        "Write Cache Enable": 1,
+        "rotational": 1,
+        "vendor": "DELL",
+        "SMART/serial_number": "008684c60f7eccd21b00ebd0d2e03f08",
+        "rev": "3.13",
+        "scsi-id": "scsi-36b083fe0d2d0eb001bd2cc7e0fc68486",
+        "optimal_io_size": 0,
+        "SMART/vendor": "DELL",
+        "wwn-id": "wwn-0x6b083fe0d2d0eb001bd2cc7e0fc68486",
+        "physical_block_size": 512,
+        "Read Cache Disable": 0,
+        "model": "PERC H710",
+        "SMART/product": "PERC H710",
+        "size": 599
+      },
+      "logical": {
+        "count": 1
+      },
+      "sda{megaraid,0}": {
+        "SMART/specified_start_stop_cycle_count_over_lifetime": 10000,
+        "SMART/non_medium_errors_count": 31,
+        "SMART/blocks_received": 2118230176,
+        "SMART/health": "OK",
+        "SMART/power_on_hours": "20390.07",
+        "SMART/drive_trip_temperature_unit": "C",
+        "SMART/verify_gigabytes_processed": "87251.333",
+        "SMART/manufacture_date": "week 33 of year 2014",
+        "SMART/verify_total_corrected_errors": 137083140,
+        "SMART/write_total_uncorrected_errors": 0,
+        "SMART/write_gigabytes_processed": "19447.522",
+        "SMART/write_total_corrected_errors": 0,
+        "SMART/vendor": "SEAGATE",
+        "SMART/serial_number": "S0M3EYH8",
+        "SMART/specified_load_count_over_lifetime": 300000,
+        "SMART/current_drive_temperature_unit": "C",
+        "SMART/blocks_read_from_cache": 1539521174,
+        "SMART/load_count": 4234,
+        "SMART/drive_trip_temperature": 50,
+        "SMART/read_gigabytes_processed": "8302.626",
+        "SMART/read_total_corrected_errors": 3214892750,
+        "SMART/read_total_uncorrected_errors": 0,
+        "SMART/verify_total_uncorrected_errors": 0,
+        "SMART/blocks_sent": 2456935760,
+        "SMART/current_drive_temperature": 27,
+        "SMART/start_stop_cycle_count": 739,
+        "SMART/product": "ST600MM0006"
+      }
+    },
+    "cpu": {
+      "physical_0": {
+        "physid": 400,
+        "product": "Intel(R) Xeon(R) CPU E5-2440 v2 @ 1.90GHz",
+        "enabled_cores": 8,
+        "vendor": "Intel Corp.",
+        "clock": 2105032704,
+        "frequency": 1842480000,
+        "version": "Intel(R) Xeon(R) CPU E5-2440 v2 @ 1.90GHz",
+        "threads": 16,
+        "cores": 8,
+        "flags": "lm fpu fpu_exception wp vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp x86-64 constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt ibpb ibrs dtherm ida arat pln pts cpufreq"
+      },
+      "logical": {
+        "number": 16
+      },
+      "physical": {
+        "number": 1
+      }
+    }
+  },
+  "all_interfaces": {
+    "p2p2": {
+      "ip": null,
+      "mac": "a0:36:9f:52:7f:b3",
+      "lldp_processed": {
+        "switch_port_mau_type": "Unknown",
+        "switch_capabilities_enabled": [
+          "Bridge",
+          "Router"
+        ],
+        "switch_port_description": "host02.beaker.tripleo.lab.eng.rdu2 port 4 (Bond)",
+        "switch_port_physical_capabilities": [
+          "1000BASE-T fdx"
+        ],
+        "switch_port_id": "ge-1/0/26",
+        "switch_mgmt_addresses": [
+          "10.10.191.229"
+        ],
+        "switch_capabilities_support": [
+          "Bridge",
+          "Router"
+        ],
+        "switch_port_autonegotiation_support": true,
+        "switch_port_link_aggregation_id": 662,
+        "switch_system_name": "sw01-dist-1b-b12.rdu2",
+        "switch_port_link_aggregation_enabled": true,
+        "switch_port_link_aggregation_support": true,
+        "switch_system_description": "Juniper Networks, Inc. ex4200-48t Ethernet Switch, kernel JUNOS 15.1R6.7, Build date: 2017-04-23 01:16:48 UTC Copyright (c) 1996-2017 Juniper Networks, Inc.",
+        "switch_port_vlans": [
+          {
+            "name": "vlan101",
+            "id": 101
+          },
+          {
+            "name": "vlan102",
+            "id": 102
+          },
+          {
+            "name": "vlan104",
+            "id": 104
+          },
+          {
+            "name": "vlan2001",
+            "id": 2001
+          },
+          {
+            "name": "vlan2002",
+            "id": 2002
+          }
+        ],
+        "switch_chassis_id": "64:64:9b:32:f3:00",
+        "switch_port_untagged_vlan_id": 102,
+        "switch_port_autonegotiation_enabled": true,
+        "switch_port_mtu": 1514
+      },
+      "client_id": null,
+      "pxe": false
+    },
+    "p2p1": {
+      "ip": null,
+      "mac": "a0:36:9f:52:7f:b2",
+      "lldp_processed": {
+        "switch_port_mau_type": "Unknown",
+        "switch_capabilities_enabled": [
+          "Bridge",
+          "Router"
+        ],
+        "switch_port_description": "host02.beaker.tripleo.lab.eng.rdu2 port 3 (Bond)",
+        "switch_port_physical_capabilities": [
+          "1000BASE-T fdx"
+        ],
+        "switch_port_id": "ge-0/0/26",
+        "switch_mgmt_addresses": [
+          "10.10.191.229"
+        ],
+        "switch_capabilities_support": [
+          "Bridge",
+          "Router"
+        ],
+        "switch_port_autonegotiation_support": true,
+        "switch_port_link_aggregation_id": 662,
+        "switch_system_name": "sw01-dist-1b-b12.rdu2",
+        "switch_port_link_aggregation_enabled": true,
+        "switch_port_link_aggregation_support": true,
+        "switch_system_description": "Juniper Networks, Inc. ex4200-48t Ethernet Switch, kernel JUNOS 15.1R6.7, Build date: 2017-04-23 01:16:48 UTC Copyright (c) 1996-2017 Juniper Networks, Inc.",
+        "switch_port_vlans": [
+          {
+            "name": "vlan101",
+            "id": 101
+          },
+          {
+            "name": "vlan102",
+            "id": 102
+          },
+          {
+            "name": "vlan104",
+            "id": 104
+          },
+          {
+            "name": "vlan2001",
+            "id": 2001
+          },
+          {
+            "name": "vlan2002",
+            "id": 2002
+          }
+        ],
+        "switch_chassis_id": "64:64:9b:32:f3:00",
+        "switch_port_untagged_vlan_id": 102,
+        "switch_port_autonegotiation_enabled": true,
+        "switch_port_mtu": 1514
+      },
+      "client_id": null,
+      "pxe": false
+    },
+    "em1": {
+      "ip": "10.8.146.101",
+      "mac": "b0:83:fe:c6:63:86",
+      "lldp_processed": {
+        "switch_port_mau_type": "Unknown",
+        "switch_capabilities_enabled": [
+          "Bridge",
+          "Router"
+        ],
+        "switch_port_description": "host02.beaker.tripleo.lab.eng.rdu2 port 1 (Prov/Trunked VLANs)",
+        "switch_port_physical_capabilities": [
+          "1000BASE-T fdx",
+          "100BASE-TX fdx",
+          "100BASE-TX hdx",
+          "10BASE-T fdx",
+          "10BASE-T hdx",
+          "Asym and Sym PAUSE fdx"
+        ],
+        "switch_port_id": "ge-0/0/25",
+        "switch_mgmt_addresses": [
+          "10.10.191.229"
+        ],
+        "switch_capabilities_support": [
+          "Bridge",
+          "Router"
+        ],
+        "switch_port_autonegotiation_support": true,
+        "switch_port_link_aggregation_id": 0,
+        "switch_system_name": "sw01-dist-1b-b12.rdu2",
+        "switch_port_link_aggregation_enabled": false,
+        "switch_port_link_aggregation_support": true,
+        "switch_system_description": "Juniper Networks, Inc. ex4200-48t Ethernet Switch, kernel JUNOS 15.1R6.7, Build date: 2017-04-23 01:16:48 UTC Copyright (c) 1996-2017 Juniper Networks, Inc.",
+        "switch_port_vlans": [
+          {
+            "name": "vlan101",
+            "id": 101
+          },
+          {
+            "name": "vlan102",
+            "id": 102
+          },
+          {
+            "name": "vlan104",
+            "id": 104
+          },
+          {
+            "name": "vlan2001",
+            "id": 2001
+          },
+          {
+            "name": "vlan2002",
+            "id": 2002
+          }
+        ],
+        "switch_chassis_id": "64:64:9b:32:f3:00",
+        "switch_port_untagged_vlan_id": 102,
+        "switch_port_autonegotiation_enabled": true,
+        "switch_port_mtu": 9216
+      },
+      "client_id": null,
+      "pxe": true
+    },
+    "em2": {
+      "ip": null,
+      "mac": "b0:83:fe:c6:63:87",
+      "lldp_processed": {
+        "switch_port_mau_type": "Unknown",
+        "switch_capabilities_enabled": [
+          "Bridge",
+          "Router"
+        ],
+        "switch_port_description": "host02.beaker.tripleo.lab.eng.rdu2 port 2 (Storage)",
+        "switch_port_physical_capabilities": [
+          "1000BASE-T fdx",
+          "100BASE-TX fdx",
+          "100BASE-TX hdx",
+          "10BASE-T fdx",
+          "10BASE-T hdx",
+          "Asym and Sym PAUSE fdx"
+        ],
+        "switch_port_id": "ge-1/0/25",
+        "switch_mgmt_addresses": [
+          "10.10.191.229"
+        ],
+        "switch_capabilities_support": [
+          "Bridge",
+          "Router"
+        ],
+        "switch_port_autonegotiation_support": true,
+        "switch_port_link_aggregation_id": 0,
+        "switch_system_name": "sw01-dist-1b-b12.rdu2",
+        "switch_port_link_aggregation_enabled": false,
+        "switch_port_link_aggregation_support": true,
+        "switch_system_description": "Juniper Networks, Inc. ex4200-48t Ethernet Switch, kernel JUNOS 15.1R6.7, Build date: 2017-04-23 01:16:48 UTC Copyright (c) 1996-2017 Juniper Networks, Inc.",
+        "switch_port_vlans": [
+          {
+            "name": "vlan101",
+            "id": 101
+          },
+          {
+            "name": "vlan104",
+            "id": 104
+          },
+          {
+            "name": "vlan2001",
+            "id": 2001
+          },
+          {
+            "name": "vlan2002",
+            "id": 2002
+          },
+          {
+            "name": "vlan2003",
+            "id": 2003
+          }
+        ],
+        "switch_chassis_id": "64:64:9b:32:f3:00",
+        "switch_port_mtu": 9216,
+        "switch_port_autonegotiation_enabled": true
+      },
+      "client_id": null,
+      "pxe": false
+    }
+  },
+  "cpus": 16,
+  "boot_interface": "b0:83:fe:c6:63:86",
+  "memory_mb": 81920,
+  "ipmi_address": "10.9.10.109",
+  "numa_topology": {
+    "nics": [
+      {
+        "numa_node": 0,
+        "name": "p2p1"
+      },
+      {
+        "numa_node": 0,
+        "name": "p2p2"
+      },
+      {
+        "numa_node": 0,
+        "name": "em2"
+      },
+      {
+        "numa_node": 0,
+        "name": "em1"
+      }
+    ],
+    "ram": [
+      {
+        "numa_node": 0,
+        "size_kb": 83839532
+      }
+    ],
+    "cpus": [
+      {
+        "numa_node": 0,
+        "thread_siblings": [
+          1,
+          9
+        ],
+        "cpu": 1
+      },
+      {
+        "numa_node": 0,
+        "thread_siblings": [
+          0,
+          8
+        ],
+        "cpu": 0
+      },
+      {
+        "numa_node": 0,
+        "thread_siblings": [
+          7,
+          15
+        ],
+        "cpu": 7
+      },
+      {
+        "numa_node": 0,
+        "thread_siblings": [
+          6,
+          14
+        ],
+        "cpu": 6
+      },
+      {
+        "numa_node": 0,
+        "thread_siblings": [
+          5,
+          13
+        ],
+        "cpu": 5
+      },
+      {
+        "numa_node": 0,
+        "thread_siblings": [
+          4,
+          12
+        ],
+        "cpu": 4
+      },
+      {
+        "numa_node": 0,
+        "thread_siblings": [
+          3,
+          11
+        ],
+        "cpu": 3
+      },
+      {
+        "numa_node": 0,
+        "thread_siblings": [
+          2,
+          10
+        ],
+        "cpu": 2
+      }
+    ]
+  },
+  "error": null,
+  "local_gb": 557,
+  "interfaces": {
+    "em1": {
+      "ip": "10.8.146.101",
+      "mac": "b0:83:fe:c6:63:86",
+      "lldp_processed": {
+        "switch_port_mau_type": "Unknown",
+        "switch_capabilities_enabled": [
+          "Bridge",
+          "Router"
+        ],
+        "switch_port_description": "host02.beaker.tripleo.lab.eng.rdu2 port 1 (Prov/Trunked VLANs)",
+        "switch_port_physical_capabilities": [
+          "1000BASE-T fdx",
+          "100BASE-TX fdx",
+          "100BASE-TX hdx",
+          "10BASE-T fdx",
+          "10BASE-T hdx",
+          "Asym and Sym PAUSE fdx"
+        ],
+        "switch_port_id": "ge-0/0/25",
+        "switch_mgmt_addresses": [
+          "10.10.191.229"
+        ],
+        "switch_capabilities_support": [
+          "Bridge",
+          "Router"
+        ],
+        "switch_port_autonegotiation_support": true,
+        "switch_port_link_aggregation_id": 0,
+        "switch_system_name": "sw01-dist-1b-b12.rdu2",
+        "switch_port_link_aggregation_enabled": false,
+        "switch_port_link_aggregation_support": true,
+        "switch_system_description": "Juniper Networks, Inc. ex4200-48t Ethernet Switch, kernel JUNOS 15.1R6.7, Build date: 2017-04-23 01:16:48 UTC Copyright (c) 1996-2017 Juniper Networks, Inc.",
+        "switch_port_vlans": [
+          {
+            "name": "vlan101",
+            "id": 101
+          },
+          {
+            "name": "vlan102",
+            "id": 102
+          },
+          {
+            "name": "vlan104",
+            "id": 104
+          },
+          {
+            "name": "vlan2001",
+            "id": 2001
+          },
+          {
+            "name": "vlan2002",
+            "id": 2002
+          }
+        ],
+        "switch_chassis_id": "64:64:9b:32:f3:00",
+        "switch_port_untagged_vlan_id": 102,
+        "switch_port_autonegotiation_enabled": true,
+        "switch_port_mtu": 9216
+      },
+      "client_id": null,
+      "pxe": true
+    }
+  },
+  "inventory": {
+    "bmc_address": "10.9.10.109",
+    "interfaces": [
+      {
+        "lldp": [
+          [
+            1,
+            "0464649b32f300"
+          ],
+          [
+            2,
+            "0567652d302f302f3236"
+          ],
+          [
+            3,
+            "003c"
+          ],
+          [
+            5,
+            "737730312d646973742d31622d6231322e72647532"
+          ],
+          [
+            6,
+            "4a756e69706572204e6574776f726b732c20496e632e206578343230302d3438742045746865726e6574205377697463682c206b65726e656c204a554e4f532031352e3152362e372c204275696c6420646174653a20323031372d30342d32332030313a31363a34382055544320436f707972696768742028632920313939362d32303137204a756e69706572204e6574776f726b732c20496e632e"
+          ],
+          [
+            7,
+            "00140014"
+          ],
+          [
+            8,
+            "05010a0abfe501000000000c0103060102011f0101010100"
+          ],
+          [
+            4,
+            "686f737430322e6265616b65722e747269706c656f2e6c61622e656e672e7264753220706f727420332028426f6e6429"
+          ],
+          [
+            127,
+            "00120f010300010000"
+          ],
+          [
+            127,
+            "00120f030300000296"
+          ],
+          [
+            127,
+            "00120f0405ea"
+          ],
+          [
+            127,
+            "0080c2010066"
+          ],
+          [
+            127,
+            "00906901425030323134323530393236"
+          ],
+          [
+            127,
+            "0080c203006507766c616e313031"
+          ],
+          [
+            127,
+            "0080c203006607766c616e313032"
+          ],
+          [
+            127,
+            "0080c203006807766c616e313034"
+          ],
+          [
+            127,
+            "0080c20307d108766c616e32303031"
+          ],
+          [
+            127,
+            "0080c20307d208766c616e32303032"
+          ],
+          [
+            127,
+            "0012bb01000f04"
+          ],
+          [
+            0,
+            ""
+          ]
+        ],
+        "product": "0x1521",
+        "vendor": "0x8086",
+        "name": "p2p1",
+        "has_carrier": true,
+        "ipv4_address": null,
+        "biosdevname": "p2p1",
+        "client_id": null,
+        "mac_address": "a0:36:9f:52:7f:b2"
+      },
+      {
+        "lldp": [
+          [
+            1,
+            "0464649b32f300"
+          ],
+          [
+            2,
+            "0567652d312f302f3236"
+          ],
+          [
+            3,
+            "003c"
+          ],
+          [
+            5,
+            "737730312d646973742d31622d6231322e72647532"
+          ],
+          [
+            6,
+            "4a756e69706572204e6574776f726b732c20496e632e206578343230302d3438742045746865726e6574205377697463682c206b65726e656c204a554e4f532031352e3152362e372c204275696c6420646174653a20323031372d30342d32332030313a31363a34382055544320436f707972696768742028632920313939362d32303137204a756e69706572204e6574776f726b732c20496e632e"
+          ],
+          [
+            7,
+            "00140014"
+          ],
+          [
+            8,
+            "05010a0abfe501000000000c0103060102011f0101010100"
+          ],
+          [
+            4,
+            "686f737430322e6265616b65722e747269706c656f2e6c61622e656e672e7264753220706f727420342028426f6e6429"
+          ],
+          [
+            127,
+            "00120f010300010000"
+          ],
+          [
+            127,
+            "00120f030300000296"
+          ],
+          [
+            127,
+            "00120f0405ea"
+          ],
+          [
+            127,
+            "0080c2010066"
+          ],
+          [
+            127,
+            "00906901425030323134323531303731"
+          ],
+          [
+            127,
+            "0080c203006507766c616e313031"
+          ],
+          [
+            127,
+            "0080c203006607766c616e313032"
+          ],
+          [
+            127,
+            "0080c203006807766c616e313034"
+          ],
+          [
+            127,
+            "0080c20307d108766c616e32303031"
+          ],
+          [
+            127,
+            "0080c20307d208766c616e32303032"
+          ],
+          [
+            127,
+            "0012bb01000f04"
+          ],
+          [
+            0,
+            ""
+          ]
+        ],
+        "product": "0x1521",
+        "vendor": "0x8086",
+        "name": "p2p2",
+        "has_carrier": true,
+        "ipv4_address": null,
+        "biosdevname": "p2p2",
+        "client_id": null,
+        "mac_address": "a0:36:9f:52:7f:b3"
+      },
+      {
+        "lldp": [
+          [
+            1,
+            "0464649b32f300"
+          ],
+          [
+            2,
+            "0567652d312f302f3235"
+          ],
+          [
+            3,
+            "003c"
+          ],
+          [
+            5,
+            "737730312d646973742d31622d6231322e72647532"
+          ],
+          [
+            6,
+            "4a756e69706572204e6574776f726b732c20496e632e206578343230302d3438742045746865726e6574205377697463682c206b65726e656c204a554e4f532031352e3152362e372c204275696c6420646174653a20323031372d30342d32332030313a31363a34382055544320436f707972696768742028632920313939362d32303137204a756e69706572204e6574776f726b732c20496e632e"
+          ],
+          [
+            7,
+            "00140014"
+          ],
+          [
+            8,
+            "05010a0abfe501000000000c0103060102011f0101010100"
+          ],
+          [
+            4,
+            "686f737430322e6265616b65722e747269706c656f2e6c61622e656e672e7264753220706f72742032202853746f7261676529"
+          ],
+          [
+            127,
+            "00120f01036c110000"
+          ],
+          [
+            127,
+            "00120f030100000000"
+          ],
+          [
+            127,
+            "00120f042400"
+          ],
+          [
+            127,
+            "00906901425030323134323531303731"
+          ],
+          [
+            127,
+            "0080c203006507766c616e313031"
+          ],
+          [
+            127,
+            "0080c203006807766c616e313034"
+          ],
+          [
+            127,
+            "0080c20307d108766c616e32303031"
+          ],
+          [
+            127,
+            "0080c20307d208766c616e32303032"
+          ],
+          [
+            127,
+            "0080c20307d308766c616e32303033"
+          ],
+          [
+            127,
+            "0012bb01000f04"
+          ],
+          [
+            0,
+            ""
+          ]
+        ],
+        "product": "0x165f",
+        "vendor": "0x14e4",
+        "name": "em2",
+        "has_carrier": true,
+        "ipv4_address": null,
+        "biosdevname": "em2",
+        "client_id": null,
+        "mac_address": "b0:83:fe:c6:63:87"
+      },
+      {
+        "lldp": [
+          [
+            1,
+            "0464649b32f300"
+          ],
+          [
+            2,
+            "0567652d302f302f3235"
+          ],
+          [
+            3,
+            "003c"
+          ],
+          [
+            5,
+            "737730312d646973742d31622d6231322e72647532"
+          ],
+          [
+            6,
+            "4a756e69706572204e6574776f726b732c20496e632e206578343230302d3438742045746865726e6574205377697463682c206b65726e656c204a554e4f532031352e3152362e372c204275696c6420646174653a20323031372d30342d32332030313a31363a34382055544320436f707972696768742028632920313939362d32303137204a756e69706572204e6574776f726b732c20496e632e"
+          ],
+          [
+            7,
+            "00140014"
+          ],
+          [
+            8,
+            "05010a0abfe501000000000c0103060102011f0101010100"
+          ],
+          [
+            4,
+            "686f737430322e6265616b65722e747269706c656f2e6c61622e656e672e7264753220706f72742031202850726f762f5472756e6b656420564c414e7329"
+          ],
+          [
+            127,
+            "00120f01036c110000"
+          ],
+          [
+            127,
+            "00120f030100000000"
+          ],
+          [
+            127,
+            "00120f042400"
+          ],
+          [
+            127,
+            "0080c2010066"
+          ],
+          [
+            127,
+            "00906901425030323134323530393236"
+          ],
+          [
+            127,
+            "0080c203006507766c616e313031"
+          ],
+          [
+            127,
+            "0080c203006607766c616e313032"
+          ],
+          [
+            127,
+            "0080c203006807766c616e313034"
+          ],
+          [
+            127,
+            "0080c20307d108766c616e32303031"
+          ],
+          [
+            127,
+            "0080c20307d208766c616e32303032"
+          ],
+          [
+            127,
+            "0012bb01000f04"
+          ],
+          [
+            0,
+            ""
+          ]
+        ],
+        "product": "0x165f",
+        "vendor": "0x14e4",
+        "name": "em1",
+        "has_carrier": true,
+        "ipv4_address": "10.8.146.101",
+        "biosdevname": "em1",
+        "client_id": null,
+        "mac_address": "b0:83:fe:c6:63:86"
+      }
+    ],
+    "disks": [
+      {
+        "rotational": true,
+        "vendor": "DELL",
+        "name": "/dev/sda",
+        "wwn_vendor_extension": "0x1bd2cc7e0fc68486",
+        "hctl": "0:2:0:0",
+        "wwn_with_extension": "0x6b083fe0d2d0eb001bd2cc7e0fc68486",
+        "by_path": "/dev/disk/by-path/pci-0000:01:00.0-scsi-0:2:0:0",
+        "model": "PERC H710",
+        "wwn": "0x6b083fe0d2d0eb00",
+        "serial": "6b083fe0d2d0eb001bd2cc7e0fc68486",
+        "size": 599550590976
+      }
+    ],
+    "boot": {
+      "current_boot_mode": "bios",
+      "pxe_interface": "b0:83:fe:c6:63:86"
+    },
+    "system_vendor": {
+      "serial_number": "JLRCY12",
+      "product_name": "PowerEdge R320 (SKU=NotProvided;ModelName=PowerEdge R320)",
+      "manufacturer": "Dell Inc."
+    },
+    "memory": {
+      "physical_mb": 81920,
+      "total": 84418736128
+    },
+    "cpu": {
+      "count": 16,
+      "frequency": "2400.0000",
+      "flags": [
+        "fpu", "vme", "de", "pse", "tsc", "msr", "pae", "mce", "cx8", "apic",
+        "sep", "mtrr", "pge", "mca", "cmov", "pat", "pse36", "clflush", "dts",
+        "acpi", "mmx", "fxsr", "sse", "sse2", "ss", "ht", "tm", "pbe",
+        "syscall", "nx", "pdpe1gb", "rdtscp", "lm", "constant_tsc",
+        "arch_perfmon", "pebs", "bts", "rep_good", "nopl", "xtopology",
+        "nonstop_tsc", "aperfmperf", "eagerfpu", "pni", "pclmulqdq", "dtes64",
+        "monitor", "ds_cpl", "vmx", "smx", "est", "tm2", "ssse3", "cx16",
+        "xtpr", "pdcm", "pcid", "dca", "sse4_1", "sse4_2", "x2apic", "popcnt",
+        "tsc_deadline_timer", "aes", "xsave", "avx", "f16c", "rdrand",
+        "lahf_lm", "tpr_shadow", "vnmi", "flexpriority", "ept", "vpid",
+        "fsgsbase", "smep", "erms", "xsaveopt", "ibpb", "ibrs", "dtherm",
+        "ida", "arat", "pln", "pts"
+      ],
+      "model_name": "Intel(R) Xeon(R) CPU E5-2440 v2 @ 1.90GHz",
+      "architecture": "x86_64"
+    }
+  }
+}
+```
