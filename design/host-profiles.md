@@ -213,3 +213,137 @@ See comments in the Risks section above.
 * [Ironic Inspector Documentation](https://docs.openstack.org/ironic-inspector/latest/)
 * [Ironic Inspector API](https://developer.openstack.org/api-ref/baremetal-introspection/)
 * [Kubernetes "Meaning of Memory" description](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#meaning-of-memory)
+
+### Example Ironic Inventory Results
+
+
+#### Virtual Machine
+
+*This is the result of asking ironic inspector to examine a virtual
+machine, but given a general idea of what might be included in results
+of inspecting the host and that could be applied to the profile.*
+
+```
+{
+  "cpu_arch": "x86_64",
+  "macs": [
+    "00:ca:ff:65:6e:68"
+  ],
+  "root_disk": {
+    "rotational": true,
+    "vendor": "0x1af4",
+    "name": "/dev/vda",
+    "wwn_vendor_extension": null,
+    "hctl": null,
+    "wwn_with_extension": null,
+    "by_path": "/dev/disk/by-path/pci-0000:00:05.0",
+    "model": "",
+    "wwn": null,
+    "serial": null,
+    "size": 53687091200
+  },
+  "all_interfaces": {
+    "eth1": {
+      "ip": "192.168.111.20",
+      "mac": "00:ca:ff:65:6e:6a",
+      "client_id": null,
+      "pxe": false
+    },
+    "eth0": {
+      "ip": "172.22.0.43",
+      "mac": "00:ca:ff:65:6e:68",
+      "client_id": null,
+      "pxe": true
+    }
+  },
+  "cpus": 2,
+  "boot_interface": "00:ca:ff:65:6e:68",
+  "memory_mb": 6144,
+  "ipmi_address": null,
+  "inventory": {
+    "bmc_address": "0.0.0.0",
+    "interfaces": [
+      {
+        "lldp": [],
+        "ipv6_address": "fe80::2ca:ffff:fe65:6e68%eth0",
+        "vendor": "0x1af4",
+        "name": "eth0",
+        "has_carrier": true,
+        "product": "0x0001",
+        "ipv4_address": "172.22.0.43",
+        "biosdevname": null,
+        "client_id": null,
+        "mac_address": "00:ca:ff:65:6e:68"
+      },
+      {
+        "lldp": [],
+        "ipv6_address": "fe80::2ca:ffff:fe65:6e6a%eth1",
+        "vendor": "0x1af4",
+        "name": "eth1",
+        "has_carrier": true,
+        "product": "0x0001",
+        "ipv4_address": "192.168.111.20",
+        "biosdevname": null,
+        "client_id": null,
+        "mac_address": "00:ca:ff:65:6e:6a"
+      }
+    ],
+    "disks": [
+      {
+        "rotational": true,
+        "vendor": "0x1af4",
+        "name": "/dev/vda",
+        "wwn_vendor_extension": null,
+        "hctl": null,
+        "wwn_with_extension": null,
+        "by_path": "/dev/disk/by-path/pci-0000:00:05.0",
+        "model": "",
+        "wwn": null,
+        "serial": null,
+        "size": 53687091200
+      }
+    ],
+    "boot": {
+      "current_boot_mode": "bios",
+      "pxe_interface": "00:ca:ff:65:6e:68"
+    },
+    "system_vendor": {
+      "serial_number": "",
+      "product_name": "KVM",
+      "manufacturer": "Red Hat"
+    },
+    "memory": {
+      "physical_mb": 6144,
+      "total": 6256263168
+    },
+    "cpu": {
+      "count": 2,
+      "frequency": "1899.999",
+      "flags": [
+        "fpu", "vme", "de", "pse", "tsc", "msr", "pae", "mce", "cx8", "apic",
+        "sep", "mtrr", "pge", "mca", "cmov", "pat", "pse36", "clflush", "mmx",
+        "fxsr", "sse", "sse2", "ss", "syscall", "nx", "pdpe1gb", "rdtscp",
+        "lm", "constant_tsc", "arch_perfmon", "rep_good", "nopl", "xtopology",
+        "eagerfpu", "pni", "pclmulqdq", "vmx", "ssse3", "cx16", "pcid",
+        "sse4_1", "sse4_2", "x2apic", "popcnt", "tsc_deadline_timer", "aes",
+        "xsave", "avx", "f16c", "rdrand", "hypervisor", "lahf_lm", "ibrs",
+        "ibpb", "stibp", "tpr_shadow", "vnmi", "flexpriority", "ept", "vpid",
+        "fsgsbase", "tsc_adjust", "smep", "erms", "xsaveopt", "arat",
+        "spec_ctrl", "intel_stibp"
+      ],
+      "model_name": "Intel(R) Xeon(R) CPU E5-2440 v2 @ 1.90GHz",
+      "architecture": "x86_64"
+    }
+  },
+  "error": null,
+  "local_gb": 49,
+  "interfaces": {
+    "eth0": {
+      "ip": "172.22.0.43",
+      "mac": "00:ca:ff:65:6e:68",
+      "client_id": null,
+      "pxe": true
+    }
+  }
+}
+```
