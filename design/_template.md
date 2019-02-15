@@ -51,7 +51,8 @@ To get started with this template:
 
 1. **Fill out the "overview" sections.**
 
-    This includes the Summary and Motivation sections.
+    This includes the Summary and Motivation sections. Remove the
+    boilerplate and instructions as you go.
 
 1. **Create a PR.**
 
