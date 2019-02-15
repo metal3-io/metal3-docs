@@ -208,4 +208,8 @@ See comments in the Risks section above.
 
 ## References
 
-None
+* [Ironic Documentation](https://docs.openstack.org/ironic/latest/)
+* [Ironic API](https://developer.openstack.org/api-ref/baremetal/)
+* [Ironic Inspector Documentation](https://docs.openstack.org/ironic-inspector/latest/)
+* [Ironic Inspector API](https://developer.openstack.org/api-ref/baremetal-introspection/)
+* [Kubernetes "Meaning of Memory" description](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#meaning-of-memory)
