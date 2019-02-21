@@ -80,7 +80,7 @@ metadata:
     labels:
         set: master
 spec:
-    providerConfig:
+    providerSpec:
         value:
             apiVersion: "baremetalproviderconfig/v1alpha1"
             kind: "BareMetalProviderConfig"
@@ -95,7 +95,7 @@ metadata:
     labels:
           set: node
 spec:
-    providerConfig:
+    providerSpec:
         value:
             apiVersion: "baremetalproviderconfig/v1alpha1"
             kind: "BareMetalProviderConfig"
