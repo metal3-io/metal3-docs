@@ -58,7 +58,7 @@ In order to assert this configuration at boot time, a dedicated DHCP server
 on a semi-dedicated "provisioning" network should be leveraged. This network
 may be reused by other services and systems, but can also be leveraged in
 the case of hardware discovery. The most important factor is that this
-network does not have an external DHCP server attached.
+network does not have a second DHCP server attached.
 
 In the use case in which Ironic was developed, it would manage the DHCP
 server configuration. In this use case, we would rely upon a static
@@ -67,22 +67,18 @@ the initial components required to boot the ramdisk.
 
 Some specific hardware types in ironic do support use of virtual media
 to boot the deployment ramdisk, however this functionality is not
-available with vendor neutral IPMI. Newer protocols such as Redfish
+available with the vendor neutral IPMI driver. Newer protocols such as Redfish
 may support virtual media, but not as of the time of this document
-having been composed. Use of virtual media should be considered
-useful, but not well enough supported at this time to be considered useful.
+having been composed. Virtual media should be considered
+not well enough supported at this time to be considered useful.
 Other methods such as booting directly from iSCSI should be considered
-out-of-scope in this use case as they are centered around an external block
+out-of-scope in this use case as they are require an external block
 storage management system.
 
 ## How ironic writes an operating system image to baremetal?
 
-Ironic supports two fundamental types of disk images.
-
-Whole-disk and Partition (or filesystem) images.
-
-Due to the nature of partition images, where a bootloader and configuration
-must be put in place and configured, it is simpler to focus on the use of
+Ironic supports two fundamental types of disk images: whole-disk and
+partition (or filesystem) images. The MetalKube use cases will rely on
 whole disk images.
 
 The basic workflow consists of:
@@ -113,7 +109,6 @@ will deploy successfully without issues.
 
 ## What connectivity is required?
 
-To boot the discovery and deployment image on the baremetal hardware:
 Access to the BMC can be via a routed IP network, however this may be
 less desirable than having it on the same L2 network as Ironic from a
 security standpoint.
@@ -121,26 +116,28 @@ security standpoint.
 When virtual media is used, the BMC needs to be on a network that
 allows it to reach the host serving the virtual media image.
 
+To boot the discovery and deployment image on the node, it will need
+access to the ironic host using:
 
-* DHCP
+* DHCP (for IP assignment and PXE instructions)
 * TFTP (if iPXE is not natively supported by the network interfaces.)
 * HTTP in order to download kernel/ramdisk images via HTTP over a TCP
   connection.
 
-In most cases, connections would be to the host upon which ironic is
-executing. Advanced and variant configurations are possible,
-but are out of scope for this document.
+Connections from the ramdisk are to the host upon which ironic is
+executing.
 
 The discovery and deployment ramdisk image needs to be able to:
 
-* DHCP
-* Resolve DNS
+* DHCP (via the ironic host, for IP assignment and PXE instructions)
+* Resolve DNS (FIXME - also via the ironic host?)
 * Connect to the ironic inspector API endpoint, which operates
   on port 5050/TCP by default.
 * Connect to the ironic API endpoint, which operates on port
   6385/TCP by default.
-* The ramdisk will need to be able to reach an HTTP(s) endpoint
-  in order to download the image files for deployment.
+* The ramdisk needs to be able to reach an external
+  HTTP(s) endpoint in order to download the image files for
+  deployment.
 * Be accessible on port 9999/TCP. This is used by ironic to issue
   commands to the running ramdisk.
 
@@ -188,7 +185,7 @@ An example of a typical node create request in JSON format:
     "power_interface": "ipmitool"
     }
 
-The response, if successful, contains a complete record of the node in JSON 
+The response, if successful, contains a complete record of the node in JSON
 format with provided or default ({}, “null”, or “”) values.
 
 ## Updating information about a hardware node in ironic.
@@ -287,13 +284,14 @@ Starting with the bare metal node in the "available" provision_state:
       renamed "user_data" and placed in `TEMPDIR/openstack/latest/`
       folder.
    3) Metadata for networking configuration setup using "cloud-init" or
-      cloud-init similar application would also be written to the
+      a similar application would also be written to the
       `TEMPDIR/openstack/latest` as well. This is out of scope, but is well
       documented in the OpenStack community.
-   4) TEMPDIR is converted to an iso9660 image using a label of “config-2”.
-   5) The resulting ISO9660 image file is then compressed using the gzip
+   4) Create an iso9660 image containing the contents of TEMPDIR using
+      a label of “config-2”.
+   5) Compress the resulting ISO9660 image file using the gzip
       algorithm.
-   6) The resulting gzip compressed image file is then encoded in base64 for
+   6) Encode the resulting gzip compressed image file in base64 for
       storage and transport. Ironic does the needful to decode and uncompress
       the configuration drive prior to deployment.
 
