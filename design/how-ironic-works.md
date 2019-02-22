@@ -31,7 +31,7 @@
 
 This document explains how to use ironic in order to achieve various
 tasks such as creating a node, recreating a node, unprovisioning a
-node, deleting a node.
+node, and deleting a node.
 
 This is not intended to be design specific documentation, but intends
 to help convey the mechanics of how, such that the reader does not
@@ -55,7 +55,7 @@ for ironic is able to be quickly and efficently transferred to the
 node.
 
 In order to assert this configuration at boot time, a dedicated DHCP server
-on semi-dedicated "provisioning" network should be leveraged. This network
+on a semi-dedicated "provisioning" network should be leveraged. This network
 may be reused by other services and systems, but can also be leveraged in
 the case of hardware discovery. The most important factor is that this
 network does not have an external DHCP server attached.
@@ -176,7 +176,7 @@ Usually more info are provided, at least a node name and parameters to
 initialize the drivers, such as username and password, if needed, passed
 through the “driver_info” option.
 
-A more complete example of a typical node create request in JSON format:
+An example of a typical node create request in JSON format:
 
     {
     "name": "test_node_dynamic",
@@ -195,7 +195,7 @@ format with provided or default ({}, “null”, or “”) values.
 
 All node information can be updated after the node has been created.
 
-Send a PATCH to /v1/nodes/node-id in the form of a JSON PATCH document.
+Send a PATCH to `/v1/nodes/node-id` in the form of a JSON PATCH document.
 
 The normal response is a 200 and contains a complete record of the node in
 JSON format with the updated node.
@@ -238,7 +238,7 @@ Starting with the bare metal node in the "available" provision_state:
 
 1. First assert configuration to API to indicate the image written
    to disk. This is performed as a HTTP PATCH request to the
-   /v1/nodes/node-id endpoint.
+   `/v1/nodes/node-id` endpoint.
 
        {
        {“op”: “replace”, “path”: “/instance_info”, “value”: {
@@ -262,9 +262,9 @@ Starting with the bare metal node in the "available" provision_state:
    return code, with a message body that consists of a list of "driver"
    interfaces and any errors if applicable.
 
-    GET /v1/nodes/node-id/validate
+       GET /v1/nodes/node-id/validate
 
-   Reply: 
+   Reply:
 
        {
        "boot": true,
@@ -284,11 +284,11 @@ Starting with the bare metal node in the "available" provision_state:
 
    1) Create a folder called “TEMPDIR”
    2) In the case of ignition based configuration, that file would be
-      placed renamed "user_data" and placed in TEMPDIR/openstack/latest/
+      renamed "user_data" and placed in `TEMPDIR/openstack/latest/`
       folder.
    3) Metadata for networking configuration setup using "cloud-init" or
       cloud-init similar application would also be written to the
-      TEMPDIR/openstack/latest as well. This is out of scope, but is well
+      `TEMPDIR/openstack/latest` as well. This is out of scope, but is well
       documented in the OpenStack community.
    4) TEMPDIR is converted to an iso9660 image using a label of “config-2”.
    5) The resulting ISO9660 image file is then compressed using the gzip
@@ -297,7 +297,7 @@ Starting with the bare metal node in the "available" provision_state:
       storage and transport. Ironic does the needful to decode and uncompress
       the configuration drive prior to deployment.
 
-4. Send a HTTP POST to /v1/nodes/node-id/states/provision to initiate
+4. Send a HTTP POST to `/v1/nodes/node-id/states/provision` to initiate
    the deployment
 
        {“target”: “active”,
