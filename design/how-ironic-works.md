@@ -48,16 +48,6 @@ power and potential boot mode changes need to be performed by an
 external entity such as a human or a network attached power distribution
 unit.
 
-- Access to the BMC can be via a routed IP network,
-  however this may be less desirable from a security standpoint.
-
-- Some vendor driver interfaces may expect to assert configuration
-  to a BMC where the BMC is expected to reach controller resources
-  or hosted services.
-  Mainly this should be expected when virtual media is in use, which means
-  some sort of dedicated BMC network access becomes desirable, as long as
-  the connectivity matches the failure domain of the machines upon which
-  ironic will be executing.
 
 ## How ironic boots hardware
 
@@ -126,6 +116,13 @@ will deploy successfully without issues.
 ## What connectivity is required?
 
 To boot the discovery and deployment image on the baremetal hardware:
+Access to the BMC can be via a routed IP network, however this may be
+less desirable than having it on the same L2 network as Ironic from a
+security standpoint.
+
+When virtual media is used, the BMC needs to be on a network that
+allows it to reach the host serving the virtual media image.
+
 
 * DHCP
 * TFTP (if iPXE is not natively supported by the network interfaces.)
