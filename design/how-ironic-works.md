@@ -216,6 +216,7 @@ This field is the "provision_state" field that can be retrieved via the API.
 Inside the returned document, a "provision_state" field can be referenced.
 Further information can be found in ironic's
 [state machine documentation.][https://docs.openstack.org/ironic/latest/contributor/states.html]
+
 ### How to inspect hardware?
 
 Inspection may be used if a baremetal node has not been already discovered
@@ -312,24 +313,28 @@ Starting with the bare metal node in the "available" provision_state:
    steps to help ensure the baremetal node reboots into the requested
    disk image.
 
-Deployment progress can be tracked by retrieving the most recent node
-document from /v1/nodes/node-id with a GET. The "provision_state" field
-will track the state of the node along the state machine. A provision_state
-field with "active" means the deployment has been completed.
+5. Monitor the provisioning operation by [fetching the machine
+   state](how-do-i-identify-the-current-state) periodically, looking
+   for it to be set to `active`.
 
-As the deployment is progressing, the "provision_state" may alternate
-between "deploying" and "deploy wait" states. Deploying indicates that the
-ironic server is actively working on the deployment, where as "deploy wait"
-indicates that ironic is waiting for the agent on the baremetal node to
-boot, write contents to disk, or complete any other outstanding task
-issued by Ironic.
+   The "provision_state" field will track the state of the node along
+   the state machine. A provision_state field with "active" means the
+   deployment has been completed.
 
-A "deploy failed" state indicates that the deployment failed, and additional
-details as to why can be retrieved from the "last_error" fiend in the
-JSON document. With newer versions of ironic, greater granularity can be
-observed by also refering the "deploy_step" field, however this is a
-relatively new feature in ironic and the information provided is
-fairly broad as of the time this document was written.
+   As the deployment is progressing, the "provision_state" may
+   alternate between "deploying" and "deploy wait" states. Deploying
+   indicates that the ironic server is actively working on the
+   deployment, where as "deploy wait" indicates that ironic is waiting
+   for the agent on the baremetal node to boot, write contents to
+   disk, or complete any other outstanding task issued by Ironic.
+
+   A "deploy failed" state indicates that the deployment failed, and
+   additional details as to why can be retrieved from the "last_error"
+   fiend in the JSON document. With newer versions of ironic, greater
+   granularity can be observed by also refering the "deploy_step"
+   field, however this is a relatively new feature in ironic and the
+   information provided is fairly broad as of the time this document
+   was written.
 
 ### How to unprovision a baremetal node?
 
