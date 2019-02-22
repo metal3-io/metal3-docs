@@ -40,14 +40,12 @@ have to become an expert in Ironic in order to learn to leverage it.
 ## How ironic controls hardware
 
 Ironic is largely designed around the ability to issue commands to a
-remote Baseboard Management Controller (BMC) in order to assert the
-desired next boot device and control system power state.
+remote Baseboard Management Controller (BMC) in order to control the
+desired next boot device and the system power state.
 
-BMCs are also not required, however lacking BMC functionality, then
-power and potential boot mode changes need to be performed by an
-external entity such as a human or a network attached power distribution
-unit.
-
+Without BMC functionality, the power and potential boot mode changes
+need to be performed by an external entity such as a human or a
+network attached power distribution unit.
 
 ## How ironic boots hardware
 
