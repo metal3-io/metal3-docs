@@ -72,6 +72,11 @@ may be reused by other services and systems, but can also be leveraged in
 the case of hardware discovery. The most important factor is that this
 network does not have an external DHCP server attached.
 
+In the use case in which Ironic was developed, it would manage the DHCP
+server configuration. In this use case, we would rely upon a static
+configuration being provided by the DHCP server to signal where to find
+the initial components required to boot the ramdisk.
+
 Some specific hardware types in ironic do support use of virtual media
 to boot the deployment ramdisk, however this functionality is not
 available with vendor neutral IPMI. Newer protocols such as Redfish
@@ -127,6 +132,10 @@ To boot the discovery and deployment image on the baremetal hardware:
 * HTTP in order to download kernel/ramdisk images via HTTP over a TCP
   connection.
 
+In most cases, connections would be to the host upon which ironic is
+executing. Advanced and variant configurations are possible,
+but are out of scope for this document.
+
 The discovery and deployment ramdisk image needs to be able to:
 
 * DHCP
@@ -135,9 +144,8 @@ The discovery and deployment ramdisk image needs to be able to:
   on port 5050/TCP by default.
 * Connect to the ironic API endpoint, which operates on port
   6385/TCP by default.
-* The ramdisk will likely need to be able to reach an
-  HTTP(s) endpoint in order to download the image files for
-  deployment.
+* The ramdisk will need to be able to reach an HTTP(s) endpoint
+  in order to download the image files for deployment.
 * Be accessible on port 9999/TCP. This is used by ironic to issue
   commands to the running ramdisk.
 
@@ -152,8 +160,9 @@ Between ironic and ironic-inspector:
 
 New hardware can be discovered by booting the deployment and discovery
 ramdisk with the "ipa-inspection-callback-url" kernel parameter. This URL
-is used by the agent on the deployment and discovery ramdisk as the endpoint
-to post hardware inventory information to.
+is used by the agent on the deployment and discovery ramdisk as the location
+of the ironic-inspector service where it will post hardware profile
+information to.
 
 The ironic-inspector service then processes this data, and updates stored data
 or creates a new node and associated supporting records in ironic.
@@ -302,6 +311,25 @@ Starting with the bare metal node in the "available" provision_state:
    it will proceed with the deployment process and execute the required
    steps to help ensure the baremetal node reboots into the requested
    disk image.
+
+Deployment progress can be tracked by retrieving the most recent node
+document from /v1/nodes/node-id with a GET. The "provision_state" field
+will track the state of the node along the state machine. A provision_state
+field with "active" means the deployment has been completed.
+
+As the deployment is progressing, the "provision_state" may alternate
+between "deploying" and "deploy wait" states. Deploying indicates that the
+ironic server is actively working on the deployment, where as "deploy wait"
+indicates that ironic is waiting for the agent on the baremetal node to
+boot, write contents to disk, or complete any other outstanding task
+issued by Ironic.
+
+A "deploy failed" state indicates that the deployment failed, and additional
+details as to why can be retrieved from the "last_error" fiend in the
+JSON document. With newer versions of ironic, greater granularity can be
+observed by also refering the "deploy_step" field, however this is a
+relatively new feature in ironic and the information provided is
+fairly broad as of the time this document was written.
 
 ### How to unprovision a baremetal node?
 
