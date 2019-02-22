@@ -49,10 +49,10 @@ network attached power distribution unit.
 
 ## How ironic boots hardware
 
-Typically harware is booted utilizing PXE. In the most ideal scenario this
+Typically nodes are booted utilizing PXE. In the most ideal scenario this
 would be a hybrid PXE/iPXE configuration such that the deployment ramdisk
 for ironic is able to be quickly and efficently transferred to the
-baremetal machine.
+node.
 
 In order to assert this configuration at boot time, a dedicated DHCP server
 on semi-dedicated "provisioning" network should be leveraged. This network
