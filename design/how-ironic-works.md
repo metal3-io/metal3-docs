@@ -31,7 +31,7 @@
 
 This document explains how to use ironic in order to achieve various
 tasks such as creating a node, recreating a node, unprovisioning a
-node, deleting a node.
+node, and deleting a node.
 
 This is not intended to be design specific documentation, but intends
 to help convey the mechanics of how, such that the reader does not
@@ -40,37 +40,25 @@ have to become an expert in Ironic in order to learn to leverage it.
 ## How ironic controls hardware
 
 Ironic is largely designed around the ability to issue commands to a
-remote Baseboard Management Controller (BMC) in order to assert the
-desired next boot device and control system power state.
+remote Baseboard Management Controller (BMC) in order to control the
+desired next boot device and the system power state.
 
-BMCs are also not required, however lacking BMC functionality, then
-power and potential boot mode changes need to be performed by an
-external entity such as a human or a network attached power distribution
-unit.
-
-- Access to the BMC can be via a routed IP network,
-  however this may be less desirable from a security standpoint.
-
-- Some vendor driver interfaces may expect to assert configuration
-  to a BMC where the BMC is expected to reach controller resources
-  or hosted services.
-  Mainly this should be expected when virtual media is in use, which means
-  some sort of dedicated BMC network access becomes desirable, as long as
-  the connectivity matches the failure domain of the machines upon which
-  ironic will be executing.
+Without BMC functionality, the power and potential boot mode changes
+need to be performed by an external entity such as a human or a
+network attached power distribution unit.
 
 ## How ironic boots hardware
 
-Typically harware is booted utilizing PXE. In the most ideal scenario this
+Typically nodes are booted utilizing PXE. In the most ideal scenario this
 would be a hybrid PXE/iPXE configuration such that the deployment ramdisk
 for ironic is able to be quickly and efficently transferred to the
-baremetal machine.
+node.
 
 In order to assert this configuration at boot time, a dedicated DHCP server
-on semi-dedicated "provisioning" network should be leveraged. This network
+on a semi-dedicated "provisioning" network should be leveraged. This network
 may be reused by other services and systems, but can also be leveraged in
 the case of hardware discovery. The most important factor is that this
-network does not have an external DHCP server attached.
+network does not have a second DHCP server attached.
 
 In the use case in which Ironic was developed, it would manage the DHCP
 server configuration. In this use case, we would rely upon a static
@@ -79,22 +67,18 @@ the initial components required to boot the ramdisk.
 
 Some specific hardware types in ironic do support use of virtual media
 to boot the deployment ramdisk, however this functionality is not
-available with vendor neutral IPMI. Newer protocols such as Redfish
+available with the vendor neutral IPMI driver. Newer protocols such as Redfish
 may support virtual media, but not as of the time of this document
-having been composed. Use of virtual media should be considered
-useful, but not well enough supported at this time to be considered useful.
+having been composed. Virtual media should be considered
+not well enough supported at this time to be considered useful.
 Other methods such as booting directly from iSCSI should be considered
-out-of-scope in this use case as they are centered around an external block
+out-of-scope in this use case as they are require an external block
 storage management system.
 
 ## How ironic writes an operating system image to baremetal?
 
-Ironic supports two fundamental types of disk images.
-
-Whole-disk and Partition (or filesystem) images.
-
-Due to the nature of partition images, where a bootloader and configuration
-must be put in place and configured, it is simpler to focus on the use of
+Ironic supports two fundamental types of disk images: whole-disk and
+partition (or filesystem) images. The MetalKube use cases will rely on
 whole disk images.
 
 The basic workflow consists of:
@@ -125,27 +109,35 @@ will deploy successfully without issues.
 
 ## What connectivity is required?
 
-To boot the discovery and deployment image on the baremetal hardware:
+Access to the BMC can be via a routed IP network, however this may be
+less desirable than having it on the same L2 network as Ironic from a
+security standpoint.
 
-* DHCP
+When virtual media is used, the BMC needs to be on a network that
+allows it to reach the host serving the virtual media image.
+
+To boot the discovery and deployment image on the node, it will need
+access to the ironic host using:
+
+* DHCP (for IP assignment and PXE instructions)
 * TFTP (if iPXE is not natively supported by the network interfaces.)
 * HTTP in order to download kernel/ramdisk images via HTTP over a TCP
   connection.
 
-In most cases, connections would be to the host upon which ironic is
-executing. Advanced and variant configurations are possible,
-but are out of scope for this document.
+Connections from the ramdisk are to the host upon which ironic is
+executing.
 
 The discovery and deployment ramdisk image needs to be able to:
 
-* DHCP
-* Resolve DNS
+* DHCP (via the ironic host, for IP assignment and PXE instructions)
+* Resolve DNS (FIXME - also via the ironic host?)
 * Connect to the ironic inspector API endpoint, which operates
   on port 5050/TCP by default.
 * Connect to the ironic API endpoint, which operates on port
   6385/TCP by default.
-* The ramdisk will need to be able to reach an HTTP(s) endpoint
-  in order to download the image files for deployment.
+* The ramdisk needs to be able to reach an external
+  HTTP(s) endpoint in order to download the image files for
+  deployment.
 * Be accessible on port 9999/TCP. This is used by ironic to issue
   commands to the running ramdisk.
 
@@ -181,7 +173,7 @@ Usually more info are provided, at least a node name and parameters to
 initialize the drivers, such as username and password, if needed, passed
 through the “driver_info” option.
 
-A more complete example of a typical node create request in JSON format:
+An example of a typical node create request in JSON format:
 
     {
     "name": "test_node_dynamic",
@@ -193,14 +185,14 @@ A more complete example of a typical node create request in JSON format:
     "power_interface": "ipmitool"
     }
 
-The response, if successful, contains a complete record of the node in JSON 
+The response, if successful, contains a complete record of the node in JSON
 format with provided or default ({}, “null”, or “”) values.
 
 ## Updating information about a hardware node in ironic.
 
 All node information can be updated after the node has been created.
 
-Send a PATCH to /v1/nodes/node-id in the form of a JSON PATCH document.
+Send a PATCH to `/v1/nodes/node-id` in the form of a JSON PATCH document.
 
 The normal response is a 200 and contains a complete record of the node in
 JSON format with the updated node.
@@ -216,6 +208,7 @@ This field is the "provision_state" field that can be retrieved via the API.
 Inside the returned document, a "provision_state" field can be referenced.
 Further information can be found in ironic's
 [state machine documentation.][https://docs.openstack.org/ironic/latest/contributor/states.html]
+
 ### How to inspect hardware?
 
 Inspection may be used if a baremetal node has not been already discovered
@@ -242,7 +235,7 @@ Starting with the bare metal node in the "available" provision_state:
 
 1. First assert configuration to API to indicate the image written
    to disk. This is performed as a HTTP PATCH request to the
-   /v1/nodes/node-id endpoint.
+   `/v1/nodes/node-id` endpoint.
 
        {
        {“op”: “replace”, “path”: “/instance_info”, “value”: {
@@ -266,9 +259,9 @@ Starting with the bare metal node in the "available" provision_state:
    return code, with a message body that consists of a list of "driver"
    interfaces and any errors if applicable.
 
-    GET /v1/nodes/node-id/validate
+       GET /v1/nodes/node-id/validate
 
-   Reply: 
+   Reply:
 
        {
        "boot": true,
@@ -288,20 +281,21 @@ Starting with the bare metal node in the "available" provision_state:
 
    1) Create a folder called “TEMPDIR”
    2) In the case of ignition based configuration, that file would be
-      placed renamed "user_data" and placed in TEMPDIR/openstack/latest/
+      renamed "user_data" and placed in `TEMPDIR/openstack/latest/`
       folder.
    3) Metadata for networking configuration setup using "cloud-init" or
-      cloud-init similar application would also be written to the
-      TEMPDIR/openstack/latest as well. This is out of scope, but is well
+      a similar application would also be written to the
+      `TEMPDIR/openstack/latest` as well. This is out of scope, but is well
       documented in the OpenStack community.
-   4) TEMPDIR is converted to an iso9660 image using a label of “config-2”.
-   5) The resulting ISO9660 image file is then compressed using the gzip
+   4) Create an iso9660 image containing the contents of TEMPDIR using
+      a label of “config-2”.
+   5) Compress the resulting ISO9660 image file using the gzip
       algorithm.
-   6) The resulting gzip compressed image file is then encoded in base64 for
+   6) Encode the resulting gzip compressed image file in base64 for
       storage and transport. Ironic does the needful to decode and uncompress
       the configuration drive prior to deployment.
 
-4. Send a HTTP POST to /v1/nodes/node-id/states/provision to initiate
+4. Send a HTTP POST to `/v1/nodes/node-id/states/provision` to initiate
    the deployment
 
        {“target”: “active”,
@@ -312,24 +306,28 @@ Starting with the bare metal node in the "available" provision_state:
    steps to help ensure the baremetal node reboots into the requested
    disk image.
 
-Deployment progress can be tracked by retrieving the most recent node
-document from /v1/nodes/node-id with a GET. The "provision_state" field
-will track the state of the node along the state machine. A provision_state
-field with "active" means the deployment has been completed.
+5. Monitor the provisioning operation by [fetching the machine
+   state](how-do-i-identify-the-current-state) periodically, looking
+   for it to be set to `active`.
 
-As the deployment is progressing, the "provision_state" may alternate
-between "deploying" and "deploy wait" states. Deploying indicates that the
-ironic server is actively working on the deployment, where as "deploy wait"
-indicates that ironic is waiting for the agent on the baremetal node to
-boot, write contents to disk, or complete any other outstanding task
-issued by Ironic.
+   The "provision_state" field will track the state of the node along
+   the state machine. A provision_state field with "active" means the
+   deployment has been completed.
 
-A "deploy failed" state indicates that the deployment failed, and additional
-details as to why can be retrieved from the "last_error" fiend in the
-JSON document. With newer versions of ironic, greater granularity can be
-observed by also refering the "deploy_step" field, however this is a
-relatively new feature in ironic and the information provided is
-fairly broad as of the time this document was written.
+   As the deployment is progressing, the "provision_state" may
+   alternate between "deploying" and "deploy wait" states. Deploying
+   indicates that the ironic server is actively working on the
+   deployment, where as "deploy wait" indicates that ironic is waiting
+   for the agent on the baremetal node to boot, write contents to
+   disk, or complete any other outstanding task issued by Ironic.
+
+   A "deploy failed" state indicates that the deployment failed, and
+   additional details as to why can be retrieved from the "last_error"
+   fiend in the JSON document. With newer versions of ironic, greater
+   granularity can be observed by also refering the "deploy_step"
+   field, however this is a relatively new feature in ironic and the
+   information provided is fairly broad as of the time this document
+   was written.
 
 ### How to unprovision a baremetal node?
 
