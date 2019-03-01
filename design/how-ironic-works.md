@@ -16,6 +16,7 @@
       * [How ironic boots hardware](#how-ironic-boots-hardware)
       * [How ironic writes an operating system image to baremetal?](#how-ironic-writes-an-operating-system-image-to-baremetal)
       * [What connectivity is required?](#what-connectivity-is-required)
+      * [What is Ironic Inspector?](#what-is-ironic-inspector)
       * [How-to](#how-to)
          * [How to discover hardware?](#how-to-discover-hardware)
          * [How to add hardware to ironic?](#how-to-add-hardware-to-ironic)
@@ -145,6 +146,71 @@ Between ironic and ironic-inspector:
 
 * Each service must be able to reach the API endpoint for
   the the other service.
+
+## What is ironic-inspector?
+Ironic-inspector is an auxiliary service that provides separate API to
+inspect and register hardware properties for a bare metal node (node
+introspection process).
+Ideally the node UUID must be already known by ironic, that means the node
+is enrolled and power management credentials should be already provided to
+allow sending reboot commands to the node, but this process may also be
+triggered during discovery and allow automatic node registration in ironic.
+The process of "hardware introspection" allows also to get the hardware
+parameters from a bare metal node and ready it for scheduling.
+
+Start, abort introspection, get introspection status, get introspection data
+are done through the `/v1/introspection` resource.
+
+To start the introspection process using ironic-inspector API send a POST
+request with an empty body using:
+
+    POST /v1/introspection/node-id
+
+The normal response code is 202 and if inspector can't find the node it will
+return a 404.
+The response is also an empty body.
+
+It's possible to monitor the status of a single introspection process using:
+
+    GET /v1/introspection/node-id
+    
+This provides not only the state of the process, but also information on
+start and ending time, and more.
+An example of status answer:
+
+    {
+      "error": null,
+      "finished": true,
+      "finished_at": "2017-08-16T12:24:30",
+      "links": [
+        {
+          "href": "http://127.0.0.1:5050/v1/introspection/c244557e-899f-46fa-a1ff-5b2c6718616b",
+          "rel": "self"
+        }
+      ],
+      "started_at": "2017-08-16T12:22:01",
+      "state": "finished",
+      "uuid": "c244557e-899f-46fa-a1ff-5b2c6718616b"
+    }
+
+There can be multiple introspection processes running at the same time, it's
+possible to retrieve all the statuses using:
+
+    GET /v1/introspection
+    
+The output will be a paginated list of single status as shown above.
+
+If it's needed, it's possible to interrupt the introspection process using:
+
+    POST /v1/introspection/node-id/abort
+    
+At the end of the introspection process, to return all the data stored for a
+single node:
+
+    GET /v1/introspection/node-id/data
+
+The result will be a json body which content may vary based on the ramdisk
+used and the version of ironic-inspector itself.
 
 ## How-to
 
