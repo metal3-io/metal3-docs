@@ -11,6 +11,11 @@ interfaces.
 of the MetalKube architecture as the method used to manage kubernetes
 applications.
 
+## Project Discussion
+
+* [MetalKube Development Mailing List](https://groups.google.com/forum/#!forum/metalkube-dev)
+* #cluster-api on Kubernetes Slack
+
 ## MetalKube Component Overview
 
 ### Machine API Integration
