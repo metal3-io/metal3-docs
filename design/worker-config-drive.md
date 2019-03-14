@@ -9,7 +9,7 @@
 
 ## Status
 
-provisional
+implementable
 
 ## Table of Contents
 
