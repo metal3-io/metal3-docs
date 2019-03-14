@@ -7,10 +7,6 @@ metal host management for Kubernetes.  MetalKube works as a Kubernetes
 application, meaning it runs on Kubernetes and is managed through Kubernetes
 interfaces.
 
-[Operators](https://github.com/operator-framework/operator-sdk) are a key piece
-of the MetalKube architecture as the method used to manage kubernetes
-applications.
-
 ## Project Discussion
 
 * [MetalKube Development Mailing List](https://groups.google.com/forum/#!forum/metalkube-dev)
@@ -31,15 +27,11 @@ This first diagram represents the high level architecture:
 #### Machine API Actuator
 
 The first component is the [Bare Metal
-Actuator](https://github.com/metalkube/cluster-api-provider-bare-metal).  This
-is the component with logic specific to this architecture for handling changes
-to the lifecycle of Machine objects.  This actuator may be integrated with the
-existing [Machine API
-Operator](https://github.com/openshift/machine-api-operator) or some other
-implementation of the cluster API.
-
-This actuator will associate Machine objects with a bare metal host from the
-inventory of bare metal hosts managed by the Bare Metal Operator.
+Actuator](https://github.com/metalkube/cluster-api-provider-bare-metal), which
+is an implementation of the Machine Actuator interface defined by the
+cluster-api project.  This actuator reacts to changes to Machine objects and
+acts as a client of the `BareMetalHost` custom resources managed by the Bare
+Metal Operator.
 
 #### Bare Metal Operator
 
@@ -47,11 +39,11 @@ The architecture also includes a new [Bare Metal
 Operator](https://github.com/metalkube/bare-metal-operator), which includes the
 following:
 
-* A Controller for a new Custom Resource, BareMetalHost.  This custom resource
+* A Controller for a new Custom Resource, `BareMetalHost`.  This custom resource
   represents an inventory of known (configured or automatically discovered)
   bare metal hosts.  When a Machine is created the Bare Metal Actuator will
   claim one of these hosts to be provisioned as a new Kubernetes node.
-* In response to BareMetalHost updates, will perform bare metal host
+* In response to `BareMetalHost` updates, will perform bare metal host
   provisioning actions as necessary to reach the desired state.  It will do so
   by managing and driving a set of underlying bare metal provisioning
   components.
@@ -60,16 +52,19 @@ following:
   detail under the hood such that alternatives could be added in the future if
   the need arises.
 
-The creation of the BareMetalHost inventory can be done in two ways:
+The creation of the `BareMetalHost` inventory can be done in two ways:
 
-1. Manually via creating BareMetalHost objects.
+1. Manually via creating `BareMetalHost` objects.
 2. Optionally, automatically created via a bare metal host discovery process.
    Ironic is capable of doing this, which will also be integrated into
    MetalKube as an option.
 
+For more information about Operators, see the
+[operator-sdk](https://github.com/operator-framework/operator-sdk).
+
 ## APIs
 
-1. Enroll nodes by creating BareMetalHost resources.  This would either be
+1. Enroll nodes by creating `BareMetalHost` resources.  This would either be
    manually or done by a component doing node discovery and introspection.
 
    See the documentation in the
@@ -108,6 +103,6 @@ spec:
                 node-profile: node
 ```
 
-3. Machine is associated with an available BareMetalHost, which triggers
-   provisioning of that host to join the cluster.  (Exact mechanism for this
-   association is TBD).
+3. Machine is associated with an available `BareMetalHost`, which triggers
+   provisioning of that host to join the cluster.  This association is done by
+   the Actuator when it sets the `MachineRef` field on the `BareMetalHost`.
