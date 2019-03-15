@@ -106,3 +106,17 @@ spec:
 3. Machine is associated with an available `BareMetalHost`, which triggers
    provisioning of that host to join the cluster.  This association is done by
    the Actuator when it sets the `MachineRef` field on the `BareMetalHost`.
+
+## Design Documents
+
+### Overall Architecture
+
+- [nodes-machines-and-hosts](design/nodes-machines-and-hosts.md)
+- [use-ironic](design/use-ironic.md)
+
+### Implementation Details
+
+- [bmc-address](design/bmc-address.md)
+- [how-ironic-works](design/how-ironic-works.md)
+- [image-ownership](design/image-ownership.md)
+- [worker-config-drive](design/worker-config-drive.md)
