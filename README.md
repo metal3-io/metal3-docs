@@ -10,7 +10,7 @@ interfaces.
 ## Project Discussion
 
 * [MetalKube Development Mailing List](https://groups.google.com/forum/#!forum/metalkube-dev)
-* #cluster-api on Kubernetes Slack
+* [#cluster-api-baremetal](https://kubernetes.slack.com/messages/CHD49TLE7) on Kubernetes Slack
 
 ## MetalKube Component Overview
 
