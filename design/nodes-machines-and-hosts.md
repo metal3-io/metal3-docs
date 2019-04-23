@@ -55,13 +55,13 @@ role of each, and why we are using 3 separate resources.
 ## Motivation
 
 This document details the original design decisions made when the
-MetalKube project was launched, and places the information in context
+Metal3 project was launched, and places the information in context
 as an aid to future contributors.
 
 ### Goals
 
 - Explain Node, Machine, and BareMetalHost and how they relate to
-  MetalKube.
+  Metal3
 - Encourage input on that design, to refine it.
 
 ### Non-Goals
@@ -70,13 +70,13 @@ as an aid to future contributors.
 
 ## Proposal
 
-The MetalKube project is building a hardware provisioning system with
+The Metal3 project is building a hardware provisioning system with
 a Kubernetes-native API. It includes a provider implementation that
 fits into the API defined by the cluster-api SIG. It differs from
 other similar implementations by being self-hosted. Where the AWS or
 OpenStack providers run within Kubernetes, they allocate resources
 from a pool *outside* of the Kubernetes cluster by talking to an API
-that is also *outside* of the cluster. MetalKube will run within the
+that is also *outside* of the cluster. Metal3 will run within the
 cluster and present a Kubernetes API for tracking available resources.
 
 ### Implementation Details/Notes/Constraints
@@ -107,8 +107,8 @@ section.
 `BareMetalHost` objects represent a physical computer, including its
 hardware inventory and information to access the onboard management
 controller. The BareMetalHost (or "host") CRD is defined in the
-[baremetal-operator](https://github.com/metalkube/baremetal-operator/)
-from the MetalKube project. The CRD is made up of completely custom
+[baremetal-operator](https://github.com/metal3-io/baremetal-operator/)
+from the Metal3 project. The CRD is made up of completely custom
 data, needed to fully realize a Kubernetes-native API for a
 self-hosted baremetal provisioning tool. The lifecycle of a host is
 based on the availability of hardware, rather than its use as part of
@@ -116,7 +116,7 @@ the cluster.
 
 #### Growing the Cluster
 
-The admin user interacts with MetalKube by first registering hosts to
+The admin user interacts with Metal3 by first registering hosts to
 be part of the inventory available to the provisioning
 system. Registration can be a manual process, in which the user uses
 the UI or API to define a new BareMetalHost object, providing the
@@ -134,7 +134,7 @@ the cluster, either by creating the Machine directly or by
 incrementing the replica count on a MachineSet.
 
 The actuator in the
-[cluster-api-provider-baremetal](https://github.com/metalkube/cluster-api-provider-baremetal)
+[cluster-api-provider-baremetal](https://github.com/metal3-io/cluster-api-provider-baremetal)
 repository will match the hardware profile in the provider spec of the
 Machine object to available hosts with the same profile. When an
 available host is found, the actuator links it to the Machine, and
@@ -208,10 +208,10 @@ manage their inventory somehow. Even if we implement fully automated
 host discovery, the user must be able to review the information for
 accuracy, establish the access parameters for the onboard management
 controllers, etc. This means we must expose the data in some form to
-the user. We intend to implement MetalKube using an existing
+the user. We intend to implement Metal3 using an existing
 provisioning tool, so we could expose that API, but no such tool
 provides a Kubernetes-native experience, which is the purpose for
-MetalKube to exist.
+Metal3 to exist.
 
 The second reason for rejecting the "separate database" approach is
 that although we are starting by building on top of an existing system
@@ -232,7 +232,7 @@ Kubernetes](https://github.com/kubernetes-sigs/cluster-api/issues/721)
 further, which may allow us to drop the use of a separate
 CRD. However, it is not yet clear if the proposal has wide support
 within the community, and we do not want to delay implementation of
-MetalKube until the decision is finalized.
+Metal3 until the decision is finalized.
 
 If that proposal is accepted, we would reevaluate the current design
 direction and investigate options for converting BareMetalHost
@@ -242,5 +242,5 @@ resources to be compatible with the new version of Machine objects.
 ## References
 
 * [cluster-api SIG](https://github.com/kubernetes-sigs/cluster-api/)
-* [baremetal-operator](https://github.com/metalkube/baremetal-operator/)
-* [cluster-api-provider-baremetal](https://github.com/metalkube/cluster-api-provider-baremetal)
+* [baremetal-operator](https://github.com/metal3-io/baremetal-operator/)
+* [cluster-api-provider-baremetal](https://github.com/metal3-io/cluster-api-provider-baremetal)

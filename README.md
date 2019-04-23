@@ -1,18 +1,18 @@
-# MetalKube Documentation
+# Metal3 Documentation
 
-![MetalKube Logo](images/metalkube.png)
+![Metal3 Logo](images/metal3.png)
 
-The MetalKube project exists to provide components that allow you to do bare
-metal host management for Kubernetes.  MetalKube works as a Kubernetes
+The Metal3 project exists to provide components that allow you to do bare
+metal host management for Kubernetes.  Metal3 works as a Kubernetes
 application, meaning it runs on Kubernetes and is managed through Kubernetes
 interfaces.
 
 ## Project Discussion
 
-* [MetalKube Development Mailing List](https://groups.google.com/forum/#!forum/metalkube-dev)
+* [Metal3 Development Mailing List](https://groups.google.com/forum/#!forum/metalkube-dev)
 * [#cluster-api-baremetal](https://kubernetes.slack.com/messages/CHD49TLE7) on Kubernetes Slack
 
-## MetalKube Component Overview
+## Metal3 Component Overview
 
 ### Machine API Integration
 
@@ -27,7 +27,7 @@ This first diagram represents the high level architecture:
 #### Machine API Actuator
 
 The first component is the [Bare Metal
-Actuator](https://github.com/metalkube/cluster-api-provider-bare-metal), which
+Actuator](https://github.com/metal3-io/cluster-api-provider-bare-metal), which
 is an implementation of the Machine Actuator interface defined by the
 cluster-api project.  This actuator reacts to changes to Machine objects and
 acts as a client of the `BareMetalHost` custom resources managed by the Bare
@@ -36,7 +36,7 @@ Metal Operator.
 #### Bare Metal Operator
 
 The architecture also includes a new [Bare Metal
-Operator](https://github.com/metalkube/bare-metal-operator), which includes the
+Operator](https://github.com/metal3-io/bare-metal-operator), which includes the
 following:
 
 * A Controller for a new Custom Resource, `BareMetalHost`.  This custom resource
@@ -57,7 +57,7 @@ The creation of the `BareMetalHost` inventory can be done in two ways:
 1. Manually via creating `BareMetalHost` objects.
 2. Optionally, automatically created via a bare metal host discovery process.
    Ironic is capable of doing this, which will also be integrated into
-   MetalKube as an option.
+   Metal3 as an option.
 
 For more information about Operators, see the
 [operator-sdk](https://github.com/operator-framework/operator-sdk).
@@ -68,7 +68,7 @@ For more information about Operators, see the
    manually or done by a component doing node discovery and introspection.
 
    See the documentation in the
-   [baremetal-operator](https://github.com/metalkube/baremetal-operator/blob/master/docs/api.md) repository for details.
+   [baremetal-operator](https://github.com/metal3-io/baremetal-operator/blob/master/docs/api.md) repository for details.
 
 2. Use the machine API to allocate a machine.
 
