@@ -1,18 +1,18 @@
-# Metal3 Documentation
+# Metal³ Documentation
 
-![Metal3 Logo](images/metal3.png)
+![Metal³ Logo](images/metal3.png)
 
-The Metal3 project exists to provide components that allow you to do bare
-metal host management for Kubernetes.  Metal3 works as a Kubernetes
+The Metal³ project exists to provide components that allow you to do bare
+metal host management for Kubernetes.  Metal³ works as a Kubernetes
 application, meaning it runs on Kubernetes and is managed through Kubernetes
 interfaces.
 
 ## Project Discussion
 
-* [Metal3 Development Mailing List](https://groups.google.com/forum/#!forum/metal3-dev)
+* [Metal³ Development Mailing List](https://groups.google.com/forum/#!forum/metal3-dev)
 * [#cluster-api-baremetal](https://kubernetes.slack.com/messages/CHD49TLE7) on Kubernetes Slack
 
-## Metal3 Component Overview
+## Metal³ Component Overview
 
 ### Machine API Integration
 
@@ -57,7 +57,7 @@ The creation of the `BareMetalHost` inventory can be done in two ways:
 1. Manually via creating `BareMetalHost` objects.
 2. Optionally, automatically created via a bare metal host discovery process.
    Ironic is capable of doing this, which will also be integrated into
-   Metal3 as an option.
+   Metal³ as an option.
 
 For more information about Operators, see the
 [operator-sdk](https://github.com/operator-framework/operator-sdk).
