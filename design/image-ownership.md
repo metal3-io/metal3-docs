@@ -39,11 +39,11 @@ implementable
 
 ## Summary
 
-In order for Metalkube to provision hosts and bring them into the
+In order for Metal3 to provision hosts and bring them into the
 cluster, it needs to manage 2 images: the target image being written
 to the host's disk, and the provisioning image used to do that. The
-provisioning image is an implementation detail of Metalkube, and its
-use of Ironic, and so will be managed as part of Metalkube. The image
+provisioning image is an implementation detail of Metal3, and its
+use of Ironic, and so will be managed as part of Metal3 The image
 written to disk is part of the cluster, and so will need to be at
 least minimally configurable.
 
@@ -77,7 +77,7 @@ highly.
 
 The version of the image being written to the host (the "target
 image") will change with each update of OpenShift, and may ultimately
-need to be something that is decoupled to ensure that Metalkube can be
+need to be something that is decoupled to ensure that Metal3 can be
 used with stock Kubernetes clusters in addition to OpenShift
 clusters. Therefore it at least needs to be something the installer
 can specify, and should not be hard-coded into any components. In the

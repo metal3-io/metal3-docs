@@ -79,7 +79,7 @@ storage management system.
 ## How ironic writes an operating system image to baremetal?
 
 Ironic supports two fundamental types of disk images: whole-disk and
-partition (or filesystem) images. The MetalKube use cases will rely on
+partition (or filesystem) images. The Metal3 use cases will rely on
 whole disk images.
 
 The basic workflow consists of:

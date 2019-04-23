@@ -129,4 +129,4 @@ to show specific fields based on the "type" selector.
 
 ## References
 
-- [PR in baremetal-operator repo to change field name](https://github.com/metalkube/baremetal-operator/pull/44)
+- [PR in baremetal-operator repo to change field name](https://github.com/metal3-io/baremetal-operator/pull/44)

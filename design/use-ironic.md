@@ -65,7 +65,7 @@ Kubernetes environment. Ironic meets all of those criteria.
 1. Build a new provisioning/deployment tool for the sake of having one
    written in golang.
 2. Integrate with every provisioning/deployment tool potential users
-   of MetalKube might have in their data centers.
+   of Metal3 might have in their data centers.
 
 ## Proposal
 
@@ -168,5 +168,5 @@ is hidden from the user it will not affect users.
 
 - [Ironic Documentation](https://docs.openstack.org/ironic/latest/)
 - [Ironic Inspector Documentation](https://docs.openstack.org/ironic-inspector/latest/)
-- [MetalKube Ironic image](https://quay.io/repository/metalkube/metalkube-ironic)
-- [MetalKube Ironic Inpsector image](https://quay.io/repository/metalkube/metalkube-ironic-inspector)
+- [Metal3 Ironic image](https://quay.io/repository/metal3-io/ironic)
+- [Metal3 Ironic Inpsector image](https://quay.io/repository/metal3/ironic-inspector)
