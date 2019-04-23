@@ -2,10 +2,10 @@
 
 ![Metal³ Logo](images/metal3.png)
 
-The Metal³ project exists to provide components that allow you to do bare
-metal host management for Kubernetes.  Metal³ works as a Kubernetes
-application, meaning it runs on Kubernetes and is managed through Kubernetes
-interfaces.
+The Metal³ project (pronounced: Metal Kubed) exists to provide components that
+allow you to do bare metal host management for Kubernetes.  Metal³ works as a
+Kubernetes application, meaning it runs on Kubernetes and is managed through
+Kubernetes interfaces.
 
 ## Project Discussion
 
