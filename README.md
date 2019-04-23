@@ -9,7 +9,7 @@ interfaces.
 
 ## Project Discussion
 
-* [Metal3 Development Mailing List](https://groups.google.com/forum/#!forum/metalkube-dev)
+* [Metal3 Development Mailing List](https://groups.google.com/forum/#!forum/metal3-dev)
 * [#cluster-api-baremetal](https://kubernetes.slack.com/messages/CHD49TLE7) on Kubernetes Slack
 
 ## Metal3 Component Overview
