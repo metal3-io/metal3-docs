@@ -27,7 +27,7 @@ This first diagram represents the high level architecture:
 #### Machine API Actuator
 
 The first component is the [Bare Metal
-Actuator](https://github.com/metal3-io/cluster-api-provider-bare-metal), which
+Actuator](https://github.com/metal3-io/cluster-api-provider-baremetal), which
 is an implementation of the Machine Actuator interface defined by the
 cluster-api project.  This actuator reacts to changes to Machine objects and
 acts as a client of the `BareMetalHost` custom resources managed by the Bare
@@ -36,7 +36,7 @@ Metal Operator.
 #### Bare Metal Operator
 
 The architecture also includes a new [Bare Metal
-Operator](https://github.com/metal3-io/bare-metal-operator), which includes the
+Operator](https://github.com/metal3-io/baremetal-operator), which includes the
 following:
 
 * A Controller for a new Custom Resource, `BareMetalHost`.  This custom resource
