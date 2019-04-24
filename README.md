@@ -7,6 +7,10 @@ allow you to do bare metal host management for Kubernetes.  Metal³ works as a
 Kubernetes application, meaning it runs on Kubernetes and is managed through
 Kubernetes interfaces.
 
+## Social Media
+
+* [twitter.com/metal3_io](https://twitter.com/metal3_io)
+
 ## Project Discussion
 
 * [Metal³ Development Mailing List](https://groups.google.com/forum/#!forum/metal3-dev)
