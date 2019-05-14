@@ -76,36 +76,9 @@ For more information about Operators, see the
 
 2. Use the machine API to allocate a machine.
 
-```
-apiVersion: "cluster.k8s.io/v1alpha1"
-kind: Machine
-metadata:
-    generateName: baremetal-master-
-    labels:
-        set: master
-spec:
-    providerSpec:
-        value:
-            apiVersion: "baremetalproviderconfig/v1alpha1"
-            kind: "BareMetalProviderConfig"
-            selector:
-                node-profile: master
-
-
-apiVersion: "cluster.k8s.io/v1alpha1"
-kind: Machine
-metadata:
-    generateName: baremetal-node-
-    labels:
-          set: node
-spec:
-    providerSpec:
-        value:
-            apiVersion: "baremetalproviderconfig/v1alpha1"
-            kind: "BareMetalProviderConfig"
-            selector:
-                node-profile: node
-```
+   See the documentation in the
+   [cluster-api-provider-baremetal](https://github.com/metal3-io/cluster-api-provider-baremetal/blob/master/docs/api.md)
+   repository for details.
 
 3. Machine is associated with an available `BareMetalHost`, which triggers
    provisioning of that host to join the cluster.  This association is done by
