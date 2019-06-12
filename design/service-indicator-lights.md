@@ -120,8 +120,8 @@ type BareMetalHostServiceIndicatorSpec struct {
 	// HostRef is a reference to the bare metal host
 	HostRef corev1.ObjectReference `json:"hostRef"`
 
-    // Indicator ID
-    ID string `json:"id"`
+	// Indicator ID
+	ID string `json:"id"`
 
 	// Should the light be on?
 	On bool `json:"on"`
