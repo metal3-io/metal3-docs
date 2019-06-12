@@ -96,6 +96,7 @@ For more information about Operators, see the
 - [bmc-address](design/bmc-address.md)
 - [how-ironic-works](design/how-ironic-works.md)
 - [image-ownership](design/image-ownership.md)
+- [service-indicator-lights](design/service-indicator-lights.md)
 - [worker-config-drive](design/worker-config-drive.md)
 
 ## Around the Web
