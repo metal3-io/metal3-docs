@@ -14,7 +14,7 @@ One of: provisional
 ## Table of Contents
 
 <!--ts-->
-   * [Title](#title)
+   * [service-indicator-lights](#service-indicator-lights)
       * [Status](#status)
       * [Table of Contents](#table-of-contents)
       * [Summary](#summary)
@@ -22,10 +22,9 @@ One of: provisional
          * [Goals](#goals)
          * [Non-Goals](#non-goals)
       * [Proposal](#proposal)
-         * [User Stories [optional]](#user-stories-optional)
-            * [Story 1](#story-1)
-            * [Story 2](#story-2)
-         * [Implementation Details/Notes/Constraints [optional]](#implementation-detailsnotesconstraints-optional)
+         * [User Stories](#user-stories)
+            * [As an operator, I want to be able to match a software-reported fault to the hardware device that has failed.](#as-an-operator-i-want-to-be-able-to-match-a-software-reported-fault-to-the-hardware-device-that-has-failed)
+         * [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
          * [Risks and Mitigations](#risks-and-mitigations)
       * [Design Details](#design-details)
          * [Work Items](#work-items)
@@ -33,11 +32,10 @@ One of: provisional
          * [Test Plan](#test-plan)
          * [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
          * [Version Skew Strategy](#version-skew-strategy)
-      * [Drawbacks [optional]](#drawbacks-optional)
-      * [Alternatives [optional]](#alternatives-optional)
+      * [Drawbacks](#drawbacks)
       * [References](#references)
 
-<!-- Added by: stack, at: 2019-02-15T11:41-05:00 -->
+<!-- Added by: dhellmann, at: Wed Jun 12 16:19:59 EDT 2019 -->
 
 <!--te-->
 
