@@ -111,6 +111,13 @@ resource.
 
 ## Design Details
 
+We will extend the `BareMetalHost` CRD to include information about
+the available indicators so that users can find their IDs. The details
+of how that information will be stored need to be worked out -- we may
+use a simple list of strings, but if we can map the IDs to known
+devices like disks we could also associate the IDs with those devices
+directly by adding them to the existing data structures.
+
 We will define a new CRD `BareMetalHostServiceIndicator` (referred to
 as "indicator CRD" elsewhere in this document) with the following spec
 and status structures.
@@ -154,7 +161,8 @@ when its `Spec.On` value does no match its `Status.On` value. As soon
 as that condition is met without an error, the controller will assume
 that the state is "sticky" and does not need to be changed. This may
 lead to the resource settings being out of sync with the hardware if
-the BMC is rebooted.
+the BMC is rebooted, or the light is automatically enabled by the BMC
+itself, for example.
 
 Deleting an indicator resource will turn the light off.
 
