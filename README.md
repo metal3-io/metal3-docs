@@ -97,6 +97,7 @@ For more information about Operators, see the
 - [how-ironic-works](design/how-ironic-works.md)
 - [image-ownership](design/image-ownership.md)
 - [worker-config-drive](design/worker-config-drive.md)
+- [secondary-network-ipam](design/secondary-network-ipam.md)
 
 ## Around the Web
 
