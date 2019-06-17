@@ -73,9 +73,13 @@ cluster using Helm.
 
 ### Implementation Details/Notes/Constraints [optional]
 
-Initial implementation will includ 2 Helm charts that replicate
-behavior and outcomes of metal3-dev-env scripts. The charts shall be added
-as a separate repository in metal3-io space.
+Initial implementation includes 2 Helm charts that create corresponding
+pods in a Kubernetes cluster:
+
+* Ironic pod
+* Metal3 pod
+
+The charts shall be added as a separate repository in metal3-io space.
 
 ### Risks and Mitigations
 
@@ -96,9 +100,14 @@ through the charts metadata (values.yaml files).
 
 ### Work Items
 
-1. Create a Helm chart for Ironic and its components.
-2. Create a Helm chart for ``cluster-api-provider-baremetal`` and
-   ``baremetal-operator``.
+1. Create a Helm chart for Ironic and its components:
+   * ``ironic``
+   * ``ironic-inspector``
+   * ``ironic-dnsmasq``
+   * ``ironic-httpd``
+   * ``mariadb``
+2. Create a Helm chart for Metal3 components:
+   * ``baremetal-operator``.
 
 ### Dependencies
 
