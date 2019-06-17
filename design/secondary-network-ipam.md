@@ -170,6 +170,12 @@ static addresses on the hosts during provisioning. This would leave a
 reservation to be cleaned up when a host is removed, which might be
 tricky for a discovered host that is never actually provisioned.
 
+Have the dnsmasq container (or another container) manage an IP using a
+"lifetime" setting, as described in [this alternative
+proposal](https://github.com/metal3-io/metal3-docs/pull/38). That
+approach leaves an opportunity for two hosts to try to have the same
+IP if fencing doesn't work properly or if a timeout is to long.
+
 ## References
 
 None
