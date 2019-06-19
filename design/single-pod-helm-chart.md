@@ -73,13 +73,12 @@ cluster using Helm.
 
 ### Implementation Details/Notes/Constraints [optional]
 
-Initial implementation includes 2 Helm charts that create corresponding
-pods in a Kubernetes cluster:
-
-* Ironic pod
-* Metal3 pod
+Initial implementation includes a Helm chart that creates single
+pod deployment with Metal3 and Ironic components containers
+in a Kubernetes cluster.
 
 The charts shall be added as a separate repository in metal3-io space.
+Proposed name for the repository is ``metal3-helm-chart``.
 
 ### Risks and Mitigations
 
@@ -100,19 +99,25 @@ through the charts metadata (values.yaml files).
 
 ### Work Items
 
-1. Create a Helm chart for Ironic and its components:
-   * ``ironic``
-   * ``ironic-inspector``
-   * ``ironic-dnsmasq``
-   * ``ironic-httpd``
-   * ``mariadb``
-2. Create a Helm chart for Metal3 components:
-   * ``baremetal-operator``.
+ 1. Create a Helm chart for Ironic and its components:
+    * ``ironic``
+    * ``ironic-dnsmasq``
+    * ``ironic-httpd``
+    * ``mariadb``
+    * ``baremetal-operator``.
+ 2. Create a CI for building the Helm chart and smoke verification.
+ 3. Cerate a CI for testing Helm chart deployment and functional
+    testing.
 
 ### Dependencies
 
 The charts require ``helm`` binary to build and deploy. 
 Supported version of Helm is embedded in the charts.
+
+The following repository is used as a bootstrap for adding
+the chart to ``metal3-io/`` Github organization:
+
+https://github.com/Miranits/metal3-helm-chart
 
 ### Test Plan
 
