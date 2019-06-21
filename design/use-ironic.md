@@ -77,6 +77,14 @@ Ironic from the end-user as completely as possible (it might be
 exposed through error messages relayed from the back end service, for
 example).
 
+Another important design goal is that Ironic is treated as an ephemeral worker
+process.  The information in the `BareMetalHost` custom resources is the source
+of truth.  That means that while Ironic relies on a database for its operation,
+this data does not need to reside on a persistent volume.  The `BareMetalHost`
+controller must assume that Ironic can be restarted at any time, and must
+recreate the resources necessary to continue reconciling the desired state of
+the configured bare metal hosts.
+
 ### User Stories [optional]
 
 None
@@ -86,7 +94,8 @@ None
 - We want to eliminate the need for a MySQL database. Ironic needs a
   database, but it is not the source of truth for what Hosts exist or
   what their status should be, so there is no need for the complexity
-  of a MySQL database.
+  of a MySQL database.  An alternative database could be used in its place
+  if it provides the required functionality and proves stable enough in testing.
 - We want to eliminate the need for a RabbitMQ message bus by
   deploying Ironic using an all-in-one configuration or using an
   alternative messaging system that removes the complexity of running

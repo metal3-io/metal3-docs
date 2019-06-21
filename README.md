@@ -51,10 +51,6 @@ following:
   provisioning actions as necessary to reach the desired state.  It will do so
   by managing and driving a set of underlying bare metal provisioning
   components.
-* The implementation will focus on using Ironic as its first implementation of
-  the Bare Metal Management Pods, but aims to keep this as an implementation
-  detail under the hood such that alternatives could be added in the future if
-  the need arises.
 
 The creation of the `BareMetalHost` inventory can be done in two ways:
 
@@ -65,6 +61,16 @@ The creation of the `BareMetalHost` inventory can be done in two ways:
 
 For more information about Operators, see the
 [operator-sdk](https://github.com/operator-framework/operator-sdk).
+
+#### Bare Metal Management Pods
+
+The implementation will focus on using Ironic as its first implementation of
+the Bare Metal Management Pods, but aims to keep this as an implementation
+detail under the hood such that alternatives could be added in the future if
+the need arises.
+
+For more information about the choice to use Ironic, see
+[the use-ironic design document](https://github.com/metal3-io/metal3-docs/blob/master/design/use-ironic.md).
 
 ## APIs
 
