@@ -94,6 +94,7 @@ For more information about Operators, see the
 ### Implementation Details
 
 - [bmc-address](design/bmc-address.md)
+- [hardware-status](design/hardware-status.md)
 - [how-ironic-works](design/how-ironic-works.md)
 - [image-ownership](design/image-ownership.md)
 - [worker-config-drive](design/worker-config-drive.md)
