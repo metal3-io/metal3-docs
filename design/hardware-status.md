@@ -13,7 +13,8 @@ provisional
 
 ## Table of Contents
 
-   * [Title](#title)
+<!--ts-->
+   * [hardware-status](#hardware-status)
       * [Status](#status)
       * [Table of Contents](#table-of-contents)
       * [Summary](#summary)
@@ -21,7 +22,7 @@ provisional
          * [Goals](#goals)
          * [Non-Goals](#non-goals)
       * [Proposal](#proposal)
-         * [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints-optional)
+         * [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
          * [Risks and Mitigations](#risks-and-mitigations)
       * [Design Details](#design-details)
          * [Work Items](#work-items)
@@ -30,6 +31,10 @@ provisional
          * [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
          * [Version Skew Strategy](#version-skew-strategy)
       * [References](#references)
+
+<!-- Added by: dhellmann, at: Tue Jun 25 14:54:44 EDT 2019 -->
+
+<!--te-->
 
 ## Summary
 
