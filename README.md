@@ -99,6 +99,10 @@ For more information about Operators, see the
 - [image-ownership](design/image-ownership.md)
 - [worker-config-drive](design/worker-config-drive.md)
 
+### Investigation
+
+- [physical-network-api-prototype](design/physical-network-api-prototype.md)
+
 ## Around the Web
 
 ### Conference Talks
