@@ -97,6 +97,7 @@ For more information about Operators, see the
 - [hardware-status](design/hardware-status.md)
 - [how-ironic-works](design/how-ironic-works.md)
 - [image-ownership](design/image-ownership.md)
+- [managing-provisioning-dependencies](design/managing-provisioning-dependencies.md)
 - [worker-config-drive](design/worker-config-drive.md)
 
 ### Investigation
