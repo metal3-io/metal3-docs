@@ -112,9 +112,11 @@ includes some support for Ansible operators.  One approach could be to use an
 ansible operator to run playbooks that use the roles from the [network-runner
 repository](https://github.com/ansible-network/network-runner). Another
 approach could be to build a new API (gRPC, for example) around
-`network-runner`, and have a controller written in golang call that. Other
-approaches to Ansible networking re-use can be considered and discussed in the
-read-out from the prototype.
+`network-runner`, and have a controller written in golang call that. Another
+relevant Python tool to consider is
+[kopf](https://github.com/zalando-incubator/kopf).  Other approaches to Ansible
+networking re-use can be considered and discussed in the read-out from the
+prototype.
 
 ### User Stories [optional]
 
@@ -182,3 +184,4 @@ possible future prototypes can be added to this section.
 * https://docs.ansible.com/ansible/latest/network/index.html
 * https://networking-ansible.readthedocs.io/en/latest/
 * https://github.com/operator-framework/operator-sdk
+* https://github.com/zalando-incubator/kopf
