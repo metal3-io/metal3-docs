@@ -9,7 +9,7 @@
 
 ## Status
 
-implementable
+implemented
 
 ## Table of Contents
 
@@ -25,7 +25,12 @@ implementable
          * [User Stories [optional]](#user-stories-optional)
             * [Story 1](#story-1)
             * [Story 2](#story-2)
-         * [Implementation Details/Notes/Constraints [optional]](#implementation-detailsnotesconstraints-optional)
+         * [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
+            * [Approach](#impl-approach)
+            * [Limitations](#impl-limitations)
+            * [Examples](#impl-examples)
+            * [Conclusions](#impl-conclusions)
+            * [Links](#impl-links)
          * [Risks and Mitigations](#risks-and-mitigations)
       * [Design Details](#design-details)
          * [Work Items](#work-items)
@@ -36,6 +41,7 @@ implementable
       * [Drawbacks [optional]](#drawbacks-optional)
       * [Alternatives [optional]](#alternatives-optional)
       * [References](#references)
+      * [Implementation Details](#implementation)
 
 <!-- Added by: stack, at: 2019-02-15T11:41-05:00 -->
 
@@ -127,9 +133,96 @@ I would also like to create or update a `Switch` resource to re-configure a
 switch port that is attached to one of the network interfaces on the
 `BareMetalHost`.
 
-### Implementation Details/Notes/Constraints [optional]
+### Implementation Details/Notes/Constraints
 
-None
+Notes by Brad P. Crochet <brad@redhat.com>
+
+#### Approach
+
+The main focus of this PoC is the feasibility of an operator to manage a physical
+ToR switch. A number of technologies were considered. For this PoC, an Ansible
+Operator was used, along with the network-runner role from Ansible Networking[1].
+
+The PoC was conducted locally with Minikube and the switch virtual appliance.
+
+Creating an Ansible Operator was the natural choice. It also was a good choice.
+It allowed me to get a working prototype up very quickly.
+
+The first hurdle was the inventory. The Ansible Operator assumes that you are
+running commands on the cluster node that is running the pod. As such, there
+is no inventory file to be modified. This is just a small hurdle. Ansible has
+modules to manage the inventory dynamically. This made it easy to create an
+inventory entry for the target switch.
+
+I started the PoC attempting to use the Cumulus Linux virtual switch. I did
+not successfully set it up to be able to actually add a VLAN. I then moved
+on to using an Arista vEOS device. I was able to then create a VLAN with
+Ansible Networking as intended.
+
+Finally, I was able to update the status of the custom resource. Typically,
+Ansible Operator would manage the status. However, it would be ideal to keep
+track of the current state of the resource, without having to query the switch.
+Then support for full reconciliation should become possible, i.e. removing a
+VLAN that is no longer listed in the custom resource.
+
+A link to the PoC code is linked below. [2] A demo is also linked below. [3]
+
+#### Limitations
+
+* Network Runner not in Ansible Galaxy
+  - Manual inclusion in operator
+* Limited number of switches supported in Network Runner
+  - Should be relatively simple to add new ones, as long as there is an
+    Ansible Networking module supporting the target switch
+* Limited number of operations in Network Runner
+  - More are being developed
+  - Create/delete VLAN, Create/delete access port, Create/delete trunk port
+
+All of these limitations should be easy to remedy.
+
+#### Examples
+
+Here is a sample CR:
+
+```yaml
+apiVersion: metal3.io/v1alpha1
+kind: Switch
+metadata:
+  name: example-switch
+spec:
+  ipAddress: 192.168.122.181
+  port: 22
+  credentialsName: my-eos-secret
+  networkOS: eos
+  vlans:
+    - id: 10
+      name: test-vlan
+```
+
+#### Conclusions
+
+Overall, I would count this PoC as a success. A few things that were not
+attempted during this PoC, but would be necessary for future development
+would be:
+
+* CI - Setting up a virtual switch for testing
+* Unit tests - Usage of Molecule
+* Full reconciliation of the resource - Deletion of VLANs, etc.
+* Testing with an actual physical switch
+
+Special thanks to Dan Radez for helping with the virtual switch setup.
+
+#### Links
+
+* [1] https://github.com/ansible-network/network-runner
+
+POC Code
+
+* [2] https://github.com/bcrochet/physical-switch-operator/
+
+Demo
+
+* [3] https://www.youtube.com/watch?v=zlJmao_qnrw&t=8sNone
 
 ### Risks and Mitigations
 
