@@ -15,6 +15,7 @@ Kubernetes interfaces.
 
 * [Metal³ Development Mailing List](https://groups.google.com/forum/#!forum/metal3-dev)
 * [#cluster-api-baremetal](https://kubernetes.slack.com/messages/CHD49TLE7) on Kubernetes Slack
+* Bi-Weekly Wednesday at 14:00UTC (Join Zoom Meeting https://zoom.us/j/781102362 )
 
 # More Documentation
 
