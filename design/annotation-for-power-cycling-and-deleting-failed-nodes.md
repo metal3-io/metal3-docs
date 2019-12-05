@@ -115,7 +115,15 @@ recover exclusive workloads and restore cluster capacity.
 
 ### Implementation Details/Notes/Constraints [optional]
 
-None
+The controller includes logic for power cycling a node.  
+
+As rebooting (software) and power cycling (hardware) a machine is a long
+running multi-step process, there are currently discussions around the creation
+of a public mechanism for requesting initiating these processes atomically.
+
+While it is likely that the work proposed here may make use of such
+functionality once it exists, it should not be considered a pre-requisite for
+the purposes of evaluating this proposal.
 
 ### Risks and Mitigations
 
@@ -127,9 +135,9 @@ the larger kubernetes ecosystem.
 
 See [PoC code](https://github.com/kubevirt/machine-remediation/)
 
-- A new controller
-- A new CRD
-- A new annotation
+- A new [controller] 
+- A new [CRD](https://github.com/kubevirt/machine-remediation/blob/master/pkg/apis/machineremediation/v1alpha1/machineremediation_types.go)
+- A new annotation (namespace and name is open for discussion)
 
 ### Work Items
 
@@ -138,9 +146,8 @@ See [PoC code](https://github.com/kubevirt/machine-remediation/)
 
 ### Dependencies
 
-This design is intended to integrate with OpenShift’s Machine Healthcheck
-implementation
-- https://github.com/openshift/machine-api-operator/blob/master/pkg/controller/machinehealthcheck/machinehealthcheck_controller.go#L407
+This design is intended to integrate with OpenShift’s [Machine Healthcheck
+implementation](https://github.com/openshift/machine-api-operator/blob/master/pkg/controller/machinehealthcheck/machinehealthcheck_controller.go#L407)
 
 ### Test Plan
 
