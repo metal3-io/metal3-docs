@@ -144,18 +144,11 @@ implementation
 
 ### Test Plan
 
-Consider the following in developing a test plan for this enhancement:
+Unit tests are included in the code-base.
 
-- Will there be end-to-end and integration tests, in addition to unit
-  tests?
-- How will it be tested in isolation vs. with other components?
-
-No need to outline all of the test cases, just the general strategy.
-
-Anything that would count as tricky in the implementation and anything
-particularly challenging to test should be called out.
-
-All code is expected to have adequate tests.
+In addition we will develop end-to-end test plans that cover both transient and
+permanent failures, as well as negative-flow tests where the IPMI in
+non-functional or inaccessible.
 
 ### Upgrade / Downgrade Strategy
 
@@ -169,7 +162,7 @@ can prevent any version mismatches.
 
 ## Drawbacks [optional]
 
-None
+At some point we may design a more formal signaling method than an annotation.
 
 ## Alternatives [optional]
 
