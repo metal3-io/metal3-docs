@@ -169,7 +169,13 @@ can prevent any version mismatches.
 
 ## Drawbacks [optional]
 
-At some point we may design a more formal signaling method than an annotation.
+Baremetal is currently the only platform looking to implement this feature, so
+any implementation is necessarily non-standard.
+
+If other platforms come to see value in power based recovery, there may need to
+design a different or more formal signaling method (than an annotation) as well
+as decompose the implementation into discrete units that can live behind a
+platform independant interface such as the Cluster API.
 
 ## Alternatives [optional]
 
