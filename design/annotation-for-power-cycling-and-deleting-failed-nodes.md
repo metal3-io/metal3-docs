@@ -135,8 +135,10 @@ attacks.
 
 See [PoC code](https://github.com/kubevirt/machine-remediation/)
 
-- Two new controllers: [machine remediation](https://github.com/kubevirt/machine-remediation/tree/master/pkg/controllers/machineremediation), [node reboot](https://github.com/kubevirt/machine-remediation/tree/master/pkg/controllers/nodereboot) 
-- A new [CRD](https://github.com/kubevirt/machine-remediation/blob/master/pkg/apis/machineremediation/v1alpha1/machineremediation_types.go)
+- A new [Machine Remediation CRD](https://github.com/kubevirt/machine-remediation/blob/master/pkg/apis/machineremediation/v1alpha1/machineremediation_types.go)
+- Two new controllers:
+  - [node reboot](https://github.com/kubevirt/machine-remediation/tree/master/pkg/controllers/nodereboot) which looks for the annoation and creates Machine Remediation CRs
+  - [machine remediation](https://github.com/kubevirt/machine-remediation/tree/master/pkg/controllers/machineremediation) which reboots the machine and deletes the Node object (which also erases the signalling annotation)
 - A new annotation (namespace and name is open for discussion)
 
 ### Work Items
