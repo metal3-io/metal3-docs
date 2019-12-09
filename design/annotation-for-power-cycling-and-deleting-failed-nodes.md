@@ -135,7 +135,7 @@ attacks.
 
 See [PoC code](https://github.com/kubevirt/machine-remediation/)
 
-- A new [controller] 
+- Two new controllers: [machine remediation](https://github.com/kubevirt/machine-remediation/tree/master/pkg/controllers/machineremediation), [node reboot](https://github.com/kubevirt/machine-remediation/tree/master/pkg/controllers/nodereboot) 
 - A new [CRD](https://github.com/kubevirt/machine-remediation/blob/master/pkg/apis/machineremediation/v1alpha1/machineremediation_types.go)
 - A new annotation (namespace and name is open for discussion)
 
