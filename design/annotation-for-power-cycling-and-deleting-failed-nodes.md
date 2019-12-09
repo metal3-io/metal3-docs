@@ -127,9 +127,9 @@ the purposes of evaluating this proposal.
 
 ### Risks and Mitigations
 
-What are the risks of this proposal and how do we mitigate.  Think
-broadly.  For example, consider both security and how this will impact
-the larger kubernetes ecosystem.
+RBAC rules will be needed to ensure that only specific roles can trigger
+machines to reboot. Without this, the system would be exposed to DoS style
+attacks.
 
 ## Design Details
 
@@ -175,11 +175,11 @@ any implementation is necessarily non-standard.
 If other platforms come to see value in power based recovery, there may need to
 design a different or more formal signaling method (than an annotation) as well
 as decompose the implementation into discrete units that can live behind a
-platform independant interface such as the Cluster API.
+platform independant interface such as the Machine or Cluster APIs.
 
 ## Alternatives [optional]
 
-None
+Wait for equivalent functionality to be exposed by the Machine and/or Cluster APIs.
 
 ## References
 
