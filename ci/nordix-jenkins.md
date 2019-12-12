@@ -24,10 +24,16 @@ publicly visible will get admin rights on the CI jobs. This means :
 
 ### Commands
 
-We currently only have one job that run some integration tests. The job can be
+We have multiple jobs that run some integration tests. The jobs can be
 triggered on PR from metal3-dev-env, baremetal-operator and
-cluster-api-provider-baremetal repositories by commenting **/test-integration**.
+cluster-api-provider-baremetal repositories by commenting the commands below.
 The job result will be posted as a comment.
+
+ * **/test-integration** run integration tests for V1alpha2 on Ubuntu
+ * **/test-centos-integration** run integration tests for V1alpha2 on CentOS
+ * **/test-v1a1-integration** run integration tests for V1alpha1 on Ubuntu
+ * **/test-v1a1-centos-integration** run integration tests for V1alpha1 on
+   CentOS
 
 It is also possible to prevent any job run by adding **/skip-test** in the PR
 description.
