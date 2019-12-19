@@ -26,10 +26,8 @@
 
 ## Summary
 
-Code with the ability to perform the comparison in the baremetal-operator and put the host in an error state if the
-requirements do not match what is discovered.
-
-This should be a unique error state that indicates the inventory failed to match requirements, as opposed to, for instance, an IPMI Authentication Error, or a Memory Test Error (future).
+Code with the ability to perform the comparison on provisioned hosts and mark the host with label as 'Host match found' if
+the requirements match with what is inspected.
 
 ## Motivation
 
@@ -37,8 +35,8 @@ We need to validate and compare expected hardware configuration against ironic i
 
 ### Goals
 
-Purpose is to add a new section “ExpectedHardwareConfiguration” in `metal3.io_baremetalhosts_crd.yaml` which will be
-compared with user’s requirements and if the hardware details doesn’t match, will report a unique error.
+Purpose is to add a new CRD `HardwareValidator` to hold the expected hardware details, and write a controller
+that reconciles those by looking for host CRs that match and adding labels to them.
 
 ## Proposal
 
@@ -46,26 +44,18 @@ We are creating proposal based on the discussion with metal3 community on issue 
 https://github.com/metal3-io/baremetal-operator/issues/351
 
 We compared introspection data of Ironic with metal3 schema and we found that default minimum expected hardware
-configuration needs to be added in  `metal3.io_baremetalhosts_crd.yaml` by introducing new section called
-‘ ExpectedHardwareConfiguration’.
+configuration needs to be added by introducing a new CRD `HardwareValidator`.
 
-“ExpectedHardwareConfiguration” is different than existing HardwareProfile. Existing HardwareProfile are hardcoded and
-can not be customized, so as an operator or infrastructure provider I would like to define desired hardware configuration
-for specific workloads. This functionality will help reduce time to provision a host, because if the host is not found
-matching to expected hardware configuration it means that given host is not capable to run such workloads. If host
-matches to expected configuration, then host is available for use from node pool which can be flagged through
-inventory/label.
+We will write a controller that checks provisioned baremetal hosts against expected hardware configurtion and add label
+as 'Host match found' if match found.
   
-For validating the expected hardware configuration, there will be corresponding code in BMO.
-Any provisioning of nodes will be out of scope for this effort. 
-
 ### Implementation Details/Notes/Constraints
 
 Link for Existing Metal3 Specs
 Please refer metal3 spec for bare-metal:
 https://github.com/metal3-io/baremetal-operator/blob/master/deploy/crds/metal3.io_baremetalhosts_crd.yaml
 
-1. Add schema for ‘ExpectedHardwareConfiguration’ in  `metal3.io_baremetalhosts_crd.yaml` under ‘Spec’ for BaremetalHost.
+* Write a below schema for new CRD under folder deploy/crds for Kind HardwareValidator.
 
     ```yaml
     ExpectedHardwareConfiguration:
@@ -115,12 +105,31 @@ https://github.com/metal3-io/baremetal-operator/blob/master/deploy/crds/metal3.i
         - nics
         - ram
         - disk
-        - systemVendor
-        - firmware
     ```
+* Write a new API as baremetalhost/v1beta1 and new kind(CRD) HardwareValidator.
+    e.g.
+        
+       kubebuilder create api --group baremetalhost --version v1beta1 --kind HardwareValidator
+    
+    - This will create the files api/v1beta1/hardwarevalidator_types.go where the API is defined and the
+      controller/hardwarevalidator_controller.go where the reconciliation business logic is implemented for this Kind(CRD).
+    - Implement a new function fetchHost() which will fetch all baremetal hosts.
+    - In hardwarevalidator_controller.go, reconcile function will call fetchHost() function to fetch all baremetal hosts and also extract
+      Expected hardware configuration from `metal3.io_hardwarevalidator_crd.yaml`.
+    
+        Create a new Validator.go file to write comparison and validation logic for provisioned baremetal hosts.
+        - Write a function which will have the expected hardware details and all the baremetal host list.
+        - Will pass above two inputs to validator function defined in validator.go file.
+	    - Write an algorithm to loop over all the hosts and check for comparison and validation of
+	    specs against the expected hardware details.
+	    - If host match found after execution of above algorithm, matched host will append to list.
+        - Return list to caller function.
+   
+    - According to list returned by validator function, will update the label for all hosts.
 
-2. Define struct in baremetalhost_types.go to store values for ‘HardwareExpectedConfiguration’ after extracting it
-from `bmhosts_crs.yaml`.
+
+* Create the Schema struct for `ExpectedHardwareConfiguration` inside `HardwareValidatorSpec`,
+in file pkg/api/metal3/v1beta1/hardwarevalidator_types.go.
 
     ```yaml
     type ExpectedHardwareConfiguration struct {
@@ -149,48 +158,6 @@ from `bmhosts_crs.yaml`.
     }
     ```
 
-* Changes In host_state_machine.go: 
-
-    Add "handleMatchDesiredHardwareProfile handler for''StateMatchDesiredProfile after "StateInspecting", where
-    handleMatchDesiredHardwareProfile() will call actionMatchDesiredHardwareProfile() from baremetalhost_controller.go 
-
-* Add Validation and Comparison logic in baremetalhost_controller.go:
-
-    Create a function "actionMatchDesiredHardwareProfile()" which gets called after "actionInspecting()" to compare and
-    check the hardware details received from the ironic introspection data with DesiredHardwareProfile.
-    
-    In actionMatchDesiredHardwareProfile() function:
-    - The extracted “ExpectedHardwareConfiguration” from `bmhosts_crs.yaml` gets stored in a struct
-      (ExpectedHardwareConfiguration) which then gets converted into json object.
-    - Compare “ExpectedHardwareConfiguration” with “HardwareDetails” which contains details of node hardware after
-      introspection.
-     
-    This function returns ‘Valid’ string if introspection data fulfills ExpectedHardwareConfiguration else returns
-    ‘Invalid’.
-
-* Node status after validation will be added to metadata annotation section.
-
-    Annotations is an unstructured key value map stored with a resource that may be set by external tools to store and
-    retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects.
-    
-    Our investigation on existing BMO code led to the realization that there is a method SetMetaDataAnnotation() which
-    takes key and value as arguments and sets that annotation and value.
-
-    e.g.
-    
-        metav1.SetMetaDataAnnotation(&cm.ObjectMeta, HostStatus, valid/invalid)
-        
-    ```yaml
-            kind: BareMetalHost
-            metadata:
-              annotations:
-                kubectl.kubernetes.io/last-applied-configuration: |
-                  {"apiVersion":"metal3.io/v1alpha1","kind":"BareMetalHost","metadata":{"annotations":
-                  {"HostStatus":"valid/invalid"},"name":"node-1","namespace":"metal3"},"spec":{"bmc":{"address":
-                  "ipmi://192.168.111.1:6231","credentialsName":"node-1-bmc-secret"},"bootMACAddress":"00:a0:6c:c1:02:ea","online":true}}
-    ```    
-
-
 ### Risks and Mitigations
 
 None
@@ -202,61 +169,30 @@ All required design details are mentioned in the Implementation section.
 
 ### Work Items
 
-1. Introduce new section called "EXpectedHardwareConfiguration" in schema `metal3.io_baremetalhosts_crd.yaml`.
-2. Define structure for new section in baremetalhosts_types.go.
-3. Add new state and handler in host_state_machine.go.
-4. Add validation and comparison logic in baremetalhosts_controller.go.
-5. Node status after validation should be added to metadata annotation section.
-6. Write unit tests for above implementation.
-
+1. Implement CRD for `HardwareValidator`.
+2. Create the Schema struct for ExpectedHardwareConfiguration inside HardwareValidatorSpec,
+in file pkg/api/metal3/v1beta1/hardwarevalidator_types.go
+3. Implement a controller for HardwareValidator.
+4. Create a validateAndCompare function to validate provisioned hosts against the expected hardware configuration.
+5. Matched host status will be added in the list after validation.
+6. Add the labels to the returned list of hosts from validator function.
+7. Write unit tests for above implementation.
 
 ### Dependencies
 
-Ironic
+- Ironic
+
+- Cluster-Api-Baremetal-Provider
+
+- Baremetal-Operator
 
 ### Test Plan
+ 
+- Unit tests will be implemented.
 
-The test objective is to deliver the defect free quality product.
+- Functional testing will be performed with respect to implemented hardwareValidator CRD and controller.
 
-**Testing Method:**
-
-All the testing procedures will be manual. The setup, deployment, testing and verification parts will be done manually. 
-
-**Types of testing:**
-
-Following types of testing will be covered:
-
-1. Functional Testing:
-
-    This section will mainly focus on testing the changes made in Metal3. 
-
-2. Regression Testing:
-
-    This part will cover the impact on existing workflow of Metal3.
-
-**Features to be tested:**
-
-* Metal3
-
-**Software Requirements:**
-
-* Metal3
-
-All the testing procedures will be manual. The setup, deployment, testing and verification parts will be done manually. 
-
-**Test cases:**
-
-We need to add test cases as per the implementation points mentioned in the above heading (Design Details).
-Some of the use cases are mentioned below:
-
-1. Test the BareMetal host requirements (bmhosts_crs.yaml) are received in expected format.
-2. Test the updated Desired Hardware Profile in metal3.io_baremetalhosts_crd.yaml. The desired Hardware Profile includes
-CPU, NICS, Firmware and Storage.
-3. Compare the new added sections (yaml format) with the fetched Ironic Introspection data (JSON format).
-4. Test the annotations created for BareMetal host. This will cover the error state of the host.
-5. Test the existing functionality mentioned in the link:
-https://github.com/metal3-io/baremetal-operator/blob/master/pkg/apis/metal3/v1alpha1/baremetalhost_types_test.go 
-
+- Deployment & integration testing will be done.
 
 ## References
 
