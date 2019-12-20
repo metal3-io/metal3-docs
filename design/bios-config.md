@@ -60,8 +60,8 @@ We need this document to specify the typical usage of BIOS YAML attributes in th
 The proposal is to set/unset the BIOS configuration values using vendor drivers available for each BMC type. For this purpose, new YAML attributes are to be introduced in the BareMetalHost spec. 
  
 ### Implementation Details/Notes/Constraints 
-All the BIOS related attributes or key value pairs or fields will come under the sub-section called 'bios' in spec. The values for each attribute can be a boolean or a string. The vendor driver type to implement this configuration is not to be specified separetely as it is already known from the bmc sub-section.
-Initially, the BIOS configuration can be applied using the following controller types idrac and irmc
+All the BIOS related attributes or fields will come under the sub-section called ```bios``` in spec. The values for each attribute can be a boolean or a string. The vendor driver type to implement this configuration is not to be specified separetely as it is already known from the bmc sub-section.
+Initially, the BIOS configuration can be applied using the controller types idrac and irmc
 
 ```yaml
 apiVersion: metal3.io/v1alpha1
@@ -84,7 +84,7 @@ spec:
 
 The user can only specify the BIOS values related to the BMC type being used as they will be validated accordingly.
 
-One gotcha to this is about hiding the vendor sprawl in the parameter names and coming up with generic titles for the config params. This would then need to be handled in the operator code (the vendor-specific implementation for Ironic API calls). Meaning, it will still be required to map these 'generic' names to the actual parameter names in the API call for it to function.
+One gotcha to this is about hiding the vendor sprawl in the parameter names and coming up with generic titles for the config params. This would then need to be handled in the operator code (the vendor-specific implementation for Ironic API calls). Meaning, it will still be required to map these *generic* names to the actual parameter names in the API call for it to function.
 
 ### Risks and Mitigations
 
@@ -92,7 +92,7 @@ None
 
 ## Design Details
 
-The BIOS config is only possible when the host is in cleaning state and the input is to be given as a set of cleaning steps
+The BIOS config is only possible when the host is in cleaning state and the input is to be given as a set of cleaning steps.
 
 The code changes required would entail 
 - Creating a go struct with the BIOS configs in the ```ironic.go (pkg/provisioner/ironic/ironic.go)```
@@ -105,7 +105,7 @@ The code changes required would entail
 
 - Extend the BareMetalHost CRD with the new parameters for iDRAC and Redfish BMC types.
 
-- Validation of incoming values 
+- Validation of input values in the YAML parameters
 
 - A function to handle the cleaning steps related to BIOS configuration and its implementation
 
@@ -146,5 +146,6 @@ None
 
 - [PR in baremetal-operator repo with discussion on this topic](https://github.com/metal3-io/baremetal-operator/pull/302)
 
-[Issue #364 in the baremetal-operator repo was the starting point for this]([https://github.com/metal3-io/baremetal-operator/issues/364)
-[Issue #206 in the baremetal-operator repo was a similar discussion between the community and Fujitsu guys](https://github.com/metal3-io/baremetal-operator/issues/206)
+- [Issue #364 in the baremetal-operator repo was the starting point for this](https://github.com/metal3-io/baremetal-operator/issues/364)
+
+- [Issue #206 in the baremetal-operator repo was a similar discussion between the community and Fujitsu guys](https://github.com/metal3-io/baremetal-operator/issues/206)
