@@ -26,7 +26,7 @@
 
 ## Summary
 
-Code with the ability to perform the comparison on provisioned hosts and mark the host with label as 'Host match found' if
+Code with the ability to perform the comparison on inspected hosts and mark the host with label as 'Host match found' if
 the requirements match with what is inspected.
 
 ## Motivation
@@ -46,7 +46,7 @@ https://github.com/metal3-io/baremetal-operator/issues/351
 We compared introspection data of Ironic with metal3 schema and we found that default minimum expected hardware
 configuration needs to be added by introducing a new CRD `HardwareValidator`.
 
-We will write a controller that checks provisioned baremetal hosts against expected hardware configurtion and add label
+We will write a controller that checks inspected baremetal hosts against expected hardware configurtion and add label
 as 'Host match found' if match found.
   
 ### Implementation Details/Notes/Constraints
@@ -117,7 +117,7 @@ https://github.com/metal3-io/baremetal-operator/blob/master/deploy/crds/metal3.i
     - In hardwarevalidator_controller.go, reconcile function will call fetchHost() function to fetch all baremetal hosts and also extract
       Expected hardware configuration from `metal3.io_hardwarevalidator_crd.yaml`.
     
-        Create a new Validator.go file to write comparison and validation logic for provisioned baremetal hosts.
+        Create a new Validator.go file to write comparison and validation logic for inspected baremetal hosts.
         - Write a function which will have the expected hardware details and all the baremetal host list.
         - Will pass above two inputs to validator function defined in validator.go file.
 	    - Write an algorithm to loop over all the hosts and check for comparison and validation of
@@ -173,10 +173,11 @@ All required design details are mentioned in the Implementation section.
 2. Create the Schema struct for ExpectedHardwareConfiguration inside HardwareValidatorSpec,
 in file pkg/api/metal3/v1beta1/hardwarevalidator_types.go
 3. Implement a controller for HardwareValidator.
-4. Create a validateAndCompare function to validate provisioned hosts against the expected hardware configuration.
-5. Matched host status will be added in the list after validation.
-6. Add the labels to the returned list of hosts from validator function.
-7. Write unit tests for above implementation.
+4. Add watch on hardware setting changes.
+5. Create a validateAndCompare function to validate inspected hosts against the expected hardware configuration.
+6. Matched host status will be added in the list after validation.
+7. Add multiple labels to the returned list of hosts from validator function.
+8. Write unit tests for above implementation.
 
 ### Dependencies
 
