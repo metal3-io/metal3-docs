@@ -144,7 +144,7 @@ See [PoC code](https://github.com/kubevirt/machine-remediation/)
 ### Work Items
 
 - Make any requested modifications
-- Create a PR from  https://github.com/kubevirt/machine-remediation/ into https://github.com/metal3-io/baremetal-operator/
+- Create a PR from  https://github.com/kubevirt/machine-remediation/ into https://github.com/metal3-io/cluster-api-provider-baremetal
 
 ### Dependencies
 
