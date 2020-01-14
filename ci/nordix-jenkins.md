@@ -8,8 +8,8 @@ resources to run integration tests for Metal3.
 
 ## nordixinfra bot
 
-In Github the Jenkins bot uses *nordixinfra* username. It will post comments on
-Pull Requests in the metal3-dev-env, baremetal-operator and
+In Github the Jenkins bot uses *metal3-jenkins* username. It will post comments
+on Pull Requests in the metal3-dev-env, baremetal-operator and
 cluster-api-provider-baremetal repositories.
 
 ### Admins whitelist
@@ -29,10 +29,10 @@ triggered on PR from metal3-dev-env, baremetal-operator and
 cluster-api-provider-baremetal repositories by commenting the commands below.
 The job result will be posted as a comment.
 
- * **/test-integration** run integration tests for V1alpha2 on Ubuntu
- * **/test-centos-integration** run integration tests for V1alpha2 on CentOS
- * **/test-v1a1-integration** run integration tests for V1alpha1 on Ubuntu
- * **/test-v1a1-centos-integration** run integration tests for V1alpha1 on
+ * **/test-integration** run integration tests for V1alpha1 on Ubuntu
+ * **/test-centos-integration** run integration tests for V1alpha1 on CentOS
+ * **/test-v1a2-integration** run integration tests for V1alpha2 on Ubuntu
+ * **/test-v1a2-centos-integration** run integration tests for V1alpha2 on
    CentOS
 
 It is also possible to prevent any job run by adding **/skip-test** in the PR
@@ -73,9 +73,7 @@ the tests is [here](https://github.com/Nordix/airship-dev-tools/blob/master/ci/s
 ## Job image
 
 We use pre-baked images to run the tests. The images are based on Ubuntu or
-CentOS and contain all the pre-requisites for metal3-dev-env. This is achieved
-by running the *01_install_requirements.sh* script when building the image.
-It reduces the time needed by the tests to complete.
+CentOS.
 
 The image building scripts can be found here for [Ubuntu](https://github.com/Nordix/airship-dev-tools/blob/master/ci/images/gen_metal3_ubuntu_image.sh).
 
