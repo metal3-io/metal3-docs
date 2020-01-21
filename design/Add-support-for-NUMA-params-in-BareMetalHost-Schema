@@ -27,7 +27,7 @@
 
 ## Summary
 
-Enhancing the `BareMetalHost` schema by adding useful parameters that we received 
+Enhancing the `BareMetalHost` schema by adding NUMA parameters that we received 
 from ironic introspection which will be helpful in performance based use cases.
 
 ## Motivation
@@ -37,16 +37,11 @@ based use cases.
 
 ### Goals
 
-To compare the introspection data fetched from `Ironic-Inspector` through 
-`Gopher-cloud client` library with `BareMetalHost` schema and add useful parameters 
-in `BareMetalHost` schema.
+Add support for `NUMA` topology in `BareMetalHost` schema.
 
 ## Proposal
 
-The comparison of hardware introspection data coming from `Ironic-Inspector` 
-and existing `BareMetalHost` schema for configuration of `baremetalhost` concludes 
-that few hardware parameters are missing in `BareMetalHost` schema that are fetched 
-from `Ironic-Inspector`. We propose to add these parameters in `BareMetalHost` schema for 
+We propose to add `NUMA` parameters in `BareMetalHost` schema for 
 scalability and performance enhancement.
 
 ### Implementation Details/Notes/Constraints
@@ -62,7 +57,7 @@ through `gopher-cloud client` library.
 
 Having fetched BareMetal Node introspection data from Ironic-Inspector and
 compared it with BareMetalHost schema of `metal3` `(metal3.io_baremetalhosts_crd.yaml`), 
-we recommend following parameters need to be added in schema of `metal3` for `NFV` 
+we recommend `NUMA` parameters need to be added in schema of `metal3` for `NFV` 
 workloads.
 1. Add enhancement in the existing `metal3` schema for the following parameters:
 
@@ -225,7 +220,7 @@ workloads.
         ClockMegahertz ClockSpeed `json:"clockMegahertz"`
         Flags          []string   `json:"flags"`
         Count          int        `json:"count"`
-        threadsiblings [][]int    `json:"thread_siblings"`
+        ThreadSiblings [][]int    `json:"thread_siblings"`
     }
         
     type NIC struct {
