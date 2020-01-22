@@ -26,17 +26,16 @@
 
 ## Summary
 
-Code with the ability to perform the comparison on inspected hosts and mark the host with label as 'Host match found' if
-the requirements match with what is inspected.
+Code with the ability to perform the comparison on inspected hosts and update the host with labels containing matched profiles.
 
 ## Motivation
 
-We need to validate and compare expected hardware configuration against ironic introspection data.
+We need to validate and compare expected hardware configuration against host hardware details-section.
 
 ### Goals
 
-Purpose is to add a new CRD `HardwareValidator` to hold the expected hardware details, and write a controller
-that reconciles those by looking for host CRs that match and adding labels to them.
+Purpose is to add a new CRD `HardwareClassificationController` to hold the expected hardware details, and write a controller that reconciles those by looking for host 
+CRs that matches with multiple hardware classification profiles and add label of matched profile into baremetal host baremetalHost_crd.yaml.
 
 ## Proposal
 
@@ -44,10 +43,9 @@ We are creating proposal based on the discussion with metal3 community on issue 
 https://github.com/metal3-io/baremetal-operator/issues/351
 
 We compared introspection data of Ironic with metal3 schema and we found that default minimum expected hardware
-configuration needs to be added by introducing a new CRD `HardwareValidator`.
+configuration needs to be added by introducing a new CRD `HardwareClassificationController`.
 
-We will write a controller that checks inspected baremetal hosts against expected hardware configurtion and add label
-as 'Host match found' if match found.
+We will write a controller that checks inspected baremetal hosts against expected hardware configuration and add label of matched profile into baremetal host baremetalHost_crd.yaml.
   
 ### Implementation Details/Notes/Constraints
 
@@ -55,7 +53,7 @@ Link for Existing Metal3 Specs
 Please refer metal3 spec for bare-metal:
 https://github.com/metal3-io/baremetal-operator/blob/master/deploy/crds/metal3.io_baremetalhosts_crd.yaml
 
-* Write a below schema for new CRD under folder deploy/crds for Kind HardwareValidator.
+* Write a below schema for new CRD under folder deploy/crds for Kind HardwareClassificationController.
 
     ```yaml
     ExpectedHardwareConfiguration:
@@ -106,30 +104,30 @@ https://github.com/metal3-io/baremetal-operator/blob/master/deploy/crds/metal3.i
         - ram
         - disk
     ```
-* Write a new API as baremetalhost/v1beta1 and new kind(CRD) HardwareValidator.
+* Write a new API as hardware-classification-controller/api/v1alpha1 and new kind(CRD) HardwareClassificationController.
     e.g.
         
-       kubebuilder create api --group baremetalhost --version v1beta1 --kind HardwareValidator
+       kubebuilder create api --group metal3.io --version v1alpha1 --kind HardwareClassificationController
     
-    - This will create the files api/v1beta1/hardwarevalidator_types.go where the API is defined and the
-      controller/hardwarevalidator_controller.go where the reconciliation business logic is implemented for this Kind(CRD).
+    - This will create the files api/v1alpha1/hardwareClassificationController_types.go where the API is defined and the
+      controller/hardwareClassificationController_controller.go where the reconciliation business logic is implemented for this Kind(CRD).
     - Implement a new function fetchHost() which will fetch all baremetal hosts.
-    - In hardwarevalidator_controller.go, reconcile function will call fetchHost() function to fetch all baremetal hosts and also extract
-      Expected hardware configuration from `metal3.io_hardwarevalidator_crd.yaml`.
+    - In hardwareClassificationController_controller.go, reconcile function will call fetchHost() function to fetch all baremetal hosts and also extract
+      Expected hardware configuration from `metal3.io_HardwareClassificationController_crd.yaml`.
     
         Create a new Validator.go file to write comparison and validation logic for inspected baremetal hosts.
         - Write a function which will have the expected hardware details and all the baremetal host list.
         - Will pass above two inputs to validator function defined in validator.go file.
 	    - Write an algorithm to loop over all the hosts and check for comparison and validation of
 	    specs against the expected hardware details.
-	    - If host match found after execution of above algorithm, matched host will append to list.
-        - Return list to caller function.
+	    - If profile match found after execution of above algorithm, will append matched profile against respective host inside map.
+        - Return list/map to caller function.
    
     - According to list returned by validator function, will update the label for all hosts.
 
 
-* Create the Schema struct for `ExpectedHardwareConfiguration` inside `HardwareValidatorSpec`,
-in file pkg/api/metal3/v1beta1/hardwarevalidator_types.go.
+* Create the Schema struct for `ExpectedHardwareConfiguration` inside `HardwareClassificationControllerSpec`,
+in file /api/v1alpha1/hardwareClassificationController_types.go.
 
     ```yaml
     type ExpectedHardwareConfiguration struct {
@@ -169,14 +167,14 @@ All required design details are mentioned in the Implementation section.
 
 ### Work Items
 
-1. Implement CRD for `HardwareValidator`.
-2. Create the Schema struct for ExpectedHardwareConfiguration inside HardwareValidatorSpec,
-in file pkg/api/metal3/v1beta1/hardwarevalidator_types.go
-3. Implement a controller for HardwareValidator.
+1. Implement CRD for `HardwareClassificationController`.
+2. Create the Schema struct for ExpectedHardwareConfiguration inside HardwareClassificationControllerSpec,
+in file pkg/api/metal3/v1alpha1/hardwareClassificationController_types.go
+3. Implement a controller for HardwareClassificationController.
 4. Add watch on hardware setting changes.
-5. Create a validateAndCompare function to validate inspected hosts against the expected hardware configuration.
+5. Create a validateAndCompare function to validate inspected hosts against the multiple expected hardware configuration profiles.
 6. Matched host status will be added in the list after validation.
-7. Add multiple labels to the returned list of hosts from validator function.
+7. Add label containing matched profile to the hosts from validator function.
 8. Write unit tests for above implementation.
 
 ### Dependencies
@@ -191,10 +189,12 @@ in file pkg/api/metal3/v1beta1/hardwarevalidator_types.go
  
 - Unit tests will be implemented.
 
-- Functional testing will be performed with respect to implemented hardwareValidator CRD and controller.
+- Functional testing will be performed with respect to implemented HardwareClassificationController CRD and controller.
 
 - Deployment & integration testing will be done.
 
 ## References
 
 * https://github.com/metal3-io
+* https://github.com/metal3-io/hardware-classification-controller
+
