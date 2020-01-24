@@ -89,30 +89,24 @@ section of the BareMetalHost status. This records a time after which the Host
 was last booted using the current image. Processes running prior to this time
 may be assumed to have been stopped.
 
-To provide a declarative interface for performing a reboot, a new
-BareMetalHostRebootRequest CRD will be created. The spec of this custom
-resource will contain only a reference to a BareMetalHost. The status will
-contain timestamps for when the Host was powered off and on again. Once the
-power off time is present in the status, the host has been stopped. Each
-RebootRequest will be owned by the Host it refers to, so that if the Host is
-deleted all associated RebootRequest CRs will be cleaned up.
+A new date-time field, ``lastReboot``, will be added to the ``provisioning``
+section of the BareMetalHost status. This records a time after which the Host
+was last requested to reboot.
+
+Since the user interface requirements are still unclear, we will follow 
+standard practices of using an annotation ( ``host.metal3.io/reboot`` ) to 
+trigger reboots.  
 
 The actual power management will be performed by the Host controller. This is
 necessary to avoid race conditions by ensuring that the ``Online`` flag and any
-reboot requests are managed in the same place. The Host controller
-will watch RebootRequest objects and trigger a reconciliation of the linked
-Host when one appears or changes.
+reboot requests are managed in the same place. 
 
-For simplicity, we will try to avoid creating a separate controller for the
-RebootRequest at all, but instead perform all operations on it in the course of
-reconciling the BareMetalHost object that it references. However, it may yet
-prove necessary to also create a trivial controller for the purposes of basic
-housekeeping (e.g. setting the owner of the resource).
+The Host controller reconcile loop will watch for the value in ``host.metal3.io/reboot`` 
+to be greater than the ``lastPoweredOn`` *and* for ``Spec.Online`` set to ``true``. 
+This indicates that a reboot is required and the controller will write the current 
+time to ``lastReboot`` and will begin to power cycle the host.
 
-The creation timestamp of the request resource will be interpreted as the time
-of the reboot request. Requests that predate the last booted time will be
-immediately marked as complete without taking any further action. The Host
-controller will timestamp all pending reboot requests as having completed the
+The Host controller will consider the Host as having completed the
 power off stage whenever any of the following occur:
 
 * The Host has been deprovisioned (in this case the ``lastPoweredOn`` field
@@ -120,47 +114,14 @@ power off stage whenever any of the following occur:
 * The ``lastPoweredOn`` time is after the time of the reboot request
 * The ``poweredOn`` status is ``false``
 
-Whenever there are pending reboot requests, the Host controller will respond by
-powering off the Host (if it is not already) and timestamping all pending
-requests as having completed the power off stage. Power will then be restored
-only if/when the ``Online`` spec of the Host is true. Once Hosts are powered up
-again, any satisfied reboot requests will be timestamped as having completed
-the power on stage, with this timestamp matching the ``lastPoweredOn`` time of
-the Host.
+Power will then be restored only if/when the ``Online`` spec of the Host is true. 
 
 ## Drawbacks
 
-This approach entails a whole new custom resource definition to maintain, and
-the instances of this resource must be managed by the Host controller, which
-adds a degree of complexity.
-
-If large numbers of requests are created but never deleted, searching for
-pending requests may start to consume significant resources.
-
 ## Future Enhancements
 
-### Labelling
+### Defining a Formal User Interface
 
-Adding labels to partially completed and completed requests would allow us to
-exclude them when querying for pending requests. That would eliminate the
-performance concerns associated with allowing old requests to accumulate. This
-would be best performed by a RebootRequest-specific controller.
-
-### Automatic deletion
-
-The operator could automatically delete requests once they have been fulfilled
-(either immediately or after a predefined timeout). This would both eliminate
-performance concerns and reduce clutter. Clients wishing to observe data from
-the resource could set a finalizer that keeps the resource around only until
-they are done with it. This might best be performed by a RebootRequest-specific
-controller.
-
-### Custom Timestamps
-
-The resource could allow the user to specify a timestamp, which may of course
-be in the future. The operator would ignore these requests until the appointed
-time, and only then effect the reboot. The request could safely be deleted at
-any point prior to the requested time.
 
 ### Soft Reboots
 
