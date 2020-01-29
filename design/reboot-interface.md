@@ -89,22 +89,34 @@ section of the BareMetalHost status. This records a time after which the Host
 was last booted using the current image. Processes running prior to this time
 may be assumed to have been stopped.
 
-A new date-time field, ``lastReboot``, will be added to the ``provisioning``
+A new date-time field, ``lastRebootRequest``, will be added to the ``provisioning``
 section of the BareMetalHost status. This records a time after which the Host
-was last requested to reboot.
+was last requested to reboot (because we cannot trust any value from the user,
+who even if well intentioned, may have created the timestamp on a machine that 
+was not synchronised with the cluster or has a different timezone).
 
 Since the user interface requirements are still unclear, we will follow 
 standard practices of using an annotation ( ``host.metal3.io/reboot`` ) to 
-trigger reboots.  
+trigger reboots.  It shall contain the UID of the target Machine so that the
+controller can validate that the associated Machine has not changed since the
+annotation was created.
 
 The actual power management will be performed by the Host controller. This is
 necessary to avoid race conditions by ensuring that the ``Online`` flag and any
 reboot requests are managed in the same place. 
 
-The Host controller reconcile loop will watch for the value in ``host.metal3.io/reboot`` 
-to be greater than the ``lastPoweredOn`` *and* for ``Spec.Online`` set to ``true``. 
-This indicates that a reboot is required and the controller will write the current 
-time to ``lastReboot`` and will begin to power cycle the host.
+If
+* the value in ``host.metal3.io/reboot`` matches the associated Machine, and
+* the value of ``lastRebootRequest`` is less than the ``lastPoweredOn``, and
+* the ``Status.PoweredOn`` field is true
+then it will update ``lastRebootRequest`` and attempt to power the host off 
+regardless of the ``Spec.Online`` setting.
+
+Once the Host is powered off, if/when
+* the ``Spec.Online`` field is true, and
+* the ``host.metal3.io/reboot`` annotation has been removed
+then the Host will be powered on again and the ``lastPoweredOn`` timestamp will 
+be updated accordingly.
 
 The Host controller will consider the Host as having completed the
 power off stage whenever any of the following occur:
@@ -114,7 +126,14 @@ power off stage whenever any of the following occur:
 * The ``lastPoweredOn`` time is after the time of the reboot request
 * The ``poweredOn`` status is ``false``
 
-Power will then be restored only if/when the ``Online`` spec of the Host is true. 
+If the Host is deprovisioned, the controller automatically removes the
+``host.metal3.io/reboot`` annotation.
+
+In the case of multiple clients, clients detecting that another entity has
+already initiated a reboot can detect that the node has reached a safe state by
+waiting for either:
+* ``Status.PoweredOn`` is false, or
+* ``lastPoweredOn`` is greater than the time the would have requested a reboot
 
 ## Drawbacks
 
