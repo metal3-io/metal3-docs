@@ -89,7 +89,7 @@ section of the BareMetalHost status. This records a time after which the Host
 was last booted using the current image. Processes running prior to this time
 may be assumed to have been stopped.
 
-A new date-time field, ``lastRebootRequest``, will be added to the ``provisioning``
+A new date-time field, ``pendingRebootSince``, will be added to the ``provisioning``
 section of the BareMetalHost status. This records a time after which the Host
 was last requested to reboot (because we cannot trust any value from the user,
 who even if well intentioned, may have created the timestamp on a machine that 
@@ -107,27 +107,20 @@ reboot requests are managed in the same place.
 
 If
 * the value in ``host.metal3.io/reboot`` matches the associated Machine, and
-* the value of ``lastRebootRequest`` is less than the ``lastPoweredOn``, and
+* the value of ``pendingRebootSince`` is less than the ``lastPoweredOn``, and
 * the ``Status.PoweredOn`` field is true
-then it will update ``lastRebootRequest`` and attempt to power the host off 
+then it will update ``pendingRebootSince`` and attempt to power the host off 
 regardless of the ``Spec.Online`` setting.
 
-Once the Host is powered off, if/when
+Once the Host is powered off ( ``Status.PoweredOn`` is false ), if/when
 * the ``Spec.Online`` field is true, and
 * the ``host.metal3.io/reboot`` annotation has been removed
+* the ``lastPoweredOn`` time is before the ``pendingRebootSince`` time
 then the Host will be powered on again and the ``lastPoweredOn`` timestamp will 
 be updated accordingly.
 
-The Host controller will consider the Host as having completed the
-power off stage whenever any of the following occur:
-
-* The Host has been deprovisioned (in this case the ``lastPoweredOn`` field
-  will be empty)
-* The ``lastPoweredOn`` time is after the time of the reboot request
-* The ``poweredOn`` status is ``false``
-
-If the Host is deprovisioned, the controller automatically removes the
-``host.metal3.io/reboot`` annotation.
+The controller automatically removes the ``host.metal3.io/reboot`` annotation if
+* the Host is deprovisioned
 
 In the case of multiple clients, clients detecting that another entity has
 already initiated a reboot can detect that the node has reached a safe state by
