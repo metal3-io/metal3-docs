@@ -76,7 +76,6 @@ spec:
  bootMACAddress: 52:54:00:b7:b2:6f	
  bios:
    EnableSriovGlobal: false
-   BootMode: uefi
    EnableVirtualization: false
    EnableHyperThreading: true
    EnableAdjCacheLine: false
