@@ -91,7 +91,7 @@ None
 
 ## Design Details
 
-The BIOS config is only possible when the host is in cleaning state and the input is to be given as a set of cleaning steps.
+This BIOS config will be implemented through Ironic ```bios-interface```. These settings will only be applied to a host when it is being provisioned with an image. A change in BIOS configs on a host with running workload will NOT trigger reprovisioning.
 
 The code changes required would entail 
 - Creating a go struct with the BIOS configs in the ```ironic.go (pkg/provisioner/ironic/ironic.go)```
@@ -102,7 +102,7 @@ The code changes required would entail
 
 ### Work Items
 
-- Extend the BareMetalHost CRD with the new parameters for iDRAC and Redfish BMC types.
+- Extend the BareMetalHost CRD with the new parameters for iDRAC BMC type.
 
 - Validation of input values in the YAML parameters
 
@@ -119,8 +119,6 @@ The code changes required would entail
 ### Test Plan
 
 - Unit tests for the functions
-
-- Mock deployment testing with vBMC
 
 - Deployment testing with actual hardware
 
