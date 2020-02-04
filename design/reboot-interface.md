@@ -96,10 +96,26 @@ who even if well intentioned, may have created the timestamp on a machine that
 was not synchronised with the cluster or has a different timezone).
 
 Since the user interface requirements are still unclear, we will follow 
-standard practices of using an annotation ( ``host.metal3.io/reboot`` ) to 
-trigger reboots.  It shall contain the UID of the target Machine so that the
-controller can validate that the associated Machine has not changed since the
-annotation was created.
+standard practices of using an annotation to trigger reboots.  
+
+The basic annotation form ( ``reboot.metal3.io`` ) triggers the controller to
+power cycle the Host.  This form has set-and-forget semantics and the 
+controller removes the annotation once it restores power to the Host. 
+
+An advanced form ( ``reboot.metal3.io/{key}`` ) instructs the controller hold 
+the Host in a ``PoweredOff`` state so that the caller can perform any required
+actions while the node is in a known safe state.   Callers indicate to the 
+controller that they are ready to continue by removing the annotation with their 
+unique ``{key}}`` suffix.
+
+In the case of multiple clients, the controller will wait for all annotations 
+of the form ``reboot.metal3.io/{key}`` to be removed before powering on the Host.
+
+If both ``reboot.metal3.io`` and ``reboot.metal3.io/{key}`` forms are in use, 
+the  ``reboot.metal3.io/{key}`` form will take priority.
+
+In all cases, the annotation shall contain the UID of the target Machine so that
+the controller can validate that the request is for the correct Host.
 
 The actual power management will be performed by the Host controller. This is
 necessary to avoid race conditions by ensuring that the ``Online`` flag and any
@@ -114,19 +130,15 @@ regardless of the ``Spec.Online`` setting.
 
 Once the Host is powered off ( ``Status.PoweredOn`` is false ), if/when
 * the ``Spec.Online`` field is true, and
-* the ``host.metal3.io/reboot`` annotation has been removed
+* all annotations of the form ``reboot.metal3.io/{key}`` have been removed
 * the ``lastPoweredOn`` time is before the ``pendingRebootSince`` time
-then the Host will be powered on again and the ``lastPoweredOn`` timestamp will 
-be updated accordingly.
+then the ``reboot.metal3.io`` annotation removed (if present), and allow the
+existing logic for powering on the Host to execute and update the ``lastPoweredOn`` 
+timestamp accordingly.
 
-The controller automatically removes the ``host.metal3.io/reboot`` annotation if
+The controller automatically removes all annotations with the 
+``reboot.metal3.io`` prefix if
 * the Host is deprovisioned
-
-In the case of multiple clients, clients detecting that another entity has
-already initiated a reboot can detect that the node has reached a safe state by
-waiting for either:
-* ``Status.PoweredOn`` is false, or
-* ``lastPoweredOn`` is greater than the time the would have requested a reboot
 
 ## Drawbacks
 
