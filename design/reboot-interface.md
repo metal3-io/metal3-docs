@@ -89,7 +89,7 @@ was last booted using the current image. Processes running prior to this time
 may be assumed to have been stopped.
 
 A new date-time field, ``pendingRebootSince``, will be added to the ``provisioning``
-section of the BareMetalHost status. This records a time after which the Host
+section of the BareMetalHost status. This records a time before which the Host
 was last requested to reboot (because we cannot trust any value from the user,
 who even if well intentioned, may have created the timestamp on a machine that 
 was not synchronised with the cluster or has a different timezone).
@@ -113,27 +113,40 @@ of the form ``reboot.metal3.io/{key}`` to be removed before powering on the Host
 If both ``reboot.metal3.io`` and ``reboot.metal3.io/{key}`` forms are in use, 
 the  ``reboot.metal3.io/{key}`` form will take priority.
 
-In all cases, the annotation shall contain the UID of the target Machine so that
-the controller can validate that the request is for the correct Host.
+In all cases, the content of the annotation is ignored but preserved. This
+ensures that whatever placed the annotation can have a way of tracing it back
+to its source. In the case of remediation, the content will be the UID of the
+Machine resource being remediated.
 
 The actual power management will be performed by the Host controller. This is
 necessary to avoid race conditions by ensuring that the ``Online`` flag and any
 reboot requests are managed in the same place. 
 
-If
-* the value in ``host.metal3.io/reboot`` matches the associated Machine, and
-* the value of ``pendingRebootSince`` is less than the ``lastPoweredOn``, and
-* the ``Status.PoweredOn`` field is true
-then it will update ``pendingRebootSince`` and attempt to power the host off 
-regardless of the ``Spec.Online`` setting.
+If:
+
+* there is one or more annotations with the ``reboot.metal3.io`` prefix
+  present, and
+* the ``Status.PoweredOn`` field is true, and
+* the value of ``pendingRebootSince`` is empty or earlier than the
+  ``lastPoweredOn`` time
+
+then the Host controller will update ``pendingRebootSince`` to the current
+time.
+
+Whenever ``pendingRebootSince`` is later than the ``lastPoweredOn`` time, the
+Host controller will attempt to power the host off regardless of the
+``Spec.Online`` setting.
 
 Once the Host is powered off ( ``Status.PoweredOn`` is false ), if/when
+
 * the ``Spec.Online`` field is true, and
-* all annotations of the form ``reboot.metal3.io/{key}`` have been removed
 * the ``lastPoweredOn`` time is before the ``pendingRebootSince`` time
-then the ``reboot.metal3.io`` annotation removed (if present), and allow the
-existing logic for powering on the Host to execute and update the ``lastPoweredOn`` 
-timestamp accordingly.
+
+then the controller should remove the suffixless ``reboot.metal3.io``
+annotation (if present). Once no reboot annotations  are present (i.e. those of
+the form ``reboot.metal3.io/{key}`` have been removed by their originators),
+the existing logic for powering on the Host should execute and update the
+``lastPoweredOn`` timestamp accordingly.
 
 The controller automatically removes all annotations with the 
 ``reboot.metal3.io`` prefix if
