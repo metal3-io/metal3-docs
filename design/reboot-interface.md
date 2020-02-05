@@ -57,6 +57,9 @@ The Machine (Reboot) Actuator will require from the BareMetalHost:
 * A declarative API to perform the reboot
 * The ability to determine a point where all processes running on the Host at
   the time of the fencing decision are guaranteed to have been stopped
+* A guarantee that the Reboot Actuator can delete any Node associated with the
+  Machine before the Host is able to complete booting (including in testing
+  when the Host is simulated by a VM).
 * Rapid convergence to a state where all running processes are stopped,
   independent of other happenings in the system
 
@@ -72,10 +75,6 @@ This allows multiple reboots to be scheduled, scheduled reboots to be
 manipulated or cancelled, and a record to be left behind of past scheduled
 reboots. The proposed design could easily be extended to accomodate this
 requirement should it arise in future.
-
-There is no requirement to hold the power off for any particular length of
-time. For fencing purposes we only need to be sure when the node is powered
-off.
 
 This API is not responsible for managing unprovisioned hosts, e.g. to recover
 from state inconsistencies in Ironic prior to provisioning. Any such
