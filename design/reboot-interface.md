@@ -57,6 +57,9 @@ The Machine (Reboot) Actuator will require from the BareMetalHost:
 * A declarative API to perform the reboot
 * The ability to determine a point where all processes running on the Host at
   the time of the fencing decision are guaranteed to have been stopped
+* A guarantee that the Reboot Actuator can delete any Node associated with the
+  Machine before the Host is able to complete booting (including in testing
+  when the Host is simulated by a VM).
 * Rapid convergence to a state where all running processes are stopped,
   independent of other happenings in the system
 
@@ -73,10 +76,6 @@ manipulated or cancelled, and a record to be left behind of past scheduled
 reboots. The proposed design could easily be extended to accomodate this
 requirement should it arise in future.
 
-There is no requirement to hold the power off for any particular length of
-time. For fencing purposes we only need to be sure when the node is powered
-off.
-
 This API is not responsible for managing unprovisioned hosts, e.g. to recover
 from state inconsistencies in Ironic prior to provisioning. Any such
 inconsistencies that are not handled internally by the BareMetalHost will
@@ -89,78 +88,76 @@ section of the BareMetalHost status. This records a time after which the Host
 was last booted using the current image. Processes running prior to this time
 may be assumed to have been stopped.
 
-To provide a declarative interface for performing a reboot, a new
-BareMetalHostRebootRequest CRD will be created. The spec of this custom
-resource will contain only a reference to a BareMetalHost. The status will
-contain timestamps for when the Host was powered off and on again. Once the
-power off time is present in the status, the host has been stopped. Each
-RebootRequest will be owned by the Host it refers to, so that if the Host is
-deleted all associated RebootRequest CRs will be cleaned up.
+A new date-time field, ``pendingRebootSince``, will be added to the ``provisioning``
+section of the BareMetalHost status. This records a time before which the Host
+was last requested to reboot (because we cannot trust any value from the user,
+who even if well intentioned, may have created the timestamp on a machine that 
+was not synchronised with the cluster or has a different timezone).
+
+Since the user interface requirements are still unclear, we will follow 
+standard practices of using an annotation to trigger reboots.  
+
+The basic annotation form ( ``reboot.metal3.io`` ) triggers the controller to
+power cycle the Host.  This form has set-and-forget semantics and the 
+controller removes the annotation once it restores power to the Host. 
+
+An advanced form ( ``reboot.metal3.io/{key}`` ) instructs the controller hold 
+the Host in a ``PoweredOff`` state so that the caller can perform any required
+actions while the node is in a known safe state.   Callers indicate to the 
+controller that they are ready to continue by removing the annotation with their 
+unique ``{key}}`` suffix.
+
+In the case of multiple clients, the controller will wait for all annotations 
+of the form ``reboot.metal3.io/{key}`` to be removed before powering on the Host.
+
+If both ``reboot.metal3.io`` and ``reboot.metal3.io/{key}`` forms are in use, 
+the  ``reboot.metal3.io/{key}`` form will take priority.
+
+In all cases, the content of the annotation is ignored but preserved. This
+ensures that whatever placed the annotation can have a way of tracing it back
+to its source. In the case of remediation, the content will be the UID of the
+Machine resource being remediated.
 
 The actual power management will be performed by the Host controller. This is
 necessary to avoid race conditions by ensuring that the ``Online`` flag and any
-reboot requests are managed in the same place. The Host controller
-will watch RebootRequest objects and trigger a reconciliation of the linked
-Host when one appears or changes.
+reboot requests are managed in the same place. 
 
-For simplicity, we will try to avoid creating a separate controller for the
-RebootRequest at all, but instead perform all operations on it in the course of
-reconciling the BareMetalHost object that it references. However, it may yet
-prove necessary to also create a trivial controller for the purposes of basic
-housekeeping (e.g. setting the owner of the resource).
+If:
 
-The creation timestamp of the request resource will be interpreted as the time
-of the reboot request. Requests that predate the last booted time will be
-immediately marked as complete without taking any further action. The Host
-controller will timestamp all pending reboot requests as having completed the
-power off stage whenever any of the following occur:
+* there is one or more annotations with the ``reboot.metal3.io`` prefix
+  present, and
+* the ``Status.PoweredOn`` field is true, and
+* the value of ``pendingRebootSince`` is empty or earlier than the
+  ``lastPoweredOn`` time
 
-* The Host has been deprovisioned (in this case the ``lastPoweredOn`` field
-  will be empty)
-* The ``lastPoweredOn`` time is after the time of the reboot request
-* The ``poweredOn`` status is ``false``
+then the Host controller will update ``pendingRebootSince`` to the current
+time.
 
-Whenever there are pending reboot requests, the Host controller will respond by
-powering off the Host (if it is not already) and timestamping all pending
-requests as having completed the power off stage. Power will then be restored
-only if/when the ``Online`` spec of the Host is true. Once Hosts are powered up
-again, any satisfied reboot requests will be timestamped as having completed
-the power on stage, with this timestamp matching the ``lastPoweredOn`` time of
-the Host.
+Whenever ``pendingRebootSince`` is later than the ``lastPoweredOn`` time, the
+Host controller will attempt to power the host off regardless of the
+``Spec.Online`` setting.
+
+Once the Host is powered off ( ``Status.PoweredOn`` is false ), if/when
+
+* the ``Spec.Online`` field is true, and
+* the ``lastPoweredOn`` time is before the ``pendingRebootSince`` time
+
+then the controller should remove the suffixless ``reboot.metal3.io``
+annotation (if present). Once no reboot annotations  are present (i.e. those of
+the form ``reboot.metal3.io/{key}`` have been removed by their originators),
+the existing logic for powering on the Host should execute and update the
+``lastPoweredOn`` timestamp accordingly.
+
+The controller automatically removes all annotations with the 
+``reboot.metal3.io`` prefix if
+* the Host is deprovisioned
 
 ## Drawbacks
 
-This approach entails a whole new custom resource definition to maintain, and
-the instances of this resource must be managed by the Host controller, which
-adds a degree of complexity.
-
-If large numbers of requests are created but never deleted, searching for
-pending requests may start to consume significant resources.
-
 ## Future Enhancements
 
-### Labelling
+### Defining a Formal User Interface
 
-Adding labels to partially completed and completed requests would allow us to
-exclude them when querying for pending requests. That would eliminate the
-performance concerns associated with allowing old requests to accumulate. This
-would be best performed by a RebootRequest-specific controller.
-
-### Automatic deletion
-
-The operator could automatically delete requests once they have been fulfilled
-(either immediately or after a predefined timeout). This would both eliminate
-performance concerns and reduce clutter. Clients wishing to observe data from
-the resource could set a finalizer that keeps the resource around only until
-they are done with it. This might best be performed by a RebootRequest-specific
-controller.
-
-### Custom Timestamps
-
-The resource could allow the user to specify a timestamp, which may of course
-be in the future. The operator would ignore these requests until the appointed
-time, and only then effect the reboot. The request could safely be deleted at
-any point prior to the requested time.
 
 ### Soft Reboots
 
