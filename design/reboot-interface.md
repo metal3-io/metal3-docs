@@ -105,7 +105,7 @@ An advanced form ( ``reboot.metal3.io/{key}`` ) instructs the controller hold
 the Host in a ``PoweredOff`` state so that the caller can perform any required
 actions while the node is in a known safe state.   Callers indicate to the 
 controller that they are ready to continue by removing the annotation with their 
-unique ``{key}}`` suffix.
+unique ``{key}`` suffix.
 
 In the case of multiple clients, the controller will wait for all annotations 
 of the form ``reboot.metal3.io/{key}`` to be removed before powering on the Host.
