@@ -44,8 +44,8 @@ running processes are stopped to avoid a split-brain scenario while still
 allowing the node to rejoin the cluster with its data intact (albeit stale)
 after the reboot.
 
-The expected implementation of this on the fencing side is a Custom Resource
-Definition that requests a Machine be rebooted. The actual reboot will be
+The expected implementation of this on the fencing side is an annotation on the
+Machine resource that requests that it be remediated. The actual reboot will be
 effected either by the Machine Actuator itself (if the Cluster-API SIG can be
 persuaded that this should be part of the API in the long term), or some
 equivalent of the Machine Actuator limited to just this purpose.
@@ -154,18 +154,19 @@ The controller automatically removes all annotations with the
 
 ## Drawbacks
 
+This requires clients to be somewhat well-behaved - for example, only deleting
+their own annotations and never deleting others' annotations.
+
+It would be difficult to apply RBAC to the reboot operation specifically, since
+it is triggered by simply adding an annotation (that doesn't even have a fixed
+key).
+
 ## Future Enhancements
 
 ### Defining a Formal User Interface
 
-
-### Soft Reboots
-
-The resource could accept a "soft" reboot option, in which we would attempt to
-reboot the Host without switching the power off. Since these requests may fail,
-more error reporting would likely be required. In the event that a mix of hard
-and soft reboot requests were pending, the host would be hard-rebooted and all
-of the pending requests marked complete.
+Once we have experience with using this, we will have more information about
+how to design a formal interface for it (rather than using annotations).
 
 ## Alternatives
 
@@ -175,16 +176,24 @@ sequence to ``false`` and then back to ``true`` again once the ``poweredOn``
 status was seen to be ``false``. However, in the presence of multiple actors
 this approach is prone to race conditions or controller fights.
 
+We could create a ``HostRebootRequest`` CRD and have the existing host
+controller check for pending reboot requests, perform reboots when necessary,
+and update the state of the request. This would be easier to apply RBAC to, and
+indeed does not require clients to co-operate in any way. It would be a
+flexible jumping off point for adding more advanced features should they become
+required. However, it adds significant complexity (another CRD to deploy) and
+would be a permanent, formal interface. It's also not clear how outdated
+requests should be cleaned up.
+
 The request could simply be a timestamp field in the Host spec. The Host would
 coalesce multiple requests into one at the time they are received (rather than
 at the point of action). This would be simpler, but requires the client to
 provide a meaningful timestamp (i.e. in the recent past), forcing us to make
-awkward decisions about what to do with bogus data. In contrast, with a CRD we
-can use the creation timestamp provided by the system. This option also makes
-it more difficult to add further reboot-related API features in the future.
+awkward decisions about what to do with bogus data. In contrast, allowing
+multiple annotations allows the system to record the time at which it first
+noticed them. Selecting this option would also make it more difficult to add
+further reboot-related API features in the future.
 
 The request could be made by adding to a list of client-chosen strings in the
-Host spec. This would be again be simpler than adding a new CRD at the cost of
-future flexibility, but requires clients to co-operate (by only adding to the
-list, and never replacing it), so one misbehaving client could cause another to
-act erratically.
+Host spec. This effectively formalises the annotation-based system proposed
+here and makes it a permanent part of the interface.
