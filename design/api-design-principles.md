@@ -86,3 +86,9 @@ metal3. Although it has allowed us to move quickly, we do not want to
 assume that we will continue to use it indefinitely or exclusively. We
 should therefore not expose Ironic API-isms such as names or workflow
 assumptions through the metal3 API.
+
+### Don't Assume Machine API
+
+Don't make assumptions about what the BaremetalHost will be used
+for. The Machine API is not the only consumer and running a Kubernetes
+node is not the only thing users may want to do with the Host.
