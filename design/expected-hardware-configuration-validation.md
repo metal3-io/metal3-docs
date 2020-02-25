@@ -56,7 +56,7 @@ https://github.com/metal3-io/baremetal-operator/blob/master/deploy/crds/metal3.i
 * Write a below schema for new CRD under folder deploy/crds for Kind HardwareClassificationController.
 
     ```yaml
-    minimumHardwareConfiguration:
+    expectedHardwareConfiguration:
         default:
         properties:
            minimumCPU:
@@ -111,26 +111,20 @@ https://github.com/metal3-io/baremetal-operator/blob/master/deploy/crds/metal3.i
     
     - This will create the files api/v1alpha1/hardwareClassificationController_types.go where the API is defined and the
       controller/hardwareClassificationController_controller.go where the reconciliation business logic is implemented for this Kind(CRD).
-    - Implement a new function fetchHost() which will fetch all baremetal hosts.
-    - In hardwareClassificationController_controller.go, reconcile function will call fetchHost() function to fetch all baremetal hosts and also extract
+    - Implement a new function fetchHost() which will fetch all baremetal hosts from Baremetal-Operator. This function will return a list of filtered hosts(hosts in status 'ready' or 'inspecting'). 
+    - In hardwareClassificationController_controller.go, reconcile function will call fetchHost()        function to fetch all baremetal hosts and also extract
       minimum hardware configuration from `metal3.io_HardwareClassificationController_crd.yaml`.
-    
-        Create a new Validator.go file to write comparison and validation logic for inspected baremetal hosts.
-        - Write a function which will have the minimum hardware details and all the baremetal host list.
-        - Will pass above two inputs to validator function defined in validator.go file.
-	    - Write an algorithm to loop over all the hosts and check for comparison and validation of
-	    specs against the minimum hardware details.
-	    - If profile match found after execution of above algorithm, will append matched profile against respective host inside map.
-        - Return list/map to caller function.
-   
-    - According to list returned by validator function, will update the label for all hosts.
+    - Create a Comparison() function which will have fetched baremetalhost list and extracted hardware profile in validate.go file.
+    - Comparison function will check each host against multiple profiles and add profiles in list which will be added as value against key host in a map.
+    - Map containing hosts and profiles will be returned to the reconciler function for label updating.
+    - According to map returned by validate function, will update the label for all hosts.
 
 
-* Create the Schema struct for `MinimumHardwareConfiguration` inside `HardwareClassificationControllerSpec`,
+* Create the Schema struct for `ExpectedHardwareConfiguration` inside `HardwareClassificationControllerSpec`,
 in file /api/v1alpha1/hardwareClassificationController_types.go.
 
     ```yaml
-    type MinimumHardwareConfiguration struct {
+    type ExpectedHardwareConfiguration struct {
      MinimumCpu           MinimumCpu          `json:"minimumCPU"`
      MinimumDisk          MinimumDisk         `json:"minimumDisk"`
      MinimumNics          MinimumNics         `json:"minimumNICS"`
@@ -182,12 +176,11 @@ All required design details are mentioned in the Implementation section.
 1. Implement CRD for `HardwareClassificationController`.
 2. Create the Schema struct for MinimumHardwareConfiguration inside HardwareClassificationControllerSpec,
 in file pkg/api/metal3/v1alpha1/hardwareClassificationController_types.go
-3. Implement a controller for HardwareClassificationController.
-4. Add watch on hardware setting changes.
-5. Create a validateAndCompare function to validate inspected hosts against the multiple Minimum hardware configuration profiles.
-6. Matched host status will be added in the list after validation.
-7. Add label containing matched profile to the hosts from validator function.
-8. Write unit tests for above implementation.
+3. Fetch baremetal host list from the baremetal operator running in the metal3 cluster.
+4. Extract the multiple profile from the yaml file passed to the CRD.
+5. Create a Comparison function to check the valid host against multiple profile and return the map containing host as key and matched profiles as values.
+6. Add profile labels for baremetal host CR.
+7. Write unit tests for above implementation.
 
 ### Dependencies
 
