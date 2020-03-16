@@ -167,7 +167,8 @@ hosts referenced by node-less machines
 
 ### Work Items
 
-- Create a new machine remediation controller in CAPBM repo
+- Create a new machine remediation controller in openshift/CAPBM repo
+- Backport to upstream
 
 ### Dependencies
 
