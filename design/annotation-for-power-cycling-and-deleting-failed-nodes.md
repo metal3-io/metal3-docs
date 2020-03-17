@@ -138,9 +138,8 @@ without risking in any data loss/corruption.
 The MRC will be implemented in openshift/CAPBM and will later need to be ported
 back to metal3/CAPBM.
 
-The controller includes logic for power cycling a host. Previous design relied
-on the existence of a new CRD to store state. This design is CRD-free and only
-uses annotations.
+Previous design relied on the existence of a new CRD to store state.
+This design is CRD-free and only uses annotations.
 
 ### Risks and Mitigations
 
