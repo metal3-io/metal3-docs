@@ -129,8 +129,8 @@ temporary failure to remove one of the annotations we will risk in additional re
 
 #### Story 1
 
-As a customer I only care about my apps availability so I want my cluster
-infrastructure to be self healing and the nodes to be remediated automatically,
+As a customer, I would like to have highly available applications so that my
+cluster infrastructure will be self healing and the nodes to be remediated automatically,
 without risking in any data loss/corruption.
 
 ### Implementation Details/Notes/Constraints [optional]
