@@ -147,11 +147,6 @@ RBAC rules will be needed to ensure that only specific roles can trigger
 machines to reboot. Without this, the system would be exposed to DoS style
 attacks.
 
-There's a possibility that the unhealthy node is running the MRC/MAO/BMO pod, which
-might lead to unexpected behaviours such as MHC not able to annotate the machine,
-or BMO not able to control the power of the host, or even MRC could delete itself.
-To mitigate this we need a multiple copies with a lock for each component involved.
-
 ## Design Details
 
 MRC will:
