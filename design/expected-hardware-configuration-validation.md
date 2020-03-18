@@ -55,55 +55,70 @@ https://github.com/metal3-io/baremetal-operator/blob/master/deploy/crds/metal3.i
 * Write a below schema for new CRD under folder deploy/crds for Kind HardwareClassificationController.
 
     ```yaml
-    expectedHardwareConfiguration:
-        default:
-        properties:
-           filter:
-                type: String
-           namespace:
-                type: String
-           cpu:
-               properties:
-                   count:
-                       type : Integer
-           type: Object
-           disk:
-               properties:
-                   sizeBytesGB:
-                       type: Integer
-                   numberOfDisks:
-                       type: Integer
-           type: Object
-           nics:
-               properties:
-                  numberofNICS:
-                     type: Integer
-           type: Object
-           ram:
-               properties:
-                   sizeBytesGB:
-                       type: Integer
-           type: Object
-           systemVendor:
-              properties:
-                  name:
-                      type: String
-           type: Object
-           firmware:
-              properties:
-                  version:
-                      RAID:
-                          type: String
-                      BasebandManagement:
-                          type: String
-                      BIOS: 
-                          type: String
-                      IDRAC: 
-                          type: String
+    anyOf:
+    - properties:
+        expectedHardwareConfiguration:
+            default:
+            properties:
+            customFilter:
+                    type: String
+            namespace:
+                    type: String
+            cpu:
+                properties:
+                    count:
+                        type : Integer
             type: Object
+            disk:
+                properties:
+                    sizeBytesGB:
+                        type: Integer
+                    numberOfDisks:
+                        type: Integer
+            type: Object
+            nics:
+                properties:
+                    numberofNICS:
+                        type: Integer
+            type: Object
+            ram:
+                properties:
+                    sizeBytesGB:
+                        type: Integer
+            type: Object
+            systemVendor:
+                properties:
+                    name:
+                        type: String
+            type: Object
+            firmware:
+                properties:
+                    version:
+                        RAID:
+                            type: String
+                        BasebandManagement:
+                            type: String
+                        BIOS:
+                            type: String
+                        IDRAC:
+                            type: String
+                type: Object
+            required:
+            - customFilter
+            - namespace
+        rules:
+            properties:
+                feild:
+                    type: String
+                operation:
+                    type: String
+                value:
+                    type: String
+        type: object
         required:
-        - filter
-        - namespace
+        - feild
+        - operation
+        - value
     ```
 * Write a new API as hardware-classification-controller/api/v1alpha1 and new kind(CRD) HardwareClassificationController.
     e.g.
@@ -114,11 +129,11 @@ https://github.com/metal3-io/baremetal-operator/blob/master/deploy/crds/metal3.i
 
     - Implement a new function fetchHost() which will fetch all baremetal hosts from Baremetal-Operator of namespace 'metal3' provided by user in CRD_yaml. This function will return a list of filtered hosts(hosts in status 'ready' or 'inspecting'). 
 
-    - In hardwareClassificationController_controller.go, reconcile function will call fetchHost()        function to fetch all baremetal hosts and also extract hardware configuration, namespace and filter from `metal3.io_HardwareClassificationController_crd.yaml`.
+    - In hardwareClassificationController_controller.go, reconcile function will call fetchHost()        function to fetch all baremetal hosts and also extract expectedHardwareConfiguration or expression rules from `metal3.io_HardwareClassificationController_crd.yaml`.
 
-    - Create a classification_manager.go file. Create a function manager() which will have inputs namespace, filter and BMH host_list. This function will call appropriate comparision logic written in classification_filter.go based on 'filter' specified by user in CRD_yaml.
+    - Create a classification_manager.go file. If user provieds value for expectedHardwareConfiguration then write a function manager() which will have inputs namespace, customFilter and BMH host_list. This function will call appropriate comparision logic written in classification_filter.go based on 'customFilter' specified by user in CRD_yaml. If user have set different rules for filtering BMH then filtering will be done based on 'operation' value provided.
 
-    - The classification_filter.go file will contain multiple comparision algorithms based on filters(i.e minimum and maximum). Create a ClassificationComparison() function which will have inputs fetched baremetalhost list and extracted hardware profile. Comparision function will check each host against profile and update the label if match found.
+    - The classification_filter.go file will contain multiple comparision algorithms based on multiple custom classification filters(i.e minimum and maximum) or expression filters. Create a ClassificationComparison() function which will have inputs fetched baremetalhost list and extracted hardware profile. Comparision function will check each host against profile and update the label if match found.
 
 
 * Create the Schema struct for `ExpectedHardwareConfiguration` inside `HardwareClassificationControllerSpec`,
@@ -161,6 +176,12 @@ in file /api/v1alpha1/hardwareClassificationController_types.go.
         BIOS               string `json:"BIOS"`
         IDRAC              string `json:"IDRAC"`
     }
+
+    type Rules struct {
+        Feild       string  'json:"feild"'
+        Operation   string  'json:"operation"'
+        Value       string  'json:"value"'
+    }
     ```
 
 ### Risks and Mitigations
@@ -177,12 +198,11 @@ The following diagram shows the implementation details of Hardware Classificatio
 ### Work Items
 
 1. Implement CRD for `HardwareClassificationController`.
-2. Create the Schema struct for HardwareConfiguration inside HardwareClassificationControllerSpec,
-in file pkg/api/metal3/v1alpha1/hardwareClassificationController_types.go
+2. Create the Schema struct for HardwareConfiguration and Rules inside HardwareClassificationControllerSpec, in file pkg/api/metal3/v1alpha1 hardwareClassificationController_types.go
 3. Fetch baremetal host list from the baremetal operator running in the metal3 cluster.
-4. Extract the profile from the yaml file passed to the CRD.
+4. Extract the expectedHardwareConfiguration or rules from the yaml file passed to the CRD.
 5. Create a classification_manager.go file. Write a function manager() to call appropriate filter logic written in classification_filter.go.
-6. Create a classification_filter.go file. Write multiple algorithms based on the filter to comapre host against profile.
+6. Create a classification_filter.go file. Write multiple algorithms based on the cusom filter or expression filter to comapre host against profile or rules.
 7. Set labels for baremetal host CR if it matches the profile.
 8. Write unit tests for above implementation.
 
