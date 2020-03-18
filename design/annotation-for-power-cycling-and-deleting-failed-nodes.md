@@ -185,13 +185,16 @@ No changes are required to preserve the existing behaviour.
 
 ### Version Skew Strategy
 
-If CAPBM will be downgraded and BMO version will include the reboot functionality,
-we might end with a powered off host. This can happen if remediation process started,
-MRC requested for a power off by adding suffixed reboot annotation, and then CAPBM
-being downgraded to a version without MRC. There will be no one to remove that annotation
-and BMO will keep the host in powered off state until annotation removal.
-This will be solved as soon as the version skew is gone and they both use either
-reboot-supported versions or not at all.
+CAPBM and BMO are delivered via the same image (both are installed by MAO, but running
+in a different pod), therefore an upgrade or downgrade affecting one component will
+eventually be applied to the other and any version skew is temporary.
+During the transient case that CAPBM does not include the MRC, Host can be left in powered
+off state, since MRC could add reboot annotation, and then it get downgraded, and there will
+be no controller to remove the reboot annotation.
+During the transient case that BMO does not support the reboot API, MRC could request for a reboot,
+which won't commence until BMO upgrades to a version which supports reboot annotation.
+In both cases, the impact is just delayed remediation and will be resolved once there's
+no version skew. 
 
 ## Drawbacks [optional]
 
