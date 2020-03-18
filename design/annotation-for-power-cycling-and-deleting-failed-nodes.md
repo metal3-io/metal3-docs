@@ -206,9 +206,9 @@ platform independent interface such as the Machine or Cluster APIs.
 ## Alternatives [optional]
 
 1. Wait for equivalent functionality to be exposed by the Machine and/or Cluster APIs.
-2. Use CRD and a new operator for machine remediation, this was tried in the past but
-was mainly rejected since there was no operator to install the CRD of the new machine
-remediation operator.
+2. Use a CRD to track the remediation progress instead of inferring it based on the existence or
+otherwise of Node objects, Machine and Host annotations. This was tried in the past but was mainly
+rejected since there was no operator to install that CRD.
 
 ## References
 
