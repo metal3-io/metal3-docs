@@ -13,12 +13,6 @@ provisional
 
 ## Table of Contents
 
-A table of contents is helpful for quickly jumping to sections of a
-design and for highlighting any additional information provided beyond
-the standard template.
-
-[Tools for generating][] a table of contents from markdown are available.
-
 <!--ts-->
    * [Title](#title)
       * [Status](#status)
@@ -110,8 +104,8 @@ As a user, I want to give my own metadata to Ironic as a field on BareMetalHost.
 
 ### Implementation Details/Notes/Constraints
 
-- Baremetal Operator should set some default metadata in case they are not
-  provided by the use (Like UUID that is required).
+- The metadata field should contain some required element, such as UUID, that is
+  required by cloud-init.
 - Not providing any metadata object and any content in the metadata fields of
   Metal3Machine should result in the same behaviour as before this proposal is
   implemented
@@ -132,7 +126,45 @@ understandable.
 
 BareMetalHost would have an added field `metaData` in the `Spec` pointing to a
 secret containing the metadata map. Bare Metal Operator would then pass this map
-with added default key/value pairs if not present to Ironic.
+to Ironic.
+
+The Metal3Machine will be modified as follow:
+
+```yaml
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
+kind: Metal3Machine
+metadata:
+  name: machine-1
+  namespace: default
+spec:
+  metaData:
+    ghi: jkl
+  metaData:
+    configRef:
+      name: nodepool-1
+      namespace: default
+    dataSecret:
+      name: machine-1-0
+      namespace: default
+```
+
+A `metaData` field would be added, consisting of an object reference called
+`configRef` referencing a new object type Metal3Metadata, and an object
+reference named `dataSecret` containing the name and the namespace of the secret
+containing the metaData for this Metal3Machine. If configRef is set but the
+dataSecret is not, then the Metal3Machine controller will wait until dataSecret
+is set.
+
+The secret containing the metaData could be provided by the user directly.
+
+When CAPM3 controller will select a BaremetalHost and set the different
+fields there, it will reference the metadata secret in the BareMetalHost. If
+both `configRef` and `dataSecret` fields are unset, no metadata will be
+provided to the BareMetalHost.
+
+When the Metal3Machine gets deleted, the CAPM3 controller will remove its
+references from the metadata secret, removing the finalizer if no other
+Metal3Machines are listed in the owner references, and then deleting it.
 
 A new object would be created, a Metal3Metadata type.
 
@@ -148,99 +180,91 @@ metadata:
     kind: Metal3Cluster
     name: cluster-1
 spec:
-  values:
-    node-0:
-      abc: def
-    node-1:
-      abc: ghi
-  templates:
+  metaData:
+    abc: def
     local-hostname: worker-np1-{{ getIndex }}
+status:
+  indexes:
+    "0": "machine-1"
+  secrets:
+    "machine-1":
+        name: machine-1-0
+        namespace: default
+  lastUpdated: "2020-03-25T12:33:25Z"
 ```
 
-This object will be reconciled by the Metal3machine controller. When reconciled,
+This object will be reconciled by its own controller. When reconciled,
 the controller will add an OwnerReference to the Metal3Cluster that has nodes
-linking to this object. The spec contains two fields:
+linking to this object. The spec contains a metaData field that contains a map
+of key and values that will be rendered for all nodes.
 
-- `values` contains a map of id and map of key and values. The id is merely an
-  identifier of the map of key and values.
-- `templates` contains a map of key and values that will be reused for all.
-
-In both cases, the values will be [go templates](
+The values will be [go templates](
 https://golang.org/pkg/text/template/). A function `getIndex` will return
-the lower int that is not yet in use.
+the lower int that is not yet in use, and a function `getIndexWithOffset` will
+return the sum of the index and the given offset.
 
-A second object
-would be created, a Metal3MetadataStatus type, linked to a Metal3Cluster.
+The output of the controller would be secrets, one per node linking to the
+Metal3Metadata object.
+
+If the Metal3Metadata object is updated, the reconciliation loop will update all
+the secrets that have this object in their OwnerReferences.
+
+The reconciliation of the Metal3Metadata object will also be triggered by
+changes on Metal3Machines. In the case that a Metal3Machine gets created, if the
+`configRef` references a Metal3Metadata, that object will be reconciled. If the
+dataSecret is set, that will be a no-op reconciliation loop. If it is unset,
+there will be two cases:
+
+- An already generated secret exists with an ownerReference to this
+  Metal3Machine. In that case, the reconciler will update it and fill the
+  `dataSecret` field on the Metal3Machine with the secret name.
+- if no secret exists with an ownerReference to this Metal3Machine, then the
+  reconciler will create one and fill the `dataSecret` with the secret name.
+
+To create a metadata secret, the controller will generate the metaData content
+based on the metaData field of the Metal3Metadata Specs. It will render the
+metaData, selecting the lowest available index from the status indexes map. If
+that map is empty, it will build it by making a list of the already
+existing secrets with an ownerReference to this Metal3Metadata object, building
+a map of names of the machines and index used by the machine, extracting the
+index from the secret names. Once the next available index is found, it will
+update the Metal3Metadata object. Upon conflict, it will immediately requeue to
+consider the new state of Metal3Metadata. Upon success, it will render
+the metaData values, and create a secret containing the rendered metaData. The
+name of the secret will be made of a prefix and the index. The Metal3Machine
+object name will be used as the prefix. A `-metadata-` will be added between the
+prefix and the index.
 
 ```yaml
-apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
-kind: Metal3MetadataStatus
+apiVersion: v1
+kind: Secret
+type: infrastructure.cluster.k8s.io/secret
 metadata:
-  name: nodepool-1
+  name: nodepool-1-metadata-0
   namespace: default
   ownerReferences:
   - apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
     controller: true
-    kind: Metal3Metadata
-    name: nodepool-1
+    kind: Metal3Machine
+    name: machine-1
 spec:
-  values:
-    "node-0": default/machine-1
-  indexes:
-    "0": default/machine-1
-  machines:
-    "default/machine-1":
-      index: "0"
-      value: "node-0"
+  metaData: |
+    abc: def
+    local-hostname: worker-np1-0
 ```
 
-This object would store the list of values used for each Metal3Metadata object.
-The rationale behind not including it as a status of the previous object is to
-be able to go through the move phase without information loss. This object would
-only be used by the controller and should not be edited by the user.
-
-The name of this status object will be identical to the Metal3Metadata object.
-The `spec` field will contain fields that keeps track of which Metal3Machine is
-using each of the values or indexes.
-
-The Metal3Machine will be modified as follow:
-
-```yaml
-apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
-kind: Metal3Machine
-metadata:
-  name: machine-1
-  namespace: default
-spec:
-  metaData:
-    ghi: jkl
-  metaDataTemplate:
-    name: nodepool-1
-    namespace: default
-```
-
-When CAPM3 controller will fill select a BaremetalHost and set the different
-fields there, it will generate the metaData content based on the static metaData
-and then render the metadata from the metaDataTemplate. It will
-get the referenced Metal3Metadata and render metadata from the templates,
-selecting the lowest available index, and from the values, selecting the first
-available id. It will save the index and id in the Metal3MetadataStatus. If the
-Metal3Machine already has an index and an id in the Metal3MetadataStatus, it
-will re-use those.
-
-When the Metal3Machine gets deleted, the CAPM3 controller will remove its
-references from the Metal3MetadataStatus, making it available for other
-Metal3Machines.
+The secret will contain the generated metaData for the host. Once the
+`dataSecret` field on the Metal3Machine is set, the Metal3Machine controller
+will proceed with the provisioning.
 
 ### Work Items
 
 Here are the different steps :
 
 - Add the metadata field in BareMetalHost (On-going)
-- Add the CAPM3 logic for the metadata part
-- Add the logic to cover the template value part, adding the Metal3Metadata
-  and Metal3MetadataStatus object
-- Extend the logic to also cover the template part of the Metal3Metadata object.
+- Add the CAPM3 logic for the metadata reconciler
+- Modify the Metal3Machine reconciler to make use of the metadata and set it on
+  the BareMetalHost.
 
 ### Dependencies
 
