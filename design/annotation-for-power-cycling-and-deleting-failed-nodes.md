@@ -159,6 +159,26 @@ hosts referenced by node-less machines
 `host.metal3.io/external-remediation` annotation (by removing
 `reboot.metal3.io/machine-remediation` annotation from host)
 
+See truth table below:
+
+|Node Ref exists?|Needs remediation annotation|Powered on?|Reboot annotation|MRC action|
+|:-:|:-:|:-:|:-:|---|
+|0|1|1|0|Add reboot annotation|
+|1|1|1|0|Add reboot annotation|
+|1|1|0|1|Delete node|
+|0|0|1|0|nothing|
+|0|0|1|1|nothing|
+|0|1|0|0|nothing|
+|0|1|1|1|nothing|
+|1|0|0|0|nothing|
+|1|0|1|0|nothing|
+|1|0|1|1|nothing|
+|1|1|0|0|nothing|
+|1|1|1|1|nothing|
+|0|1|0|1|Remove needs-remediation annoation|
+|0|0|0|1|Remove reboot annotation|
+|1|0|0|1|Remove reboot annotation|
+
 ### Work Items
 
 - Create a new machine remediation controller in openshift/CAPBM repo
