@@ -136,7 +136,7 @@ without risking in any data loss/corruption.
 ### Implementation Details/Notes/Constraints [optional]
 
 The MRC will be implemented in openshift/CAPBM and will later need to be ported
-back to metal3/CAPBM.
+back to metal3/CAPM3.
 
 Previous design relied on the existence of a new CRD to store state.
 This design is CRD-free and only uses annotations.
