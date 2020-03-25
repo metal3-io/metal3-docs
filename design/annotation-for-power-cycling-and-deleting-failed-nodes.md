@@ -111,17 +111,21 @@ not left in powered off state.
 ## Assumptions
 
 MHC checks that each machine has a node, and if it doesn't after some timeout,
-it will mark the machine as unhealthy. There could be situations where this timeout
-expires few seconds after MRC powered on the machine, resulting in one or more
-redundant reboot(s).
-Current MHC implementation checks that `now() - Machine.LastUpdated < timeout`.
-MRC deletes the unhealthy node, which updates `Machine.LastUpdated`.
-We assume that this implementation won't change.
+it will mark the machine as unhealthy. If this timeout expires soon after the MRC powered
+on the host, it could result in one or more redundant reboot(s).
+However, the current MHC implementation checks that `now() - Machine.LastUpdated < timeout`
+and the MRC deletes the unhealthy node, which updates `Machine.LastUpdated`.
+
+We assume that this implementation won't change, that `timeout` is set long enough
+for a node to be both provisioned *and* rebooted, which implies that any `Node` 
+hitting this timeout is truly malfunctioning.
+
+Further, we require that equivalent functionality will exist in parallel implementations.
 
 In addition, MRC has some operations to perform between node deletion (which triggers
 update of `Machine.LastUpdated`) to powering on the host, and these operations
 are also counted against that timeout. These operations are removing
-MAO's annotation and removing the reboot annotation. We assume that this
+the unhealthy annotation from the Machine and removing the reboot annotation. We assume that this
 time is negligible, especially compared to a newly provisioned host, and in case of
 temporary failure to remove one of the annotations we will risk in additional reboot.
 
