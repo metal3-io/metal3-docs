@@ -99,10 +99,10 @@ This proposal calls for a new machine remediation controller (MRC) in CAPM3
 which watches for the presence of a `host.metal3.io/external-remediation` Machine
 annotation. If present, the controller will locate the Machine
 and BareMetalHost host objects via their annotations, and will annotate the BareMetalHost
-CR with a `reboot.metal3.io/machine-remediation`. Upon host power off, the controller
-will delete the node and then remove the annotation, to power on the host by
-utilizing [Baremetal-Operator reboot API](https://github.com/metal3-io/metal3-docs/blob/master/design/reboot-interface.md).
-
+CR with a `reboot.metal3.io/machine-remediation` to power cycle the host by
+utilizing the [Baremetal-Operator reboot API](https://github.com/metal3-io/metal3-docs/blob/master/design/reboot-interface.md).
+Upon host power off, the controller will delete the node and then remove the annotation,
+allowing it to be powered back on.
 After restart/crash of the new controller it will check for
 `reboot.metal3.io/machine-remediation` annotation on all hosts,
 and continue remediation process, to make sure that such host is
