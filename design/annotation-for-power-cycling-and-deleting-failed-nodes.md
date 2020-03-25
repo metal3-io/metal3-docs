@@ -95,7 +95,7 @@ itself, allowing it to host workloads.
 
 ## Proposal
 
-This proposal calls for a new machine remediation controller (MRC) in CAPBM
+This proposal calls for a new machine remediation controller (MRC) in CAPM3
 which watches for the presence of a `host.metal3.io/external-remediation` Machine
 annotation. If present, the controller will locate the Machine
 and BareMetalHost host objects via their annotations, and will annotate the BareMetalHost
