@@ -205,16 +205,17 @@ No changes are required to preserve the existing behaviour.
 
 ### Version Skew Strategy
 
-CAPBM and BMO are delivered via the same image (both are installed by MAO, but running
-in a different pod), therefore an upgrade or downgrade affecting one component will
+If CAPM3 and the BMO are in different pods, an upgrade or downgrade could lead to
+version skew (one pod supports machine remediation and the other doesn't)
+An upgrade or downgrade affecting one component will
 eventually be applied to the other and any version skew is temporary.
-During the transient case that CAPBM does not include the MRC, Host can be left in powered
+During the transient case that CAPM3 does not include the MRC, Host can be left in powered
 off state, since MRC could add reboot annotation, and then it get downgraded, and there will
 be no controller to remove the reboot annotation.
 During the transient case that BMO does not support the reboot API, MRC could request for a reboot,
 which won't commence until BMO upgrades to a version which supports reboot annotation.
 In both cases, the impact is just delayed remediation and will be resolved once there's
-no version skew. 
+no version skew.
 
 ## Drawbacks [optional]
 
