@@ -158,8 +158,6 @@ metadata:
   name: machine-1
   namespace: default
 spec:
-  metaData:
-    ghi: jkl
   dataTemplate:
     name: nodepool-1
     namespace: default
@@ -174,8 +172,6 @@ metadata:
   name: machine-1
   namespace: default
 spec:
-  metaData:
-    ghi: jkl
   metaData:
     name: machine-1-metadata
     namespace: default
@@ -200,8 +196,8 @@ templates were provided.
 The secret containing the metaData or the network data could be provided by the
 user directly.
 
-When CAPM3 controller will select a BaremetalHost and set the different
-fields there, it will reference the metadata secret and the network data secret
+When CAPM3 controller will set the different fields in the BareMetalHost,
+it will reference the metadata secret and the network data secret
 in the BareMetalHost. If `metaData` or `networkData` field is unset, it will
 also remain unset on the BareMetalHost.
 
@@ -225,9 +221,41 @@ metadata:
 spec:
   metaData: |
     abc: def
-    local-hostname: worker-np1-{{ getIndex }}
+    local-hostname: {{ machineName }}
+    index: {{ index }}
   networkData: |
-    whatever network config
+    {
+        "links": [
+            {
+                "id": "enp1s0",
+                "type": "phy",
+                "ethernet_mac_address": "{{ '{{ bareMetalHostMACByName "eth0" }}' }}"
+            },
+            {
+                "id": "enp2s0",
+                "type": "phy",
+                "ethernet_mac_address": "{{ '{{ bareMetalHostMACByName "eth1" }}' }}"
+            }
+        ],
+        "networks": [
+            {
+                "id": "Provisioning",
+                "type": "ipv4_dhcp",
+                "link": "enp1s0"
+            },
+            {
+                "id": "Baremetal",
+                "type": "ipv4_dhcp",
+                "link": "enp2s0",
+            }
+        ],
+        "services": [
+            {
+                "type": "dns",
+                "address": "8.8.8.8"
+            }
+        ]
+    }
 status:
   indexes:
     "0": "machine-1"
@@ -247,11 +275,18 @@ the controller will add a label pointing to the Metal3Cluster that has nodes
 linking to this object. The spec contains a `metaData` and a `networkData` field
 that contain a template of the values that will be rendered for all nodes.
 
+The `metaData` field should contain a map of strings in yaml format, while
+`networkData` should contain a json string that fulfills the requirements of
+[Nova network_data.json](https://docs.openstack.org/nova/latest/user/metadata.html#openstack-format-metadata).
+The format definition can be found
+[here](https://docs.openstack.org/nova/latest/_downloads/9119ca7ac90aa2990e762c08baea3a36/network_data.json).
+
 The values will be [go templates](
 https://golang.org/pkg/text/template/). Multiple functions would be available :
 
 - **machineName** : returns the Machine name
 - **metal3MachineName** : returns the Metal3Machine name
+- **bareMetalHostName** : returns the BareMetalHost name
 - **index** : returns the Metal3Machine index for the Metal3Metadata object.
   The index starts from 0.
 - **indexWithOffset** : takes an integer as parameter and returns the sum of
@@ -263,6 +298,10 @@ https://golang.org/pkg/text/template/). Multiple functions would be available :
   sum of the offset and the multiplication of the index and the step.
 - **index*Hex** : All the `index` functions can be suffixed with `Hex` to
   get the same value in hexadecimal format.
+- **bareMetalHostMACByName**: takes a string as parameter and returns the MAC
+  address of the nic with the name matching the parameter. This function
+  operates over the list of NICs in the `status.hardwareDetails.NIC` field of
+  the BareMetalHost.
 
 
 The output of the controller would be secrets, one per node linking to the
