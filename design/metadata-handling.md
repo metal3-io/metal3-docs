@@ -161,6 +161,16 @@ spec:
   dataTemplate:
     name: nodepool-1
     namespace: default
+status:
+  renderedData:
+    name: nodepool-1-0
+    namespace: default
+  metaData:
+    name: machine-1-metadata
+    namespace: default
+  networkData:
+    name: machine-1-networkdata
+    namespace: default
 ```
 
 or alternatively
@@ -178,32 +188,43 @@ spec:
   networkData:
     name: machine-1-networkData
     namespace: default
+status:
+  metaData:
+    name: machine-1-metadata
+    namespace: default
+  networkData:
+    name: machine-1-networkData
+    namespace: default
 ```
 
-A `metaData` field would be added, consisting of a secret reference containing
-the name and the namespace of the secret containing the metaData for this
-Metal3Machine. A `networkData` field would be added, consisting of a secret
+A `metaData` field would be added in the spec and in the status, consisting of a
+secret reference containing the name and the namespace of the secret containing
+the metaData for this Metal3Machine. A `networkData` field would be added to the
+spec and to the status objects, consisting of a secret
 reference containing the name and the namespace of the secret containing the
 network configuration for this Metal3Machine.
 
 A `dataTemplate` field would be added, consisting of an object reference
-containing the name and the namespace of the secret containing the templates for
-the metadata and network data generation for this Metal3Machine. If this is set
-but either the `metaData` or `networkData` field is unset, then the
-Metal3Machine controller will wait until those are populated, depending on which
-templates were provided.
+to a Metal3DataTemplate object containing the templates for
+the metadata and network data generation for this Metal3Machine.
+A `renderedData` field will be added in the status and will be a reference to
+the Metal3Data object created for this machine. If the dataTemplate field is set
+but either the `renderedData`, `metaData` or `networkData` fields in the status
+are unset, then the Metal3Machine controller will wait until it can find the
+Metal3Data object and the rendered secrets. It will then populate those fields.
 
 The secret containing the metaData or the network data could be provided by the
-user directly.
+user directly using the `metaData` or `networkData` fields in the spec of the
+object.
 
 When CAPM3 controller will set the different fields in the BareMetalHost,
 it will reference the metadata secret and the network data secret
-in the BareMetalHost. If `metaData` or `networkData` field is unset, it will
-also remain unset on the BareMetalHost.
+in the BareMetalHost. If any of the `metaData` or `networkData` status fields
+are unset, that field will also remain unset on the BareMetalHost.
 
 When the Metal3Machine gets deleted, the CAPM3 controller will remove its
-references from the data template object. This will trigger the deletion of the
-secrets generated for this machine.
+ownerreference from the data template object. This will trigger the deletion of
+the generated Metal3Data object and the secrets generated for this machine.
 
 A new object would be created, a Metal3DataTemplate type.
 
@@ -229,12 +250,12 @@ spec:
             {
                 "id": "enp1s0",
                 "type": "phy",
-                "ethernet_mac_address": "{{ '{{ bareMetalHostMACByName "eth0" }}' }}"
+                "ethernet_mac_address": "{{ bareMetalHostMACByName "eth0" }}"
             },
             {
                 "id": "enp2s0",
                 "type": "phy",
-                "ethernet_mac_address": "{{ '{{ bareMetalHostMACByName "eth1" }}' }}"
+                "ethernet_mac_address": "{{ bareMetalHostMACByName "eth1" }}"
             }
         ],
         "networks": [
@@ -256,18 +277,6 @@ spec:
             }
         ]
     }
-status:
-  indexes:
-    "0": "machine-1"
-  metaDatasecrets:
-    "machine-1":
-        name: machine-1-metadata-0
-        namespace: default
-  networkDatasecrets:
-    "machine-1":
-        name: machine-1-networkdata-0
-        namespace: default
-  lastUpdated: "2020-03-25T12:33:25Z"
 ```
 
 This object will be reconciled by its own controller. When reconciled,
@@ -280,6 +289,7 @@ The `metaData` field should contain a map of strings in yaml format, while
 [Nova network_data.json](https://docs.openstack.org/nova/latest/user/metadata.html#openstack-format-metadata).
 The format definition can be found
 [here](https://docs.openstack.org/nova/latest/_downloads/9119ca7ac90aa2990e762c08baea3a36/network_data.json).
+Those formats must be respected
 
 The values will be [go templates](
 https://golang.org/pkg/text/template/). Multiple functions would be available :
@@ -304,8 +314,36 @@ https://golang.org/pkg/text/template/). Multiple functions would be available :
   the BareMetalHost.
 
 
-The output of the controller would be secrets, one per node linking to the
-Metal3DataTemplate object.
+The output of the controller would be a Metal3Data object,one per node linking to the
+Metal3DataTemplate object and the associated secrets
+
+The Metal3Data object would be:
+
+```yaml
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
+kind: Metal3Data
+metadata:
+  name: nodepool-1-0
+  namespace: default
+  ownerReferences:
+  - apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
+    controller: true
+    kind: Metal3DataTemplate
+    name: nodepool-1
+spec:
+  index: 0
+  metaData:
+    name: machine-1-metadata
+    namespace: default
+  networkData:
+    name: machine-1-metadata
+    namespace: default
+  metal3Machine:
+    name: machine-1
+    namespace: default
+```
+The Metal3Data will contain the index of this node, and links to the secrets
+generated and to the Metal3Machine using this Metal3Data object.
 
 If the Metal3DataTemplate object is updated, the generated secrets will not be
 updated, to allow for reprovisioning of the nodes in the exact same state as
@@ -314,27 +352,28 @@ a rolling upgrade of all nodes.
 
 The reconciliation of the Metal3DataTemplate object will also be triggered by
 changes on Metal3Machines. In the case that a Metal3Machine gets modified, if
-the `dataTemplate` references a Metal3Metadata, that object will be reconciled.
-If the `metaData` and `networkData` are set, that will be a no-op reconciliation
-loop. If it is unset, there will be two cases:
+the `dataTemplate` references a Metal3DataTemplate, that object will be reconciled.
+There will be two cases:
 
-- An already generated secret exists with an ownerReference to this
-  Metal3Machine. In that case, the reconciler will update it and fill the
-  respective field on the Metal3Machine with the secret name.
+- An already generated Metal3Data object exists with an ownerReference to this
+  Metal3Machine. In that case, the reconciler will verify that the required
+  secrets exist. If they do not, they will be created.
 - if no secret exists with an ownerReference to this Metal3Machine, then the
   reconciler will create one and fill the respective field with the secret name.
 
-To create a secret, the controller will generate the content
-based on the `metaData` or `networkData` field of the Metal3DataTemplate Specs.
-It will render the content of the secret, selecting the lowest available index
-from the status indexes map. If that map is empty, it will fill it by building
-a map of names of the machines and index used by the machine, extracting the
-index from the secret names in the Metal3Machine specs.
+To create a Metal3Data object, the controller will select an index for that
+Metal3Machine. The selection happens by selecting the lowest available index.
+The controller will list all existing Metal3Data object linked to this
+Metal3DataTemplate and create a list of unavailable indexes. It will fill it by
+extracting the index from the Metal3Data names.
 
-Once the next available index is found, it will update the Metal3DataTemplate
-object. Upon conflict, it will immediately requeue to consider the new state of
-Metal3DataTemplate. Upon success, it will render the content values, and create
-a secret containing the rendered data.
+Once the next available index is found, it will create the Metal3Data object.
+The name would be a concatenation of the Metal3DataTemplate name and index.
+Upon conflict, it will fetch again the list to consider the new list of 
+Metal3Data. Upon success, it will render the content values, and create
+the secrets containing the rendered data. The controller will generate the
+content based on the `metaData` or `networkData` field of the Metal3DataTemplate
+Specs.
 
 The name of the secret will be made of a prefix and the index. The Metal3Machine
 object name will be used as the prefix. A `-metadata-` or `-networkdata-` will
