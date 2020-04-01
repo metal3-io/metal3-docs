@@ -149,6 +149,8 @@ BareMetalHost would have an added field `metaData` in the `Spec` pointing to a
 secret containing the metadata map. Bare Metal Operator would then pass this map
 to Ironic.
 
+### Metal3Machine changes
+
 The Metal3Machine will be modified as follow:
 
 ```yaml
@@ -226,6 +228,8 @@ When the Metal3Machine gets deleted, the CAPM3 controller will remove its
 ownerreference from the data template object. This will trigger the deletion of
 the generated Metal3Data object and the secrets generated for this machine.
 
+### The Metal3DataTemplate object
+
 A new object would be created, a Metal3DataTemplate type.
 
 ```yaml
@@ -240,43 +244,104 @@ metadata:
     kind: Metal3Cluster
     name: cluster-1
 spec:
-  metaData: |
-    abc: def
-    local-hostname: {{ machineName }}
-    index: {{ index }}
-  networkData: |
-    {
-        "links": [
-            {
-                "id": "enp1s0",
-                "type": "phy",
-                "ethernet_mac_address": "{{ bareMetalHostMACByName "eth0" }}"
-            },
-            {
-                "id": "enp2s0",
-                "type": "phy",
-                "ethernet_mac_address": "{{ bareMetalHostMACByName "eth1" }}"
-            }
-        ],
-        "networks": [
-            {
-                "id": "Provisioning",
-                "type": "ipv4_dhcp",
-                "link": "enp1s0"
-            },
-            {
-                "id": "Baremetal",
-                "type": "ipv4_dhcp",
-                "link": "enp2s0",
-            }
-        ],
-        "services": [
-            {
-                "type": "dns",
-                "address": "8.8.8.8"
-            }
-        ]
-    }
+  metaData:
+    - key: abc
+      string: def
+    - key: name_m3m
+      objectName:
+        object: metal3machine
+    - key: name_machine
+      objectName:
+        object: machine
+    - key: name_bmh
+      objectName:
+        object: baremetalhost
+    - key: index
+      index:
+        offset: 0
+        step: 1
+    - key: ip
+      ip:
+        start: 192.168.0.10
+        end: 192.168.0.100
+        subnet: 192.168.0.0/24
+    - key: mac
+      bareMetalHostMACByName: "eth0"
+  networkData:
+    links:
+      - ethernet:
+          type: "phy"
+          id: "enp1s0"
+          mtu: 1500
+          macAddress:
+            bareMetalHostMACByName: "eth0"
+      - ethernet:
+          type: "phy"
+          id: "enp2s0"
+          mtu: 1500
+          macAddress:
+            bareMetalHostMACByName: "eth1"
+      - bond:
+          id: "bond0"
+          mtu: 1500
+          macAddress:
+            string: "XX:XX:XX:XX:XX:XX"
+          bondMode: "802.1ad"
+          bondLinks:
+            - enp1s0
+            - enp2s0
+      - vlan:
+          id: "vlan1"
+          mtu: 1500
+          macAddress:
+            string: "YY:YY:YY:YY:YY:YY"
+          vlanId: 1
+          vlanLink: bond0
+    networks:
+      - ipv4Dhcp:
+          id: "provisioning"
+          link: "bond0"
+
+      - ipv4:
+          id: "Baremetal"
+          link: "vlan1"
+          ipAddress:
+            start: "192.168.0.10"
+            end: "192.168.0.100"
+            subnet: "192.168.0.0/24"
+            step: 1
+          netmask: 24
+          routes:
+            - network: "0.0.0.0"
+              netmask: 0
+              gateway: "192.168.0.1"
+              services:
+                - type: "dns"
+                  address: "8.8.4.4"
+      - ipv6Dhcp:
+          id: "provisioning6"
+          link: "bond0"
+      - ipv6Slaac:
+          id: "provisioning6slaac"
+          link: "bond0"
+      - ipv6:
+          id: "Baremetal6"
+          link: "vlan1"
+          ipAddress:
+            start: "2001:0db8:85a3::8a2e:0370:a"
+            end: "2001:0db8:85a3::8a2e:0370:fff0"
+            subnet: "2001:0db8:85a3::8a2e:0370:0/64"
+            step: 10
+          netmask: 64
+          routes:
+            - network: "0::0"
+              netmask: 0
+              gateway: "2001:0db8:85a3::8a2e:0370:1"
+              services:
+                - dns: "2001:4860:4860::8844"
+    services:
+      - dns: "8.8.8.8"
+      - dns: "2001:4860:4860::8888"
 ```
 
 This object will be reconciled by its own controller. When reconciled,
@@ -284,35 +349,170 @@ the controller will add a label pointing to the Metal3Cluster that has nodes
 linking to this object. The spec contains a `metaData` and a `networkData` field
 that contain a template of the values that will be rendered for all nodes.
 
-The `metaData` field should contain a map of strings in yaml format, while
-`networkData` should contain a json string that fulfills the requirements of
+The `metaData` field will be rendered into a map of strings in yaml format,
+while `networkData` will be rendered into a json string that fulfills the
+requirements of
 [Nova network_data.json](https://docs.openstack.org/nova/latest/user/metadata.html#openstack-format-metadata).
 The format definition can be found
 [here](https://docs.openstack.org/nova/latest/_downloads/9119ca7ac90aa2990e762c08baea3a36/network_data.json).
-Those formats must be respected
 
-The values will be [go templates](
-https://golang.org/pkg/text/template/). Multiple functions would be available :
+#### Metadata Specifications
 
-- **machineName** : returns the Machine name
-- **metal3MachineName** : returns the Metal3Machine name
-- **bareMetalHostName** : returns the BareMetalHost name
-- **index** : returns the Metal3Machine index for the Metal3Metadata object.
-  The index starts from 0.
-- **indexWithOffset** : takes an integer as parameter and returns the sum of
-  the index and the offset parameter
-- **indexWithStep** : takes an integer as parameter and returns the
-  multiplication of the index and the step parameter
-- **indexWithOffsetAndStep** OR **indexWithStepAndOffset**: takes two
-  integers as parameters, order depending on the function name, and returns the
-  sum of the offset and the multiplication of the index and the step.
-- **index*Hex** : All the `index` functions can be suffixed with `Hex` to
-  get the same value in hexadecimal format.
-- **bareMetalHostMACByName**: takes a string as parameter and returns the MAC
-  address of the nic with the name matching the parameter. This function
-  operates over the list of NICs in the `status.hardwareDetails.NIC` field of
-  the BareMetalHost.
+The `metaData` field contains a list of items that will render data in different
+ways. The following objects are available:
 
+- **key**: This is compulsory and is the key used for the rendered value in
+  the metadata map.
+- **string**: renders the given string as value in the metadata
+- **objectName** : renders the name of the object that matches the type given in
+  the `object` field.
+- **index**: renders the index of the current object, with the offset from the
+  `offset` field and using the step from the `step` field.
+- **ip**: renders an ip address based on the index, based on the `start` value
+  if given or using `subnet` to calculate the start value, and checking that
+  the rendered value is not over the `end` value. The increment is the `step`
+  value.
+- **bareMetalHostMACByName**: renders the MAC address of the BareMetalHost that
+  matches the name given as value.
+
+The **key** is required and one of the object is required. If there are multiple
+objects, the priority order will apply as listed above.
+
+#### networkData specifications
+
+The `networkData` field will contain three items :
+
+- **links**: a list of layer 2 interface
+- **networks**: a list of layer 3 networks
+- **services** : a list of services (DNS)
+
+##### Links specifications
+
+The object for the **links** section list can be one of:
+
+- **ethernet**: an ethernet interface
+- **bond**: a bond interface
+- **vlan**: a vlan interface
+
+The **links/ethernet** object contains the following:
+
+- **type**: Type of the ethernet interface
+- **id**: Interface name
+- **mtu**: Interface MTU
+- **macAddress**: an object to render the MAC Address
+
+The **links/ethernet/type** can be one of :
+
+- bridge
+- dvs
+- hw_veb
+- hyperv
+- ovs
+- tap
+- vhostuser
+- vif
+- phy
+
+The **links/ethernet/macAddress** object can be one of:
+
+- **string**: with the desired Mac given as a string
+- **bareMetalHostMACByName**: with the interface name from BareMetalHost
+  hardware details.
+
+The **links/bond** object contains the following:
+
+- **id**: Interface name
+- **mtu**: Interface MTU
+- **macAddress**: an object to render the MAC Address
+- **bondMode**: The bond mode
+- **bondLinks** : a list of links to use for the bond
+
+The **links/bond/bondMode** can be one of :
+
+- 802.1ad
+- balance-rr
+- active-backup
+- balance-xor
+- broadcast
+- balance-tlb
+- balance-alb
+
+The **links/vlan** object contains the following:
+
+- **id**: Interface name
+- **mtu**: Interface MTU
+- **macAddress**: an object to render the MAC Address
+- **vlanId**: The vlan ID
+- **vlanLink** : The link on which to create the vlan
+
+##### The networks specifications
+
+The object for the **networks** section list can be one of:
+
+- **ipv4**: an ipv4 static allocation
+- **ipv4Dhcp**: an ipv4 dhcp based allocation
+- **ipv6**: an ipv6 static allocation
+- **ipv6Dhcp**: an ipv6 dhcp based allocation
+- **ipv6Slaac**: an ipv6 slaac based allocation
+
+The **networks/ipv4** object contains the following:
+
+- **id**: the network name
+- **link**: The name of the link to configure this network for
+- **ipAddress**: the IP address object
+- **netmask**: the netmask, in an integer format
+- **routes**: the list of route objects
+
+The **networks/ipv4/ipAddress** is an address object containing:
+
+- **start**: the start IP address
+- **end**: The end IP address
+- **subnet**: The subnet in a CIDR notation "X.X.X.X/X"
+- **step**: the step between IP addresses
+
+If the **subnet** is specified, then **start** and **end** are not required and
+reverse, if **start** and **end** are specified, then **subnet** is not required
+
+The **networks/ipv4/routes** is a route object containing:
+
+- **network**: the subnet to reach
+- **netmask**: the mask of the subnet as integer
+- **gateway**: the gateway to use
+- **services**: a list of services object as defined later
+
+The **networks/ipv4Dhcp** object contains the following:
+
+- **id**: the network name
+- **link**: The name of the link to configure this network for
+- **routes**: the list of route objects
+
+The **networks/ipv6** object contains the following:
+
+- **id**: the network name
+- **link**: The name of the link to configure this network for
+- **ipAddress**: the IP address object
+- **netmask**: the netmask, in an integer format
+- **routes**: the list of route objects
+
+The **networks/ipv6Dhcp** object contains the following:
+
+- **id**: the network name
+- **link**: The name of the link to configure this network for
+- **routes**: the list of route objects
+
+The **networks/ipv6Slaac** object contains the following:
+
+- **id**: the network name
+- **link**: The name of the link to configure this network for
+- **routes**: the list of route objects
+
+##### the services specifications
+
+The object for the **services** section list can be one of:
+
+- **dns**: a dns service with the ip address of a dns server
+
+### The Metal3Data object
 
 The output of the controller would be a Metal3Data object,one per node linking to the
 Metal3DataTemplate object and the associated secrets
@@ -369,11 +569,13 @@ extracting the index from the Metal3Data names.
 
 Once the next available index is found, it will create the Metal3Data object.
 The name would be a concatenation of the Metal3DataTemplate name and index.
-Upon conflict, it will fetch again the list to consider the new list of 
+Upon conflict, it will fetch again the list to consider the new list of
 Metal3Data. Upon success, it will render the content values, and create
 the secrets containing the rendered data. The controller will generate the
 content based on the `metaData` or `networkData` field of the Metal3DataTemplate
 Specs.
+
+### The generated secrets
 
 The name of the secret will be made of a prefix and the index. The Metal3Machine
 object name will be used as the prefix. A `-metadata-` or `-networkdata-` will
@@ -403,6 +605,8 @@ The secret will contain the generated data for the host. Once the
 secret reference field on the Metal3Machine is set, the Metal3Machine controller
 will proceed with the provisioning.
 
+## Implementation structure
+
 ### Work Items
 
 Here are the different steps :
@@ -416,8 +620,6 @@ Here are the different steps :
 - ensure that the tests are created / updated accordingly
 
 ### Dependencies
-
-* [go templates](https://golang.org/pkg/text/template/)
 
 ### Test Plan
 
