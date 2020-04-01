@@ -48,8 +48,11 @@ provisional
 Cloud-init templates offer a very powerful feature to render the configuration
 at runtime based on metadata given by Ironic. We want to take advantage of this
 feature to render node specific configuration for nodes in a machine deployment
-or in a control plane kubeadm object. In addition, we want to be able to
-generate node specific network configuration in CAPM3 based on a template.
+or in a control plane kubeadm object dynamically, where this kind of objects
+cannot be created beforehand. In addition, we want to be
+able to generate node specific network configuration in CAPM3 based on a
+template for nodes that are part of a machine deployment or or a control plane
+provider object.
 
 This design proposal introduces a new data template object that contains
 templates for network data and metadata secret generation per node. Once
@@ -76,6 +79,11 @@ some hardware related information, not Kubernetes node information).
 Hence we want a way to generate a node-specific metadata and network data for a
 machine deployment or Kubeadm Control Plane and pass it down to Ironic.
 
+In addition, the network data might require static ip addresses configuration.
+The controller must be able to provide a unique IP address. Hence the controller
+should keep track of the index of the node to be able to render consistently ip
+addresses.
+
 ### Goals
 
 The goals are :
@@ -92,7 +100,8 @@ The goals are :
 
 ### Non-Goals
 
-TBA
+- Implement a new DSL to render the data. All configuration should be done
+  through API.
 
 ## Proposal
 
@@ -570,10 +579,11 @@ extracting the index from the Metal3Data names.
 Once the next available index is found, it will create the Metal3Data object.
 The name would be a concatenation of the Metal3DataTemplate name and index.
 Upon conflict, it will fetch again the list to consider the new list of
-Metal3Data. Upon success, it will render the content values, and create
-the secrets containing the rendered data. The controller will generate the
-content based on the `metaData` or `networkData` field of the Metal3DataTemplate
-Specs.
+Metal3Data and try to create the new object with the new index, this will happen
+until the new object is created successfully. Upon success, it will render the
+content values, and create the secrets containing the rendered data. The
+controller will generate the content based on the `metaData` or `networkData`
+field of the Metal3DataTemplate Specs.
 
 ### The generated secrets
 
