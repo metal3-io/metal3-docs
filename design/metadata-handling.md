@@ -154,9 +154,22 @@ understandable.
 
 ## Design Details
 
+### BareMetalHost changes
+
 BareMetalHost would have an added field `metaData` in the `Spec` pointing to a
 secret containing the metadata map. Bare Metal Operator would then pass this map
 to Ironic.
+
+Some values would be set by default to maintain compatibility:
+
+- **uuid**: This is the BareMetalHost UID
+- **metal3-namespace**: the name of the BareMetalHost
+- **metal3-name**: The name of the BareMetalHost
+- **local-hostname**: The name of the BareMetalHost
+- **local_hostname**: The name of the BareMetalHost
+
+However, setting any of those values in the metaData secret will override those
+default values.
 
 ### Metal3Machine changes
 
@@ -215,6 +228,19 @@ spec and to the status objects, consisting of a secret
 reference containing the name and the namespace of the secret containing the
 network configuration for this Metal3Machine.
 
+The secret containing the metaData or the network data could be provided by the
+user directly using the `metaData` or `networkData` fields in the spec of the
+Metal3Machine.
+
+The `metaData` and `networkData` field in the `spec` section are for the user
+to give directly a secret to use as metaData or networkData. The `userData`,
+`metaData` and `networkData` fields in the `status` section are for the
+controller to store the reference to the secret that is actually being used,
+whether it is from one of the spec fields, or somehow generated. This is aimed
+at making a clear difference between the desired state from the user (whether
+it is with a DataTemplate reference, or direct `metaData` or `userData` secrets)
+and what the controller is actually using.
+
 A `dataTemplate` field would be added, consisting of an object reference
 to a Metal3DataTemplate object containing the templates for
 the metadata and network data generation for this Metal3Machine.
@@ -223,10 +249,6 @@ the Metal3Data object created for this machine. If the dataTemplate field is set
 but either the `renderedData`, `metaData` or `networkData` fields in the status
 are unset, then the Metal3Machine controller will wait until it can find the
 Metal3Data object and the rendered secrets. It will then populate those fields.
-
-The secret containing the metaData or the network data could be provided by the
-user directly using the `metaData` or `networkData` fields in the spec of the
-object.
 
 When CAPM3 controller will set the different fields in the BareMetalHost,
 it will reference the metadata secret and the network data secret
@@ -274,8 +296,9 @@ spec:
         start: 192.168.0.10
         end: 192.168.0.100
         subnet: 192.168.0.0/24
+        step: 1
     - key: mac
-      bareMetalHostMACByName: "eth0"
+      fromHostInterface: "eth0"
   networkData:
     links:
       - ethernet:
@@ -283,13 +306,13 @@ spec:
           id: "enp1s0"
           mtu: 1500
           macAddress:
-            bareMetalHostMACByName: "eth0"
+            fromHostInterface: "eth0"
       - ethernet:
           type: "phy"
           id: "enp2s0"
           mtu: 1500
           macAddress:
-            bareMetalHostMACByName: "eth1"
+            fromHostInterface: "eth1"
       - bond:
           id: "bond0"
           mtu: 1500
@@ -307,7 +330,7 @@ spec:
           vlanId: 1
           vlanLink: bond0
     networks:
-      - ipv4Dhcp:
+      - ipv4DHCP:
           id: "provisioning"
           link: "bond0"
 
@@ -327,10 +350,10 @@ spec:
               services:
                 - type: "dns"
                   address: "8.8.4.4"
-      - ipv6Dhcp:
+      - ipv6DHCP:
           id: "provisioning6"
           link: "bond0"
-      - ipv6Slaac:
+      - ipv6SLAAC:
           id: "provisioning6slaac"
           link: "bond0"
       - ipv6:
@@ -376,12 +399,20 @@ ways. The following objects are available:
 - **objectName** : renders the name of the object that matches the type given in
   the `object` field.
 - **index**: renders the index of the current object, with the offset from the
-  `offset` field and using the step from the `step` field.
+  `offset` field and using the step from the `step` field. The following
+  conditions must be matched :
+
+    - `offset` >= 0
+    - `step` >= 1
+
+  if the step is unspecified (default value being 0), the controller will
+  automatically change it for 1.
 - **ip**: renders an ip address based on the index, based on the `start` value
   if given or using `subnet` to calculate the start value, and checking that
   the rendered value is not over the `end` value. The increment is the `step`
-  value.
-- **bareMetalHostMACByName**: renders the MAC address of the BareMetalHost that
+  value. If the computed value goes out of bounds, the error status will be set
+  with the error in the error message.
+- **fromHostInterface**: renders the MAC address of the BareMetalHost that
   matches the name given as value.
 
 The **key** is required and one of the object is required. If there are multiple
@@ -425,7 +456,7 @@ The **links/ethernet/type** can be one of :
 The **links/ethernet/macAddress** object can be one of:
 
 - **string**: with the desired Mac given as a string
-- **bareMetalHostMACByName**: with the interface name from BareMetalHost
+- **fromHostInterface**: with the interface name from BareMetalHost
   hardware details.
 
 The **links/bond** object contains the following:
@@ -459,10 +490,10 @@ The **links/vlan** object contains the following:
 The object for the **networks** section list can be one of:
 
 - **ipv4**: an ipv4 static allocation
-- **ipv4Dhcp**: an ipv4 dhcp based allocation
+- **ipv4DHCP**: an ipv4 DHCP based allocation
 - **ipv6**: an ipv6 static allocation
-- **ipv6Dhcp**: an ipv6 dhcp based allocation
-- **ipv6Slaac**: an ipv6 slaac based allocation
+- **ipv6DHCP**: an ipv6 DHCP based allocation
+- **ipv6SLAAC**: an ipv6 SLAAC based allocation
 
 The **networks/ipv4** object contains the following:
 
@@ -550,6 +581,10 @@ spec:
   metal3Machine:
     name: machine-1
     namespace: default
+status:
+  ready: true
+  error: false
+  errorMessage: ""
 ```
 The Metal3Data will contain the index of this node, and links to the secrets
 generated and to the Metal3Machine using this Metal3Data object.
@@ -570,20 +605,24 @@ There will be two cases:
 - if no secret exists with an ownerReference to this Metal3Machine, then the
   reconciler will create one and fill the respective field with the secret name.
 
-To create a Metal3Data object, the controller will select an index for that
-Metal3Machine. The selection happens by selecting the lowest available index.
-The controller will list all existing Metal3Data object linked to this
-Metal3DataTemplate and create a list of unavailable indexes. It will fill it by
-extracting the index from the Metal3Data names.
+To create a Metal3Data object, the Metal3DataTemplate controller will select an
+index for that Metal3Machine. The selection happens by selecting the lowest
+available index. The controller will list all existing Metal3Data object linked
+to this Metal3DataTemplate and create a list of unavailable indexes. It will
+fill it by extracting the index from the Metal3Data names. The indexes always
+start from 0 and increment by 1. The lowest available index is to be used next.
 
-Once the next available index is found, it will create the Metal3Data object.
-The name would be a concatenation of the Metal3DataTemplate name and index.
-Upon conflict, it will fetch again the list to consider the new list of
+Once the next lowest available index is found, it will create the Metal3Data
+object. The name would be a concatenation of the Metal3DataTemplate name and
+index. Upon conflict, it will fetch again the list to consider the new list of
 Metal3Data and try to create the new object with the new index, this will happen
 until the new object is created successfully. Upon success, it will render the
 content values, and create the secrets containing the rendered data. The
 controller will generate the content based on the `metaData` or `networkData`
 field of the Metal3DataTemplate Specs.
+
+Once the generation is successful, the status field `ready` will be set to True.
+If any error happens during the rendering, an error message will be added.
 
 ### The generated secrets
 
@@ -614,6 +653,47 @@ spec:
 The secret will contain the generated data for the host. Once the
 secret reference field on the Metal3Machine is set, the Metal3Machine controller
 will proceed with the provisioning.
+
+### Deployment flow
+
+#### Manual secret creation
+
+In the case where the Metal3Machine is created without a `dataTemplate` value,
+if the `metaData` or `networkData` fields are set (one or both), the
+Metal3Machine reconciler will fetch the secret, set the status field and
+directly start the provisioning of the BareMetalHost using the secrets if given.
+If one of the secrets does not exist, the controller will wait to start the
+provisioning of the BareMetalHost until it exists.
+
+#### Dynamic secret creation
+
+In the case where the Metal3Machine is created with a `dataTemplate` value, the
+Metal3Machine reconciler will fetch that object (or wait until it exists if it
+does not exist yet) and add the Metal3Machine in the ownerReferences of the
+Metal3DataTemplate.
+
+The Metal3DataTemplate would then be reconciled, and its controller will create
+an index for this Metal3Machine if it does not exist yet, and create a
+Metal3Data object with the index and the Metal3Machine in the ownerReference.
+
+The Metal3Data reconciler will then generate the secrets, based on the index,
+the Metal3DataTemplate and the machine. Once created, it will set the status
+field `ready` to True.
+
+Once the metal3Data object is ready, the Metal3Machine controller will fetch
+the secrets that have been created (one or both) and use them to start
+provisioning the BareMetalHost.
+
+#### Hybrid configuration
+
+If the Metal3Machine object is created with a `dataTemplate` field set, but one
+of the `metaData` or `networkData` is also set in the spec, this one will
+override the template generation for this specific secret. i.e. if the user sets
+the three fields, the controller will use the user input secret for both.
+
+This means that some hybrid scenarios are supported, where the user can give
+directly the `metaData` secret and let the controller render the `networkData`
+secret through the Metal3DataTemplate object.
 
 ## Implementation structure
 
