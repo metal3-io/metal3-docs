@@ -374,6 +374,10 @@ spec:
     services:
       - dns: "8.8.8.8"
       - dns: "2001:4860:4860::8888"
+status:
+  indexes:
+    "machine-1": 0
+  lastUpdated: "2020-04-02T06:36:09Z"
 ```
 
 This object will be reconciled by its own controller. When reconciled,
@@ -607,10 +611,12 @@ There will be two cases:
 
 To create a Metal3Data object, the Metal3DataTemplate controller will select an
 index for that Metal3Machine. The selection happens by selecting the lowest
-available index. The controller will list all existing Metal3Data object linked
-to this Metal3DataTemplate and create a list of unavailable indexes. It will
-fill it by extracting the index from the Metal3Data names. The indexes always
-start from 0 and increment by 1. The lowest available index is to be used next.
+available index that is not in the `indexes` field of the status. If the
+`indexes` field is empty, the controller will list all existing Metal3Data
+object linked to this Metal3DataTemplate and recreate the unavailable indexes.
+It will fill it by extracting the index from the Metal3Data names. The indexes
+always start from 0 and increment by 1. The lowest available index is to be used
+next.
 
 Once the next lowest available index is found, it will create the Metal3Data
 object. The name would be a concatenation of the Metal3DataTemplate name and
