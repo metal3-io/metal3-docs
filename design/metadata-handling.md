@@ -279,14 +279,11 @@ spec:
     - key: abc
       string: def
     - key: name_m3m
-      objectName:
-        object: metal3machine
+      objectName: metal3machine
     - key: name_machine
-      objectName:
-        object: machine
+      objectName: machine
     - key: name_bmh
-      objectName:
-        object: baremetalhost
+      objectName: baremetalhost
     - key: index
       index:
         offset: 0
@@ -400,8 +397,7 @@ ways. The following objects are available:
 - **key**: This is compulsory and is the key used for the rendered value in
   the metadata map.
 - **string**: renders the given string as value in the metadata
-- **objectName** : renders the name of the object that matches the type given in
-  the `object` field.
+- **objectName** : renders the name of the object that matches the type given.
 - **index**: renders the index of the current object, with the offset from the
   `offset` field and using the step from the `step` field. The following
   conditions must be matched :
