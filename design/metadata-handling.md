@@ -166,7 +166,7 @@ Some values would be set by default to maintain compatibility:
 - **metal3-namespace**: the name of the BareMetalHost
 - **metal3-name**: The name of the BareMetalHost
 - **local-hostname**: The name of the BareMetalHost
-- **local_hostname**: The name of the BareMetalHost
+- **local_hostname**: The namespace of the BareMetalHost
 
 However, setting any of those values in the metaData secret will override those
 default values.
@@ -373,7 +373,9 @@ spec:
       - dns: "2001:4860:4860::8888"
 status:
   indexes:
-    "machine-1": 0
+    "0": "machine-1"
+  dataNames:
+    "machine-1": nodepool-1-0
   lastUpdated: "2020-04-02T06:36:09Z"
 ```
 
@@ -602,7 +604,7 @@ There will be two cases:
 - An already generated Metal3Data object exists with an ownerReference to this
   Metal3Machine. In that case, the reconciler will verify that the required
   secrets exist. If they do not, they will be created.
-- if no secret exists with an ownerReference to this Metal3Machine, then the
+- if no Metal3Data exists with an ownerReference to this Metal3Machine, then the
   reconciler will create one and fill the respective field with the secret name.
 
 To create a Metal3Data object, the Metal3DataTemplate controller will select an
@@ -612,7 +614,7 @@ available index that is not in the `indexes` field of the status. If the
 object linked to this Metal3DataTemplate and recreate the unavailable indexes.
 It will fill it by extracting the index from the Metal3Data names. The indexes
 always start from 0 and increment by 1. The lowest available index is to be used
-next.
+next. The `dataNames` field contains the map of Metal3Machine to Metal3Data.
 
 Once the next lowest available index is found, it will create the Metal3Data
 object. The name would be a concatenation of the Metal3DataTemplate name and
