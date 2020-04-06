@@ -385,10 +385,10 @@ linking to this object. The spec contains a `metaData` and a `networkData` field
 that contain a template of the values that will be rendered for all nodes.
 
 The `metaData` field will be rendered into a map of strings in yaml format,
-while `networkData` will be rendered into a json string that fulfills the
-requirements of
+while `networkData` will be rendered into a map equivalent of
 [Nova network_data.json](https://docs.openstack.org/nova/latest/user/metadata.html#openstack-format-metadata).
-The format definition can be found
+On the target node, the network data will be rendered as a json object that
+follows the format definition that can be found
 [here](https://docs.openstack.org/nova/latest/_downloads/9119ca7ac90aa2990e762c08baea3a36/network_data.json).
 
 #### Metadata Specifications
