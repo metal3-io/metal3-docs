@@ -61,7 +61,8 @@ The proposal is to set/unset the BIOS configuration values using vendor drivers 
  
 ### Implementation Details/Notes/Constraints 
 All the BIOS related attributes or fields will come under the sub-section called ```bios``` in spec. The values for each attribute can be a boolean or a string. The vendor driver type to implement this configuration is not to be specified separetely as it is already known from the bmc sub-section.
-Initially, the BIOS configuration can be applied using the controller types idrac and irmc
+
+The proposed BMH looks like the following, given the three supported parameters
 
 ```yaml
 apiVersion: metal3.io/v1alpha1
@@ -75,15 +76,29 @@ spec:
    credentialsName: bm0-bmc-secret
  bootMACAddress: 52:54:00:b7:b2:6f	
  bios:
-   EnableSriovGlobal: false
-   EnableVirtualization: false
-   EnableHyperThreading: true
-   EnableAdjCacheLine: false
+   sriovEnabled: false
+   virtualizationDisabled: false
+   simultaneousMultithreadingDisabled: false
 ```
 
-The user can only specify the BIOS values related to the BMC type being used as they will be validated accordingly.
+The booleans are to be implemented as pointers, allowing us to detect when user has asked for a change.
 
-One gotcha to this is about hiding the vendor sprawl in the parameter names and coming up with generic titles for the config params. This would then need to be handled in the operator code (the vendor-specific implementation for Ironic API calls). Meaning, it will still be required to map these *generic* names to the actual parameter names in the API call for it to function.
+To handle settings that are vendor specific, the following format can be used:
+
+```yaml
+bios:
+   attr: value
+   attr: value
+   vendor:
+      vendor_attr: value
+      vendor_attr: value
+```
+
+The proposal only deals with the generic BIOS configurations (listed above), and nothing vendor specific will be developed/tested, although, formatting for those will be part of this specification.
+
+One gotcha to this is about hiding the vendor sprawl in the parameter names and coming up with generic titles for the config params. Have had many discussions on this, and we have agreed to the format specified above.
+
+This would then need to be handled in the operator code (the vendor-specific implementation for Ironic API calls). Meaning, it will still be required to map these *generic* names to the actual parameter names in the API call for it to function.
 
 ### Risks and Mitigations
 
@@ -120,7 +135,7 @@ The code changes required would entail
 
 - Unit tests for the functions
 
-- Deployment testing with actual hardware
+- Integration testing with actual hardware
 
 
 ### Upgrade / Downgrade Strategy
