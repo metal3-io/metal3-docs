@@ -276,42 +276,44 @@ metadata:
     name: cluster-1
 spec:
   metaData:
-    - key: abc
-      string: def
-    - key: name_m3m
-      objectName: metal3machine
-    - key: name_machine
-      objectName: machine
-    - key: name_bmh
-      objectName: baremetalhost
-    - key: index
-      index:
+    strings:
+      - key: abc
+        value: def
+    objectNames:
+      - key: name_m3m
+        object: metal3machine
+      - key: name_machine
+        object: machine
+      - key: name_bmh
+        object: baremetalhost
+    indexes:
+      - key: index
         offset: 0
         step: 1
-    - key: ip
-      ip:
+    ipAddesses:
+      - key: ip
         start: 192.168.0.10
         end: 192.168.0.100
         subnet: 192.168.0.0/24
         step: 1
-    - key: mac
-      fromHostInterface: "eth0"
+    fromHostInterfaces:
+      - key: mac
+        interface: "eth0"
   networkData:
     links:
-      - ethernet:
-          type: "phy"
+      ethernets:
+        - type: "phy"
           id: "enp1s0"
           mtu: 1500
           macAddress:
             fromHostInterface: "eth0"
-      - ethernet:
-          type: "phy"
+        - type: "phy"
           id: "enp2s0"
           mtu: 1500
           macAddress:
             fromHostInterface: "eth1"
-      - bond:
-          id: "bond0"
+      bonds:
+        - id: "bond0"
           mtu: 1500
           macAddress:
             string: "XX:XX:XX:XX:XX:XX"
@@ -319,20 +321,20 @@ spec:
           bondLinks:
             - enp1s0
             - enp2s0
-      - vlan:
-          id: "vlan1"
+      vlans:
+        - id: "vlan1"
           mtu: 1500
           macAddress:
             string: "YY:YY:YY:YY:YY:YY"
           vlanId: 1
           vlanLink: bond0
     networks:
-      - ipv4DHCP:
-          id: "provisioning"
+      ipv4DHCP:
+        - id: "provisioning"
           link: "bond0"
 
-      - ipv4:
-          id: "Baremetal"
+      ipv4:
+        - id: "Baremetal"
           link: "vlan1"
           ipAddress:
             start: "192.168.0.10"
@@ -347,14 +349,14 @@ spec:
               services:
                 - type: "dns"
                   address: "8.8.4.4"
-      - ipv6DHCP:
-          id: "provisioning6"
+      ipv6DHCP:
+        - id: "provisioning6"
           link: "bond0"
-      - ipv6SLAAC:
-          id: "provisioning6slaac"
+      ipv6SLAAC:
+        - id: "provisioning6slaac"
           link: "bond0"
-      - ipv6:
-          id: "Baremetal6"
+      ipv6:
+        - id: "Baremetal6"
           link: "vlan1"
           ipAddress:
             start: "2001:0db8:85a3::8a2e:0370:a"
@@ -369,8 +371,9 @@ spec:
               services:
                 - dns: "2001:4860:4860::8844"
     services:
-      - dns: "8.8.8.8"
-      - dns: "2001:4860:4860::8888"
+      dns:
+        - "8.8.8.8"
+        - "2001:4860:4860::8888"
 status:
   indexes:
     "0": "machine-1"
@@ -394,13 +397,13 @@ follows the format definition that can be found
 #### Metadata Specifications
 
 The `metaData` field contains a list of items that will render data in different
-ways. The following objects are available:
+ways. The following types of objects are available and accept lists:
 
-- **key**: This is compulsory and is the key used for the rendered value in
-  the metadata map.
-- **string**: renders the given string as value in the metadata
-- **objectName** : renders the name of the object that matches the type given.
-- **index**: renders the index of the current object, with the offset from the
+- **strings**: renders the given string as value in the metadata. It takes a
+  `value` attribute.
+- **objectNames** : renders the name of the object that matches the type given.
+  It takes a `name` attribute.
+- **indexes**: renders the index of the current object, with the offset from the
   `offset` field and using the step from the `step` field. The following
   conditions must be matched :
 
@@ -409,16 +412,17 @@ ways. The following objects are available:
 
   if the step is unspecified (default value being 0), the controller will
   automatically change it for 1.
-- **ip**: renders an ip address based on the index, based on the `start` value
+- **ipAddresses**: renders an ip address based on the index, based on the `start` value
   if given or using `subnet` to calculate the start value, and checking that
   the rendered value is not over the `end` value. The increment is the `step`
   value. If the computed value goes out of bounds, the error status will be set
-  with the error in the error message.
-- **fromHostInterface**: renders the MAC address of the BareMetalHost that
+  with the error in the error message. In case of using the `subnet` value to
+  get the start IP address, it will be the second IP of the subnet (for example
+  `192.168.0.1` for a subnet `192.168.0.0/24`).
+- **fromHostInterfaces**: renders the MAC address of the BareMetalHost that
   matches the name given as value.
 
-The **key** is required and one of the object is required. If there are multiple
-objects, the priority order will apply as listed above.
+For each object, the attribute **key** is required.
 
 #### networkData specifications
 
@@ -430,20 +434,20 @@ The `networkData` field will contain three items :
 
 ##### Links specifications
 
-The object for the **links** section list can be one of:
+The object for the **links** section list can be:
 
-- **ethernet**: an ethernet interface
-- **bond**: a bond interface
-- **vlan**: a vlan interface
+- **ethernets**: a list of ethernet interfaces
+- **bonds**: a list of bond interfaces
+- **vlans**: a list of vlan interfaces
 
-The **links/ethernet** object contains the following:
+The **links/ethernets** objects contain the following:
 
 - **type**: Type of the ethernet interface
 - **id**: Interface name
 - **mtu**: Interface MTU
 - **macAddress**: an object to render the MAC Address
 
-The **links/ethernet/type** can be one of :
+The **links/ethernets/type** can be one of :
 
 - bridge
 - dvs
@@ -455,13 +459,13 @@ The **links/ethernet/type** can be one of :
 - vif
 - phy
 
-The **links/ethernet/macAddress** object can be one of:
+The **links/ethernets/macAddress** object can be one of:
 
 - **string**: with the desired Mac given as a string
 - **fromHostInterface**: with the interface name from BareMetalHost
   hardware details.
 
-The **links/bond** object contains the following:
+The **links/bonds** object contains the following:
 
 - **id**: Interface name
 - **mtu**: Interface MTU
@@ -469,7 +473,7 @@ The **links/bond** object contains the following:
 - **bondMode**: The bond mode
 - **bondLinks** : a list of links to use for the bond
 
-The **links/bond/bondMode** can be one of :
+The **links/bonds/bondMode** can be one of :
 
 - 802.1ad
 - balance-rr
@@ -479,7 +483,7 @@ The **links/bond/bondMode** can be one of :
 - balance-tlb
 - balance-alb
 
-The **links/vlan** object contains the following:
+The **links/vlans** object contains the following:
 
 - **id**: Interface name
 - **mtu**: Interface MTU
@@ -489,13 +493,13 @@ The **links/vlan** object contains the following:
 
 ##### The networks specifications
 
-The object for the **networks** section list can be one of:
+The object for the **networks** section can be:
 
-- **ipv4**: an ipv4 static allocation
-- **ipv4DHCP**: an ipv4 DHCP based allocation
-- **ipv6**: an ipv6 static allocation
-- **ipv6DHCP**: an ipv6 DHCP based allocation
-- **ipv6SLAAC**: an ipv6 SLAAC based allocation
+- **ipv4**: a list of ipv4 static allocations
+- **ipv4DHCP**: a list of ipv4 DHCP based allocations
+- **ipv6**: a list of ipv6 static allocations
+- **ipv6DHCP**: a list of ipv6 DHCP based allocations
+- **ipv6SLAAC**: a list of ipv6 SLAAC based allocations
 
 The **networks/ipv4** object contains the following:
 
@@ -550,9 +554,9 @@ The **networks/ipv6Slaac** object contains the following:
 
 ##### the services specifications
 
-The object for the **services** section list can be one of:
+The object for the **services** section can be:
 
-- **dns**: a dns service with the ip address of a dns server
+- **dns**: a list of dns service with the ip address of a dns server
 
 ### The Metal3Data object
 
