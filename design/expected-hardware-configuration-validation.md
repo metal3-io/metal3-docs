@@ -69,10 +69,10 @@ https://github.com/metal3-io/baremetal-operator/blob/master/deploy/crds/metal3.i
          minimumCount: 4
          minimumSpeed: 4.3
       Disk:
-         minimumSizeGB: 2200
          minimumCount: 2
-      NICS:
-         minimumcount: 4
+         minimumIndividualSizeGB: 2200
+      NIC:
+         minimumCount: 4
       RAM:
          minimumSizeGB: 32
    ```
@@ -83,7 +83,7 @@ https://github.com/metal3-io/baremetal-operator/blob/master/deploy/crds/metal3.i
     - Create the Schema struct for `ExpectedHardwareConfiguration` inside `HardwareClassificationSpec`,
     in file /api/v1alpha1/hardwareClassification_types.go.
 
-    - Implement a new function fetchHost() which will fetch all baremetal hosts from Baremetal-Operator of namespace 'metal3' provided by user in CRD_yaml. We will add a watch on the baremetalhost kind for the hardware setting changes.
+    - Implement a new function fetchHost() which will fetch all baremetal hosts from Baremetal-Operator of provided namespace by user in CRD_yaml. We will add a watch on the baremetalhost kind for the hardware setting changes.
 
     - Create a classification_manager.go file. Create a function which will call appropriate filter written in classification_filter.go based on minimum or maximum requiremnets specified by user in CRD_yaml. 
 
