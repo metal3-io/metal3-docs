@@ -75,18 +75,20 @@ spec:
    address: idrac://192.168.122.1:6230/
    credentialsName: bm0-bmc-secret
  bootMACAddress: 52:54:00:b7:b2:6f	
- bios:
+ firmware:
    sriovEnabled: false
    virtualizationDisabled: false
    simultaneousMultithreadingDisabled: false
 ```
+
+We've decided to name the section "firmware" to make it future proof, since the notion of BIOS is irrelevant outside of x86 architectures. This is also to make the distinction that BIOS != UEFI. Moreover, in the future, this can be extended to add extra information, for instance current firmware version etc. Then it can be decided to restructure this section.
 
 The booleans are to be implemented as pointers, allowing us to detect when user has asked for a change.
 
 To handle settings that are vendor specific, the following format can be used:
 
 ```yaml
-bios:
+firmware:
    attr: value
    attr: value
    vendor:
