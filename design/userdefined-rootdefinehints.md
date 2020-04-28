@@ -38,8 +38,8 @@ provisional
 
 ## Summary
 
-This document explains how rootdevicehints could be given as user defined parameters as part BaremetalHostSpec. The idea is that user would have the possibilty to define selective constraints for root device selection. Sometimes selective constrains will not be completely deterministic, but it is up to the user to decide which hints to use. 
-Originally the only way for an user to select the used root device hints, was to to choose the name of the hardware profile which has hardcoded root device hint values. When exposing root device hints as part of the BMH spec, this will be part of deprecation steps for hardware profile.
+This document explains how rootdevicehints could be given as user defined parameters as part BaremetalHostSpec. The idea is that user would have the possibilty to define selective constraints for root device selection. Sometimes selective constrains will not be completely deterministic, but it is up to the user to decide which hints to use.
+Originally the only way for an user to select the used root device hints, was to choose the name of the hardware profile which has hardcoded root device hint values. When exposing root device hints as part of the BMH spec, this will be part of deprecation steps for hardware profile.
 
 ## Motivation
 
@@ -59,29 +59,32 @@ The complete set of root device hints as input are not needed, only the relevant
 
 ### Implementation Details/Notes/Constraints
 
-- BaremetalHostSpec need to be updated to support list of following root device hints:
-* devicename
-* hctl
-* vendor
-* size
-* wwn
+The BaremetalHostSpec need to be updated to have an optional root device hint field. We need to support explicit values of different types, rather than using an index into discovered values from the status field, to support external storage such as SAN arrays or Ceph clusters. External storage may not be present at the time of inspection, so it would not appear in the set of discovered storage locations.
 
-Deteriministic selectors. i.e if used together with each other, those should point the same device instance and should not conflict with group selectors below.
+The list of selectors to be added will include some deterministic values, meaning that they should always result in the same device instance being selected and should not conflict with group selectors below.
 
-Deterministic selectors
-* devicename
-* hctl
-* wwn
+* device name
+* HCTL
+* WWN
+* serial number
 
-Group selectors
-* vendor
+Other selectors will be less deterministic, because multiple devices may match.
+
+* vendor/manufacturer name
 * size
 
+If multiple selectors are specified, a device must match all of them to be used.
 
-The above parameters are optional in BaremetalHostSpec. Originally Hardware profiles contains hardcoded root device hints, which will be now removed. If there is deterministic hint like devicename or wwn used, then those will dominant selectors over other hints which would be ignored. 
+Devices are examined in the order they are discovered by the provisioning agent running on the host. The first device that matches all of the selectors is used.
 
-The new struct type added to spec could look like below. In the original inventory code there is an Storage struct that has pretty much the same content, but by having a separete struct we can control easily if we want to add or deprecate support for some hints. Size is given in Gigabytes while in Storage it is given in bytes in order to avoid scale typos in size input.
+Originally hardware profiles defined hard-coded root device hints. Hardware profiles will be removed as part of the next version of the BareMetalHost API. Until then, if an explicit hint is given it will be used instead of the value from the profile. If no explicit hint is given the profile setting will be used.
 
+The new struct type added to spec could look like below.
+
+* Size is given in Gigabytes while in Storage it is given in bytes in order to avoid scale typos in size input.
+* There are 2 forms of the WWN value, using separate fields or a combined field. These match the discovered values and allow the user to provide matching input without having to build a composite string if one is not found through inspection.
+
+```
 type RootDeviceHints struct {
 	// A device name like "/dev/vda"
 	DeviceName string `json:"devicename,omitempty"`
@@ -96,7 +99,7 @@ type RootDeviceHints struct {
 	Vendor string `json:"vendor,omitempty"`
 
 	// Disk serial number
-	Serial string `json:"serial,omitempty"`
+	SerialNumber string `json:"serial,omitempty"`
 
 	// Size of the device in GiB
 	SizeGigaBytes int `json:"size,omitempty"`
@@ -110,11 +113,12 @@ type RootDeviceHints struct {
 	// Unique vendor storage identifier
 	WWNVendorExtension string `json:"wwnVendorExtension,omitempty"`
 }
+```
 
 
 ### Risks and Mitigations
 
--
+- The proposed format is based on the inspection values and inputs that Ironic uses. This ties us a bit more to Ironic, but the values are also expressive enough that another provisioning tool should be able to accept them in some form, or metal3 code should be able to use them to identify a discovered device.
 
 ## Design Details
 
@@ -136,7 +140,7 @@ This requires refactoring of BMO repository code.
 
 ### Upgrade / Downgrade Strategy
 
-N/A
+In the original inventory code there is an Storage struct that has pretty much the same content, but by having a separete struct we can control easily if we want to add or deprecate support for some hints.
 
 ### Version Skew Strategy
 
@@ -145,4 +149,3 @@ N/A
 ## References
 
 - [Ironic Root Device Hint Documentation](https://docs.openstack.org/ironic/pike/install/include/root-device-hints.html)
-
