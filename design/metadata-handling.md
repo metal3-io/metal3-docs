@@ -410,7 +410,8 @@ ways. The following types of objects are available and accept lists:
 - **strings**: renders the given string as value in the metadata. It takes a
   `value` attribute.
 - **objectNames** : renders the name of the object that matches the type given.
-  It takes a `name` attribute.
+  It takes a `object` attribute. The `object` can only be one of `machine`,
+  `metal3machine`, `baremetalhost`.
 - **indexes**: renders the index of the current object, with the offset from the
   `offset` field and using the step from the `step` field. The following
   conditions must be matched :
@@ -433,11 +434,13 @@ ways. The following types of objects are available and accept lists:
 - **fromLabels**: renders the content of a label on an object or an empty string
   if the label is absent. It takes an `object` attribute to specify the type of
   the object where to fetch the label, and a `label` attribute that contains the
-  label key.
+  label key. The `object` can only be one of `machine`, `metal3machine`,
+  `baremetalhost`.
 - **fromAnnotations**: renders the content of a annotation on an object or an
   empty string if the annotation is absent. It takes an `object` attribute to
   specify the type of the object where to fetch the annotation, and an
-  `annotation` attribute that contains the annotation key.
+  `annotation` attribute that contains the annotation key. The `object` can only
+  be one of `machine`, `metal3machine`, `baremetalhost`.
 
 For each object, the attribute **key** is required.
 
