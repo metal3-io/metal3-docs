@@ -87,7 +87,7 @@ The new struct type added to spec could look like below.
 ```
 type RootDeviceHints struct {
 	// A device name like "/dev/vda"
-	DeviceName string `json:"devicename,omitempty"`
+	DeviceName string `json:"deviceName,omitempty"`
 
 	// A SCSI bus address like 0:0:0:0
 	HCTL string `json:"hctl,omitempty"`
@@ -99,10 +99,10 @@ type RootDeviceHints struct {
 	Vendor string `json:"vendor,omitempty"`
 
 	// Disk serial number
-	SerialNumber string `json:"serial,omitempty"`
+	SerialNumber string `json:"serialNumber,omitempty"`
 
-	// Size of the device in GiB
-	SizeGigaBytes int `json:"size,omitempty"`
+	// Size of the device in gigabytes
+	SizeGigabytes int `json:"sizeGigabytes,omitempty"`
 
 	// Unique storage identifier
 	WWN string `json:"wwn,omitempty"`
@@ -127,7 +127,7 @@ type RootDeviceHints struct {
 - Update BaremetalHostSpec with new RootDeviceHints type struct to have above parameters as optional.
 - Generate new CRDs and update BMO ironic and profile pkg code to interpret the spec and propagate root device hint parameters as string map to gophercloud package
 - Update unit tests
-- Verify device selection in metal3-dev-env 
+- Verify device selection in metal3-dev-env
 
 ### Dependencies
 
