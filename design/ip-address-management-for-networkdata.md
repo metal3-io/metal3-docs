@@ -170,16 +170,17 @@ spec:
       end: 192.168.0.15
       subnet: 192.168.0.0/24
       gateway: 192.168.0.1
-      netmask: 24
+      prefix: 24
     - start: 192.168.1.10
       end: 192.168.1.15
       subnet: 192.168.1.0/24
       gateway: 192.168.1.1
-      netmask: 24
+      prefix: 24
   gateway: 192.168.1.1
-  netmask: 24
+  prefix: 24
   allocations:
     "metal3data-10": 192.168.0.9
+    "metal3data-9": 192.168.0.8
 status:
   lastUpdated: "2020-04-02T06:36:09Z"
   allocations:
@@ -195,15 +196,13 @@ verify that the allocated IP is in the pool and from which the start and end ip
 addresses can be inferred. Specifying single ip addresses can be achieved by
 setting the start and end ip address to that single ip address.
 
-The *netmask* and *gateway* parameters can be given for each pool of the list,
+The *prefix* and *gateway* parameters can be given for each pool of the list,
 or globally. If they are given for a pool they will override the global
-settings, that are default values. The *netmask* and *gateway* will be set on
+settings, that are default values. The *prefix* and *gateway* will be set on
 the *Metal3IPAddress* and can be fetched from a *Metal3DataTemplate*.
 
 The *allocations* fields is a map of object name and ip address that allow a
-user to specify a set of static allocations for some objects. Ths IP addresses
-specified in the *allocations* field of the spec MUST be out of any of the pools
-configured.
+user to specify a set of static allocations for some objects.
 
 The *status* would contain a *lastUpdated* field with the timestamp of the last
 update. In case of an error during the allocation (pool exhaustion for example),
@@ -232,7 +231,7 @@ spec:
   Metal3Data:
     Name: metal3data-1
   Address: 192.168.0.11
-  netmask: 24
+  prefix: 24
   gateway: 192.168.0.1
   Metal3IPPool:
     Name: pool-1
@@ -277,14 +276,14 @@ metadata:
 spec:
   metaData:
     ipAddressFromIPPool:
-      Name: pool-1
-      Key: "ip-address-1"
-    netmaskFromIPPool:
-      Name: pool-1
-      Key: "netmask-1"
+      - Name: pool-1
+        Key: "ip-address-1"
+    prefixFromIPPool:
+      - Name: pool-1
+        Key: "netmask-1"
     gatewayFromIPPool:
-      Name: pool-1
-      Key: "gateway-1"
+      - Name: pool-1
+        Key: "gateway-1"
   networkData:
     networks:
       ipv4:
@@ -293,12 +292,12 @@ spec:
           ipAddress:
             fromIPPool:
               Name: pool-1
-          netmask:
+          prefix:
             fromIPPool:
               Name: pool-1
           routes:
             - network: "0.0.0.0"
-              netmask: 0
+              prefix: 0
               gateway:
                 fromIPPool:
                   Name: pool-1
@@ -310,11 +309,11 @@ spec:
           ipAddress:
             fromIPPool:
               Name: pool-2
-          netmask:
+          prefix:
             int: 24
           routes:
             - network: "0.0.0.0"
-              netmask: 0
+              prefix: 0
               gateway:
                 string: "192.168.1.1"
               services:
@@ -332,8 +331,8 @@ When reconciling the *Metal3Data* object, the reconciler would fetch the
 *Metal3IPPool* objects that are referenced in the *Metal3DataTemplate* and set
 an ownerreference referencing the *Metal3Data* object. It will then wait until
 the *Metal3IPAddress* object is created and has a status set to Ready. Once
-ready, it will render the templates, filling the IP addresses, netmasks and
-gateways basaed on the content of the *Metal3IPAddress* objects.
+ready, it will render the templates, filling the IP addresses, prefixes and
+gateways based on the content of the *Metal3IPAddress* objects.
 
 ### Work Items
 
