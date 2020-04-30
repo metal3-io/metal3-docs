@@ -82,6 +82,11 @@ cloud-init. However, several issues are relating to the design :
 * It is not possible to rule out some IP addresses that might be in use for any
   reason after the deployment.
 
+In addition, the designed system must be compatible with Clusterctl move
+operation. This means that all status on all objects will be discarded during
+the move operation and all objects must be linked to the *Cluster* object they
+belong to by a chain of owner references.
+
 ### Goals
 
 - Introduce a Metal3IPPool and a Metal3IPAddress CRDs.
@@ -89,9 +94,8 @@ cloud-init. However, several issues are relating to the design :
 - enable sharing of a pool across machine deployments / KCP
 - enable use of non-continuous pools
 - enable external IP management by using Metal3IPAddress CRs
-- keep when possible the predictability of the IP address based on the
-  Metal3Data index. When shared among multiple Metal3DataTemplate, the
-  allocation will happen on a first come first served basis.
+- offer a predictable way to assign addresses to some nodes
+- be resilient to the clusterctl move operation
 
 ### Non-Goals
 
@@ -121,6 +125,12 @@ predictability offered by the current feature, i.e. the ip address is the
 start address + the index of the Metal3Data, when I use a pool for a single
 machine deployment. This is to ensure that the current proposal adds a feature
 without removing any existing feature and is fully backward compatible.
+
+#### Story 4
+
+As a user deploying a target Kubernetes cluster, I want that allocation of
+IP addresses to be preserved during the pivoting operation towards the target
+cluster to prevent future conflicts.
 
 ### Implementation Details/Notes/Constraints
 
@@ -159,36 +169,49 @@ spec:
     - start: 192.168.0.10
       end: 192.168.0.15
       subnet: 192.168.0.0/24
-      step: 1
-    - start: 192.168.0.20
-      end: 192.168.0.25
-      subnet: 192.168.0.0/24
+      gateway: 192.168.0.1
+      netmask: 24
+    - start: 192.168.1.10
+      end: 192.168.1.15
+      subnet: 192.168.1.0/24
+      gateway: 192.168.1.1
+      netmask: 24
+  gateway: 192.168.1.1
+  netmask: 24
+  allocations:
+    "metal3data-10": 192.168.0.9
 status:
   lastUpdated: "2020-04-02T06:36:09Z"
   allocations:
     "192.168.0.11": "metal3data-1"
   addresses:
     "metal3data-1": "pool-1-192-168-0-11"
-  error: false
-  errorMessage: ""
 ```
 
 In the *spec* of *Metal3IPPool*, there would be a *pools* list, that would
 contain a list of IP address pools, with the *start* and *end* attributes
-giving the start and end ip addresses of the pool, the *subnet* allowing to
+giving the start and end ip addresses of the pool. The *subnet* field allows to
 verify that the allocated IP is in the pool and from which the start and end ip
-addresses can be inferred. The *step* item gives the interval between allocated
-IP addresses. Specifying single ip addresses can be achieved by setting the
-start and end ip address to that single ip address.
+addresses can be inferred. Specifying single ip addresses can be achieved by
+setting the start and end ip address to that single ip address.
+
+The *netmask* and *gateway* parameters can be given for each pool of the list,
+or globally. If they are given for a pool they will override the global
+settings, that are default values. The *netmask* and *gateway* will be set on
+the *Metal3IPAddress* and can be fetched from a *Metal3DataTemplate*.
+
+The *allocations* fields is a map of object name and ip address that allow a
+user to specify a set of static allocations for some objects. Ths IP addresses
+specified in the *allocations* field of the spec MUST be out of any of the pools
+configured.
 
 The *status* would contain a *lastUpdated* field with the timestamp of the last
-update and and *error* boolean that is set to true if an error during allocation
-happens. In that case, the *errorMessage* will contain the text of the error.
+update. In case of an error during the allocation (pool exhaustion for example),
+the error would be reported on the Consumer object, the *error* boolean and
+*errorMessage* field on the *Metal3Data* object.
 The *allocations* map will map the IP address to the *Metal3Data* object it was
 allocated for and the *addresses* will map the *metal3Data* objects with the
 *Metal3IPAddress* objects.
-
-All IP addresses specified in a Metal3IPPool must be from the same subnet.
 
 The *Metal3IPAddress* object would be the following
 
@@ -209,6 +232,8 @@ spec:
   Metal3Data:
     Name: metal3data-1
   Address: 192.168.0.11
+  netmask: 24
+  gateway: 192.168.0.1
   Metal3IPPool:
     Name: pool-1
 status:
@@ -216,13 +241,10 @@ status:
 ```
 
 For each owner reference added on a *Metal3IPPool* that is a *Metal3Data*, the
-controller reconciling the *Metal3IPPool* will select an available IP address.
-If all the *Metal3Data* owner references are from the same *Metal3DataTemplate*,
-then the controller will use the index of the *Metal3Data* to compute the IP
-address to allocate by sorting the addresses in incremental order and selecting
-the IP address corresponding to the index. In case of conflict, (multiple
-Metal3DataTemplate referencing the same *Metal3IPPool*, a random available IP
-address will be selected.
+controller reconciling the *Metal3IPPool* will select an available IP address
+randomly from the available IP addresses, if the object name is not in the
+*allocations* map in the object *spec* or in the *addresses* map in the
+*status*.
 
 Once the IP address is selected, the controller will create a *Metal3IPAddress*
 for that address. In case of conflict, it will list all the *Metal3IPAddress*
@@ -257,16 +279,47 @@ spec:
     ipAddressFromIPPool:
       Name: pool-1
       Key: "ip-address-1"
+    netmaskFromIPPool:
+      Name: pool-1
+      Key: "netmask-1"
+    gatewayFromIPPool:
+      Name: pool-1
+      Key: "gateway-1"
   networkData:
     networks:
-
       ipv4:
         - id: "Baremetal"
           link: "vlan1"
-          ipAddressFromIPPool:
-            Name: pool-1
-            Key: "ip-address-1"
-          netmask: 24
+          ipAddress:
+            fromIPPool:
+              Name: pool-1
+          netmask:
+            fromIPPool:
+              Name: pool-1
+          routes:
+            - network: "0.0.0.0"
+              netmask: 0
+              gateway:
+                fromIPPool:
+                  Name: pool-1
+              services:
+                - type: "dns"
+                  address: "8.8.4.4"
+        - id: "Provisioning"
+          link: "vlan2"
+          ipAddress:
+            fromIPPool:
+              Name: pool-2
+          netmask:
+            int: 24
+          routes:
+            - network: "0.0.0.0"
+              netmask: 0
+              gateway:
+                string: "192.168.1.1"
+              services:
+                - type: "dns"
+                  address: "8.8.4.4"
 status:
   indexes:
     "0": "machine-1"
@@ -279,7 +332,8 @@ When reconciling the *Metal3Data* object, the reconciler would fetch the
 *Metal3IPPool* objects that are referenced in the *Metal3DataTemplate* and set
 an ownerreference referencing the *Metal3Data* object. It will then wait until
 the *Metal3IPAddress* object is created and has a status set to Ready. Once
-ready, it will render the templates.
+ready, it will render the templates, filling the IP addresses, netmasks and
+gateways basaed on the content of the *Metal3IPAddress* objects.
 
 ### Work Items
 
@@ -305,9 +359,6 @@ No change would be required to keep the existing behaviour (the ipaddress field
 could be removed, but was never part of a released API). In order to start using
 this feature, one will just need to modify the *Metal3DataTemplate* and create
 *Metal3IPPool* objects.
-
-If applicable, how will the component be upgraded and downgraded? Make
-sure this is in the test plan.
 
 ### Version Skew Strategy
 
