@@ -181,11 +181,12 @@ spec:
   allocations:
     "metal3data-10": 192.168.0.9
     "metal3data-9": 192.168.0.8
+  namePrefix: "provisioning"
 status:
   lastUpdated: "2020-04-02T06:36:09Z"
-  allocations:
-    "192.168.0.11": "metal3data-1"
   addresses:
+    "192.168.0.11": "metal3data-1"
+  allocations:
     "metal3data-1": "pool-1-192-168-0-11"
 ```
 
@@ -203,6 +204,10 @@ the *Metal3IPAddress* and can be fetched from a *Metal3DataTemplate*.
 
 The *allocations* fields is a map of object name and ip address that allow a
 user to specify a set of static allocations for some objects.
+
+The *namePrefix* contains the prefix used to name the Metal3IPAddress objects
+created. It must remain the same for a subnet, across updates or changes in the
+Metal3IPPool object to keep the existing leases.
 
 The *status* would contain a *lastUpdated* field with the timestamp of the last
 update. In case of an error during the allocation (pool exhaustion for example),
@@ -228,7 +233,7 @@ metadata:
     kind: Metal3Data
     name: metal3data-1
 spec:
-  Metal3Data:
+  Owner:
     Name: metal3data-1
   Address: 192.168.0.11
   prefix: 24
@@ -239,16 +244,16 @@ status:
   ready: true
 ```
 
-For each owner reference added on a *Metal3IPPool* that is a *Metal3Data*, the
-controller reconciling the *Metal3IPPool* will select an available IP address
-randomly from the available IP addresses, if the object name is not in the
-*allocations* map in the object *spec* or in the *addresses* map in the
+For each owner reference added on a *Metal3IPPool* that is not a *Metal3IPPool*,
+the controller reconciling the *Metal3IPPool* will select an available IP
+address randomly from the available IP addresses, if the object name is not in
+the *allocations* map in the object *spec* or in the *addresses* map in the
 *status*.
 
 Once the IP address is selected, the controller will create a *Metal3IPAddress*
 for that address. In case of conflict, it will list all the *Metal3IPAddress*
 objects that have an owner reference to this *Metal3IPPool* and update the
-status with the mapping of IP addresses and *Metal3Data* object names. It will
+status with the mapping of IP addresses and *Owner* object names. It will
 then randomly select an available IP address. Once the *Metal3IPAddress* object
 is created, the *Metal3IPPool* object status will be updated with the new map.
 
