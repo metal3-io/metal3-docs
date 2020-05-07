@@ -280,13 +280,13 @@ metadata:
     name: cluster-1
 spec:
   metaData:
-    ipAddressFromIPPool:
+    ipAddressesFromIPPool:
       - Name: pool-1
         Key: "ip-address-1"
-    prefixFromIPPool:
+    prefixesFromIPPool:
       - Name: pool-1
         Key: "netmask-1"
-    gatewayFromIPPool:
+    gatewaysFromIPPool:
       - Name: pool-1
         Key: "gateway-1"
   networkData:
@@ -294,28 +294,18 @@ spec:
       ipv4:
         - id: "Baremetal"
           link: "vlan1"
-          ipAddress:
-            fromIPPool:
-              Name: pool-1
-          prefix:
-            fromIPPool:
-              Name: pool-1
+          ipAddressfromIPPool: pool-1
           routes:
             - network: "0.0.0.0"
               prefix: 0
               gateway:
-                fromIPPool:
-                  Name: pool-1
+                fromIPPool: pool-1
               services:
                 - type: "dns"
                   address: "8.8.4.4"
         - id: "Provisioning"
           link: "vlan2"
-          ipAddress:
-            fromIPPool:
-              Name: pool-2
-          prefix:
-            int: 24
+          ipAddressfromIPPool: pool-2
           routes:
             - network: "0.0.0.0"
               prefix: 0
