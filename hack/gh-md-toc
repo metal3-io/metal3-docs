@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Derived from https://github.com/ekalinin/github-markdown-toc
+
 #
 # Steps:
 #
@@ -175,7 +177,7 @@ gh_toc(){
                 sed -i "/${ts}/r ${toc_path}" "$gh_src"
             fi
             echo
-            if [ $no_backup = "yes" ]; then
+            if [ "$no_backup" = "yes" ]; then
                 rm ${toc_path} ${gh_src}${ext}
             fi
             echo "!! TOC was added into: '$gh_src'"
@@ -214,8 +216,8 @@ gh_toc_grab() {
     level = substr($0, length($0), 1)
     text = substr($0, match($0, /a>.*<\/h/)+2, RLENGTH-5)
     href = substr($0, match($0, "href=\"[^\"]+?\"")+6, RLENGTH-7)
-    print sprintf("%*s", level*3, " ") "* [" text "](" gh_url  href ")" }' |
-        sed 'y/+/ /; s/%/\\x/g')"
+    print sprintf("%*s", (level - 1) * 2, " ") "- [" text "](" gh_url  href ")" }' |
+        sed 'y/+/ /; s/%/\\x/g' | sed -e 's/^ //g')"
 }
 
 #
