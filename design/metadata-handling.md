@@ -299,6 +299,14 @@ spec:
     fromHostInterfaces:
       - key: mac
         interface: "eth0"
+    fromLabels:
+      - key: label-1
+        object: metal3machine
+        label: mylabelname
+    fromAnnotations:
+      - key: annotation-1
+        object: machine
+        annotation: myannotationname
   networkData:
     links:
       ethernets:
@@ -402,7 +410,8 @@ ways. The following types of objects are available and accept lists:
 - **strings**: renders the given string as value in the metadata. It takes a
   `value` attribute.
 - **objectNames** : renders the name of the object that matches the type given.
-  It takes a `name` attribute.
+  It takes a `object` attribute. The `object` can only be one of `machine`,
+  `metal3machine`, `baremetalhost`.
 - **indexes**: renders the index of the current object, with the offset from the
   `offset` field and using the step from the `step` field. The following
   conditions must be matched :
@@ -411,7 +420,8 @@ ways. The following types of objects are available and accept lists:
     - `step` >= 1
 
   if the step is unspecified (default value being 0), the controller will
-  automatically change it for 1.
+  automatically change it for 1. The attribute `prefix` and `suffix` can contain
+  the prefix and suffix for the rendered output.
 - **ipAddresses**: renders an ip address based on the index, based on the `start` value
   if given or using `subnet` to calculate the start value, and checking that
   the rendered value is not over the `end` value. The increment is the `step`
@@ -421,6 +431,16 @@ ways. The following types of objects are available and accept lists:
   `192.168.0.1` for a subnet `192.168.0.0/24`).
 - **fromHostInterfaces**: renders the MAC address of the BareMetalHost that
   matches the name given as value.
+- **fromLabels**: renders the content of a label on an object or an empty string
+  if the label is absent. It takes an `object` attribute to specify the type of
+  the object where to fetch the label, and a `label` attribute that contains the
+  label key. The `object` can only be one of `machine`, `metal3machine`,
+  `baremetalhost`.
+- **fromAnnotations**: renders the content of a annotation on an object or an
+  empty string if the annotation is absent. It takes an `object` attribute to
+  specify the type of the object where to fetch the annotation, and an
+  `annotation` attribute that contains the annotation key. The `object` can only
+  be one of `machine`, `metal3machine`, `baremetalhost`.
 
 For each object, the attribute **key** is required.
 
