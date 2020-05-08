@@ -11,38 +11,6 @@
 
 implemented
 
-## Table of Contents
-
-<!--ts-->
-
-- [Annotation for Power Cycling and Deleting Failed Nodes](#annotation-for-power-cycling-and-deleting-failed-nodes)
-  - [Status](#status)
-  - [Table of Contents](#table-of-contents)
-  - [Summary](#summary)
-  - [Motivation](#motivation)
-    - [Goals](#goals)
-    - [Non-Goals](#non-goals)
-  - [Proposal](#proposal)
-    - [User Stories](#user-stories)
-      - [Story 1](#story-1)
-    - [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
-    - [Risks and Mitigations](#risks-and-mitigations)
-  - [Design Details](#design-details)
-    - [Work Items](#work-items)
-    - [Dependencies](#dependencies)
-    - [Test Plan](#test-plan)
-    - [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
-    - [Version Skew Strategy](#version-skew-strategy)
-  - [Drawbacks](#drawbacks)
-  - [Alternatives](#alternatives)
-  - [References](#references)
-
-<!-- Added by: dhellmann, at: Fri May  8 14:14:35 EDT 2020 -->
-
-<!--te-->
-
-[Tools for generating]: https://github.com/ekalinin/github-markdown-toc
-
 ## Summary
 
 It is not always practical to require admin intervention once a node has been

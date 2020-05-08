@@ -11,30 +11,6 @@
 
 provisional
 
-## Table of Contents
-
-<!--ts-->
-
-- [Community Future - Proposal to Move to the CNCF Sandbox](#community-future---proposal-to-move-to-the-cncf-sandbox)
-  - [Status](#status)
-  - [Table of Contents](#table-of-contents)
-  - [Summary](#summary)
-  - [Motivation](#motivation)
-    - [Goals](#goals)
-    - [Non-Goals](#non-goals)
-  - [Proposal](#proposal)
-  - [Design Details](#design-details)
-    - [Work Items](#work-items)
-  - [Alternatives](#alternatives)
-    - [No Foundation](#no-foundation)
-    - [OSF (OpenStack Foundation)](#osf-openstack-foundation)
-    - [Kubernetes Cluster Lifecycle SIG](#kubernetes-cluster-lifecycle-sig)
-  - [References](#references)
-
-<!-- Added by: dhellmann, at: Fri May  8 14:14:35 EDT 2020 -->
-
-<!--te-->
-
 ## Summary
 
 metal3-io was created to enable collaboration on the provisioning of bare metal

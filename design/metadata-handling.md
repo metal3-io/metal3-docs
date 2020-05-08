@@ -11,56 +11,6 @@
 
 provisional
 
-## Table of Contents
-
-<!--ts-->
-
-- [Generating Metadata and Network data per node in CAPM3](#generating-metadata-and-network-data-per-node-in-capm3)
-  - [Status](#status)
-  - [Table of Contents](#table-of-contents)
-  - [Summary](#summary)
-  - [Motivation](#motivation)
-    - [Goals](#goals)
-    - [Non-Goals](#non-goals)
-  - [Proposal](#proposal)
-    - [User Stories](#user-stories)
-      - [Story 1](#story-1)
-      - [Story 2](#story-2)
-      - [Story 3](#story-3)
-      - [Story 4](#story-4)
-    - [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
-    - [Risks and Mitigations](#risks-and-mitigations)
-  - [Design Details](#design-details)
-    - [BareMetalHost changes](#baremetalhost-changes)
-    - [Metal3Machine changes](#metal3machine-changes)
-    - [The Metal3DataTemplate object](#the-metal3datatemplate-object)
-      - [Metadata Specifications](#metadata-specifications)
-      - [networkData specifications](#networkdata-specifications)
-        - [Links specifications](#links-specifications)
-        - [The networks specifications](#the-networks-specifications)
-        - [the services specifications](#the-services-specifications)
-    - [The Metal3Data object](#the-metal3data-object)
-    - [The generated secrets](#the-generated-secrets)
-    - [Deployment flow](#deployment-flow)
-      - [Manual secret creation](#manual-secret-creation)
-      - [Dynamic secret creation](#dynamic-secret-creation)
-      - [Hybrid configuration](#hybrid-configuration)
-  - [Implementation structure](#implementation-structure)
-    - [Work Items](#work-items)
-    - [Dependencies](#dependencies)
-    - [Test Plan](#test-plan)
-    - [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
-    - [Version Skew Strategy](#version-skew-strategy)
-  - [Drawbacks](#drawbacks)
-  - [Alternatives](#alternatives)
-  - [References](#references)
-
-<!-- Added by: dhellmann, at: Fri May  8 14:14:36 EDT 2020 -->
-
-<!--te-->
-
-[Tools for generating]: https://github.com/ekalinin/github-markdown-toc
-
 ## Summary
 
 Cloud-init templates offer a very powerful feature to render the configuration

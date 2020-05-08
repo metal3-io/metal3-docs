@@ -11,27 +11,6 @@
 
 implementable
 
-## Table of Contents
-
-<!--ts-->
-
-- [reboot-interface](#reboot-interface)
-  - [Status](#status)
-  - [Table of Contents](#table-of-contents)
-  - [Summary](#summary)
-  - [Motivation](#motivation)
-    - [Goals](#goals)
-    - [Non-Goals](#non-goals)
-  - [Proposal](#proposal)
-  - [Drawbacks](#drawbacks)
-  - [Future Enhancements](#future-enhancements)
-    - [Defining a Formal User Interface](#defining-a-formal-user-interface)
-  - [Alternatives](#alternatives)
-
-<!-- Added by: dhellmann, at: Fri May  8 14:14:37 EDT 2020 -->
-
-<!--te-->
-
 ## Summary
 
 A declarative API is proposed to request the baremetal operator to reboot a

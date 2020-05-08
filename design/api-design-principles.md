@@ -11,27 +11,6 @@
 
 provisional
 
-## Table of Contents
-
-<!--ts-->
-
-- [api-design-principles](#api-design-principles)
-  - [Status](#status)
-  - [Table of Contents](#table-of-contents)
-  - [Summary](#summary)
-  - [Motivation](#motivation)
-    - [Goals](#goals)
-    - [Non-Goals](#non-goals)
-  - [Proposal](#proposal)
-    - [Grow Slowly](#grow-slowly)
-    - [Be Explicit](#be-explicit)
-    - [Don't Assume Ironic](#don't-assume-ironic)
-    - [Don't Assume Machine API](#don't-assume-machine-api)
-
-<!-- Added by: dhellmann, at: Fri May  8 14:14:35 EDT 2020 -->
-
-<!--te-->
-
 ## Summary
 
 This document describes the design principles being used to create the

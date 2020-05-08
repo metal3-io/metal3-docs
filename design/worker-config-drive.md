@@ -11,34 +11,6 @@
 
 implementable
 
-## Table of Contents
-
-<!--ts-->
-
-- [worker-config-drive](#worker-config-drive)
-  - [Status](#status)
-  - [Table of Contents](#table-of-contents)
-  - [Summary](#summary)
-  - [Motivation](#motivation)
-    - [Goals](#goals)
-    - [Non-Goals](#non-goals)
-  - [Proposal](#proposal)
-    - [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
-    - [Risks and Mitigations](#risks-and-mitigations)
-  - [Design Details](#design-details)
-    - [Work Items](#work-items)
-    - [Dependencies](#dependencies)
-    - [Test Plan](#test-plan)
-    - [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
-    - [Version Skew Strategy](#version-skew-strategy)
-  - [Drawbacks](#drawbacks)
-  - [Alternatives](#alternatives)
-  - [References](#references)
-
-<!-- Added by: dhellmann, at: Fri May  8 14:14:37 EDT 2020 -->
-
-<!--te-->
-
 ## Summary
 
 Provisioning hosts requires two separate images. The first is the

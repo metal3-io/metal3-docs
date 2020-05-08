@@ -11,35 +11,6 @@
 
 provisional
 
-## Table of Contents
-
-<!--ts-->
-
-- [implicit-boot-mode](#implicit-boot-mode)
-  - [Status](#status)
-  - [Table of Contents](#table-of-contents)
-  - [Summary](#summary)
-  - [Motivation](#motivation)
-    - [Goals](#goals)
-    - [Non-Goals](#non-goals)
-  - [Proposal](#proposal)
-    - [User Stories](#user-stories)
-      - [As a user, I want to provision a host using virtual media instead of PXE](#as-a-user-i-want-to-provision-a-host-using-virtual-media-instead-of-pxe)
-      - [As a user, I want to provision a host that uses an IPMI-based BMC](#as-a-user-i-want-to-provision-a-host-that-uses-an-ipmi-based-bmc)
-      - [As a user, I want to provision a host using an IPv6 provisioning network](#as-a-user-i-want-to-provision-a-host-using-an-ipv6-provisioning-network)
-    - [Risks and Mitigations](#risks-and-mitigations)
-  - [Design Details](#design-details)
-    - [Dependencies](#dependencies)
-    - [Test Plan](#test-plan)
-    - [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
-    - [Version Skew Strategy](#version-skew-strategy)
-  - [Alternatives](#alternatives)
-  - [References](#references)
-
-<!-- Added by: dhellmann, at: Fri May  8 14:14:36 EDT 2020 -->
-
-<!--te-->
-
 ## Summary
 
 The required boot mode for a host depends on several factors,

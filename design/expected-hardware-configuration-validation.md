@@ -7,28 +7,6 @@
 
 # Hardware Classification Controller
 
-## Table of Contents
-
-<!--ts-->
-
-- [Hardware Classification Controller](#hardware-classification-controller)
-  - [Table of Contents](#table-of-contents)
-  - [Summary](#summary)
-  - [Motivation](#motivation)
-    - [Goals](#goals)
-  - [Proposal](#proposal)
-    - [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
-    - [Risks and Mitigations](#risks-and-mitigations)
-  - [Design Details](#design-details)
-    - [Work Items](#work-items)
-    - [Dependencies](#dependencies)
-    - [Test Plan](#test-plan)
-  - [References](#references)
-
-<!-- Added by: dhellmann, at: Fri May  8 14:14:35 EDT 2020 -->
-
-<!--te-->
-
 ## Summary
 
 Code with the ability to perform the comparison on inspected and ready

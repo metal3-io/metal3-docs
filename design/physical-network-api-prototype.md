@@ -11,41 +11,6 @@
 
 implemented
 
-## Table of Contents
-
-<!--ts-->
-
-- [prototype-a-physical-network-api](#prototype-a-physical-network-api)
-  - [Status](#status)
-  - [Table of Contents](#table-of-contents)
-  - [Summary](#summary)
-  - [Motivation](#motivation)
-    - [Goals](#goals)
-    - [Non-Goals](#non-goals)
-  - [Proposal](#proposal)
-    - [User Stories](#user-stories)
-      - [Story 1](#story-1)
-    - [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
-      - [Approach](#approach)
-      - [Limitations](#limitations)
-      - [Examples](#examples)
-      - [Conclusions](#conclusions)
-      - [Links](#links)
-    - [Risks and Mitigations](#risks-and-mitigations)
-  - [Design Details](#design-details)
-    - [Work Items](#work-items)
-    - [Dependencies](#dependencies)
-    - [Test Plan](#test-plan)
-    - [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
-    - [Version Skew Strategy](#version-skew-strategy)
-  - [Drawbacks](#drawbacks)
-  - [Alternatives](#alternatives)
-  - [References](#references)
-
-<!-- Added by: dhellmann, at: Fri May  8 14:14:37 EDT 2020 -->
-
-<!--te-->
-
 ## Summary
 
 The Metal³ project is currently centered around an API for managing physical
