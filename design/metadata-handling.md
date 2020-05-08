@@ -259,13 +259,14 @@ it is with a DataTemplate reference, or direct `metaData` or `userData` secrets)
 and what the controller is actually using.
 
 A `dataTemplate` field would be added, consisting of an object reference
-to a Metal3DataTemplate object containing the templates for
+to a Template object containing the templates for
 the metadata and network data generation for this Metal3Machine.
 A `renderedData` field will be added in the status and will be a reference to
-the Metal3Data object created for this machine. If the dataTemplate field is set
-but either the `renderedData`, `metaData` or `networkData` fields in the status
-are unset, then the Metal3Machine controller will wait until it can find the
-Metal3Data object and the rendered secrets. It will then populate those fields.
+the RenderedData object created for this machine. If the dataTemplate field is
+set but either the `renderedData`, `metaData` or `networkData` fields in the
+status are unset, then the Metal3Machine controller will wait until it can find
+the RenderedData object and the rendered secrets. It will then populate those
+fields.
 
 When CAPM3 controller will set the different fields in the BareMetalHost,
 it will reference the metadata secret and the network data secret
@@ -274,15 +275,49 @@ are unset, that field will also remain unset on the BareMetalHost.
 
 When the Metal3Machine gets deleted, the CAPM3 controller will remove its
 ownerreference from the data template object. This will trigger the deletion of
-the generated Metal3Data object and the secrets generated for this machine.
+the generated RenderedData object and the secrets generated for this machine.
 
-### The Metal3DataTemplate object
+### The DataClaim object
 
-A new object would be created, a Metal3DataTemplate type.
+A new object would be created, a DataClaim type.
 
 ```yaml
-apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
-kind: Metal3DataTemplate
+apiVersion: metadata.metal3.io/v1alpha1
+kind: DataClaim
+metadata:
+  name: machine-1
+  namespace: default
+  ownerReferences:
+  - apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
+    controller: true
+    kind: Metal3Machine
+    name: machine-1
+spec:
+  owner:
+    name: machine-1
+  template:
+    name: nodepool-1
+status:
+  ready: true
+  renderedData:
+    name: nodepool-1-0
+  error: false
+  errorMessage: ""
+```
+
+The *DataClaim* object will reference its owner *Metal3Machine* and target
+*Template* objects. In its status, the *ready* field would be set to true and
+the *renderedData* would reference the *RenderedData* object when it would be
+generated. In case of error, the *error* flag would be set to True, and the
+*errorMessage* would contain a description of the error.
+
+### The Template object
+
+A new object would be created, a Template type.
+
+```yaml
+apiVersion: metadata.metal3.io/v1alpha1
+kind: Template
 metadata:
   name: nodepool-1
   namespace: default
@@ -596,23 +631,23 @@ The object for the **services** section can be:
 
 - **dns**: a list of dns service with the ip address of a dns server
 
-### The Metal3Data object
+### The RenderedData object
 
-The output of the controller would be a Metal3Data object,one per node
-linking to the Metal3DataTemplate object and the associated secrets
+The output of the controller would be a RenderedData object,one per node
+linking to the Template object and the associated secrets
 
-The Metal3Data object would be:
+The RenderedData object would be:
 
 ```yaml
-apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
-kind: Metal3Data
+apiVersion: metadata.metal3.io/v1alpha1
+kind: RenderedData
 metadata:
   name: nodepool-1-0
   namespace: default
   ownerReferences:
-  - apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
+  - apiVersion: metadata.metal3.io/v1alpha1
     controller: true
-    kind: Metal3DataTemplate
+    kind: Template
     name: nodepool-1
 spec:
   index: 0
@@ -631,42 +666,43 @@ status:
   errorMessage: ""
 ```
 
-The Metal3Data will contain the index of this node, and links to the secrets
-generated and to the Metal3Machine using this Metal3Data object.
+The RenderedData will contain the index of this node, and links to the secrets
+generated and to the Metal3Machine using this RenderedData object.
 
-If the Metal3DataTemplate object is updated, the generated secrets will not be
+If the Template object is updated, the generated secrets will not be
 updated, to allow for reprovisioning of the nodes in the exact same state as
 they were initially provisioned. Hence, to do an update, it is necessary to do
 a rolling upgrade of all nodes.
 
-The reconciliation of the Metal3DataTemplate object will also be triggered by
+The reconciliation of the Template object will also be triggered by
 changes on Metal3Machines. In the case that a Metal3Machine gets modified, if
-the `dataTemplate` references a Metal3DataTemplate, that object will be reconciled.
-There will be two cases:
+the `dataTemplate` references a Template, that *DataClaim* object will be
+reconciled. There will be two cases:
 
-- An already generated Metal3Data object exists with an ownerReference to this
-  Metal3Machine. In that case, the reconciler will verify that the required
-  secrets exist. If they do not, they will be created.
-- if no Metal3Data exists with an ownerReference to this Metal3Machine, then the
+- An already generated RenderedData object exists for that *DataClaim*. In that
+  case, the reconciler will verify that the required secrets exist. If they do
+  not, they will be created.
+- if no RenderedData exists for that *DataClaim*, then the
   reconciler will create one and fill the respective field with the secret name.
 
-To create a Metal3Data object, the Metal3DataTemplate controller will select an
+To create a RenderedData object, the *DataClaim* controller will select an
 index for that Metal3Machine. The selection happens by selecting the lowest
 available index that is not in the `indexes` field of the status. If the
-`indexes` field is empty, the controller will list all existing Metal3Data
-object linked to this Metal3DataTemplate and recreate the unavailable indexes.
-It will fill it by extracting the index from the Metal3Data names. The indexes
+`indexes` field is empty, the controller will list all existing RenderedData
+object linked to this Template and recreate the unavailable indexes.
+It will fill it by extracting the index from the RenderedData names. The indexes
 always start from 0 and increment by 1. The lowest available index is to be used
-next. The `dataNames` field contains the map of Metal3Machine to Metal3Data.
+next. The `dataNames` field contains the map of Metal3Machine to RenderedData.
 
-Once the next lowest available index is found, it will create the Metal3Data
-object. The name would be a concatenation of the Metal3DataTemplate name and
+Once the next lowest available index is found, it will create the RenderedData
+object. The name would be a concatenation of the Template name and
 index. Upon conflict, it will fetch again the list to consider the new list of
-Metal3Data and try to create the new object with the new index, this will happen
+RenderedData and try to create the new object with the new index, this will happen
 until the new object is created successfully. Upon success, it will render the
 content values, and create the secrets containing the rendered data. The
 controller will generate the content based on the `metaData` or `networkData`
-field of the Metal3DataTemplate Specs.
+field of the Template Specs. The *ready* field in the *DataClaim* and the
+*renderedData* will then be set accordingly.
 
 Once the generation is successful, the status field `ready` will be set to True.
 If any error happens during the rendering, an error message will be added.
@@ -715,19 +751,18 @@ provisioning of the BareMetalHost until it exists.
 #### Dynamic secret creation
 
 In the case where the Metal3Machine is created with a `dataTemplate` value, the
-Metal3Machine reconciler will fetch that object (or wait until it exists if it
-does not exist yet) and add the Metal3Machine in the ownerReferences of the
-Metal3DataTemplate.
+Metal3Machine reconciler will create a *DataClaim* for that object.
 
-The Metal3DataTemplate would then be reconciled, and its controller will create
-an index for this Metal3Machine if it does not exist yet, and create a
-Metal3Data object with the index and the Metal3Machine in the ownerReference.
+The *DataClaim* would then be reconciled, and its controller will create
+an index for this *DataClaim* if it does not exist yet, and create a
+RenderedData object with the index. Upon success, it will set the *ready* field
+to true, and the *renderedData* field to reference the *RenderedData* object.
 
-The Metal3Data reconciler will then generate the secrets, based on the index,
-the Metal3DataTemplate and the machine. Once created, it will set the status
+The RenderedData reconciler will then generate the secrets, based on the index,
+the Template and the machine. Once created, it will set the status
 field `ready` to True.
 
-Once the metal3Data object is ready, the Metal3Machine controller will fetch
+Once the RenderedData object is ready, the Metal3Machine controller will fetch
 the secrets that have been created (one or both) and use them to start
 provisioning the BareMetalHost.
 
@@ -740,7 +775,7 @@ the three fields, the controller will use the user input secret for both.
 
 This means that some hybrid scenarios are supported, where the user can give
 directly the `metaData` secret and let the controller render the `networkData`
-secret through the Metal3DataTemplate object.
+secret through the Template object.
 
 ## Implementation structure
 
@@ -749,7 +784,7 @@ secret through the Metal3DataTemplate object.
 Here are the different steps :
 
 - Add the metadata field in BareMetalHost (On-going)
-- Add the metal3DataTemplate object
+- Add the Template object
 - Add the CAPM3 logic for the dataTemplate reconciler
 - Modify the Metal3Machine reconciler to make use of the metadata and network
   data and set it on the BareMetalHost.
@@ -760,7 +795,7 @@ Here are the different steps :
 
 ### Test Plan
 
-This can be added to our e2e tests. The Metal3DataTemplate object would be
+This can be added to our e2e tests. The Template object would be
 added as part of the deployment and cloud-config modified to add variables to
 make use of it.
 
@@ -772,7 +807,7 @@ take the fields in use.
 
 During an upgrade, nothing is required to be done to keep things working as they
 were. In order to start using this feature, the user would need to create the
-Metal3DataTemplate object, and then do a rolling upgrade to change the
+Template object, and then do a rolling upgrade to change the
 Metal3Machines (or Metal3MachineTemplates), and the KubeadmConfigs (or
 KubeadmConfigTemplates or KubeadmControlPlane).
 

@@ -43,36 +43,37 @@ provisional
 
 ## Summary
 
-A Metal3DataTemplate has recently been introduced in CAPM3, allowing to specify
+A Template has recently been introduced in CAPM3, allowing to specify
 templates to generate the Network Data passed to ironic through the BMH. In the
 case of a network without DHCP, the ip addresses must be statically allocated,
 however, considering the Kubeadm Control Plane and machine deployment features
 in Cluster API, it is not possible to do it before the actual deployment of the
 nodes. Hence a template was introduced that had a possibility to specify a
 pool of IP addresses to be statically allocated to the nodes referencing this
-Metal3DataTemplate. However some limitations were hit in the current design.
-In order to overcome them, we propose to introduce two new objects,
-*Metal3IPPool* and *Metal3IPAddress* to provide more flexible IP address
+Template. However some limitations were hit in the current design.
+In order to overcome them, we propose to introduce three new objects,
+*IPPool*, *IPClaim* and *IPAddress* to provide more flexible IP address
 management.
 
-The *Metal3IPPool* would contain the list of IP addresses and ranges usable
-to select an IP address for a Metal3DataTemplate referencing it, while
-Metal3IPAddress would contain a representation of an IP address in use in order
-to prevent conflicts efficiently.
+The *IPPool* would contain the list of IP addresses and ranges usable
+to select an IP address for a Template referencing it, while
+*IPAddress* would contain a representation of an IP address in use in order
+to prevent conflicts efficiently. *IPClaim* would be a request for an
+*IPAddress* from an *IPPool*
 
 
 ## Motivation
 
-The current implementation of Metal3DataTemplate allows deploying clusters with
+The current implementation of Template allows deploying clusters with
 static ip address allocations provided in the Network Data section for
 cloud-init. However, several issues are relating to the design :
 
 * It is not possible to specify multiple non-continuous ranges of IP addresses.
   Hence, for example if the user has some public ip addresses available that are
   sparse, not in a continuous pool, this feature is not usable.
-* It is not possible to use the same pool across multiple Metal3DataTemplate.
+* It is not possible to use the same pool across multiple *Template* objects.
   For example, if a user wants to use a pool of IP addresses for multiple
-  machine deployments (each deployment requiring its own Metal3DataTemplate),
+  machine deployments (each deployment requiring its own *Template* object),
   he would need to split the pool into smaller non-overlapping pools, one per
   machine deployment. This is problematic in case the deployment replica sets
   are expected to vary in a substantial manner. For example, in order to allow
@@ -89,11 +90,11 @@ belong to by a chain of owner references.
 
 ### Goals
 
-- Introduce a Metal3IPPool and a Metal3IPAddress CRDs.
+- Introduce an IPPool, an IPClaim and an IPAddress CRDs.
 - add flexibility in the IP address allocation
 - enable sharing of a pool across machine deployments / KCP
 - enable use of non-continuous pools
-- enable external IP management by using Metal3IPAddress CRs
+- enable external IP management by using IPAddress CRs
 - offer a predictable way to assign addresses to some nodes
 - be resilient to the clusterctl move operation
 
@@ -120,11 +121,9 @@ multiple machine deployments.
 
 #### Story 3
 
-As a user deploying a target Kubernetes cluster, I want to keep the allocation
-predictability offered by the current feature, i.e. the ip address is the
-start address + the index of the Metal3Data, when I use a pool for a single
-machine deployment. This is to ensure that the current proposal adds a feature
-without removing any existing feature and is fully backward compatible.
+As a user deploying a target Kubernetes cluster, I want to have an allocation
+predictability. I want to be able to specify what IP address some claims will
+get.
 
 #### Story 4
 
@@ -145,15 +144,17 @@ cluster to prevent future conflicts.
 
 This adds some complexity to the Metal3 system. Proper documentation could solve
 the issue, and for users not needing this feature, no change would be required.
+This design may lead to a high number of objects, if there is a high number of
+nodes.
 
 ## Design Details
 
 
-A Metal3IPPool object would be created :
+A IPPool object would be created :
 
 ```yaml
-apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
-kind: Metal3IPPool
+apiVersion: ipam.metal3.io/v1alpha1
+kind: IPPool
 metadata:
   name: pool-1
   namespace: default
@@ -161,9 +162,6 @@ metadata:
   - apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
     kind: Metal3Cluster
     name: cluster-1
-  - apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
-    kind: Metal3Data
-    name: metal3data-1
 spec:
   pools:
     - start: 192.168.0.10
@@ -179,18 +177,18 @@ spec:
   gateway: 192.168.1.1
   prefix: 24
   allocations:
-    "metal3data-10": 192.168.0.9
-    "metal3data-9": 192.168.0.8
+    "RenderedData-10": 192.168.0.9
+    "RenderedData-9": 192.168.0.8
   namePrefix: "provisioning"
 status:
   lastUpdated: "2020-04-02T06:36:09Z"
   addresses:
-    "192.168.0.11": "metal3data-1"
+    "192.168.0.11": "RenderedData-1"
   allocations:
-    "metal3data-1": "pool-1-192-168-0-11"
+    "RenderedData-1": "pool-1-192-168-0-11"
 ```
 
-In the *spec* of *Metal3IPPool*, there would be a *pools* list, that would
+In the *spec* of *IPPool*, there would be a *pools* list, that would
 contain a list of IP address pools, with the *start* and *end* attributes
 giving the start and end ip addresses of the pool. The *subnet* field allows to
 verify that the allocated IP is in the pool and from which the start and end ip
@@ -200,76 +198,103 @@ setting the start and end ip address to that single ip address.
 The *prefix* and *gateway* parameters can be given for each pool of the list,
 or globally. If they are given for a pool they will override the global
 settings, that are default values. The *prefix* and *gateway* will be set on
-the *Metal3IPAddress* and can be fetched from a *Metal3DataTemplate*.
+the *IPAddress* and can be fetched from a *Template*.
 
 The *allocations* fields is a map of object name and ip address that allow a
 user to specify a set of static allocations for some objects.
 
-The *namePrefix* contains the prefix used to name the Metal3IPAddress objects
+The *namePrefix* contains the prefix used to name the IPAddress objects
 created. It must remain the same for a subnet, across updates or changes in the
-Metal3IPPool object to keep the existing leases.
+IPPool object to keep the existing leases.
 
 The *status* would contain a *lastUpdated* field with the timestamp of the last
 update. In case of an error during the allocation (pool exhaustion for example),
 the error would be reported on the Consumer object, the *error* boolean and
-*errorMessage* field on the *Metal3Data* object.
-The *allocations* map will map the IP address to the *Metal3Data* object it was
-allocated for and the *addresses* will map the *metal3Data* objects with the
-*Metal3IPAddress* objects.
+*errorMessage* field on the *RenderedData* object.
+The *allocations* map will map the IP address to the *RenderedData* object it was
+allocated for and the *addresses* will map the *RenderedData* objects with the
+*IPAddress* objects.
 
-The *Metal3IPAddress* object would be the following
+The *IPAddress* object would be the following
 
 ```yaml
-apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
-kind: Metal3IPAddress
+apiVersion: ipam.metal3.io/v1alpha1
+kind: IPAddress
 metadata:
   name: pool-1-192-168-0-11
   namespace: default
   ownerReferences:
-  - apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
-    kind: Metal3IPPool
+  - apiVersion: ipam.metal3.io/v1alpha1
+    kind: IPPool
     name: pool-1
-  - apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
-    kind: Metal3Data
-    name: metal3data-1
+  - apiVersion: ipam.metal3.io/v1alpha1
+    kind: IPClaim
+    name: RenderedData-1
 spec:
-  Owner:
-    Name: metal3data-1
+  ipClaim:
+    Name: RenderedData-1
   Address: 192.168.0.11
   prefix: 24
   gateway: 192.168.0.1
-  Metal3IPPool:
+  IPPool:
     Name: pool-1
 status:
   ready: true
 ```
 
-For each owner reference added on a *Metal3IPPool* that is not a *Metal3IPPool*,
-the controller reconciling the *Metal3IPPool* will select an available IP
-address randomly from the available IP addresses, if the object name is not in
-the *allocations* map in the object *spec* or in the *addresses* map in the
-*status*.
-
-Once the IP address is selected, the controller will create a *Metal3IPAddress*
-for that address. In case of conflict, it will list all the *Metal3IPAddress*
-objects that have an owner reference to this *Metal3IPPool* and update the
-status with the mapping of IP addresses and *Owner* object names. It will
-then randomly select an available IP address. Once the *Metal3IPAddress* object
-is created, the *Metal3IPPool* object status will be updated with the new map.
-
-If the *lastUpdated* field of the *Metal3IPPool* is empty, the controller will
-list all the *Metal3IPAddress* objects that have an owner reference to this
-*Metal3IPPool* and update the status with the mapping of IP addresses and
-*Metal3Data* object names. It will also update the *lastUpdated* field.
-
-If the cluster to which the *Metal3IPPool* belongs is paused, the reconciliation
-of both objects would be paused.
-
-The *Metal3DataTemplate* would be modified this way:
+The *IPAddress* object would be the following
 
 ```yaml
-apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
-kind: Metal3DataTemplate
+apiVersion: ipam.metal3.io/v1alpha1
+kind: IPClaim
+metadata:
+  name: RenderedData-1
+  namespace: default
+  ownerReferences:
+  - apiVersion: metadata.metal3.io/v1alpha1
+    kind: Data
+    name: data-1
+spec:
+  owner:
+    name: RenderedData-1
+  ipPool:
+    name: pool-1
+status:
+  ready: true
+  ipAddress:
+    name: pool-1-192-168-0-11
+  error: false
+  errorMessage: ""
+```
+
+For each *IPClaim*, the controller reconciling the *IPCalim* will select an
+available IP address randomly from the *IPPool*, if the object name is not in
+the *allocations* map in the object *spec* or in the *addresses* map in the
+*status*, in that case it would select that IP address. An error would be
+reflected on the claim.
+
+Once the IP address is selected, the controller will create an *IPAddress*
+for that address. In case of conflict, it will list all the *IPAddress*
+objects that have an owner reference to this *IPPool* and update the
+status with the mapping of IP addresses and *IPPool* object names. It will
+then randomly select an available IP address. Once the *IPAddress* object
+is created, the *IPPool* object status will be updated with the new map. Then
+The *IPClaim* status will be updated with the *IPAddress* reference and the
+*ready* field set to true.
+
+If the *lastUpdated* field of the *IPPool* is empty, the controller will
+list all the *IPAddress* objects that have an owner reference to this
+*IPPool* and update the status with the mapping of IP addresses and
+*RenderedData* object names. It will also update the *lastUpdated* field.
+
+If the cluster to which the *IPClaim* belongs is paused, the reconciliation
+of the *IPClaim* would be paused.
+
+The *Template* would be modified this way:
+
+```yaml
+apiVersion: metadata.metal3.io/v1alpha1
+kind: Template
 metadata:
   name: nodepool-1
   namespace: default
@@ -322,18 +347,18 @@ status:
   lastUpdated: "2020-04-02T06:36:09Z"
 ```
 
-When reconciling the *Metal3Data* object, the reconciler would fetch the
-*Metal3IPPool* objects that are referenced in the *Metal3DataTemplate* and set
-an ownerreference referencing the *Metal3Data* object. It will then wait until
-the *Metal3IPAddress* object is created and has a status set to Ready. Once
-ready, it will render the templates, filling the IP addresses, prefixes and
-gateways based on the content of the *Metal3IPAddress* objects.
+When reconciling the *RenderedData* object, the reconciler would create an
+*IPClaim* for the *IPPool* objects that are referenced in the
+*Template*. It will then wait until the *IPClaim* has a status set to
+Ready. Once ready, it will fetch the *IPAddress* and it will render the
+templates, filling the IP addresses, prefixes and gateways based on the content
+of the *IPAddress* objects.
 
 ### Work Items
 
 * implement the additional controllers
-* add the logic to fetch the IP address and wait for it when rendering the
-  templates
+* add the logic to create the claim, fetch the IP address and wait for it when
+  rendering the templates
 * Ensure all tests are present (unit and end to end tests)
 
 ### Dependencies
@@ -351,8 +376,8 @@ gateways based on the content of the *Metal3IPAddress* objects.
 
 No change would be required to keep the existing behaviour (the ipaddress field
 could be removed, but was never part of a released API). In order to start using
-this feature, one will just need to modify the *Metal3DataTemplate* and create
-*Metal3IPPool* objects.
+this feature, one will just need to modify the *Template* and create
+*IPPool* objects.
 
 ### Version Skew Strategy
 
