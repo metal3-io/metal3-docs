@@ -14,26 +14,27 @@ implementable
 ## Table of Contents
 
 <!--ts-->
-   * [image-ownership](#image-ownership)
-      * [Status](#status)
-      * [Table of Contents](#table-of-contents)
-      * [Summary](#summary)
-      * [Motivation](#motivation)
-         * [Goals](#goals)
-         * [Non-Goals](#non-goals)
-      * [Proposal](#proposal)
-         * [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
-         * [Risks and Mitigations](#risks-and-mitigations)
-         * [Work Items](#work-items)
-         * [Dependencies](#dependencies)
-         * [Test Plan](#test-plan)
-         * [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
-         * [Version Skew Strategy](#version-skew-strategy)
-      * [Drawbacks](#drawbacks)
-      * [Alternatives](#alternatives)
-      * [References](#references)
 
-<!-- Added by: dhellmann, at: 2019-03-08T11:55-0500 -->
+- [image-ownership](#image-ownership)
+  - [Status](#status)
+  - [Table of Contents](#table-of-contents)
+  - [Summary](#summary)
+  - [Motivation](#motivation)
+    - [Goals](#goals)
+    - [Non-Goals](#non-goals)
+  - [Proposal](#proposal)
+    - [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
+    - [Risks and Mitigations](#risks-and-mitigations)
+    - [Work Items](#work-items)
+    - [Dependencies](#dependencies)
+    - [Test Plan](#test-plan)
+    - [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
+    - [Version Skew Strategy](#version-skew-strategy)
+  - [Drawbacks](#drawbacks)
+  - [Alternatives](#alternatives)
+  - [References](#references)
+
+<!-- Added by: dhellmann, at: Fri May  8 14:14:36 EDT 2020 -->
 
 <!--te-->
 

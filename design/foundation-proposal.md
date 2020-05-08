@@ -14,18 +14,25 @@ provisional
 ## Table of Contents
 
 <!--ts-->
-   * [Title](#title)
-      * [Status](#status)
-      * [Table of Contents](#table-of-contents)
-      * [Summary](#summary)
-      * [Motivation](#motivation)
-         * [Goals](#goals)
-         * [Non-Goals](#non-goals)
-      * [Proposal](#proposal)
-      * [Design Details](#design-details)
-         * [Work Items](#work-items)
-      * [Alternatives [optional]](#alternatives-optional)
-      * [References](#references)
+
+- [Community Future - Proposal to Move to the CNCF Sandbox](#community-future---proposal-to-move-to-the-cncf-sandbox)
+  - [Status](#status)
+  - [Table of Contents](#table-of-contents)
+  - [Summary](#summary)
+  - [Motivation](#motivation)
+    - [Goals](#goals)
+    - [Non-Goals](#non-goals)
+  - [Proposal](#proposal)
+  - [Design Details](#design-details)
+    - [Work Items](#work-items)
+  - [Alternatives](#alternatives)
+    - [No Foundation](#no-foundation)
+    - [OSF (OpenStack Foundation)](#osf-openstack-foundation)
+    - [Kubernetes Cluster Lifecycle SIG](#kubernetes-cluster-lifecycle-sig)
+  - [References](#references)
+
+<!-- Added by: dhellmann, at: Fri May  8 14:14:35 EDT 2020 -->
+
 <!--te-->
 
 ## Summary
@@ -36,9 +43,8 @@ community governance.  Now that the project is a year old and has contributors
 from several companies, it is time to revisit some of the community structure
 and its future.
 
-This proposal is to apply to become a CNCF Sandbox Project.
-
-https://www.cncf.io/sandbox-projects/
+This proposal is to apply to become a [CNCF Sandbox
+Project](https://www.cncf.io/sandbox-projects/).
 
 ## Motivation
 
@@ -57,24 +63,23 @@ a next step of applying as a CNCF Sandbox project.
 
 ### Goals
 
-* Align with other CNCF ecosystem projects in terms of policies and processes.
-* Assets are transferred to a neutral third party (i.e. domains)
-* Gain more visibility in the CNCF ecosystem to attract others who may be
+- Align with other CNCF ecosystem projects in terms of policies and processes.
+- Assets are transferred to a neutral third party (i.e. domains)
+- Gain more visibility in the CNCF ecosystem to attract others who may be
   interested in collaborating on bare metal host provisioning with Kubernetes.
 
 ### Non-Goals
 
-* No changes to the metal3-io code are in scope of this proposal.  This
+- No changes to the metal3-io code are in scope of this proposal.  This
   proposal is only about the community future.
-* No changes to committer processes are proposed here.  We already have a
+- No changes to committer processes are proposed here.  We already have a
   documented [process for adding and removing
   maintainers](../maintainers/README.md).
 
 ## Proposal
 
-Apply to become a CNCF Sandbox project.
-
-https://www.cncf.io/sandbox-projects/
+Apply to become a [CNCF Sandbox
+project](https://www.cncf.io/sandbox-projects/).
 
 The [Goals](#goals) section discusses some of the immediate changes we should
 expect, but as the project continues to mature, many of the other services
@@ -86,16 +91,16 @@ does a nice job discussing what services they offer projects on the
 
 ### Work Items
 
-* (russellb) Write this proposal.
-* (everyone) Provide feedback on initial proposal, reach consensus.
-* (russellb) If approved, draft the [CNCF Sandbox
+- (russellb) Write this proposal.
+- (everyone) Provide feedback on initial proposal, reach consensus.
+- (russellb) If approved, draft the [CNCF Sandbox
   application](https://github.com/cncf/toc/blob/master/process/project_proposals.adoc)
   first as a draft in this repository.
-* (everyone) Provide feedback on application text, reach consensus.
-* (russellb) Submit Application.
-* (russellb + others) Prepare and deliver a presentation to the CNCF TOC.
+- (everyone) Provide feedback on application text, reach consensus.
+- (russellb) Submit Application.
+- (russellb + others) Prepare and deliver a presentation to the CNCF TOC.
   Invite metal3 community members to attend.
-* (russellb) If accepted, transfer project assets as appropriate to CNCF.
+- (russellb) If accepted, transfer project assets as appropriate to CNCF.
 
 ## Alternatives
 
@@ -129,7 +134,7 @@ collaborate with the cluster-api project.
 
 ## References
 
-* Sample application: [KubeVirt sandbox
+- Sample application: [KubeVirt sandbox
   application](https://github.com/cncf/toc/pull/265)
-* [CNCF Graduation
+- [CNCF Graduation
   Criteria](https://github.com/cncf/toc/blob/master/process/graduation_criteria.adoc)

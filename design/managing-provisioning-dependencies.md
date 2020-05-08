@@ -14,26 +14,27 @@ in-progress
 ## Table of Contents
 
 <!--ts-->
-   * [managing-provisioning-dependencies](#managing-provisioning-dependencies)
-      * [Status](#status)
-      * [Table of Contents](#table-of-contents)
-      * [Summary](#summary)
-      * [Motivation](#motivation)
-         * [Goals](#goals)
-         * [Non-Goals](#non-goals)
-      * [Proposal](#proposal)
-         * [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
-         * [Risks and Mitigations](#risks-and-mitigations)
-      * [Design Details](#design-details)
-         * [Work Items](#work-items)
-         * [Dependencies](#dependencies)
-         * [Test Plan](#test-plan)
-         * [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
-         * [Version Skew Strategy](#version-skew-strategy)
-      * [Alternatives](#alternatives)
-      * [References](#references)
 
-<!-- Added by: dhellmann, at: Wed Jun 26 16:08:57 EDT 2019 -->
+- [managing-provisioning-dependencies](#managing-provisioning-dependencies)
+  - [Status](#status)
+  - [Table of Contents](#table-of-contents)
+  - [Summary](#summary)
+  - [Motivation](#motivation)
+    - [Goals](#goals)
+    - [Non-Goals](#non-goals)
+  - [Proposal](#proposal)
+    - [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
+    - [Risks and Mitigations](#risks-and-mitigations)
+  - [Design Details](#design-details)
+    - [Work Items](#work-items)
+    - [Dependencies](#dependencies)
+    - [Test Plan](#test-plan)
+    - [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
+    - [Version Skew Strategy](#version-skew-strategy)
+  - [Alternatives](#alternatives)
+  - [References](#references)
+
+<!-- Added by: dhellmann, at: Fri May  8 14:14:36 EDT 2020 -->
 
 <!--te-->
 
@@ -87,15 +88,17 @@ of a master going down and being reprovisioned, rebooted etc.
 The solution we came up with to resolve this is to use the 'lifetime'
 From the ip-address manpage:
 
-* valid_lft LFT
-    The valid lifetime of this address; see section 5.5.4 of RFC
-    4862. When it expires, the address is removed by the kernel.
-    Defaults to forever.
+- valid_lft LFT
 
-* preferred_lft LFT
-    The preferred lifetime of this address; see section 5.5.4 of RFC
-    4862. When it expires, the address is no longer used for new outgoing
-    connections. Defaults to forever.
+  The valid lifetime of this address; see section 5.5.4 of RFC
+  4862. When it expires, the address is removed by the kernel.
+  Defaults to forever.
+
+- preferred_lft LFT
+
+  The preferred lifetime of this address; see section 5.5.4 of RFC
+  4862. When it expires, the address is no longer used for new outgoing
+  connections. Defaults to forever.
 
 So again, an init container is used to set the IP address to a
 preconfigured value.  This init container sets the lifetime to 5 minutes

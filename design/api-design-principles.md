@@ -14,19 +14,21 @@ provisional
 ## Table of Contents
 
 <!--ts-->
-   * [api-design-principles](#api-design-principles)
-      * [Status](#status)
-      * [Table of Contents](#table-of-contents)
-      * [Summary](#summary)
-      * [Motivation](#motivation)
-         * [Goals](#goals)
-         * [Non-Goals](#non-goals)
-      * [Proposal](#proposal)
-         * [Grow Slowly](#grow-slowly)
-         * [Be Explicit](#be-explicit)
-         * [Don't Assume Ironic](#dont-assume-ironic)
 
-<!-- Added by: dhellmann, at: Thu Oct 10 15:44:40 EDT 2019 -->
+- [api-design-principles](#api-design-principles)
+  - [Status](#status)
+  - [Table of Contents](#table-of-contents)
+  - [Summary](#summary)
+  - [Motivation](#motivation)
+    - [Goals](#goals)
+    - [Non-Goals](#non-goals)
+  - [Proposal](#proposal)
+    - [Grow Slowly](#grow-slowly)
+    - [Be Explicit](#be-explicit)
+    - [Don't Assume Ironic](#don't-assume-ironic)
+    - [Don't Assume Machine API](#don't-assume-machine-api)
+
+<!-- Added by: dhellmann, at: Fri May  8 14:14:35 EDT 2020 -->
 
 <!--te-->
 
@@ -77,7 +79,7 @@ every API parameter.
    security measure. Passing unstructured data through the API and
    storing it exposes clusters to security issues if an API changes
    and new fields are added. See
-   https://www.youtube.com/watch?v=fatglKZYdSQ for details.
+   <https://www.youtube.com/watch?v=fatglKZYdSQ> for details.
 
 ### Don't Assume Ironic
 

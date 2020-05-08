@@ -14,30 +14,29 @@ provisional
 ## Table of Contents
 
 <!--ts-->
-   * [Title](#title)
-      * [Status](#status)
-      * [Table of Contents](#table-of-contents)
-      * [Summary](#summary)
-      * [Motivation](#motivation)
-         * [Goals](#goals)
-         * [Non-Goals](#non-goals)
-      * [Proposal](#proposal)
-         * [User Stories [optional]](#user-stories-optional)
-            * [Story 1](#story-1)
-            * [Story 2](#story-2)
-         * [Implementation Details/Notes/Constraints [optional]](#implementation-detailsnotesconstraints-optional)
-         * [Risks and Mitigations](#risks-and-mitigations)
-      * [Design Details](#design-details)
-         * [Work Items](#work-items)
-         * [Dependencies](#dependencies)
-         * [Test Plan](#test-plan)
-         * [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
-         * [Version Skew Strategy](#version-skew-strategy)
-      * [Drawbacks [optional]](#drawbacks-optional)
-      * [Alternatives [optional]](#alternatives-optional)
-      * [References](#references)
 
-<!-- Added by: stack, at: 2019-02-15T11:41-05:00 -->
+- [implicit-boot-mode](#implicit-boot-mode)
+  - [Status](#status)
+  - [Table of Contents](#table-of-contents)
+  - [Summary](#summary)
+  - [Motivation](#motivation)
+    - [Goals](#goals)
+    - [Non-Goals](#non-goals)
+  - [Proposal](#proposal)
+    - [User Stories](#user-stories)
+      - [As a user, I want to provision a host using virtual media instead of PXE](#as-a-user-i-want-to-provision-a-host-using-virtual-media-instead-of-pxe)
+      - [As a user, I want to provision a host that uses an IPMI-based BMC](#as-a-user-i-want-to-provision-a-host-that-uses-an-ipmi-based-bmc)
+      - [As a user, I want to provision a host using an IPv6 provisioning network](#as-a-user-i-want-to-provision-a-host-using-an-ipv6-provisioning-network)
+    - [Risks and Mitigations](#risks-and-mitigations)
+  - [Design Details](#design-details)
+    - [Dependencies](#dependencies)
+    - [Test Plan](#test-plan)
+    - [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
+    - [Version Skew Strategy](#version-skew-strategy)
+  - [Alternatives](#alternatives)
+  - [References](#references)
+
+<!-- Added by: dhellmann, at: Fri May  8 14:14:36 EDT 2020 -->
 
 <!--te-->
 
@@ -69,13 +68,13 @@ misconfiguration.
 
 ### Goals
 
-* Describe a method for providing a deterministic boot mode value to
+- Describe a method for providing a deterministic boot mode value to
   Ironic without relying on the user to set the value directly.
-* Ensure that metal3's behavior is always deterministic.
+- Ensure that metal3's behavior is always deterministic.
 
 ### Non-Goals
 
-* Address boot mode selection for non-x86 hardware.
+- Address boot mode selection for non-x86 hardware.
 
 ## Proposal
 
@@ -154,7 +153,7 @@ something like `Status.Provisioning.BootMode`, and it would contain a
 string for either `"BIOS"` or `"UEFI"` for now and possibly other
 values later for other hardware platforms.
 
-### User Stories [optional]
+### User Stories
 
 #### As a user, I want to provision a host using virtual media instead of PXE
 

@@ -14,32 +14,33 @@ implemented
 ## Table of Contents
 
 <!--ts-->
-   * [nodes-machines-and-hosts](#nodes-machines-and-hosts)
-      * [Status](#status)
-      * [Table of Contents](#table-of-contents)
-      * [Summary](#summary)
-      * [Motivation](#motivation)
-         * [Goals](#goals)
-         * [Non-Goals](#non-goals)
-      * [Proposal](#proposal)
-         * [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
-            * [Data Model](#data-model)
-            * [Growing the Cluster](#growing-the-cluster)
-            * [Shrinking the Cluster](#shrinking-the-cluster)
-         * [Risks and Mitigations](#risks-and-mitigations)
-      * [Design Details](#design-details)
-         * [Work Items](#work-items)
-         * [Dependencies](#dependencies)
-         * [Test Plan](#test-plan)
-         * [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
-         * [Version Skew Strategy](#version-skew-strategy)
-      * [Drawbacks [optional]](#drawbacks-optional)
-      * [Alternatives](#alternatives)
-         * [Use an external database](#use-an-external-database)
-         * [Store our data in the Machine objects](#store-our-data-in-the-machine-objects)
-      * [References](#references)
 
-<!-- Added by: stack, at: 2019-02-21T14:31-05:00 -->
+- [nodes-machines-and-hosts](#nodes-machines-and-hosts)
+  - [Status](#status)
+  - [Table of Contents](#table-of-contents)
+  - [Summary](#summary)
+  - [Motivation](#motivation)
+    - [Goals](#goals)
+    - [Non-Goals](#non-goals)
+  - [Proposal](#proposal)
+    - [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
+      - [Data Model](#data-model)
+      - [Growing the Cluster](#growing-the-cluster)
+      - [Shrinking the Cluster](#shrinking-the-cluster)
+    - [Risks and Mitigations](#risks-and-mitigations)
+  - [Design Details](#design-details)
+    - [Work Items](#work-items)
+    - [Dependencies](#dependencies)
+    - [Test Plan](#test-plan)
+    - [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
+    - [Version Skew Strategy](#version-skew-strategy)
+  - [Drawbacks](#drawbacks)
+  - [Alternatives](#alternatives)
+    - [Use an external database](#use-an-external-database)
+    - [Store our data in the Machine objects](#store-our-data-in-the-machine-objects)
+  - [References](#references)
+
+<!-- Added by: dhellmann, at: Fri May  8 14:14:37 EDT 2020 -->
 
 <!--te-->
 
@@ -101,7 +102,7 @@ include a "provider spec" field to allow the actuator to store custom
 data. The lifecycle of a Machine is based on the desired size of the
 cluster. That is, a Machine object does not typically exist in the
 database when it does not represent a request to expand the cluster
-(see caveats below in the [Alternatives](#alternatives-optional)
+(see caveats below in the [Alternatives](#alternatives)
 section.
 
 `BareMetalHost` objects represent a physical computer, including its
@@ -174,7 +175,7 @@ use case.
 
 ### Work Items
 
-* Write and maintain this document
+- Write and maintain this document
 
 ### Dependencies
 
@@ -192,7 +193,7 @@ N/A
 
 N/A
 
-## Drawbacks [optional]
+## Drawbacks
 
 N/A
 
@@ -238,9 +239,8 @@ If that proposal is accepted, we would reevaluate the current design
 direction and investigate options for converting BareMetalHost
 resources to be compatible with the new version of Machine objects.
 
-
 ## References
 
-* [cluster-api SIG](https://github.com/kubernetes-sigs/cluster-api/)
-* [baremetal-operator](https://github.com/metal3-io/baremetal-operator/)
-* [cluster-api-provider-baremetal](https://github.com/metal3-io/cluster-api-provider-baremetal)
+- [cluster-api SIG](https://github.com/kubernetes-sigs/cluster-api/)
+- [baremetal-operator](https://github.com/metal3-io/baremetal-operator/)
+- [cluster-api-provider-baremetal](https://github.com/metal3-io/cluster-api-provider-baremetal)

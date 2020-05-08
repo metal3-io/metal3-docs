@@ -14,36 +14,35 @@ implemented
 ## Table of Contents
 
 <!--ts-->
-   * [Title](#title)
-      * [Status](#status)
-      * [Table of Contents](#table-of-contents)
-      * [Summary](#summary)
-      * [Motivation](#motivation)
-         * [Goals](#goals)
-         * [Non-Goals](#non-goals)
-      * [Proposal](#proposal)
-         * [User Stories [optional]](#user-stories-optional)
-            * [Story 1](#story-1)
-            * [Story 2](#story-2)
-         * [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
-            * [Approach](#impl-approach)
-            * [Limitations](#impl-limitations)
-            * [Examples](#impl-examples)
-            * [Conclusions](#impl-conclusions)
-            * [Links](#impl-links)
-         * [Risks and Mitigations](#risks-and-mitigations)
-      * [Design Details](#design-details)
-         * [Work Items](#work-items)
-         * [Dependencies](#dependencies)
-         * [Test Plan](#test-plan)
-         * [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
-         * [Version Skew Strategy](#version-skew-strategy)
-      * [Drawbacks [optional]](#drawbacks-optional)
-      * [Alternatives [optional]](#alternatives-optional)
-      * [References](#references)
-      * [Implementation Details](#implementation)
 
-<!-- Added by: stack, at: 2019-02-15T11:41-05:00 -->
+- [prototype-a-physical-network-api](#prototype-a-physical-network-api)
+  - [Status](#status)
+  - [Table of Contents](#table-of-contents)
+  - [Summary](#summary)
+  - [Motivation](#motivation)
+    - [Goals](#goals)
+    - [Non-Goals](#non-goals)
+  - [Proposal](#proposal)
+    - [User Stories](#user-stories)
+      - [Story 1](#story-1)
+    - [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
+      - [Approach](#approach)
+      - [Limitations](#limitations)
+      - [Examples](#examples)
+      - [Conclusions](#conclusions)
+      - [Links](#links)
+    - [Risks and Mitigations](#risks-and-mitigations)
+  - [Design Details](#design-details)
+    - [Work Items](#work-items)
+    - [Dependencies](#dependencies)
+    - [Test Plan](#test-plan)
+    - [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
+    - [Version Skew Strategy](#version-skew-strategy)
+  - [Drawbacks](#drawbacks)
+  - [Alternatives](#alternatives)
+  - [References](#references)
+
+<!-- Added by: dhellmann, at: Fri May  8 14:14:37 EDT 2020 -->
 
 <!--te-->
 
@@ -72,24 +71,24 @@ network devices using a similar API.
 
 Produce a `physical-network-api` prototype, which includes the following:
 
-* A `Switch` CRD with one or more fields that corresponding to switch
+- A `Switch` CRD with one or more fields that corresponding to switch
   configuration, ideally with a vendor neutral definition.  Note that the CRD
   definition may be simplified for PoC purposes and the data model would likely
   be revisited in more detail post-PoC.
-* A demonstration of using this prototype API to configure a switch
-* A documented retrospective that includes lessons learned and proposed next
+- A demonstration of using this prototype API to configure a switch
+- A documented retrospective that includes lessons learned and proposed next
   steps
-* Evaluate the re-use of a single existing network device configuration
+- Evaluate the re-use of a single existing network device configuration
   technology
 
 ### Non-Goals
 
 Out of scope:
 
-* Testing with anything more than a single switch model
-* Prototyping an API for anything beyond a Switch
-* Full configuration possibilities of a switch
-* Evaluation of all potential technologies that could be re-used for network
+- Testing with anything more than a single switch model
+- Prototyping an API for anything beyond a Switch
+- Full configuration possibilities of a switch
+- Evaluation of all potential technologies that could be re-used for network
   device configuration.  Future prototypes can be done to consider other
   alternatives if desired.
 
@@ -124,7 +123,7 @@ relevant Python tool to consider is
 networking re-use can be considered and discussed in the read-out from the
 prototype.
 
-### User Stories [optional]
+### User Stories
 
 #### Story 1
 
@@ -141,7 +140,7 @@ Notes by Brad P. Crochet <brad@redhat.com>
 
 The main focus of this PoC is the feasibility of an operator to manage a physical
 ToR switch. A number of technologies were considered. For this PoC, an Ansible
-Operator was used, along with the network-runner role from Ansible Networking[1].
+Operator was used, along with the network-runner role from Ansible Networking[^1].
 
 The PoC was conducted locally with Minikube and the switch virtual appliance.
 
@@ -165,16 +164,16 @@ track of the current state of the resource, without having to query the switch.
 Then support for full reconciliation should become possible, i.e. removing a
 VLAN that is no longer listed in the custom resource.
 
-A link to the PoC code is linked below. [2] A demo is also linked below. [3]
+A link to the PoC code is linked below. [^2] A demo is also linked below. [^3]
 
 #### Limitations
 
-* Network Runner not in Ansible Galaxy
+- Network Runner not in Ansible Galaxy
   - Manual inclusion in operator
-* Limited number of switches supported in Network Runner
+- Limited number of switches supported in Network Runner
   - Should be relatively simple to add new ones, as long as there is an
     Ansible Networking module supporting the target switch
-* Limited number of operations in Network Runner
+- Limited number of operations in Network Runner
   - More are being developed
   - Create/delete VLAN, Create/delete access port, Create/delete trunk port
 
@@ -205,24 +204,24 @@ Overall, I would count this PoC as a success. A few things that were not
 attempted during this PoC, but would be necessary for future development
 would be:
 
-* CI - Setting up a virtual switch for testing
-* Unit tests - Usage of Molecule
-* Full reconciliation of the resource - Deletion of VLANs, etc.
-* Testing with an actual physical switch
+- CI - Setting up a virtual switch for testing
+- Unit tests - Usage of Molecule
+- Full reconciliation of the resource - Deletion of VLANs, etc.
+- Testing with an actual physical switch
 
 Special thanks to Dan Radez for helping with the virtual switch setup.
 
 #### Links
 
-* [1] https://github.com/ansible-network/network-runner
+[^1]: https://github.com/ansible-network/network-runner
 
 POC Code
 
-* [2] https://github.com/bcrochet/physical-switch-operator/
+[^2]: https://github.com/bcrochet/physical-switch-operator/
 
 Demo
 
-* [3] https://www.youtube.com/watch?v=zlJmao_qnrw&t=8sNone
+[^3]: https://www.youtube.com/watch?v=zlJmao_qnrw&t=8sNone
 
 ### Risks and Mitigations
 
@@ -230,14 +229,14 @@ None
 
 ## Design Details
 
-* To be determined during prototype implementation
+- To be determined during prototype implementation
 
 ### Work Items
 
-* Define enough of a `Switch` CRD for a prototype
-* Explore approaches to driving ansible from a golang based Kubernetes
+- Define enough of a `Switch` CRD for a prototype
+- Explore approaches to driving ansible from a golang based Kubernetes
   controller
-* Implement `Switch` controller which uses Ansible to drive reconciliation
+- Implement `Switch` controller which uses Ansible to drive reconciliation
 
 ### Dependencies
 
@@ -262,11 +261,11 @@ None for the prototype
 
 None for the prototype
 
-## Drawbacks [optional]
+## Drawbacks
 
 None
 
-## Alternatives [optional]
+## Alternatives
 
 There are certainly alternative prototypes that could be developed, but the
 proposal is to start with the one described in this document.  Summaries of
@@ -274,7 +273,7 @@ possible future prototypes can be added to this section.
 
 ## References
 
-* https://docs.ansible.com/ansible/latest/network/index.html
-* https://networking-ansible.readthedocs.io/en/latest/
-* https://github.com/operator-framework/operator-sdk
-* https://github.com/zalando-incubator/kopf
+- <https://docs.ansible.com/ansible/latest/network/index.html>
+- <https://networking-ansible.readthedocs.io/en/latest/>
+- <https://github.com/operator-framework/operator-sdk>
+- <https://github.com/zalando-incubator/kopf>

@@ -14,13 +14,15 @@ Kubernetes interfaces.
 ## Project Discussion
 
 * [Metal³ Development Mailing List](https://groups.google.com/forum/#!forum/metal3-dev)
-* [#cluster-api-baremetal](https://kubernetes.slack.com/messages/CHD49TLE7) on Kubernetes Slack
-* Bi-Weekly Community Meetings every alternate Wednesday at 14:00 UTC on [Zoom](https://zoom.us/j/618270818)
+* [#cluster-api-baremetal](https://kubernetes.slack.com/messages/CHD49TLE7)
+  on Kubernetes Slack
+* Bi-Weekly Community Meetings every alternate Wednesday at 14:00 UTC
+  on [Zoom](https://zoom.us/j/618270818)
 * Previous meetings: \[ [notes][notes] | [recordings][recordings] \]
 
-# More Documentation
+## More Documentation
 
-For more documentation, please see: http://metal3.io/documentation.html
+For more documentation, please see <http://metal3.io/documentation.html>
 
 [notes]: https://docs.google.com/document/d/1d7jqIgmKHvOdcEmE2v72WDZo9kz7WwhuslDOili25Ls/edit
 [recordings]: https://www.youtube.com/playlist?list=PL3piInrK5Z0fKv7dwBU71Mn58LngdqOKA

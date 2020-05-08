@@ -14,25 +14,26 @@ provisional
 ## Table of Contents
 
 <!--ts-->
-   * [hardware-status](#hardware-status)
-      * [Status](#status)
-      * [Table of Contents](#table-of-contents)
-      * [Summary](#summary)
-      * [Motivation](#motivation)
-         * [Goals](#goals)
-         * [Non-Goals](#non-goals)
-      * [Proposal](#proposal)
-         * [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
-         * [Risks and Mitigations](#risks-and-mitigations)
-      * [Design Details](#design-details)
-         * [Work Items](#work-items)
-         * [Dependencies](#dependencies)
-         * [Test Plan](#test-plan)
-         * [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
-         * [Version Skew Strategy](#version-skew-strategy)
-      * [References](#references)
 
-<!-- Added by: dhellmann, at: Tue Jun 25 14:54:44 EDT 2019 -->
+- [hardware-status](#hardware-status)
+  - [Status](#status)
+  - [Table of Contents](#table-of-contents)
+  - [Summary](#summary)
+  - [Motivation](#motivation)
+    - [Goals](#goals)
+    - [Non-Goals](#non-goals)
+  - [Proposal](#proposal)
+    - [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
+    - [Risks and Mitigations](#risks-and-mitigations)
+  - [Design Details](#design-details)
+    - [Work Items](#work-items)
+    - [Dependencies](#dependencies)
+    - [Test Plan](#test-plan)
+    - [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
+    - [Version Skew Strategy](#version-skew-strategy)
+  - [References](#references)
+
+<!-- Added by: dhellmann, at: Fri May  8 14:14:36 EDT 2020 -->
 
 <!--te-->
 
@@ -62,8 +63,8 @@ up-to-date vision on the status of the devices.
 
 1. Decide which information on the devices to retrieve.
 2. Agree on how to retrieve such information.
-3. Provide a way to manually/automatically collect and update the devices
-information.
+3. Provide a way to manually/automatically collect and update the
+   devices information.
 
 ### Non-Goals
 
@@ -73,42 +74,46 @@ information.
 
 ### Implementation Details/Notes/Constraints
 
-- Depending on the device, we need to collect the following information, when
-applicable:
-    * Capacity
-    * Location
-    * Manufacturer
-    * Model
-    * Part Number
-    * Serial Number
-    * Status
-    * SMART details
+- Depending on the device, we need to collect the following
+  information, when applicable:
+  - Capacity
+  - Location
+  - Manufacturer
+  - Model
+  - Part Number
+  - Serial Number
+  - Status
+  - SMART details
 
 - NVMe drives require special tools to get SMART data (e.g. nvme-cli),
-although [smartmontools](https://www.smartmontools.org/wiki/NVMe_Support)
-supports NVMe devices since version 6.5.
+  although
+  [smartmontools](https://www.smartmontools.org/wiki/NVMe_Support)
+  supports NVMe devices since version 6.5.
 
-- [Hdparm](https://en.wikipedia.org/wiki/Hdparm) can provide SMART data for
-most of drives. It doesn't work with NVMe devices.
+- [Hdparm](https://en.wikipedia.org/wiki/Hdparm) can provide SMART
+  data for most of drives. It doesn't work with NVMe devices.
 
-- [python-hardware](https://github.com/redhat-cip/hardware) can collect SMART
-data, although it requires code changes to detect and provide info on NVMe
-devices, for example relying directly on nvme tools instead of smartmontools.
+- [python-hardware](https://github.com/redhat-cip/hardware) can
+  collect SMART data, although it requires code changes to detect and
+  provide info on NVMe devices, for example relying directly on nvme
+  tools instead of smartmontools.
 
-- [Ironic Python Agent (IPA)](https://github.com/openstack/ironic-python-agent)
-is already able to collect most of this information.
-Using a subset of the IPA code running inside a container in the hosts where we
-want to collect the drives data from can also allow to provide periodic
-updates on all the required info.
-The container may require privileged permissions to be able to access and
-collect all the needed information.
-The new containerized service will talk to Ironic Inspector.
+- [Ironic Python Agent
+  (IPA)](https://github.com/openstack/ironic-python-agent) is already
+  able to collect most of this information.  Using a subset of the IPA
+  code running inside a container in the hosts where we want to
+  collect the drives data from can also allow to provide periodic
+  updates on all the required info.  The container may require
+  privileged permissions to be able to access and collect all the
+  needed information.  The new containerized service will talk to
+  Ironic Inspector.
 
-- [Ironic Inspector](https://docs.openstack.org/ironic-inspector/latest/)
-needs to be able to publish up-to-date data at any time, including from active
-and available nodes.
-This feature requires changes in the inspector code that currently accept data
-updates only from nodes in manageable state.
+- [Ironic
+  Inspector](https://docs.openstack.org/ironic-inspector/latest/)
+  needs to be able to publish up-to-date data at any time, including
+  from active and available nodes.  This feature requires changes in
+  the inspector code that currently accept data updates only from
+  nodes in manageable state.
 
 ### Risks and Mitigations
 
@@ -119,31 +124,32 @@ updates only from nodes in manageable state.
 ### Work Items
 
 - Add option to detect and provide info on NVMe drives to python-hardware.
-- Extract and modify part of the IPA code to be able to run it in a container
-as a new service.
+- Extract and modify part of the IPA code to be able to run it in a
+  container as a new service.
 - Modify Ironic Inspector code to accept data from active nodes.
-- Package (containerize) the new service based on IPA and the necessary tools,
-specifically for NVMe compatibility.
-- Distribute the new service to the hosts.
-  This point requires to take decisions on different operations and might
-  need a separate discussion on possible approaches, and includes at least the
+- Package (containerize) the new service based on IPA and the
+  necessary tools, specifically for NVMe compatibility.
+- Distribute the new service to the hosts.  This point requires to
+  take decisions on different operations and might need a separate
+  discussion on possible approaches, and includes at least the
   following aspects:
-   - Ensure correct deployment of the new service to all the members of a
-   cluster.
-   - Correct configuration of the service, that needs to be aware of the
-   ironic inspector api.
-   - Verify the service is correctly running and regularly reporting up-to-date
-   data to ironic inspector.
+  - Ensure correct deployment of the new service to all the members of a
+    cluster.
+  - Correct configuration of the service, that needs to be aware of the
+    ironic inspector api.
+  - Verify the service is correctly running and regularly reporting up-to-date
+    data to ironic inspector.
 
-   One possible approach would be building a new element (as part of this or a
-   different design) that is able to both coordinate deployment and
-   configuration using current components, such as the baremetal-operator.
+  One possible approach would be building a new element (as part of
+  this or a different design) that is able to both coordinate
+  deployment and configuration using current components, such as the
+  baremetal-operator.
 
 ### Dependencies
 
-* python-hardware
-* SMART tools
-* NVMe utils
+- python-hardware
+- SMART tools
+- NVMe utils
 
 ### Test Plan
 

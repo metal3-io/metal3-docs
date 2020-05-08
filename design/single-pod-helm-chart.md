@@ -14,30 +14,30 @@ provisional
 ## Table of Contents
 
 <!--ts-->
-   * [Title](#title)
-      * [Status](#status)
-      * [Table of Contents](#table-of-contents)
-      * [Summary](#summary)
-      * [Motivation](#motivation)
-         * [Goals](#goals)
-         * [Non-Goals](#non-goals)
-      * [Proposal](#proposal)
-         * [User Stories [optional]](#user-stories-optional)
-            * [Story 1](#story-1)
-            * [Story 2](#story-2)
-         * [Implementation Details/Notes/Constraints [optional]](#implementation-detailsnotesconstraints-optional)
-         * [Risks and Mitigations](#risks-and-mitigations)
-      * [Design Details](#design-details)
-         * [Work Items](#work-items)
-         * [Dependencies](#dependencies)
-         * [Test Plan](#test-plan)
-         * [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
-         * [Version Skew Strategy](#version-skew-strategy)
-      * [Drawbacks [optional]](#drawbacks-optional)
-      * [Alternatives [optional]](#alternatives-optional)
-      * [References](#references)
 
-<!-- Added by: stack, at: 2019-02-15T11:41-05:00 -->
+- [Single-pod Helm chart](#single-pod-helm-chart)
+  - [Status](#status)
+  - [Table of Contents](#table-of-contents)
+  - [Summary](#summary)
+  - [Motivation](#motivation)
+    - [Goals](#goals)
+    - [Non-Goals](#non-goals)
+  - [Proposal](#proposal)
+    - [User Stories](#user-stories)
+      - [Story 1](#story-1)
+    - [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
+    - [Risks and Mitigations](#risks-and-mitigations)
+  - [Design Details](#design-details)
+    - [Work Items](#work-items)
+    - [Dependencies](#dependencies)
+    - [Test Plan](#test-plan)
+    - [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
+    - [Version Skew Strategy](#version-skew-strategy)
+  - [Drawbacks](#drawbacks)
+  - [Alternatives](#alternatives)
+  - [References](#references)
+
+<!-- Added by: dhellmann, at: Fri May  8 14:14:37 EDT 2020 -->
 
 <!--te-->
 
@@ -64,14 +64,14 @@ a goal of this design.
 
 ## Proposal
 
-### User Stories [optional]
+### User Stories
 
 #### Story 1
 
 As a user of Metal3, I want to install it in my existing Kubernetes
 cluster using Helm.
 
-### Implementation Details/Notes/Constraints [optional]
+### Implementation Details/Notes/Constraints
 
 Initial implementation includes a Helm chart that creates single
 pod deployment with Metal3 and Ironic components containers
@@ -99,25 +99,25 @@ through the charts metadata (values.yaml files).
 
 ### Work Items
 
- 1. Create a Helm chart for Ironic and its components:
-    * ``ironic``
-    * ``ironic-dnsmasq``
-    * ``ironic-httpd``
-    * ``mariadb``
-    * ``baremetal-operator``.
- 2. Create a CI for building the Helm chart and smoke verification.
- 3. Cerate a CI for testing Helm chart deployment and functional
-    testing.
+1. Create a Helm chart for Ironic and its components:
+  - ``ironic``
+  - ``ironic-dnsmasq``
+  - ``ironic-httpd``
+  - ``mariadb``
+  - ``baremetal-operator``.
+2. Create a CI for building the Helm chart and smoke verification.
+3. Create a CI for testing Helm chart deployment and functional
+   testing.
 
 ### Dependencies
 
-The charts require ``helm`` binary to build and deploy. 
-Supported version of Helm is embedded in the charts.
+- The charts require ``helm`` binary to build and deploy.
+- Supported version of Helm is embedded in the charts.
 
 The following repository is used as a bootstrap for adding
 the chart to ``metal3-io/`` Github organization:
 
-https://github.com/Miranits/metal3-helm-chart
+`https://github.com/Mirantis/metal3-helm-chart`
 
 ### Test Plan
 
@@ -134,12 +134,12 @@ None.
 
 None.
 
-## Drawbacks [optional]
+## Drawbacks
 
 Helm charts do not immediately improve development environment
 creation experience.
 
-## Alternatives [optional]
+## Alternatives
 
 Currently, the deloyment functionality is already implemented as
 ``metal3-dev-env`` scripts. Another alternative is to use plain
