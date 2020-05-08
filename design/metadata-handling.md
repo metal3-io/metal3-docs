@@ -14,30 +14,48 @@ provisional
 ## Table of Contents
 
 <!--ts-->
-   * [Title](#title)
-      * [Status](#status)
-      * [Table of Contents](#table-of-contents)
-      * [Summary](#summary)
-      * [Motivation](#motivation)
-         * [Goals](#goals)
-         * [Non-Goals](#non-goals)
-      * [Proposal](#proposal)
-         * [User Stories [optional]](#user-stories-optional)
-            * [Story 1](#story-1)
-            * [Story 2](#story-2)
-         * [Implementation Details/Notes/Constraints [optional]](#implementation-detailsnotesconstraints-optional)
-         * [Risks and Mitigations](#risks-and-mitigations)
-      * [Design Details](#design-details)
-         * [Work Items](#work-items)
-         * [Dependencies](#dependencies)
-         * [Test Plan](#test-plan)
-         * [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
-         * [Version Skew Strategy](#version-skew-strategy)
-      * [Drawbacks [optional]](#drawbacks-optional)
-      * [Alternatives [optional]](#alternatives-optional)
-      * [References](#references)
 
-<!-- Added by: stack, at: 2019-02-15T11:41-05:00 -->
+- [Generating Metadata and Network data per node in CAPM3](#generating-metadata-and-network-data-per-node-in-capm3)
+  - [Status](#status)
+  - [Table of Contents](#table-of-contents)
+  - [Summary](#summary)
+  - [Motivation](#motivation)
+    - [Goals](#goals)
+    - [Non-Goals](#non-goals)
+  - [Proposal](#proposal)
+    - [User Stories](#user-stories)
+      - [Story 1](#story-1)
+      - [Story 2](#story-2)
+      - [Story 3](#story-3)
+      - [Story 4](#story-4)
+    - [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
+    - [Risks and Mitigations](#risks-and-mitigations)
+  - [Design Details](#design-details)
+    - [BareMetalHost changes](#baremetalhost-changes)
+    - [Metal3Machine changes](#metal3machine-changes)
+    - [The Metal3DataTemplate object](#the-metal3datatemplate-object)
+      - [Metadata Specifications](#metadata-specifications)
+      - [networkData specifications](#networkdata-specifications)
+        - [Links specifications](#links-specifications)
+        - [The networks specifications](#the-networks-specifications)
+        - [the services specifications](#the-services-specifications)
+    - [The Metal3Data object](#the-metal3data-object)
+    - [The generated secrets](#the-generated-secrets)
+    - [Deployment flow](#deployment-flow)
+      - [Manual secret creation](#manual-secret-creation)
+      - [Dynamic secret creation](#dynamic-secret-creation)
+      - [Hybrid configuration](#hybrid-configuration)
+  - [Implementation structure](#implementation-structure)
+    - [Work Items](#work-items)
+    - [Dependencies](#dependencies)
+    - [Test Plan](#test-plan)
+    - [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
+    - [Version Skew Strategy](#version-skew-strategy)
+  - [Drawbacks](#drawbacks)
+  - [Alternatives](#alternatives)
+  - [References](#references)
+
+<!-- Added by: dhellmann, at: Fri May  8 14:14:36 EDT 2020 -->
 
 <!--te-->
 
@@ -97,7 +115,6 @@ The goals are :
 - The reconciliation of the Metal3Machine would use the data template object to
   properly fill the `metaData` and `networkData` field of BareMetalHost
 
-
 ### Non-Goals
 
 - Implement a new DSL to render the data. All configuration should be done
@@ -105,7 +122,7 @@ The goals are :
 
 ## Proposal
 
-### User Stories [optional]
+### User Stories
 
 #### Story 1
 
@@ -416,18 +433,19 @@ ways. The following types of objects are available and accept lists:
   `offset` field and using the step from the `step` field. The following
   conditions must be matched :
 
-    - `offset` >= 0
-    - `step` >= 1
+  - `offset` >= 0
+  - `step` >= 1
 
   if the step is unspecified (default value being 0), the controller will
   automatically change it for 1. The attribute `prefix` and `suffix` can contain
   the prefix and suffix for the rendered output.
-- **ipAddresses**: renders an ip address based on the index, based on the `start` value
-  if given or using `subnet` to calculate the start value, and checking that
-  the rendered value is not over the `end` value. The increment is the `step`
-  value. If the computed value goes out of bounds, the error status will be set
-  with the error in the error message. In case of using the `subnet` value to
-  get the start IP address, it will be the second IP of the subnet (for example
+- **ipAddresses**: renders an ip address based on the index, based on
+  the `start` value if given or using `subnet` to calculate the start
+  value, and checking that the rendered value is not over the `end`
+  value. The increment is the `step` value. If the computed value goes
+  out of bounds, the error status will be set with the error in the
+  error message. In case of using the `subnet` value to get the start
+  IP address, it will be the second IP of the subnet (for example
   `192.168.0.1` for a subnet `192.168.0.0/24`).
 - **fromHostInterfaces**: renders the MAC address of the BareMetalHost that
   matches the name given as value.
@@ -580,8 +598,8 @@ The object for the **services** section can be:
 
 ### The Metal3Data object
 
-The output of the controller would be a Metal3Data object,one per node linking to the
-Metal3DataTemplate object and the associated secrets
+The output of the controller would be a Metal3Data object,one per node
+linking to the Metal3DataTemplate object and the associated secrets
 
 The Metal3Data object would be:
 
@@ -612,6 +630,7 @@ status:
   error: false
   errorMessage: ""
 ```
+
 The Metal3Data will contain the index of this node, and links to the secrets
 generated and to the Metal3Machine using this Metal3Data object.
 
@@ -761,12 +780,12 @@ KubeadmConfigTemplates or KubeadmControlPlane).
 
 This will require that both CAPM3 and BMO support this feature.
 
-## Drawbacks [optional]
+## Drawbacks
 
 Even though they can be set separately, this brings the metadata and network
 data in the same object.
 
-## Alternatives [optional]
+## Alternatives
 
 It would be possible to duplicate the templates to separate metadata and network
 data. But this would add complexity.

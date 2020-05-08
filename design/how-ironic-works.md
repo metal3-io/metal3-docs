@@ -10,24 +10,28 @@
 ## Table of Contents
 
 <!--ts-->
-   * [how-ironic-works](#how-ironic-works)
-      * [Table of Contents](#table-of-contents)
-      * [How ironic controls hardware](#how-ironic-controls-hardware)
-      * [How ironic boots hardware](#how-ironic-boots-hardware)
-      * [How ironic writes an operating system image to baremetal?](#how-ironic-writes-an-operating-system-image-to-baremetal)
-      * [What connectivity is required?](#what-connectivity-is-required)
-      * [What is Ironic Inspector?](#what-is-ironic-inspector)
-      * [How-to](#how-to)
-         * [How to discover hardware?](#how-to-discover-hardware)
-         * [How to add hardware to ironic?](#how-to-add-hardware-to-ironic)
-      * [Updating information about a hardware node in ironic.](#updating-information-about-a-hardware-node-in-ironic)
-         * [How do I identify the current state?](how-do-i-identify-the-current-state)
-         * [How to inspect hardware?](#how-to-inspect-hardware)
-         * [How to deploy?](#how-to-deploy)
-         * [How to unprovision a baremetal node?](#how-to-unprovision-a-baremetal-node)
-         * [How to delete a baremetal node?](#how-to-delete-a-baremetal-node)
-         * [How to create the record of an active node](#how-to-create-the-record-of-an-active-node)
-      * [References](#references)
+
+- [how-ironic-works](#how-ironic-works)
+  - [Table of Contents](#table-of-contents)
+  - [How ironic controls hardware](#how-ironic-controls-hardware)
+  - [How ironic boots hardware](#how-ironic-boots-hardware)
+  - [How ironic writes an operating system image to baremetal](#how-ironic-writes-an-operating-system-image-to-baremetal)
+  - [What connectivity is required](#what-connectivity-is-required)
+  - [What is ironic-inspector](#what-is-ironic-inspector)
+  - [How-to](#how-to)
+    - [How to discover hardware](#how-to-discover-hardware)
+    - [How to add hardware to ironic](#how-to-add-hardware-to-ironic)
+  - [Updating information about a hardware node in ironic](#updating-information-about-a-hardware-node-in-ironic)
+    - [How do I identify the current state](#how-do-i-identify-the-current-state)
+    - [How to inspect hardware](#how-to-inspect-hardware)
+    - [How to deploy](#how-to-deploy)
+    - [How to unprovision a baremetal node](#how-to-unprovision-a-baremetal-node)
+    - [How to delete a baremetal node](#how-to-delete-a-baremetal-node)
+    - [How to create the record of an active node](#how-to-create-the-record-of-an-active-node)
+  - [References](#references)
+
+<!-- Added by: dhellmann, at: Fri May  8 14:14:36 EDT 2020 -->
+
 <!--te-->
 
 This document explains how to use ironic in order to achieve various
@@ -76,7 +80,7 @@ Other methods such as booting directly from iSCSI should be considered
 out-of-scope in this use case as they are require an external block
 storage management system.
 
-## How ironic writes an operating system image to baremetal?
+## How ironic writes an operating system image to baremetal
 
 Ironic supports two fundamental types of disk images: whole-disk and
 partition (or filesystem) images. The Metal3 use cases will rely on
@@ -94,7 +98,7 @@ The basic workflow consists of:
 4. Ironic initiates deployment by first identifying the root disk upon
    which the disk image is to be written. By default this will be the
    smallest storage device available, and can be overridden via explict
-   configuration of a [root_device hint][https://docs.openstack.org/ironic/latest/install/advanced.html#specifying-the-disk-for-deployment-root-device-hints]
+   configuration of a [root_device hint](https://docs.openstack.org/ironic/latest/install/advanced.html#specifying-the-disk-for-deployment-root-device-hints)
 5. The deployment ramdisk downloads the image to be written and streams
    that to the storage device.
 6. If defined as part of the deployment, ironic will add an additional
@@ -108,7 +112,7 @@ prevent issues after deployment, but these steps are incorporated
 as part of the deployment sequence to help ensure that the machine
 will deploy successfully without issues.
 
-## What connectivity is required?
+## What connectivity is required
 
 Access to the BMC can be via a routed IP network, however this may be
 less desirable than having it on the same L2 network as Ironic from a
@@ -120,9 +124,9 @@ allows it to reach the host serving the virtual media image.
 To boot the discovery and deployment image on the node, it will need
 access to the ironic host using:
 
-* DHCP (for IP assignment and PXE instructions)
-* TFTP (if iPXE is not natively supported by the network interfaces.)
-* HTTP in order to download kernel/ramdisk images via HTTP over a TCP
+- DHCP (for IP assignment and PXE instructions)
+- TFTP (if iPXE is not natively supported by the network interfaces.)
+- HTTP in order to download kernel/ramdisk images via HTTP over a TCP
   connection.
 
 Connections from the ramdisk are to the host upon which ironic is
@@ -130,24 +134,25 @@ executing.
 
 The discovery and deployment ramdisk image needs to be able to:
 
-* DHCP (via the ironic host, for IP assignment and PXE instructions)
-* Resolve DNS (FIXME - also via the ironic host?)
-* Connect to the ironic inspector API endpoint, which operates
+- DHCP (via the ironic host, for IP assignment and PXE instructions)
+- Resolve DNS (FIXME - also via the ironic host?)
+- Connect to the ironic inspector API endpoint, which operates
   on port 5050/TCP by default.
-* Connect to the ironic API endpoint, which operates on port
+- Connect to the ironic API endpoint, which operates on port
   6385/TCP by default.
-* The ramdisk needs to be able to reach an external
+- The ramdisk needs to be able to reach an external
   HTTP(s) endpoint in order to download the image files for
   deployment.
-* Be accessible on port 9999/TCP. This is used by ironic to issue
+- Be accessible on port 9999/TCP. This is used by ironic to issue
   commands to the running ramdisk.
 
 Between ironic and ironic-inspector:
 
-* Each service must be able to reach the API endpoint for
+- Each service must be able to reach the API endpoint for
   the the other service.
 
-## What is ironic-inspector?
+## What is ironic-inspector
+
 Ironic-inspector is an auxiliary service that provides separate API to
 inspect and register hardware properties for a bare metal node (node
 introspection process).
@@ -164,7 +169,9 @@ are done through the `/v1/introspection` resource.
 To start the introspection process using ironic-inspector API send a POST
 request with an empty body using:
 
+```http
     POST /v1/introspection/node-id
+```
 
 The normal response code is 202 and if inspector can't find the node it will
 return a 404.
@@ -172,8 +179,10 @@ The response is also an empty body.
 
 It's possible to monitor the status of a single introspection process using:
 
+```http
     GET /v1/introspection/node-id
-    
+```
+
 This provides not only the state of the process, but also information on
 start and ending time, and more.
 An example of status answer:
@@ -196,25 +205,31 @@ An example of status answer:
 There can be multiple introspection processes running at the same time, it's
 possible to retrieve all the statuses using:
 
+```http
     GET /v1/introspection
-    
+```
+
 The output will be a paginated list of single status as shown above.
 
 If it's needed, it's possible to interrupt the introspection process using:
 
+```http
     POST /v1/introspection/node-id/abort
-    
+```
+
 At the end of the introspection process, to return all the data stored for a
 single node:
 
+```http
     GET /v1/introspection/node-id/data
+```
 
 The result will be a json body which content may vary based on the ramdisk
 used and the version of ironic-inspector itself.
 
 ## How-to
 
-### How to discover hardware?
+### How to discover hardware
 
 New hardware can be discovered by booting the deployment and discovery
 ramdisk with the "ipa-inspection-callback-url" kernel parameter. This URL
@@ -225,7 +240,7 @@ information to.
 The ironic-inspector service then processes this data, and updates stored data
 or creates a new node and associated supporting records in ironic.
 
-### How to add hardware to ironic?
+### How to add hardware to ironic
 
 The action of creating a node is part of the enrollment process and
 the first step to prepare a node to reach the "available" status
@@ -254,7 +269,7 @@ An example of a typical node create request in JSON format:
 The response, if successful, contains a complete record of the node in JSON
 format with provided or default ({}, “null”, or “”) values.
 
-## Updating information about a hardware node in ironic.
+## Updating information about a hardware node in ironic
 
 All node information can be updated after the node has been created.
 
@@ -263,7 +278,7 @@ Send a PATCH to `/v1/nodes/node-id` in the form of a JSON PATCH document.
 The normal response is a 200 and contains a complete record of the node in
 JSON format with the updated node.
 
-### How do I identify the current state?
+### How do I identify the current state
 
 All nodes in ironic are tied to a state which allows ironic to track what
 actions can be performed upon the node and convey its general disposition.
@@ -273,9 +288,9 @@ This field is the "provision_state" field that can be retrieved via the API.
 
 Inside the returned document, a "provision_state" field can be referenced.
 Further information can be found in ironic's
-[state machine documentation.][https://docs.openstack.org/ironic/latest/contributor/states.html]
+[state machine documentation](https://docs.openstack.org/ironic/latest/contributor/states.html).
 
-### How to inspect hardware?
+### How to inspect hardware
 
 Inspection may be used if a baremetal node has not been already discovered
 or inspected previously in order to collect up to date details about the
@@ -295,7 +310,7 @@ to step through the state machine.
 After inspection, it is advisable to return nodes to an "available" state.
 This can be performed simillarly via the target "provide".
 
-### How to deploy?
+### How to deploy
 
 Starting with the bare metal node in the "available" provision_state:
 
@@ -338,7 +353,7 @@ Starting with the bare metal node in the "available" provision_state:
    The particular interfaces that would be important to pay attention to are
    ‘boot’, ‘deploy’, ‘power’, ‘management’.
 
-   More information can be found at: https://developer.openstack.org/api-ref/baremetal/?expanded=validate-node-detail
+   More information can be found in the [API documentation](https://developer.openstack.org/api-ref/baremetal/?expanded=validate-node-detail).
 
 3. Craft a configuration drive file
 
@@ -395,7 +410,7 @@ Starting with the bare metal node in the "available" provision_state:
    information provided is fairly broad as of the time this document
    was written.
 
-### How to unprovision a baremetal node?
+### How to unprovision a baremetal node
 
 A provisioned, or "active" baremetal node can be unprovisioned by sending
 a state change request to the ironic api. This request will move the
@@ -407,7 +422,7 @@ circumstances.
     PUT /v1/nodes/node-id/states/provision
     {"target": "deleted"}
 
-### How to delete a baremetal node?
+### How to delete a baremetal node
 
 Deletion of a node in ironic is removal from its inventory.
 
@@ -416,23 +431,26 @@ exist to prevent users of the ironic API from deleting nodes in states that
 may not be ideal. Mainly this restricts deletion to states where the node
 is not in use or is not actively performing a task.
 
-   Safe states are:
-   * "available"
-   * "manageable"
-   * "enroll"
-   * "adopt fail"
+Safe states are:
+
+- "available"
+- "manageable"
+- "enroll"
+- "adopt fail"
 
 This may be overridden by putting the node into "maintenance", during
 which ironic will not attempt to perform any operations.
 
+```http
     PUT /v1/nodes/node-id/maintenance
     DELETE /v1/nodes/node-id
+```
 
 **NOTE:** Care should be taken to avoid triggering the deletion of a node in
 a "clean*" states.
 
 Additional information on states and state transitions in ironic can
-be found at: https://docs.openstack.org/ironic/latest/contributor/states.html
+be found [in the ironic documentation](https://docs.openstack.org/ironic/latest/contributor/states.html)
 
 ### How to create the record of an active node
 
@@ -440,9 +458,9 @@ Ironic possesses the functionality to create a node and move it into
 an "active" state from the "manageable" state. This is useful to create
 the record of an "active" node without performing a deployment.
 
-Details on this functionality can be found at:
-https://docs.openstack.org/ironic/latest/admin/adoption.html
+Details on this functionality can be found in the [ironic adoption
+documentation](https://docs.openstack.org/ironic/latest/admin/adoption.html)
 
 ## References
 
-- [Ironic Documentation][https://docs.openstack.org/ironic/latest/]
+- [Ironic Documentation](https://docs.openstack.org/ironic/latest/)

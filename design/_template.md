@@ -82,30 +82,31 @@ the standard template.
 [Tools for generating][] a table of contents from markdown are available.
 
 <!--ts-->
-   * [Title](#title)
-      * [Status](#status)
-      * [Table of Contents](#table-of-contents)
-      * [Summary](#summary)
-      * [Motivation](#motivation)
-         * [Goals](#goals)
-         * [Non-Goals](#non-goals)
-      * [Proposal](#proposal)
-         * [User Stories [optional]](#user-stories-optional)
-            * [Story 1](#story-1)
-            * [Story 2](#story-2)
-         * [Implementation Details/Notes/Constraints [optional]](#implementation-detailsnotesconstraints-optional)
-         * [Risks and Mitigations](#risks-and-mitigations)
-      * [Design Details](#design-details)
-         * [Work Items](#work-items)
-         * [Dependencies](#dependencies)
-         * [Test Plan](#test-plan)
-         * [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
-         * [Version Skew Strategy](#version-skew-strategy)
-      * [Drawbacks [optional]](#drawbacks-optional)
-      * [Alternatives [optional]](#alternatives-optional)
-      * [References](#references)
 
-<!-- Added by: stack, at: 2019-02-15T11:41-05:00 -->
+- [Title](#title)
+  - [Status](#status)
+  - [Table of Contents](#table-of-contents)
+  - [Summary](#summary)
+  - [Motivation](#motivation)
+    - [Goals](#goals)
+    - [Non-Goals](#non-goals)
+  - [Proposal](#proposal)
+    - [User Stories](#user-stories)
+      - [Story 1](#story-1)
+      - [Story 2](#story-2)
+    - [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
+    - [Risks and Mitigations](#risks-and-mitigations)
+  - [Design Details](#design-details)
+    - [Work Items](#work-items)
+    - [Dependencies](#dependencies)
+    - [Test Plan](#test-plan)
+    - [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
+    - [Version Skew Strategy](#version-skew-strategy)
+  - [Drawbacks](#drawbacks)
+  - [Alternatives](#alternatives)
+  - [References](#references)
+
+<!-- Added by: dhellmann, at: Fri May  8 14:14:35 EDT 2020 -->
 
 <!--te-->
 
@@ -143,7 +144,9 @@ Listing non-goals helps to focus discussion and make progress.
 
 This is where we get down to the details of what the proposal actually is.
 
-### User Stories [optional]
+### User Stories
+
+<!-- This section is optional. Remove it if you are not filling it in. -->
 
 Detail the things that people will be able to do if the design is
 implemented.  Include as much detail as possible so that people can
@@ -154,7 +157,7 @@ feel real for users without getting bogged down.
 
 #### Story 2
 
-### Implementation Details/Notes/Constraints [optional]
+### Implementation Details/Notes/Constraints
 
 - What are the caveats to the implementation?
 - What are some important details that didn't come across above.
@@ -181,10 +184,10 @@ done to implement it.
 
 ### Dependencies
 
-* Include specific references to work here or in other projects that
+- Include specific references to work here or in other projects that
   this design either depends on or is related to.
 
-* Does this feature require any new library dependencies or code
+- Does this feature require any new library dependencies or code
   otherwise not included in the code? Or does it depend on a specific
   version of library?
 
@@ -224,11 +227,11 @@ If applicable, how will the component handle version skew with other
 components? What are the guarantees? Make sure this is in the test
 plan.
 
-## Drawbacks [optional]
+## Drawbacks
 
 Why should this design _not_ be implemented.
 
-## Alternatives [optional]
+## Alternatives
 
 Similar to the `Drawbacks` section the `Alternatives` section is used
 to highlight and record other possible approaches to delivering the

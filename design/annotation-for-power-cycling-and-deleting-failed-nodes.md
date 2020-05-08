@@ -1,4 +1,4 @@
- <!--
+<!--
  This work is licensed under a Creative Commons Attribution 3.0
  Unported License.
 
@@ -14,29 +14,30 @@ implemented
 ## Table of Contents
 
 <!--ts-->
-   * [Title](#title)
-      * [Status](#status)
-      * [Table of Contents](#table-of-contents)
-      * [Summary](#summary)
-      * [Motivation](#motivation)
-         * [Goals](#goals)
-         * [Non-Goals](#non-goals)
-      * [Proposal](#proposal)
-         * [User Stories](#user-stories)
-            * [Story 1](#story-1)
-         * [Implementation Details/Notes/Constraints [optional]](#implementation-detailsnotesconstraints-optional)
-         * [Risks and Mitigations](#risks-and-mitigations)
-      * [Design Details](#design-details)
-         * [Work Items](#work-items)
-         * [Dependencies](#dependencies)
-         * [Test Plan](#test-plan)
-         * [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
-         * [Version Skew Strategy](#version-skew-strategy)
-      * [Drawbacks [optional]](#drawbacks-optional)
-      * [Alternatives [optional]](#alternatives-optional)
-      * [References](#references)
 
-<!-- Added by: stack, at: 2019-02-15T11:41-05:00 -->
+- [Annotation for Power Cycling and Deleting Failed Nodes](#annotation-for-power-cycling-and-deleting-failed-nodes)
+  - [Status](#status)
+  - [Table of Contents](#table-of-contents)
+  - [Summary](#summary)
+  - [Motivation](#motivation)
+    - [Goals](#goals)
+    - [Non-Goals](#non-goals)
+  - [Proposal](#proposal)
+    - [User Stories](#user-stories)
+      - [Story 1](#story-1)
+    - [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
+    - [Risks and Mitigations](#risks-and-mitigations)
+  - [Design Details](#design-details)
+    - [Work Items](#work-items)
+    - [Dependencies](#dependencies)
+    - [Test Plan](#test-plan)
+    - [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
+    - [Version Skew Strategy](#version-skew-strategy)
+  - [Drawbacks](#drawbacks)
+  - [Alternatives](#alternatives)
+  - [References](#references)
+
+<!-- Added by: dhellmann, at: Fri May  8 14:14:35 EDT 2020 -->
 
 <!--te-->
 
@@ -113,9 +114,9 @@ As a HA component of Metal³ that has identified a failed node, I would like a
 declarative way to have the Node stopped; deleted; and restarted, so that I can
 recover exclusive workloads and restore cluster capacity.
 
-### Implementation Details/Notes/Constraints [optional]
+### Implementation Details/Notes/Constraints
 
-The controller includes logic for power cycling a node.  
+The controller includes logic for power cycling a node.
 
 As rebooting (software) and power cycling (hardware) a machine is a long
 running multi-step process, there are currently discussions around the creation
@@ -137,14 +138,20 @@ See [PoC code](https://github.com/kubevirt/machine-remediation/)
 
 - A new [Machine Remediation CRD](https://github.com/kubevirt/machine-remediation/blob/master/pkg/apis/machineremediation/v1alpha1/machineremediation_types.go)
 - Two new controllers:
-  - [node reboot](https://github.com/kubevirt/machine-remediation/tree/master/pkg/controllers/nodereboot) which looks for the annoation and creates Machine Remediation CRs
-  - [machine remediation](https://github.com/kubevirt/machine-remediation/tree/master/pkg/controllers/machineremediation) which reboots the machine and deletes the Node object (which also erases the signalling annotation)
+  - [node
+    reboot](https://github.com/kubevirt/machine-remediation/tree/master/pkg/controllers/nodereboot)
+    which looks for the annoation and creates Machine Remediation CRs
+  - [machine
+    remediation](https://github.com/kubevirt/machine-remediation/tree/master/pkg/controllers/machineremediation)
+    which reboots the machine and deletes the Node object (which also
+    erases the signalling annotation)
 - A new annotation (namespace and name is open for discussion)
 
 ### Work Items
 
 - Make any requested modifications
-- Create a PR from  https://github.com/kubevirt/machine-remediation/ into https://github.com/metal3-io/cluster-api-provider-baremetal
+- Create a PR from github.com/kubevirt/machine-remediation into
+  github.com/metal3-io/cluster-api-provider-baremetal
 
 ### Dependencies
 
@@ -169,7 +176,7 @@ No changes are required to preserve the existing behaviour.
 By shipping the new controller with the baremetal-operator that it consumes, we
 can prevent any version mismatches.
 
-## Drawbacks [optional]
+## Drawbacks
 
 Baremetal is currently the only platform looking to implement this feature, so
 any implementation is necessarily non-standard.
@@ -179,7 +186,7 @@ design a different or more formal signaling method (than an annotation) as well
 as decompose the implementation into discrete units that can live behind a
 platform independant interface such as the Machine or Cluster APIs.
 
-## Alternatives [optional]
+## Alternatives
 
 Wait for equivalent functionality to be exposed by the Machine and/or Cluster APIs.
 

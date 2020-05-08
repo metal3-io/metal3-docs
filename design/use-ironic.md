@@ -14,28 +14,29 @@ implemented
 ## Table of Contents
 
 <!--ts-->
-   * [use-ironic](#use-ironic)
-      * [Status](#status)
-      * [Table of Contents](#table-of-contents)
-      * [Summary](#summary)
-      * [Motivation](#motivation)
-         * [Goals](#goals)
-         * [Non-Goals](#non-goals)
-      * [Proposal](#proposal)
-         * [User Stories [optional]](#user-stories-optional)
-         * [Implementation Details/Notes/Constraints [optional]](#implementation-detailsnotesconstraints-optional)
-         * [Risks and Mitigations](#risks-and-mitigations)
-      * [Design Details](#design-details)
-         * [Work Items](#work-items)
-         * [Dependencies](#dependencies)
-         * [Test Plan](#test-plan)
-         * [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
-         * [Version Skew Strategy](#version-skew-strategy)
-      * [Drawbacks [optional]](#drawbacks-optional)
-      * [Alternatives [optional]](#alternatives-optional)
-      * [References](#references)
 
-<!-- Added by: stack, at: 2019-02-18T16:27-05:00 -->
+- [use-ironic](#use-ironic)
+  - [Status](#status)
+  - [Table of Contents](#table-of-contents)
+  - [Summary](#summary)
+  - [Motivation](#motivation)
+    - [Goals](#goals)
+    - [Non-Goals](#non-goals)
+  - [Proposal](#proposal)
+    - [User Stories](#user-stories)
+    - [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
+    - [Risks and Mitigations](#risks-and-mitigations)
+  - [Design Details](#design-details)
+    - [Work Items](#work-items)
+    - [Dependencies](#dependencies)
+    - [Test Plan](#test-plan)
+    - [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
+    - [Version Skew Strategy](#version-skew-strategy)
+  - [Drawbacks](#drawbacks)
+  - [Alternatives](#alternatives)
+  - [References](#references)
+
+<!-- Added by: dhellmann, at: Fri May  8 14:14:37 EDT 2020 -->
 
 <!--te-->
 
@@ -85,11 +86,11 @@ controller must assume that Ironic can be restarted at any time, and must
 recreate the resources necessary to continue reconciling the desired state of
 the configured bare metal hosts.
 
-### User Stories [optional]
+### User Stories
 
 None
 
-### Implementation Details/Notes/Constraints [optional]
+### Implementation Details/Notes/Constraints
 
 - We want to eliminate the need for a MySQL database. Ironic needs a
   database, but it is not the source of truth for what Hosts exist or
@@ -151,12 +152,12 @@ TBD
 Version skew should not apply if the operator and ironic services run
 in the same Pod.
 
-## Drawbacks [optional]
+## Drawbacks
 
 Ideally we would not need a long running service at all, but until we
 have a tool compatible with the Job API we cannot avoid that.
 
-## Alternatives [optional]
+## Alternatives
 
 We could run Ironic and Ironic Inspector in their own Pod, outside of
 the one containing the baremetal-operator. This would make local

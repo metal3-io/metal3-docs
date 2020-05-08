@@ -1,3 +1,5 @@
+# Custom Resource Reference
+
 This document explains the relationship between all the Custom Resources (CRs)
 required to create the target Kubernetes cluster on bare metal machine and how
 they reference to each other. To see the example CRs check
@@ -19,7 +21,8 @@ SSH_PUB_KEY_CONTENT
 
 ### Cluster and Machine
 
-##### CAPI v1alpha2
+#### CAPI v1alpha2
+
 This diagram describes object's relationship based on CAPI v1alpha2 and how
 they reference to each other.
 ![crs](images/v1a2_crs.svg)

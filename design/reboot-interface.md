@@ -14,17 +14,21 @@ implementable
 ## Table of Contents
 
 <!--ts-->
-   * [reboot-interface](#reboot-interface)
-      * [Status](#status)
-      * [Table of Contents](#table-of-contents)
-      * [Summary](#summary)
-      * [Motivation](#motivation)
-         * [Goals](#goals)
-         * [Non-Goals](#non-goals)
-      * [Proposal](#proposal)
-      * [Drawbacks](#drawbacks)
-      * [Future Enhancements](#future-enhancements)
-      * [Alternatives](#alternatives)
+
+- [reboot-interface](#reboot-interface)
+  - [Status](#status)
+  - [Table of Contents](#table-of-contents)
+  - [Summary](#summary)
+  - [Motivation](#motivation)
+    - [Goals](#goals)
+    - [Non-Goals](#non-goals)
+  - [Proposal](#proposal)
+  - [Drawbacks](#drawbacks)
+  - [Future Enhancements](#future-enhancements)
+    - [Defining a Formal User Interface](#defining-a-formal-user-interface)
+  - [Alternatives](#alternatives)
+
+<!-- Added by: dhellmann, at: Fri May  8 14:14:37 EDT 2020 -->
 
 <!--te-->
 
@@ -54,13 +58,13 @@ equivalent of the Machine Actuator limited to just this purpose.
 
 The Machine (Reboot) Actuator will require from the BareMetalHost:
 
-* A declarative API to perform the reboot
-* The ability to determine a point where all processes running on the Host at
+- A declarative API to perform the reboot
+- The ability to determine a point where all processes running on the Host at
   the time of the fencing decision are guaranteed to have been stopped
-* A guarantee that the Reboot Actuator can delete any Node associated with the
+- A guarantee that the Reboot Actuator can delete any Node associated with the
   Machine before the Host is able to complete booting (including in testing
   when the Host is simulated by a VM).
-* Rapid convergence to a state where all running processes are stopped,
+- Rapid convergence to a state where all running processes are stopped,
   independent of other happenings in the system
 
 ### Non-Goals
@@ -126,10 +130,10 @@ reboot requests are managed in the same place.
 
 If:
 
-* there is one or more annotations with the ``reboot.metal3.io`` prefix
+- there is one or more annotations with the ``reboot.metal3.io`` prefix
   present, and
-* the ``Status.PoweredOn`` field is true, and
-* the value of ``pendingRebootSince`` is empty or earlier than the
+- the ``Status.PoweredOn`` field is true, and
+- the value of ``pendingRebootSince`` is empty or earlier than the
   ``lastPoweredOn`` time
 
 then the Host controller will update ``pendingRebootSince`` to the current
@@ -141,8 +145,8 @@ Host controller will attempt to power the host off regardless of the
 
 Once the Host is powered off (``Status.PoweredOn`` is false), if/when
 
-* the ``Spec.Online`` field is true, and
-* the ``lastPoweredOn`` time is before the ``pendingRebootSince`` time
+- the ``Spec.Online`` field is true, and
+- the ``lastPoweredOn`` time is before the ``pendingRebootSince`` time
 
 then the controller should remove the suffixless ``reboot.metal3.io``
 annotation (if present). Once no reboot annotations are present (i.e. those of
@@ -153,7 +157,7 @@ the existing logic for powering on the Host should execute and update the
 The controller automatically removes all annotations with the
 ``reboot.metal3.io`` prefix if
 
-* the Host is deprovisioned
+- the Host is deprovisioned
 
 ## Drawbacks
 
