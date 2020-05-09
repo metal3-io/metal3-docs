@@ -163,6 +163,7 @@ metadata:
     kind: Metal3Cluster
     name: cluster-1
 spec:
+  clusterName: cluster-1
   pools:
     - start: 192.168.0.10
       end: 192.168.0.15
@@ -176,16 +177,16 @@ spec:
       prefix: 24
   gateway: 192.168.1.1
   prefix: 24
-  allocations:
+  preAllocations:
     "RenderedData-10": 192.168.0.9
     "RenderedData-9": 192.168.0.8
   namePrefix: "provisioning"
 status:
   lastUpdated: "2020-04-02T06:36:09Z"
-  addresses:
-    "192.168.0.11": "RenderedData-1"
   allocations:
-    "RenderedData-1": "pool-1-192-168-0-11"
+    "RenderedData-1": "192.168.0.11"
+    "RenderedData-10": 192.168.0.9
+    "RenderedData-9": 192.168.0.8
 ```
 
 In the *spec* of *IPPool*, there would be a *pools* list, that would
@@ -209,8 +210,7 @@ IPPool object to keep the existing leases.
 
 The *status* would contain a *lastUpdated* field with the timestamp of the last
 update. In case of an error during the allocation (pool exhaustion for example),
-the error would be reported on the Consumer object, the *error* boolean and
-*errorMessage* field on the *RenderedData* object.
+the error would be reported on the Claim object, in the *errorMessage* field.
 The *allocations* map will map the IP address to the *RenderedData* object it was
 allocated for and the *addresses* will map the *RenderedData* objects with the
 *IPAddress* objects.
@@ -231,18 +231,18 @@ metadata:
     kind: IPClaim
     name: RenderedData-1
 spec:
-  ipClaim:
+  claim:
     Name: RenderedData-1
   Address: 192.168.0.11
   prefix: 24
   gateway: 192.168.0.1
-  IPPool:
+  pool:
     Name: pool-1
 status:
   ready: true
 ```
 
-The *IPAddress* object would be the following
+The *IPClaim* object would be the following
 
 ```yaml
 apiVersion: ipam.metal3.io/v1alpha1
@@ -257,35 +257,52 @@ metadata:
 spec:
   owner:
     name: RenderedData-1
-  ipPool:
+  pool:
     name: pool-1
 status:
-  ready: true
   ipAddress:
     name: pool-1-192-168-0-11
-  error: false
   errorMessage: ""
 ```
 
-For each *IPClaim*, the controller reconciling the *IPCalim* will select an
+For each *IPClaim*, the controller reconciling the *IPClaim* will select an
 available IP address randomly from the *IPPool*, if the object name is not in
-the *allocations* map in the object *spec* or in the *addresses* map in the
-*status*, in that case it would select that IP address. An error would be
+the *preAllocations* map in the object *spec* or in an existing *IPAddress*
+object, in that case it would select that IP address. An error would be
 reflected on the claim.
 
-Once the IP address is selected, the controller will create an *IPAddress*
-for that address. In case of conflict, it will list all the *IPAddress*
-objects that have an owner reference to this *IPPool* and update the
-status with the mapping of IP addresses and *IPPool* object names. It will
-then randomly select an available IP address. Once the *IPAddress* object
-is created, the *IPPool* object status will be updated with the new map. Then
-The *IPClaim* status will be updated with the *IPAddress* reference and the
-*ready* field set to true.
+The source of truth for allocations needs to be the IPAddress CR. That will
+satisfy the requirement to have state in the spec for resources that pivot into
+the cluster, while also addressing the concurrency issue with choosing an IP.
+It is possible to create one of those atomically with the owner reference set to
+the claim and the name constructed to produce a conflict if 2 claims pick the
+same IP. That atomic operation will ensure a clean allocation.
 
-If the *lastUpdated* field of the *IPPool* is empty, the controller will
-list all the *IPAddress* objects that have an owner reference to this
-*IPPool* and update the status with the mapping of IP addresses and
-*RenderedData* object names. It will also update the *lastUpdated* field.
+The claim controller cannot rely on any data in the pool's status fields to
+know which IPs are already allocated, because that information may be out of
+date. So, the claim controller should get a list of IPAddress resources owned by
+the pool mentioned in its claim, loop over them, and build a set of IPs that are
+unavailable. It should then pick addresses randomly from its ranges until it
+finds one not in use in that set.
+
+After the claim controller picks an IP, it should create an IPAddress CR with
+the owner reference set to the claim and using the naming scheme designed to
+ensure conflict. If the claim controller fails to create the new IPAddress, it
+should log the conflict and return immediately so the reconcile function is
+called again for a fresh attempt. When the claim controller successfully creates
+an IPAddress, it should update the claim's status fields with the reference to
+the new IPAddress.
+
+There may be instances where the claim controller can create an address resource
+but then not update the claim resource. To address that case, before the claim
+controller picks an IP it should first search for IPAddress resources owned by
+the claim it is reconciling. If it finds one, it should update the claim's
+status to refer to it instead of making a new one.
+
+The pool controller should watch for new IPAddress resources to be created. When
+one is created, the controller should reconcile the pool used by the IPAddress
+and update the allocations listed in the status block. That gives the user a
+convenient way to get the allocated IPs for a pool.
 
 If the cluster to which the *IPClaim* belongs is paused, the reconciliation
 of the *IPClaim* would be paused.
@@ -349,8 +366,8 @@ status:
 
 When reconciling the *RenderedData* object, the reconciler would create an
 *IPClaim* for the *IPPool* objects that are referenced in the
-*Template*. It will then wait until the *IPClaim* has a status set to
-Ready. Once ready, it will fetch the *IPAddress* and it will render the
+*Template*. It will then wait until the *IPClaim* has a reference to an
+*IPAddress* object, it will then fetch the *IPAddress* and it will render the
 templates, filling the IP addresses, prefixes and gateways based on the content
 of the *IPAddress* objects.
 

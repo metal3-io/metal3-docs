@@ -293,23 +293,18 @@ metadata:
     kind: Metal3Machine
     name: machine-1
 spec:
-  owner:
-    name: machine-1
   template:
     name: nodepool-1
 status:
-  ready: true
   renderedData:
     name: nodepool-1-0
-  error: false
   errorMessage: ""
 ```
 
-The *DataClaim* object will reference its owner *Metal3Machine* and target
-*Template* objects. In its status, the *ready* field would be set to true and
-the *renderedData* would reference the *RenderedData* object when it would be
-generated. In case of error, the *error* flag would be set to True, and the
-*errorMessage* would contain a description of the error.
+The *DataClaim* object will reference its target *Template* object. In its
+status, the *renderedData* would reference the *RenderedData* object when it
+would be generated. In case of error, the *errorMessage* would contain a
+description of the error.
 
 ### The Template object
 
@@ -327,6 +322,7 @@ metadata:
     kind: Metal3Cluster
     name: cluster-1
 spec:
+  clusterName: cluster-1
   metaData:
     strings:
       - key: abc
@@ -657,7 +653,7 @@ spec:
   networkData:
     name: machine-1-metadata
     namespace: default
-  metal3Machine:
+  dataClaim:
     name: machine-1
     namespace: default
 status:
@@ -679,20 +675,21 @@ changes on Metal3Machines. In the case that a Metal3Machine gets modified, if
 the `dataTemplate` references a Template, that *DataClaim* object will be
 reconciled. There will be two cases:
 
-- An already generated RenderedData object exists for that *DataClaim*. In that
-  case, the reconciler will verify that the required secrets exist. If they do
+- An already generated RenderedData object exists for that *DataClaim*. If the
+  reference is not in the *DataClaim* object, the reconciler will add it. The
+  reconciler will also verify that the required secrets exist. If they do
   not, they will be created.
 - if no RenderedData exists for that *DataClaim*, then the
   reconciler will create one and fill the respective field with the secret name.
 
 To create a RenderedData object, the *DataClaim* controller will select an
 index for that Metal3Machine. The selection happens by selecting the lowest
-available index that is not in the `indexes` field of the status. If the
-`indexes` field is empty, the controller will list all existing RenderedData
-object linked to this Template and recreate the unavailable indexes.
-It will fill it by extracting the index from the RenderedData names. The indexes
-always start from 0 and increment by 1. The lowest available index is to be used
-next. The `dataNames` field contains the map of Metal3Machine to RenderedData.
+available index that is not in use. To do that, the controller will list all
+existing RenderedData object linked to this Template and to get the unavailable
+indexes. The indexes always start from 0 and increment by 1. The lowest
+available index is to be used next. The `dataNames` field contains the map of
+Metal3Machine to RenderedData and the `indexes` contains the map of allocated
+indexes and claims.
 
 Once the next lowest available index is found, it will create the RenderedData
 object. The name would be a concatenation of the Template name and
@@ -701,11 +698,9 @@ RenderedData and try to create the new object with the new index, this will happ
 until the new object is created successfully. Upon success, it will render the
 content values, and create the secrets containing the rendered data. The
 controller will generate the content based on the `metaData` or `networkData`
-field of the Template Specs. The *ready* field in the *DataClaim* and the
-*renderedData* will then be set accordingly.
-
-Once the generation is successful, the status field `ready` will be set to True.
-If any error happens during the rendering, an error message will be added.
+field of the Template Specs. The *ready* field in *renderedData* will then be
+set accordingly. If any error happens during the rendering, an error message
+will be added.
 
 ### The generated secrets
 
