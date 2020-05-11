@@ -7,33 +7,6 @@
 
 # how-ironic-works
 
-## Table of Contents
-
-<!--ts-->
-
-- [how-ironic-works](#how-ironic-works)
-  - [Table of Contents](#table-of-contents)
-  - [How ironic controls hardware](#how-ironic-controls-hardware)
-  - [How ironic boots hardware](#how-ironic-boots-hardware)
-  - [How ironic writes an operating system image to baremetal](#how-ironic-writes-an-operating-system-image-to-baremetal)
-  - [What connectivity is required](#what-connectivity-is-required)
-  - [What is ironic-inspector](#what-is-ironic-inspector)
-  - [How-to](#how-to)
-    - [How to discover hardware](#how-to-discover-hardware)
-    - [How to add hardware to ironic](#how-to-add-hardware-to-ironic)
-  - [Updating information about a hardware node in ironic](#updating-information-about-a-hardware-node-in-ironic)
-    - [How do I identify the current state](#how-do-i-identify-the-current-state)
-    - [How to inspect hardware](#how-to-inspect-hardware)
-    - [How to deploy](#how-to-deploy)
-    - [How to unprovision a baremetal node](#how-to-unprovision-a-baremetal-node)
-    - [How to delete a baremetal node](#how-to-delete-a-baremetal-node)
-    - [How to create the record of an active node](#how-to-create-the-record-of-an-active-node)
-  - [References](#references)
-
-<!-- Added by: dhellmann, at: Fri May  8 14:14:36 EDT 2020 -->
-
-<!--te-->
-
 This document explains how to use ironic in order to achieve various
 tasks such as creating a node, recreating a node, unprovisioning a
 node, and deleting a node.

@@ -11,35 +11,6 @@
 
 implemented
 
-## Table of Contents
-
-<!--ts-->
-
-- [use-ironic](#use-ironic)
-  - [Status](#status)
-  - [Table of Contents](#table-of-contents)
-  - [Summary](#summary)
-  - [Motivation](#motivation)
-    - [Goals](#goals)
-    - [Non-Goals](#non-goals)
-  - [Proposal](#proposal)
-    - [User Stories](#user-stories)
-    - [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
-    - [Risks and Mitigations](#risks-and-mitigations)
-  - [Design Details](#design-details)
-    - [Work Items](#work-items)
-    - [Dependencies](#dependencies)
-    - [Test Plan](#test-plan)
-    - [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
-    - [Version Skew Strategy](#version-skew-strategy)
-  - [Drawbacks](#drawbacks)
-  - [Alternatives](#alternatives)
-  - [References](#references)
-
-<!-- Added by: dhellmann, at: Fri May  8 14:14:37 EDT 2020 -->
-
-<!--te-->
-
 ## Summary
 
 Part of being a bare metal provisioning system is having the ability

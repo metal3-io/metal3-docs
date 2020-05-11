@@ -11,41 +11,6 @@
 
 implemented
 
-## Table of Contents
-
-<!--ts-->
-
-- [nodes-machines-and-hosts](#nodes-machines-and-hosts)
-  - [Status](#status)
-  - [Table of Contents](#table-of-contents)
-  - [Summary](#summary)
-  - [Motivation](#motivation)
-    - [Goals](#goals)
-    - [Non-Goals](#non-goals)
-  - [Proposal](#proposal)
-    - [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
-      - [Data Model](#data-model)
-      - [Growing the Cluster](#growing-the-cluster)
-      - [Shrinking the Cluster](#shrinking-the-cluster)
-    - [Risks and Mitigations](#risks-and-mitigations)
-  - [Design Details](#design-details)
-    - [Work Items](#work-items)
-    - [Dependencies](#dependencies)
-    - [Test Plan](#test-plan)
-    - [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
-    - [Version Skew Strategy](#version-skew-strategy)
-  - [Drawbacks](#drawbacks)
-  - [Alternatives](#alternatives)
-    - [Use an external database](#use-an-external-database)
-    - [Store our data in the Machine objects](#store-our-data-in-the-machine-objects)
-  - [References](#references)
-
-<!-- Added by: dhellmann, at: Fri May  8 14:14:37 EDT 2020 -->
-
-<!--te-->
-
-[Tools for generating]: https://github.com/ekalinin/github-markdown-toc
-
 ## Summary
 
 This document explains the use of Node, Machine, and BareMetalHost
