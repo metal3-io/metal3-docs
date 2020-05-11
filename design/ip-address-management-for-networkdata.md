@@ -14,28 +14,29 @@ provisional
 ## Table of Contents
 
 <!--ts-->
-   * [Title](#title)
-      * [Status](#status)
-      * [Table of Contents](#table-of-contents)
-      * [Summary](#summary)
-      * [Motivation](#motivation)
-         * [Goals](#goals)
-         * [Non-Goals](#non-goals)
-      * [Proposal](#proposal)
-         * [User Stories](#user-stories-optional)
-            * [Story 1](#story-1)
-            * [Story 2](#story-2)
-         * [Implementation Details/Notes/Constraints [optional]](#implementation-detailsnotesconstraints-optional)
-         * [Risks and Mitigations](#risks-and-mitigations)
-      * [Design Details](#design-details)
-         * [Work Items](#work-items)
-         * [Dependencies](#dependencies)
-         * [Test Plan](#test-plan)
-         * [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
-         * [Version Skew Strategy](#version-skew-strategy)
-      * [Drawbacks [optional]](#drawbacks-optional)
-      * [Alternatives [optional]](#alternatives-optional)
-      * [References](#references)
+
+* [Title](#title)
+  * [Status](#status)
+  * [Table of Contents](#table-of-contents)
+  * [Summary](#summary)
+  * [Motivation](#motivation)
+    * [Goals](#goals)
+    * [Non-Goals](#non-goals)
+  * [Proposal](#proposal)
+    * [User Stories](#user-stories-optional)
+      * [Story 1](#story-1)
+      * [Story 2](#story-2)
+    * [Implementation Details/Notes/Constraints [optional]](#implementation-detailsnotesconstraints-optional)
+    * [Risks and Mitigations](#risks-and-mitigations)
+  * [Design Details](#design-details)
+    * [Work Items](#work-items)
+    * [Dependencies](#dependencies)
+    * [Test Plan](#test-plan)
+    * [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
+    * [Version Skew Strategy](#version-skew-strategy)
+  * [Drawbacks [optional]](#drawbacks-optional)
+  * [Alternatives [optional]](#alternatives-optional)
+  * [References](#references)
 
 <!-- Added by: stack, at: 2019-02-15T11:41-05:00 -->
 
@@ -60,7 +61,6 @@ to select an IP address for a Template referencing it, while
 *IPAddress* would contain a representation of an IP address in use in order
 to prevent conflicts efficiently. *IPClaim* would be a request for an
 *IPAddress* from an *IPPool*
-
 
 ## Motivation
 
@@ -90,17 +90,17 @@ belong to by a chain of owner references.
 
 ### Goals
 
-- Introduce an IPPool, an IPClaim and an IPAddress CRDs.
-- add flexibility in the IP address allocation
-- enable sharing of a pool across machine deployments / KCP
-- enable use of non-continuous pools
-- enable external IP management by using IPAddress CRs
-- offer a predictable way to assign addresses to some nodes
-- be resilient to the clusterctl move operation
+* Introduce an IPPool, an IPClaim and an IPAddress CRDs.
+* add flexibility in the IP address allocation
+* enable sharing of a pool across machine deployments / KCP
+* enable use of non-continuous pools
+* enable external IP management by using IPAddress CRs
+* offer a predictable way to assign addresses to some nodes
+* be resilient to the clusterctl move operation
 
 ### Non-Goals
 
-- provide a DHCP feature or any equivalent level feature.
+* provide a DHCP feature or any equivalent level feature.
 
 ## Proposal
 
@@ -133,11 +133,11 @@ cluster to prevent future conflicts.
 
 ### Implementation Details/Notes/Constraints
 
-- This proposal should be fully backwards compatible and not modify any existing
+* This proposal should be fully backwards compatible and not modify any existing
   behaviour.
-- When shared among multiple machine deployment, the allocation would be
+* When shared among multiple machine deployment, the allocation would be
   random as much as possible to avoid conflicts and re-use as much as possible.
-- If not needed, this feature should not require the user to modify anything
+* If not needed, this feature should not require the user to modify anything
   existing in their CRs
 
 ### Risks and Mitigations
@@ -148,7 +148,6 @@ This design may lead to a high number of objects, if there is a high number of
 nodes.
 
 ## Design Details
-
 
 A IPPool object would be created :
 
@@ -384,7 +383,6 @@ of the *IPAddress* objects.
 
 ### Test Plan
 
-
 * All functions will have unit tests
 * integration tests will also be added
 * A specific setup will be added in the metal3-dev-env end to end tests.
@@ -400,11 +398,11 @@ this feature, one will just need to modify the *Template* and create
 
 NA
 
-## Drawbacks [optional]
+## Drawbacks
 
 * In case of large clusters, it might add many objects.
 
-## Alternatives [optional]
+## Alternatives
 
 No simple alternative would enable to share the addresses between machine
 deployments. All approaches require a shared object to share the allocations
