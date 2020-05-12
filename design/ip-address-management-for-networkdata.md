@@ -309,8 +309,8 @@ of the *IPClaim* would be paused.
 The *Template* would be modified this way:
 
 ```yaml
-apiVersion: metadata.metal3.io/v1alpha1
-kind: Template
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
+kind: Metal3DataTemplate
 metadata:
   name: nodepool-1
   namespace: default
