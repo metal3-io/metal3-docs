@@ -118,6 +118,13 @@ feel real for users without getting bogged down.
 
 #### Story 2
 
+## Design Details
+
+- What will actually need to change in the code?
+- What new objects is this going to require?
+- What new fields are needed, for either the Spec or Status section?
+- What other changes (labels, annotations, etc.) are needed?
+
 ### Implementation Details/Notes/Constraints
 
 - What are the caveats to the implementation?
@@ -130,13 +137,6 @@ feel real for users without getting bogged down.
 What are the risks of this proposal and how do we mitigate.  Think
 broadly.  For example, consider both security and how this will impact
 the larger kubernetes ecosystem.
-
-## Design Details
-
-- What will actually need to change in the code?
-- What new objects is this going to require?
-- What new fields are needed, for either the Spec or Status section?
-- What other changes (labels, annotations, etc.) are needed?
 
 ### Work Items
 
