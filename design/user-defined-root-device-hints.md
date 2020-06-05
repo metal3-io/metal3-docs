@@ -9,7 +9,7 @@
 
 ## Status
 
-provisional
+implemented
 
 ## Summary
 
@@ -164,3 +164,4 @@ N/A
 ## References
 
 - [Ironic Root Device Hint Documentation](https://docs.openstack.org/ironic/pike/install/include/root-device-hints.html)
+- [Implementation](https://github.com/metal3-io/baremetal-operator/pull/495)
