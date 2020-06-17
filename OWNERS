@@ -4,3 +4,6 @@ approvers:
  - dhellmann
  - hardys
  - russellb
+
+reviewers:
+ - maelk
