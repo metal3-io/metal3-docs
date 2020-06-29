@@ -158,57 +158,24 @@ For any host known to Ironic but not represented by a `BareMetalHost`
 resource, the `host-discovery-controller` will create a
 `BareMetalHost` resource with the `bootMACAddress` filled in based on
 the MAC of the first discovered NIC and using a name built from the
-template values.
-
-The Ironic provisioner in the `baremetal-operator` will be updated to
-search for nodes in Ironic matching a host in kubernetes based on the
-`bootMACAddress` value given in the host. This ensures that the
-`baremetal-operator` can match the host resource to the data already
-in Ironic and fill in status values like the hardware details. This
-allows the existing logic in the `baremetal-operator` to manage the
-hardware details and avoids having two controllers splitting that
-responsibility.
-
-The [state
-machine](https://github.com/metal3-io/baremetal-operator/blob/master/docs/baremetalhost-states.md)
-for the `baremetal-operator` will expand to support importing hardware
-details for a discovered host.  When a new host appears without
-credentials, it will move from the pseudo-state `Created` to a new
-transient state `Importing`, during which the details will be fetched
-from `ironic-inspector`.
-
-After the hardware details are found and the host status is updated so
-that `!NeedsHardwareInspection()` is true, the host will move from
-`Importing` to the `Discovered` state.
+template values and with an annotation containing the hardware details
+and provisioner ID that should be added to the status fields.
 
 When a user adds BMC credentials to a host in the `Discovered` state
 today it moves to `Registering` and the `Provisioner` is responsible
 for configuring the host in Ironic. That logic may need to be modified
 to support partial updates of existing nodes, to set the values that
-could not be discovered.
+were not not set when the node was discovered.
 
 Because discovered hosts will already have hardware details, there is
 no need to re-inspect them if they move out of the `Discovered`
-state. The state machine for the `baremetal-operator` will therefore
-need a new transition between `Discovered` and `MatchProfile` when the
-condition `!externallyProvisioned && !NeedsHardwareInspection()` is
-true. That transition will bypass the `Inspecting` state and allow the
-host to eventually move to the `Ready` state.
-
-Today there is a race between a server booting and a host resource for
-it being created. If the server boots before the host resource exists
-and the node is registered in Ironic, the host resource is effectively
-broken and the user must clean up both the resource and Ironic
-manually. Supporting discovery, and especially matching host resources
-to Ironic nodes using MAC address, means we can fix the race. The
-`IronicProvisioner` needs to be updated to recognize when a node with
-the same MAC already exists. If the node in Ironic has no name,
-indicating that it was discovered, the provisioner should set the name
-and update any other values not set through discovery. If the node
-does have a name and the name does not match the name of the
-`BareMetalHost` then the host resource being reconciled should enter
-the `Error` state and an error message should be attached explaining
-that it is a duplicate host.
+state. The [state
+machine](https://github.com/metal3-io/baremetal-operator/blob/master/docs/baremetalhost-states.md)
+for the `baremetal-operator` will therefore need a new transition
+between `Discovered` and `MatchProfile` when the condition
+`!externallyProvisioned && !NeedsHardwareInspection()` is true. That
+transition will bypass the `Inspecting` state and allow the host to
+eventually move to the `Ready` state.
 
 ### Implementation Details/Notes/Constraints
 
