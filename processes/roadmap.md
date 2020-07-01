@@ -7,9 +7,15 @@ The Metal3 Roadmap is maintained as a Github project and can be found
 
 Each column in the project represents the work items for a specific release of
 either Baremetal Operator or Cluster API Provider Metal3. In addition there is
-a `Feature requests` that contains item that have not yet been accepted and the
-`Backlog` column that contains items that have been accepted but not yet
-planned for a specific release.
+a `Feature requests` column that contains items that have not yet been
+accepted and the `Backlog` column that contains items that have been accepted
+but not yet planned for a specific release.
+
+An issue can be planned for a specific release if someone volunteers to take
+ownership of the feature. The owner will then be assigned the issue. An owner
+does not have to carry the whole design and implementation processes on her own
+but must instead make sure that the feature is being worked on and will be
+completed by the planned release date.
 
 ## Proposing a feature
 
@@ -33,5 +39,7 @@ moved to a specific release when someone volunteers to take ownership of the
 issue.
 
 An inactive issue in one of the releases (marked as stale) can be moved back to
-the `Backlog` column.
+the `Backlog` column, and issues in the `feature requests` column that are not
+actual feature proposals but issues related to metal3-docs repository can be
+removed from the project.
 
