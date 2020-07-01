@@ -13,7 +13,8 @@ The following objects are moved during this process:
 KubeadmControlplane, Metal3Cluster, Metal3Machine, and BareMetalHost
 
 **Related Objects:** Cluster Secrets, BareMetalHost Secrets, Configmaps,
-KubeadmConfig, Metal3MachineTemplate
+KubeadmConfig, Metal3MachineTemplate, Metal3IPPool, Metal3IPClaim, IPAddress,
+Metal3data, Metal3DataClaim, Metal3DataTemplate
 
 ## Prerequisite
 
@@ -32,7 +33,9 @@ KubeadmConfig, Metal3MachineTemplate
 
   So if the clusters are not initialized using `clusterctl`, all the CRDS of the
   objects to be moved to target cluster needs to have these labels both in
-  bootstrap cluster and target cluster.
+  bootstrap cluster and target cluster. **Note**: This is not recommended, since
+  the way `clusterctl` identifies objects to manage might change in future, so
+  it's always safe to install CRDs and controllers through `clusterctl` init.
 
 * **BMH objects have correct status annotation.**
 
@@ -130,11 +133,41 @@ This can now be achieved with the following procedure:
 
 9. Delete the bootstrap cluster
 
-**Important Note** The move process should be done when the BMHs are
-in a steady state. BMHs should not be moved while any operation is on-going i.e.
-BMH is in provisioning state. This will result in failure since the IP of the
-BMH might change after the move and the DHCP-leases from the management cluster
-are not moved to target cluster.
+## Important Notes
+
+The following requirements are essential for the move process to run
+successfully:
+
+1.
+The move process should be done when the BMHs are in a steady state. BMHs
+should not be moved while any operation is on-going i.e. BMH is in provisioning
+state. This will result in failure since the interaction between IPA and ironic
+gets broken and as a result ironic's database might not be repopulated and
+eventually the cluster will end up in an erroneous state. Moreover, the IP of
+the BMH might change after the move and the DHCP-leases from the management
+cluster are not moved to target cluster.
+
+2.
+Before the move process is initialized, it is important to delete the ironic
+pod/ironic containers. If ironic is deployed in cluster the deployment is named
+`metal3-ironic`, if it is deployed locally outside the cluster, the containers
+to be deleted are `ironic`, `ironic-inspector`, `ironic-endpoint-keepalived`,
+`ironic-dnsmasq`, `ironic-httpd` and `mariadb`. If we do not delete the ironic
+before move, the old ironic might interfere with the operations of
+the new ironic deployed in target cluster since the database of the first ironic
+instance is not cleaned when we move the BMHs. Also there would be two dnsmasq
+existent in the deployment if we have two ironic deployment which is
+undesirable.
+
+3.
+The provisioning bridge where the `ironic-endpoint-IP` is supposed to be
+attached should have a static IP assignment on it before the ironic
+pod/containers start to operate in the target cluster. This is important since
+`ironic-endpoint-keepalived` container will only assign the `ironic-endpoint-IP`
+on the provisioning bridge in target cluster when it has an IP on it. Otherwise
+it will fail to attach the IP and ironic will be unreachable. This is crucial
+because this interface is used to host the DHCP server and so it cannot be
+configured to use DHCP.
 
 Here is a small video to show the whole process. Note that, in this video BMO is
 not part of CAPM3 so we manually install it on the target cluster and also label
