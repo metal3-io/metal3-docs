@@ -169,6 +169,8 @@ spec:
       subnet: 192.168.0.0/24
       gateway: 192.168.0.1
       prefix: 24
+      dnsServers:
+        - 8.8.8.8
     - start: 192.168.1.10
       end: 192.168.1.15
       subnet: 192.168.1.0/24
@@ -176,6 +178,8 @@ spec:
       prefix: 24
   gateway: 192.168.1.1
   prefix: 24
+  dnsServers:
+    - 8.8.4.4
   preAllocations:
     "RenderedData-10": 192.168.0.9
     "RenderedData-9": 192.168.0.8
@@ -195,10 +199,10 @@ verify that the allocated IP is in the pool and from which the start and end ip
 addresses can be inferred. Specifying single ip addresses can be achieved by
 setting the start and end ip address to that single ip address.
 
-The *prefix* and *gateway* parameters can be given for each pool of the list,
-or globally. If they are given for a pool they will override the global
-settings, that are default values. The *prefix* and *gateway* will be set on
-the *IPAddress* and can be fetched from a *Template*.
+The *prefix*, *dnsServers* and *gateway* parameters can be given for each pool
+of the list, or globally. If they are given for a pool they will override the
+global settings, that are default values. The *prefix*, *dnsServers* and
+*gateway* will be set on the *IPAddress* and can be fetched from a *Template*.
 
 The *allocations* fields is a map of object name and ip address that allow a
 user to specify a set of static allocations for some objects.
@@ -235,6 +239,8 @@ spec:
   Address: 192.168.0.11
   prefix: 24
   gateway: 192.168.0.1
+  dnsServers:
+    - 8.8.8.8
   pool:
     Name: pool-1
 status:
@@ -322,14 +328,17 @@ metadata:
 spec:
   metaData:
     ipAddressesFromIPPool:
-      - Name: pool-1
-        Key: "ip-address-1"
+      - name: pool-1
+        key: "ip-address-1"
     prefixesFromIPPool:
-      - Name: pool-1
-        Key: "netmask-1"
+      - name: pool-1
+        key: "netmask-1"
     gatewaysFromIPPool:
-      - Name: pool-1
-        Key: "gateway-1"
+      - name: pool-1
+        key: "gateway-1"
+    dnsServersFromIPPool:
+      - name: pool-1
+        key: "dns-1"
   networkData:
     networks:
       ipv4:
@@ -342,8 +351,7 @@ spec:
               gateway:
                 fromIPPool: pool-1
               services:
-                - type: "dns"
-                  address: "8.8.4.4"
+                dnsFromIPPool: pool-1
         - id: "Provisioning"
           link: "vlan2"
           ipAddressfromIPPool: pool-2
@@ -353,8 +361,11 @@ spec:
               gateway:
                 string: "192.168.1.1"
               services:
-                - type: "dns"
-                  address: "8.8.4.4"
+                dns:
+                  - "8.8.4.4"
+    services:
+      dns:
+        - "8.8.8.8"
 status:
   indexes:
     "0": "machine-1"
