@@ -9,9 +9,13 @@
 
 ## Status
 
-implemented
+replaced
 
 ## Summary
+
+*This design was replaced with a single global default value as part
+of implementing [explicit-boot-mode](explicit-boot-mode.md) in
+<https://github.com/metal3-io/baremetal-operator/pull/602>.*
 
 The required boot mode for a host depends on several factors,
 including support in the hardware, whether IPv6 is being used, and

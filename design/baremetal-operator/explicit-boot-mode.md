@@ -13,9 +13,8 @@ implemented
 
 ## Summary
 
-This design extends the boot mode handling described in
-[implicit-boot-mode](implicit-boot-mode.md) by adding a field for the
-user to set the boot mode explicitly.
+This design adds a field for the user to set the boot mode for a host
+explicitly.
 
 ## Motivation
 
@@ -29,7 +28,7 @@ use of legacy boot mode.
 ### Goals
 
 - Describe an API change to allow the user to override the default
-  boot mode selected based on the BMC type.
+  boot mode of `UEFI`.
 
 ### Non-Goals
 
@@ -39,7 +38,7 @@ use of legacy boot mode.
 
 Add a new optional API input field, `spec.bootMode`, with possible
 values `UEFI` or `legacy`. If no value is provided, the value from the
-BMC method will be used.
+default `UEFI` will be used.
 
 ### User Stories
 
@@ -55,13 +54,15 @@ Add a new optional string field `BootMode` to `BareMetalHostSpec`,
 with allowed values `"UEFI"` or `"legacy"`.
 
 Update <https://github.com/metal3-io/baremetal-operator/pull/469/> so
-that when `Spec.BootMode` has a valid value it overrides the node
-property setting from the BMC.
+that when `Spec.BootMode` has a valid value it overrides the default.
 
 ### Implementation Details/Notes/Constraints
 
 The existing PR #469 needs to be rebased, and the work for this design
 can be folded into that.
+
+*Implementation moved to
+<https://github.com/metal3-io/baremetal-operator/pull/602>.*
 
 ### Risks and Mitigations
 
@@ -115,3 +116,4 @@ some users unable to use metal3.
 
 - PR #469 has the implicit boot mode implementation
 - [implicit-boot-mode](implicit-boot-mode.md) has the original design
+- PR #602 has the implementation for this design
