@@ -96,7 +96,9 @@ As of 2020-03-25:
 
 * link:https://groups.google.com/forum/#!forum/metal3-dev[Mailing List]
 * Slack Channel: #cluster-api-baremetal on the Kubernetes Slack
-* link:https://docs.google.com/document/d/1d7jqIgmKHvOdcEmE2v72WDZo9kz7WwhuslDOili25Ls/edit[Bi-weekly zoom meeting]
+* link:https://docs.google.com/document/d/1d7jqIgmKHvOdcEmE2v72WDZo9kz7WwhuslDOili25Ls/edit[Metal3 community meetings notes]
+* link:https://teams.microsoft.com/l/meetup-join/19%3ameeting_Nzg3MzQwMjUtOTI1Yi00ZTNhLWI3ZDktZmRkNTQ4NDgxY2E1%40thread.v2/0?context=%7b%22Tid%22%3a%22d2585e63-66b9-44b6-a76e-4f4b217d97fd%22%2c%22Oid%22%3a%22456f342b-7f3c-4825-abcd-e095f00cd654%22%7d
+[Bi-weekly Teams meeting]
 
 *Social Media Accounts*:
 
@@ -106,7 +108,7 @@ As of 2020-03-25:
 *Other References*:
 
 * link:https://www.youtube.com/watch?v=KIIkVD7gujY[Talk at KubeCon San Diego, Fall 2019]
-* link:https://github.com/metal3-io/metal3-docs/blob/master/design/foundation-proposal.md[Proposal to metal3-io community to apply to the CNCF Sandbox]
+* link:https://github.com/metal3-io/metal3-docs/blob/master/design/community/foundation-proposal.md[Proposal to metal3-io community to apply to the CNCF Sandbox]
 
 *Project Logo*:
 
