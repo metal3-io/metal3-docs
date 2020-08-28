@@ -49,11 +49,12 @@ GitHub issues on each repository.
 *Initial committers*:
 
 Initial committers are reflected in the OWNERS file from each repository.  For example:
-* https://github.com/metal3-io/cluster-api-provider-metal3/blob/master/OWNERS
-* https://github.com/metal3-io/baremetal-operator/blob/master/OWNERS
 
-The process for adding/removing committers (or maintainers) is:
-https://github.com/metal3-io/metal3-docs/tree/master/maintainers
+* link:https://github.com/metal3-io/cluster-api-provider-metal3/blob/master/OWNERS[cluster-api-provider-metal3 repository owners file]
+* link:https://github.com/metal3-io/baremetal-operator/blob/master/OWNERS[baremetal-operator repository owners file]
+
+The process for adding/removing committers (or maintainers) is
+link:https://github.com/metal3-io/metal3-docs/tree/master/maintainers[here].
 
 There are currently maintainers across different repositories from the following
 companies:
@@ -90,15 +91,14 @@ As of 2020-03-25:
 * Web page (https://metal3.io) hosted on GitHub pages:
   https://github.com/metal3-io/metal3-io.github.io
 * Infrastructure resources: https://github.com/metal3-io/project-infra/
-* https://metal3.io/community-resources.html
+* Community resources: https://metal3.io/community-resources.html
 
 *Communication*:
 
 * link:https://groups.google.com/forum/#!forum/metal3-dev[Mailing List]
 * Slack Channel: #cluster-api-baremetal on the Kubernetes Slack
 * link:https://docs.google.com/document/d/1d7jqIgmKHvOdcEmE2v72WDZo9kz7WwhuslDOili25Ls/edit[Metal3 community meetings notes]
-* link:https://teams.microsoft.com/l/meetup-join/19%3ameeting_Nzg3MzQwMjUtOTI1Yi00ZTNhLWI3ZDktZmRkNTQ4NDgxY2E1%40thread.v2/0?context=%7b%22Tid%22%3a%22d2585e63-66b9-44b6-a76e-4f4b217d97fd%22%2c%22Oid%22%3a%22456f342b-7f3c-4825-abcd-e095f00cd654%22%7d
-[Bi-weekly Teams meeting]
+* link:https://teams.microsoft.com/l/meetup-join/19%3ameeting_Nzg3MzQwMjUtOTI1Yi00ZTNhLWI3ZDktZmRkNTQ4NDgxY2E1%40thread.v2/0?context=%7b%22Tid%22%3a%22d2585e63-66b9-44b6-a76e-4f4b217d97fd%22%2c%22Oid%22%3a%22456f342b-7f3c-4825-abcd-e095f00cd654%22%7d[Bi-weekly Teams meeting]
 
 *Social Media Accounts*:
 
