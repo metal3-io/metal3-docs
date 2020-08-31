@@ -361,7 +361,7 @@ Starting with the bare metal node in the "available" provision_state:
    disk image.
 
 5. Monitor the provisioning operation by [fetching the machine
-   state](how-do-i-identify-the-current-state) periodically, looking
+   state](#how-do-i-identify-the-current-state) periodically, looking
    for it to be set to `active`.
 
    The "provision_state" field will track the state of the node along
