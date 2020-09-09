@@ -82,7 +82,9 @@ The process to grant approval access to a candidate is as follows:
   the maintainer expectations documented here.
 
 - If the candidate agrees access is granted by adding the new maintainer to the
-  appropriate `OWNERS` file(s).
+  appropriate `OWNERS` file(s).  The `metal3-docs/maintainers/ALL-OWNERS` file
+  should be updated as well if this is the first time the person has been added
+  to a Metal3 project `OWNERS` file.
 
 ## Removing Approval Access Due to Inactivity
 
