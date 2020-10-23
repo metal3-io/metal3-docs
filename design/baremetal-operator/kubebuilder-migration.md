@@ -107,16 +107,17 @@ admission web hooks to validate BareMetalHost resources.
 The process for creating the proof-of-concept migration was basically:
 
 1. Move everything in the git repository out of the way.
-2. Replace the copy of operator-sdk with a copy of kubebuilder, with a
-   similar patch to support float fields.
+2. Remove the copy of operator-sdk.
 3. Use kubebuilder init to create a new project in the repository,
    setting the domain to an empty string.
-4. Use kubebuilder to create an API and controller for BareMetalHost,
+4. Update the kubebuilder and controller-gen settings to allow "unsafe
+   fields".
+5. Use kubebuilder to create an API and controller for BareMetalHost,
    then replace the implementations with the existing ones.
-5. Restore the rest of the existing code from the pkg directory,
+6. Restore the rest of the existing code from the pkg directory,
    moving it to the root of the repository.
-6. Fix everything so it compiles and the tests run.
-7. Add missing targets to the Makefile (lint, sec, openapi generation,
+7. Fix everything so it compiles and the tests run.
+8. Add missing targets to the Makefile (lint, sec, openapi generation,
    etc.).
 
 ### Implementation Details/Notes/Constraints
@@ -227,3 +228,4 @@ all metal3 repositories.
   - <https://github.com/metal3-io/cluster-api-provider-metal3/pull/137>
   - <https://github.com/metal3-io/cluster-api-provider-metal3/pull/138>
   - <https://github.com/metal3-io/baremetal-operator/pull/678>
+- [baremetal-operator PR](https://github.com/metal3-io/baremetal-operator/pull/650)
