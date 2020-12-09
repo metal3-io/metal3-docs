@@ -79,10 +79,10 @@ Add support for new parameters:
    of rotational and hctl parameters.
    Here `hctl` represents :
 
-   1. SCSI adapter number [host]
-   1. channel number [bus]
-   1. id number [target]
-   1. number of logical units [lun]
+   1. SCSI adapter number `host`
+   1. channel number `bus`
+   1. id number `target`
+   1. number of logical units `lun`
 
    and rotational value will be true if disk is HDD and false
    represents individual SSD, also software RAID can be SSD RAID or
