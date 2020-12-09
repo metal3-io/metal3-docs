@@ -28,7 +28,7 @@ We will carry out testing of HWCC on Dell hardware.
 ## Proposal
 
 We are submitting proposal based on the issue raised in HWCC:
-[Issue 53](https://github.com/metal3-io/hardware-classification-controller/issues/53) 
+[Issue 53](https://github.com/metal3-io/hardware-classification-controller/issues/53)
 
 * In Disk, supported parameters are only size and count,
   in addition to these user can identify types of Disk (for eg:
@@ -76,21 +76,18 @@ Add support for new parameters:
    individual size based on requirement.
 
    Investigation Details: Disk type can be identified using combination
-   of rotational and hctl parameters. 
+   of rotational and hctl parameters.
    Here `hctl` represents :
-   
-   a) SCSI adapter number [host]
 
-	 b) channel number [bus]
-
-	 c) id number [target]
-
-	 d) number of logical units [lun]
+   1. SCSI adapter number [host]
+   1. channel number [bus]
+   1. id number [target]
+   1. number of logical units [lun]
 
    and rotational value will be true if disk is HDD and false
-   represents individual SSD, also software RAID can be SSD RAID or 
+   represents individual SSD, also software RAID can be SSD RAID or
    HDD RAID with rotational value true.
-   
+
    We are taking example of Dell hardware here.
 
    1. Individual HDD/SSD : with `hctl` as 0:0:N:0 and rotational flag as
@@ -101,10 +98,11 @@ Add support for new parameters:
    rotational flag as False.
    1. Dell BOSS Controller Virtual Disk (RAID) : with `hctl` as N:0:0:0 and
    rotational flag as True.
-   1. NVMe : No `hctl` Pattern, rotational flag as False and model name 
+   1. NVMe : No `hctl` Pattern, rotational flag as False and model name
    contains NVMe keyword.
 
    Below is sample introspection data for Disk.
+
      ```yaml
      hardware:
         disks:
@@ -118,10 +116,10 @@ Add support for new parameters:
 
    Adding new parameter `vendorName` under NIC. User can provide NIC
    requirement in the form of `vendor`.
-   
+
    While classification of `vendor` parameter, use sub-string matching
    will be done.
-   
+
    Investigation details: Below is sample introspection data for NICs.
    `model` field under `nics` contains combination of Vendor ID and
    Product ID.
@@ -141,8 +139,8 @@ Add support for new parameters:
    Firmware is new parameter to be introduced in HardwareClassification
    which contains BIOS information. User can specify BIOS requirements
    by providing `vendor` and `version` details.
-   
-   The classification of `vendor` and `version` will be done using 
+
+   The classification of `vendor` and `version` will be done using
    exact match of the values provided by user in profile.
 
    Investigation details: Below is sample introspection data for firmware.
