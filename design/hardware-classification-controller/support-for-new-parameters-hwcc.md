@@ -32,7 +32,7 @@ We are submitting proposal based on the issue raised in HWCC:
 
 * CPU architecture will be useful if the user wants to have 32-bit
   or 64-bit processor as per his requirements.
-  
+
 * New parameters such as Firmware and SystemVendor will add
   advantage to identify matched hosts.
   System Vendor will be useful to add as a new parameter if the
