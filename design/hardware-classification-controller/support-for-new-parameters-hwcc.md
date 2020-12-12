@@ -124,13 +124,6 @@ Link for Existing HWCC Specs
           arch: x86_64
           minimumCount: 4
           minimumSpeed: 4.3
-       Disk:
-          minimumCount: 2
-          minimumIndividualSizeGB: 2200
-       NIC:
-          minimumCount: 4
-       RAM:
-          minimumSizeGB: 32
        Firmware:
           Bios:
             vendor: Dell Inc.
