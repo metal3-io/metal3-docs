@@ -91,8 +91,13 @@ Add support for new parameters:
    provide `hardwareCharacteristics.systemVendor.manufacturer` and
    `hardwareCharacteristics.systemVendor.productName` in yaml.
 
-   The classification of `manufacturer` and `productName` will be done
-   using exact string match of the values provided by user in profile.
+   The classification of `manufacturer` will be done using exact
+   string match of the values provided by user in profile.
+
+   `productName` from hardware details comes with SKU code and
+   in YAML user will provide only name of product.
+   The classification of `productName` will be done using sub
+   string match of the values provided by user in profile.
 
    Investigation details: Below is sample introspection data for
    systemVendor. `systemVendor` field contains `manufacturer` and
