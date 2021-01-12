@@ -30,7 +30,7 @@ come talk to us!
   [Community meetings Notes](https://groups.google.com/forum/#!forum/metal3-dev)
 * Subscribe to the [Metal³ Development Mailing List](https://docs.google.com/document/d/1d7jqIgmKHvOdcEmE2v72WDZo9kz7WwhuslDOili25Ls/edit)
   for the project related anouncements, discussions and questions.
-* Come and meet us in our Bi-Weekly community meetings on every alternate
+* Come and meet us in our weekly community meetings on every
   Wednesday at 13:00 UTC on [Zoom](https://zoom.us/j/97255696401?pwd=ZlJMckNFLzdxMDNZN2xvTW5oa2lCZz09)
 * If you missed the previous community meeting, you can still find the notes
   [here](https://docs.google.com/document/d/1d7jqIgmKHvOdcEmE2v72WDZo9kz7WwhuslDOili25Ls/edit)
