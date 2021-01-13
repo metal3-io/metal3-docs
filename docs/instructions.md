@@ -40,11 +40,7 @@ try to fetch those documents and parse them out.
 
 ## Preview your changes locally
 
-1. Download Mdbook binary. This will save the binary in /hack folder.
-
-    ```bash
-    $ make bin
-    ```
+All the commands below are executed within mdbook container.
 
 1. Build the user-guide.
 
@@ -52,18 +48,25 @@ try to fetch those documents and parse them out.
     $ make build
     ```
 
-1. Preview the book built. This will open the user-guide in your browser.
-    You can keep running `make watch` and continue making doc changes.
-    Mdbook will detect and render the local changes automatically. Refresh
-    the browser page to see the final changes.
+1. Preview the user-guide built before pushing your changes. This will open the
+    user-guide in your browser at `http://localhost:3000/`. Export `HOST_PORT`
+    environment variable with desired port number to serve the user-guide on another
+    port. You can keep running `make serve` and continue making doc changes. Mdbook
+    will detect your changes, render them and refresh your browser page automatically.
 
     ```bash
-    $ make watch
+    $ make serve
     ```
 
-1. Once you have finished local preview, clean Mdbook auto-generated
-    content from docs/user-guide/book path.
+1. Clean Mdbook auto-generated content from docs/user-guide/book path once you
+    have finished local preview.
 
     ```bash
     $ make clean
+    ```
+
+1. Build mdbook container image locally.
+
+    ```bash
+    $ make container-image
     ```
