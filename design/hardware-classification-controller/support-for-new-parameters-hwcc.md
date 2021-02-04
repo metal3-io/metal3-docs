@@ -69,8 +69,13 @@ Add support for new parameters:
    by providing `hardwareCharacteristics.firmware.bios.vendor` and
    `hardwareCharacteristics.firmware.bios.version`.
 
-   The classification of `vendor` and `version` will be done using
-   exact string match of the values provided by user in profile.
+   The classification of `vendor` will be done using exact string
+   match of the value provided by user in profile.
+
+   The classification of `version` will be done by checking if host
+   `version` is greater than equal to `minorVersion` and less than
+   equal to `majorVersion`. `minorVersion` and `majorVersion` are
+   provided by user in profile.
 
    Investigation details: Below is sample introspection data for firmware.
    `BIOS` field under firmware have two fields, `vendor` and `version`.
@@ -132,7 +137,8 @@ Link for Existing HWCC Specs
        Firmware:
           Bios:
             vendor: Dell Inc.
-            version: 1.5.6
+            minorVersion: 1.2.3
+            majorVersion: 3.4.5
        SystemVendor:
            manufacturer: Dell Inc.
            productName: PowerEdge R640
