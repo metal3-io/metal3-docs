@@ -1,2 +1,9 @@
 design/*.orig.*
 design/*.toc.*
+
+# Ignore mdbook binary
+# from being committed.
+hack/mdbook
+# Ignore mdbook boilerplate
+# from being committed.
+docs/user-guide/book

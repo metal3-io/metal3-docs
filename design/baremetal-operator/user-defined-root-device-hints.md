@@ -15,7 +15,7 @@ implemented
 
 This document explains how rootdevicehints could be given as user
 defined parameters as part BaremetalHostSpec. The idea is that user
-would have the possibilty to define selective constraints for root
+would have the possibility to define selective constraints for root
 device selection. Sometimes selective constrains will not be
 completely deterministic, but it is up to the user to decide which
 hints to use.
