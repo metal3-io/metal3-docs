@@ -138,6 +138,25 @@ The controller automatically removes all annotations with the
 
 - the Host is deprovisioned
 
+The annotation value should be a JSON map containing a key `'mode'` with values
+of `'hard'` or `'soft'` to specify the reboot mode. The default reboot mode is
+`'soft'`. These are a few examples of using the reboot API:
+
+- `reboot.metal.io` -- immediate reboot via soft shutdown first,
+  followed by a hard shutdown if the soft shutdown fails.
+- `reboot.metal3.io: {'mode':'hard'}` -- immediate reboot via hard
+  shutdown, potentially allowing for high-availability use-cases.
+- `reboot.metal3.io/{key}` -- phased reboot, issued and managed by the
+  client registered with the `key`, via soft shutdown first, followed
+  by a hard reboot if the soft reboot fails.
+- `reboot.metal3.io/{key}: {'mode':'hard'}` -- phased reboot, issued
+  and managed by the client registered with the `key`, via hard
+  shutdown.
+
+It's important to note that as the API supports multiple clients, a hard
+shutdown request takes priority over a soft shutdown request, allowing
+workload recovery to take precedence over a graceful shutdown of a node.
+
 ## Drawbacks
 
 This requires clients to be somewhat well-behaved - for example, only deleting
