@@ -31,7 +31,7 @@ We are submitting proposal based on the issue raised in HWCC:
 [Issue 56](https://github.com/metal3-io/hardware-classification-controller/issues/56)
 
 * CPU architecture will be useful if the user wants to have 32-bit
-  or 64-bit processor as per his requirements.
+  or 64-bit processor as per their requirements.
 
 * New parameters such as Firmware and SystemVendor will add
   advantage to identify matched hosts.
@@ -92,7 +92,7 @@ Add support for new parameters:
 1. `hardwareCharacteristics.systemVendor`
 
    SystemVendor is new parameter to be introduced which helps user to
-   classify hosts of certain manufacturer and product. User needs to
+   classify hosts of certain manufacturer and product. User can
    provide `hardwareCharacteristics.systemVendor.manufacturer` and
    `hardwareCharacteristics.systemVendor.productName` in yaml.
 
@@ -121,6 +121,7 @@ Link for Existing HWCC Specs
 [Existing YAML](https://github.com/metal3-io/hardware-classification-controller/blob/master/config/samples/metal3.io_v1alpha1_hardwareclassification.yaml)
 
 * Below is sample yaml for additional parameters in HardwareClassification.
+  Units will be updated in User guide document of HWC.
 
    ```yaml
 
