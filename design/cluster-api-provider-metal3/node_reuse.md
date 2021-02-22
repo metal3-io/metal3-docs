@@ -24,21 +24,44 @@ field, or on `KubeadmControlPlane`; for example, a user modifies Kubernetes
 version via `spec.version` field. Once update takes place, owning controller
 (e.g. KCP controller) starts rolling upgrade. As such, CAPI `Machines`, CAPM3
 `Metal3Machines` will be re-created based on the KCP changes. And of course,
-`BareMetalHosts` which are owned by `Metal3Machines`, will be deprovisioned.
-Normally, when `BareMetalHost` is getting deprovisioned, Ironic cleans up root
-and externally attached disks on the host. However, while performing upgrade
-operation we don't want hosts external disk data to be cleaned so that when
-`BareMetalHost` comes provisioned again, it has still the disk data untouched.
+`BareMetalHosts` (below will be referenced as host) which are owned by
+`Metal3Machines`, will be deprovisioned. Normally, when host is
+getting deprovisioned, Ironic cleans up root and externally attached disks on
+the host. However, while performing upgrade operation we don't want hosts
+external disk data to be cleaned so that when host becomes provisioned
+again, it has still the disk data untouched.
+
+### Goals
+
+Add a logic to label, filter and pick those labelled hosts when going through a
+re-provisioning cycle as part of the upgrade procedure.
+
+### Non-Goals
+
+Support node reuse for Machines which are created independently of Kubeadm
+Control Plane controller/Machine Deployment(KCP/MD). Currently we are not trying
+to support node reuse feature for the Machines not owned by higher level objects
+like KCP/MD. Because, if there is no KCP/MD that Machine could point to, then
+Cluster API Provider Metal3 (CAPM3) Machine controller will fail to first, set
+the label in the hosts and second, to filter the hosts based on the label.
+
+## Proposal
+
+We would like to propose an interface to mark hosts that we want to reuse after
+deprovisioning and second, add a selection/filtering mechanism in CAPM3 Machine
+controller that will select those hosts with a specific label (to be exact, based
+on the label `infrastructure.cluster.x-k8s.io/node-reuse`).
+
 To achieve this, we need to
 
 1. be able to disable disk cleaning while deprovisioning.
   This [feature](https://github.com/metal3-io/metal3-docs/blob/master/design/cluster-api-provider-metal3/allow_disabling_node_disk_cleaning.md)
   is WIP right now.
 
-2. be able reuse the same pool of `BareMetalHost` so that we get the storage
+2. be able reuse the same pool of hosts so that we get the storage
   data back. Currently, there is no mechanism available in Metal³ to pick the
   same pool of hosts that were released while upgrading/remediation - for the
-  next provisioning phase. And this proposal tries to solve this.
+  next provisioning phase. And this proposal tries to solve it.
 
 **NOTE:** This proposal focuses on upgrade use cases but it isn't limited to
 only upgrade. Other use cases like remediation can also benefit from this
@@ -48,184 +71,124 @@ feature as well.
 
 #### Story 1
 
-As a cluster admin, I would like the same nodes to be used when they go for
-reprovisioning (i.e. deprovisioning -> provisioning) during the upgrade operation.
+As a cluster admin, I would like the re-use the same nodes during the upgrade
+operation so that I don't loose secondary storage data attached to them.
 
 #### Story 2
 
-As a cluster admin, I would like the same nodes to be used when they go for
-reprovisioning (i.e. deprovisioning -> provisioning) during the remediation
-operation.
+As a cluster admin, I would like the re-use the nodes during the remediation
+operation so that I don't loose secondary storage data attached to them.
 
 #### Story 3
 
-As a cluster admin, I would like any available (i.e. state: `Ready`) BMH to be
-selected randomly for a new CAPI Machine -> Metal3Machine(M3M) when nodeReuse is
-False.
-
-### Goals
-
-Add a logic to mark, filter and pick those marked BMH(s) when going through a
-re-provisioning cycle as part of the upgrade procedure.
-
-### Non-Goals
-
-Support node reuse for Machines which are created independently of Kubeadm
-control plane controller/Machine Deployment(KCP/MD). Currently we are not trying
-to support node reuse feature for the Machines not owned by higher level objects
-like KCP/MD. Because, if there is no KCP/MD that Machine could point to, then
-Cluster API Provider Metal3 (CAPM3) Machine controller will fail to first, set
-the `consumerRef` in spec of the BMH(s) and second, to filter the BMH(s) based
-on the `consumerRef`.
-
-## Proposal
-
-We would like to propose an interface to mark BMH(s) that we want to reuse after
-deprovisioning and second, add a selection/filtering mechanism in CAPM3 Machine
-controller that will pick those BMH(s) with a specific mark (to be exact, based
-on the value of `consumerRef`).
+As a cluster admin, when nodeReuse is disabled, I want to preserve the current
+flow of host selection.
 
 ## Design Details
 
-Normally, before deprovisioning the host, the controller removes the M3M name
-from the`consumerRef` field of the BMH when M3M is deleted.
+We propose modifying the Metal3MachineTemplate CRD to support enabling/disabling
+node reuse feature. Add `nodeReuse` field under the spec of the Metal3MachineTemplate,
+that stores boolean type of a value.
 
-In case of nodeReuse field is set to True, to make sure that a BMH(s) is not
-utilized by other M3M(s) after it has been deprovisioned, the `consumerRef`
-field will store the name of KCP/MD even when it is in `Ready` state. During the
-upgrade, after KCP/MD creates new Machines, CAPM3 will create new M3M(s) and will
-filter out BMH(s) that have the name of KCP/MD in the `consumerRef` field. If the
-name of the KCP/MD matches the name set in `spec.consumerRef.name` field of BMH,
-then CAPM3 Machine controller will associate that BMH to the M3M.
+When set to True, CAPM3 machine controller tries to reuse the same pool of hosts.
 
-As such, even after deprovisioning we will keep the `consumerRef` on a BMH and
-when M3M will be requesting a new BMH, CAPM3 will filter BMH(s) based on their
-consumerRef and will pick up those that match the name of KCP/MD.
+If no value is provided by the user, default value False is set and the current
+flow is preserved.
 
-**Example flow:**
-
-***User updates Metal3MachineTemplate(M3MTemplate):***
-
-1. User has set `NodeReuse` field to True in the new M3MTemplate;
-2. User applies new M3MTemplate (i.e with new image version);
-3. User updates reference in KCP/MD to the newly created M3MTemplate;
-4. Upgrade process starts in KCP/MD;
-5. At this point, KCP/MD triggers a deletion of the old machines which results
-    in the deletion and deprovisioning of machines and BMH(s) respectively by the
-    CAPM3 controller;
-6. While BMH(s) is/are deprovisioning, CAPM3 machine controller will read the
-    `NodeReuse` field value from the new M3MTemplate that KCP is pointing to, and:
-    * If it is set to **True:**
-      * Apart from removing the M3M name from `consumerRef` in BMH, it will also
-      re-create a new `consumerRef` which points to the name of the KCP/MD (where
-      we find it from M3MTemplate). BMH becomes Ready again and is free with
-      KCP/MD name set on `consumerRef`;
-    * If it is set to **False:**
-      * Normal operation continues, where M3M name from `consumerRef` in BMH will
-      be removed and BMH becomes Ready with empty `consumerRef`.
-7. KCP will create new machines, and at the same time new M3M(s) will be created.
-    At this point, CAPM3 Machine controller will look in the newly created M3M(s)
-    for annotation `clonedFrom` which will be always pointing to the M3MTemplate.
-    In the following step, it will find the `NodeReuse` field in the M3MTemplate
-    and:
-    * If it is set to **True:**
-      * CAPM3 Machine controller will filter out ready BMH(s) marked with
-      `consumerRef` field set to KCP/MD name:
-        * If BMH found:
-          * Pick that BMH and attach that BMH to newly created M3M;
-          * Update `consumerRef` field on BMH pointing to the corresponding
-          M3M name instead of KCP/MD name;
-        * Else if BMH is not found:
-          * It will wait until a ready BMH with KCP/MD name in`consumerRef`
-          field becomes available;
-          * Once it is found, it updates `consumerRef` field on BMH
-          pointing to the M3M name instead of KCP/MD name;
-    * If it is set to **False:**
-      * then CAPM3 Machine controller will filter out ready BMH(s) with `consumerRef`
-      field set to empty.
-
-***User updates KCP/MD:***
-
-1. User updates `NodeReuse` field to True in the current M3MTemplate before
-    he/she starts updating KCP/MD;
-2. User updates KCP/MD field (i.e with new k8s version);
-3. Upgrade process starts in KCP/MD;
-4. At this point, KCP/MD triggers a deletion of the old machines which results
-    in the deletion and deprovisioning of machines and BMH(s) respectively by the
-    CAPM3 controller;
-5. While BMH(s) is/are deprovisioning, CAPM3 Machine controller will read the
-    `NodeReuse` field value from new M3MTemplate that KCP is pointing to, and:
-    * If it is set to **True:**
-      * Apart from removing the M3M name from `consumerRef` in BMH, it will also
-      re-create a new `consumerRef` which points to the name of the KCP/MD (where
-      we find it from M3MTemplate). BMH becomes Ready again and is free with
-      KCP/MD name set on `consumerRef`;
-    * If it is set to **False:**
-      * Normal operation continues, where M3M name from `consumerRef` in BMH will
-      be removed and BMH becomes Ready with empty `consumerRef`.
-6. KCP will create new machines, and at the same time new M3M(s) will be created.
-    At this point, CAPM3 Machine controller will look in the newly created M3M(s)
-    for annotation `clonedFrom` which will be always pointing to the M3MTemplate.
-    In the following step, it will find the `NodeReuse` field in the M3MTemplate
-    and:
-    * If it is set to **True:**
-      * CAPM3 Machine controller will filter out ready BMH(s) marked with
-      `consumerRef` field set to KCP/MD name:
-        * If BMH found:
-          * Pick that BMH and attach that BMH to newly created M3M;
-          * Update `consumerRef` field on BMH pointing to the corresponding M3M
-          name instead of KCP/MD name;
-        * Else if BMH is not found:
-          * It will wait until a ready BMH with KCP/MD name in `consumerRef`
-          field becomes available;
-          * Once it is found, it updates `consumerRef` field on BMH
-          pointing to the M3M name instead of KCP/MD name;
-    * If it is set to **False:**
-      * then CAPM3 Machine controller will filter out ready BMH(s) with
-      `consumerRef` field set to empty.
-
-### Implementation Details/Notes/Constraints
-
-```go
-type Metal3MachineTemplateSpec struct {
-
-    // When set to True, CAPM3 Machine controller tries to
-    // pick the BMH that was released during the upgrade
-    // operation.
-    // +kubebuilder:default=false
-    // +optional
-    NodeReuse bool `json:"nodeReuse,omitempty"`
-}
-```
+E.g. Metal3MachineTemplate CR
 
 ```yaml
 apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
 kind: Metal3MachineTemplate
-metadata:
 spec:
-  nodeReuse: False   # by default don't reuse the node.
+  nodeReuse: True
   template:
     spec:
       image:
-        checksum: ...
-        checksumType: ...
-        format: ...
-        url: ...
-
+        ...
 ```
+
+During upgrade, to avoid our hosts from being selected for other KCP/MD pools,
+`infrastructure.cluster.x-k8s.io/node-reuse` label will be set. The label
+stores the name of the KCP/MD that hosts belong to. In the example CR below, MD
+named _md-pool1_ is set to the label (_kcp-pool1_ will be set in case the host
+belongs to KCP).
+
+E.g. BareMetalHost CR
 
 ```yaml
 apiVersion: metal3.io/v1alpha1
 kind: BareMetalHost
 metadata:
-spec:
-  consumerRef: test1 # KCP/MD name
-    ...
-status:
-  provisioning:
-    state: ready
-    ...
+    labels:
+      infrastructure.cluster.x-k8s.io/node-reuse: md-pool1
 ```
+
+### Implementation Details/Notes/Constraints
+
+#### Node Reuse Approach
+
+We should perform two steps to re-use the same pool of hosts.
+
+1. During host deprovisioning, set the `infrastructure.cluster.x-k8s.io/node-reuse`
+  label;
+2. During next provisioning, try to select any host in Ready state and having
+  a matching `infrastructure.cluster.x-k8s.io/node-reuse` label;
+
+The actual implementation will be done within the CAPM3 Machine controller.
+
+Step1 can be done as follows:
+
+- CAPM3 controller sets the `infrastructure.cluster.x-k8s.io/node-reuse: md-pool1`
+  label on the hosts belonging to the same KCP/MD.
+
+Step2 can be done as follows:
+
+- CAPM3 controller filters host labelled with
+  `infrastructure.cluster.x-k8s.io/node-reuse: md-pool1` label.
+
+  Next:
+  - If host is found in `Ready` state:
+    - Pick that host for newly created M3M;
+    - Once it is picked up, remove the whole label
+    (`infrastructure.cluster.x-k8s.io/node-reuse: md-pool1`)
+    from the host.
+  - If host is found in `Deprovisioning` state:
+    - Requeue until that host becomes `Ready`;
+  - If no host is found, while it should be (i.e for some reason host
+    is not in the cluster anymore):
+    - Fall back to the current flow, which selects host randomly.
+
+<p align="center">
+    <img src="../images/node_reuse_flow.svg"/>
+    <br>
+    <em></em>
+</p>
+
+**What if there are two parallel KCP/MD experiencing upgrade?**
+
+  Two MachineDeployments(md-pool1 for the MD named pool1 and md-pool2 for the MD
+  named pool2) with nodeReuse set to True & False respectively start upgrade at
+  the same time. During provisioning, CAPM3 Machine controller tries to find
+  hosts with `infrastructure.cluster.x-k8s.io/node-reuse: md-pool1` label for
+  md-pool1, and `infrastructure.cluster.x-k8s.io/node-reuse: md-pool2` label for
+  md-pool2. Based on the logic on diagram above, for md-pool1, machine controller
+  finds hosts with the md-pool1 label and picks them for provisioning. For md-pool2,
+  controller searches for hosts with md-pool2 label and fails to find any
+  (because label wasn't set during deprovisioning due to disabled NodeReuse). As
+  such, controller falls back to select random hosts.
+
+**What if we found N-1 hosts with label, while we expect N hosts?**
+  Then we select any other hosts, even though it has no label we expect.
+
+**What if user changes from node reuse to no node reuse in the middle of upgrade?**
+
+  In the middle of the upgrade process, when hosts (already labelled during
+  deprovisioning) are provisioning, user disables nodeReuse. Based on the
+  diagram above, CAPM3 machine controller always picks labelled hosts (when
+  found) regardless of nodeReuse feature is disabled/enabled. The reason is, we
+  want to ensure that the controller doesn't miss labelled hosts. In short,
+  labelled hosts always take the presedence over unlabelled hosts during selection.
 
 ### Risks and Mitigations
 
@@ -233,9 +196,11 @@ None
 
 ### Work Items
 
-* Modify CAPM3 controller to set the KCP/MD name in the `consumerRef` of
-    BareMetalHost while it is deprovisioning;
-* Implement a new NodeReuse field in the spec of the M3MTemplate.
+- add `nodeReuse` field in the spec of the M3MTemplate;
+
+- introduce a label `infrastructure.cluster.x-k8s.io/node-reuse`;
+
+- add filtering logic to select specific hosts.
 
 ### Dependencies
 
@@ -243,15 +208,7 @@ None
 
 ### Test Plan
 
-* Unit tests should be added in CAPM3.
-
-### Upgrade / Downgrade Strategy
-
-None
-
-### Version Skew Strategy
-
-None
+- Unit tests should be added in CAPM3.
 
 ## Drawbacks
 
@@ -263,5 +220,5 @@ None
 
 ## References
 
-* Remediation proposal in Metal3: [Remediation](https://github.com/metal3-io/metal3-docs/blob/master/design/capm3-remediation-controller-proposal.md)
-* Disable disk cleaning proposal in Metal3: [Disable disk cleaning](https://github.com/metal3-io/metal3-docs/blob/master/design/cluster-api-provider-metal3/allow_disabling_node_disk_cleaning.md)
+- Remediation proposal in Metal3: [Remediation](https://github.com/metal3-io/metal3-docs/blob/master/design/capm3-remediation-controller-proposal.md)
+- Disable disk cleaning proposal in Metal3: [Disable disk cleaning](https://github.com/metal3-io/metal3-docs/blob/master/design/cluster-api-provider-metal3/allow_disabling_node_disk_cleaning.md)
