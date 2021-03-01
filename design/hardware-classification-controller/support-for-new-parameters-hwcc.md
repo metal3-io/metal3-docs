@@ -66,7 +66,11 @@ Add support for new parameters:
 
    Firmware is new parameter to be introduced in HardwareClassification
    which contains BIOS information. User can specify BIOS requirements
-   by providing `hardwareCharacteristics.firmware.bios.version`.
+   by providing `hardwareCharacteristics.firmware.bios.vendor` and
+   `hardwareCharacteristics.firmware.bios.version`.
+
+   The classification of `vendor` will be done using exact string
+   match of the value provided by user in profile.
 
    The classification of `version` will be done by checking if host
    `version` is greater than equal to `minorVersion` and less than
@@ -74,13 +78,14 @@ Add support for new parameters:
    provided by user in profile.
 
    Investigation details: Below is sample introspection data for firmware.
-   `BIOS` field under firmware have field `version`.
+   `BIOS` field under firmware have two fields, `vendor` and `version`.
 
     ```yaml
     hardware:
         firmware:
              bios:
                date: "10/17/2018"
+               vendor: "Dell Inc."
                version: "1.5.6"
     ```
 
@@ -132,6 +137,7 @@ Link for Existing HWCC Specs
           minimumSpeedMHz: 4300
        Firmware:
           Bios:
+            vendor: Dell Inc.
             minorVersion: 1.2.3
             majorVersion: 3.4.5
        SystemVendor:
