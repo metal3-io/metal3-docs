@@ -96,6 +96,11 @@ and be re-used during upgrade.
 As a user, I want to give my own network configuration for cloud-init as a field
 on Metal3Machine
 
+#### Story 5
+
+As a user using a template for metaData and networkData, I want to be able to
+update the template when updating the Metal3MachineTemplate.
+
 ### Implementation Details/Notes/Constraints
 
 - The metadata field should contain some required element, such as UUID, that is
@@ -112,6 +117,11 @@ on Metal3Machine
 - Documentation of this feature would be very important.
 - The controllers must be able to recreate all status objects, i.e. no
   necessary information should be stored in the status without being recoverable
+- Since the BareMetalHost references the secrets and they are used at provisioning
+  time, the secrets cannot be updated to be able to reprovision the node in the
+  exact same state. This means that the data template parts containing the
+  metadata and network data must be immutable. Updates have to be done by creating
+  a new template and referencing it in the new / updated Metal3MachineTemplate.
 
 ### Risks and Mitigations
 
@@ -273,6 +283,7 @@ metadata:
     name: cluster-1
 spec:
   clusterName: cluster-1
+  templateReference: SharedRef
   metaData:
     strings:
       - key: abc
@@ -597,15 +608,21 @@ metadata:
     name: nodepool-1
 spec:
   index: 0
+  templateReference: SharedRef
   metaData:
     name: machine-1-metadata
     namespace: default
   networkData:
     name: machine-1-metadata
     namespace: default
-  Metal3DataClaim:
+ claim:
     name: machine-1
     namespace: default
+  template:
+    name: nodepool-1
+    apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
+    namespace: default
+    kind: Metal3DataTemplate
 status:
   ready: true
   error: false
@@ -618,7 +635,14 @@ generated and to the Metal3Machine using this Metal3Data object.
 If the Metal3DataTemplate object is updated, the generated secrets will not be
 updated, to allow for reprovisioning of the nodes in the exact same state as
 they were initially provisioned. Hence, to do an update, it is necessary to do
-a rolling upgrade of all nodes.
+a rolling upgrade of all nodes. In order to keep consistent states in the objects
+and secrets, the metaData and networkData are considered immutable. This is
+enforced with webhooks. However, since they are immutable, a mechanism to allow
+for updates is required. We consider the Metal3DataTemplate object immutable,
+and it will not be reconciled for updates. The procedure is then to create a
+new Metal3DataTemplate and reference the new one in the Metal3MachineTemplate.
+This requires the Metal3Data to be linked to both Metal3DataTemplate. This is
+achieved using the `templateReference` field of the Metal3DataTemplate.
 
 The reconciliation of the Metal3DataTemplate object will also be triggered by
 changes on Metal3Machines. In the case that a Metal3Machine gets modified, if
@@ -630,27 +654,49 @@ object will be reconciled. There will be two cases:
   it. The reconciler will also verify that the required secrets exist. If they
   do not, they will be created.
 - if no Metal3Data exists for that *Metal3DataClaim*, then the
-  reconciler will create one and fill the respective field with the secret name.
+  reconciler will create one and fill the respective field with the secrets names.
+  It will set the `templateReference` to the value of the Metal3DataTemplate if set.
 
 To create a Metal3Data object, the *Metal3DataClaim* controller will select an
 index for that Metal3Machine. The selection happens by selecting the lowest
 available index that is not in use. To do that, the controller will list all
-existing Metal3Data object linked to this Metal3DataTemplate and to get the
-unavailable indexes. The indexes always start from 0 and increment by 1. The
-lowest available index is to be used next. The `dataNames` field contains the
-map of Metal3Machine to Metal3Data and the `indexes` contains the map of
-allocated indexes and claims.
+existing Metal3Data object linked to this Metal3DataTemplate and get the
+unavailable indexes. The Metal3Data objects are linked to a Metal3DataTemplate
+by three ways. Either they directly reference the template in the `template`
+field of the `spec`, or they have the same `templateReference` key as the
+template, or the template's `templateReference` matches the `name` of the
+`template` field of the `spec` of the Metal3Data. The third way ensures backward
+compatibility with previous version of implementation when there was no
+`templateReference` in Metal3Data objects.
+
+The indexes always start from 0 and increment by 1. The lowest available index
+is to be used next. The `dataNames` field contains the map of Metal3Machine to
+Metal3Data and the `indexes` contains the map of allocated indexes and claims.
 
 Once the next lowest available index is found, it will create the Metal3Data
 object. The name would be a concatenation of the Metal3DataTemplate name and
-index. Upon conflict, it will fetch again the list to consider the new list of
-Metal3Data and try to create the new object with the new index, this will happen
-until the new object is created successfully. Upon success, it will render the
-content values, and create the secrets containing the rendered data. The
-controller will generate the content based on the `metaData` or `networkData`
-field of the Metal3DataTemplate Specs. The *ready* field in *renderedData* will
-then be set accordingly. If any error happens during the rendering, an error
-message will be added.
+index, in case `templateReference` field is empty. If `templateReference`
+field is present, the Metal3DataTemplate name would be fetched from it and
+it is then concatenated with index. Upon conflict, it will fetch again the
+list to consider the new list of Metal3Data and try to create the new object
+with the new index, this will happen until the new object is created
+successfully. Upon success, it will render the content values, and create
+the secrets containing the rendered data. The controller will generate the
+content based on the `metaData` or `networkData` field of the Metal3DataTemplate
+Specs. The *ready* field in *renderedData* will then be set accordingly.
+If any error happens during the rendering, an error message will be added.
+
+Since the `templateReference` field is an addition to the existing API, the
+default behaviour of the controller will be to list the Metal3Data objects by
+matching their template field if the `templateReference` is left empty on
+the template object. However, if the `templateReference` is set on the
+Metal3DataTemplate object, but not on the Metal3Data object, then the controller
+will match the `templateReference` field with the `name` of the `template` field
+of the Metal3Data object. This is performed by setting the `templateReference`
+value on a new Metal3DataTemplate object to the name of an old Metal3DataTemplate
+object. This allows to transition from the old template object, which is without
+`templateReference` set on the Metal3Data objects created from the old template
+object to the new one which uses the `templateReference`.
 
 ### The generated secrets
 
@@ -756,6 +802,9 @@ Metal3DataTemplate object, and then do a rolling upgrade to change the
 Metal3Machines (or Metal3MachineTemplates), and the KubeadmConfigs (or
 KubeadmConfigTemplates or KubeadmControlPlane).
 
+Since the `templateReference` field is a new addition, some logic is added to
+handle properly the transition from not using to using this field.
+
 ### Version Skew Strategy
 
 This will require that both CAPM3 and BMO support this feature.
@@ -768,7 +817,13 @@ data in the same object.
 ## Alternatives
 
 It would be possible to duplicate the templates to separate metadata and network
-data. But this would add complexity.
+data. But this would add complexity. It could also be possible to allow the
+Metal3DataTemplate to be mutable so that when it gets reconciled the secrets
+also get updated. However, that would lead to undesirable or unexpected states
+where re-provisioning of a node would result in a different configuration. On
+the contrary if we keep the secrets as it is, the relationship of the secrets
+with the version of the Metal3DataTemplate gets ambiguous. So mutability for
+Metal3DataTemplate is not a viable option.
 
 ## References
 
