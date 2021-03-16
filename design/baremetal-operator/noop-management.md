@@ -131,13 +131,13 @@ None.
 
 Two new BMC types  - `IPMINoop` and `RedFishNoop` - can be created as an alternative.
 
-Work in progress example: 
+Work in progress example:
 
 https://github.com/metal3-io/baremetal-operator/compare/master...rhjanders:noop_mgmt_2
 
 ## References
 
-In my experience as an operator, I've experienced two cases where it was not
+In my experience as an operator, I've encountered cases where it was not
 possible to successfully provision the nodes over the designated provisioning
 network interface while relying on Ironic managing the boot sequence.
 
