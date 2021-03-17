@@ -5,7 +5,7 @@ Unported License.
 http://creativecommons.org/licenses/by/3.0/legalcode
 -->
 
-# allow disabling disk cleaning
+# allow disabling automated cleaning
 
 ## Status
 
@@ -13,8 +13,8 @@ implementable
 
 ## Summary
 
-Configurable disk cleaning interface in Metal³ to allow users to
-disable/enable disk cleaning for the nodes.
+Configurable automated cleaning interface in Metal³ to allow users to
+disable/enable automated cleaning for nodes.
 
 ## Motivation
 
@@ -69,11 +69,11 @@ In the Metal³, we will need changes both in CAPM3 and BMO as follows
 
 ##### Metal3MachineTemplate object
 
-We introduce a new field `disableAutomatedClean` in the spec of the
-Metal3MachineTemplate object. `disableAutomatedClean` can store a boolean type
-of value. Setting it to True means don’t perform automated cleaning, while
-False value enables automated cleaning. By default, `disableAutomatedClean` will
-be set to False (i.e. do perform automated cleaning as it is now).
+We introduce a new field `automatedCleaningMode` in the spec of the
+Metal3MachineTemplate object. `automatedCleaningMode` store a enum type
+of value. Setting it to Disabled means don’t perform automated cleaning, while
+Metadata value enables automated cleaning. By default, `automatedCleaningMode` will
+be set to Metadata (i.e. do perform automated cleaning as it is now).
 
 ```yaml
 apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
@@ -82,22 +82,22 @@ metadata:
 spec:
  template:
  spec:
-  disableAutomatedClean: False   #default value. Perform automated cleaning.
+  automatedCleaningMode: Disabled   # default value is Metadata
 ```
 
 A new Metal3MachineTemplate controller will be introduced to reconcile
-Metal3MachineTemplate objects. When a user modifies `disableAutomatedClean`
+Metal3MachineTemplate objects. When a user modifies `automatedCleaningMode`
 field on a Metal3MachineTemplate, CAPM3 Metal3MachineTemplate controller
-will update `disableAutomatedClean` field value on all the respective
+will update `automatedCleaningMode` field value on all the respective
 Metal3Machines referenced by that Metal3MachineTemplate.
 
 ##### Metal3Machine object
 
-We introduce a new field `disableAutomatedClean` in the spec of the
-Metal3Machine object. `disableAutomatedClean` can store a boolean type
-of value. Setting it to True means do not perform automated
-cleaning, while False value enables automated cleaning. By default
-`disableAutomatedClean` will be set to False (i.e. do perform automated
+We introduce a new field `automatedCleaningMode` in the spec of the
+Metal3Machine object. `automatedCleaningMode` store a enum type
+of value. Setting it to Disabled means do not perform automated
+cleaning, while Metadata value enables automated cleaning. By default
+`automatedCleaningMode` will be set to Metadata (i.e. do perform automated
 cleaning as it is now).
 
 ```yaml
@@ -107,18 +107,18 @@ metadata:
 spec:
  template:
  spec:
-  disableAutomatedClean: False   #default value. Perform automated cleaning.
+  automatedCleaningMode: Disabled   # default value is Metadata
 
 ```
 
 #### Baremetal Operator
 
-We introduce a new field `disableAutomatedClean` in the spec of the
-BaremetalHost object. `disableAutomatedClean` can store a boolean type
-of value. If set to True, the Baremetal Operator instructs Ironic
+We introduce a new field `automatedCleaningMode` in the spec of the
+BaremetalHost object. `automatedCleaningMode` store a enum type
+of value. If set to Disabled, the Baremetal Operator instructs Ironic
 to disable automated cleaning for an Ironic node, while if
-set to False, the Baremetal Operator instructs Ironic to enable automated
-cleaning. By default `disableAutomatedClean` will be set to False
+set to Metadata, the Baremetal Operator instructs Ironic to enable automated
+cleaning. By default `automatedCleaningMode` will be set to Metadata
 (i.e. do perform automated cleaning as it is now).
 
 ```yaml
@@ -127,7 +127,7 @@ kind: BareMetalHost
 metadata:
  name: worker-0
 spec:
- disableAutomatedClean: False   #default value. Perform automated cleaning.
+ automatedCleaningMode: Disabled   # default value is Metadata
  ...
 ```
 
@@ -138,21 +138,22 @@ spec:
 1. User wants to disable disk cleaning before upgrading the nodes that are part
    of the same KCP/MD.
 
-2. User sets True for the `disableAutomatedClean` field on a
+2. User sets Disabled for the `automatedCleaningMode` field on a
    Metal3MachineTemplate which is referenced by `infrastructureTemplate` field
    in the KCP/MD.
 
 3. Metal3MachineTemplate controller keeps reconciling the Metal3MachineTemplate objects.
    Once the update is seen on the Metal3MachineTemplate, Metal3MachineTemplate controller
    starts mapping all the Metal3Machines referenced by that particular Metla3MachineTemplate,
-   and updates the `disableAutomatedClean` field to True on all the referenced Metal3Machines.
+   and updates the `automatedCleaningMode` field to Disabled on all the referenced
+   Metal3Machines.
 
 4. Metal3Machine controller keeps reconciling the Metal3Machine objects.
    Once the update is seen on the Metal3Machine, Metal3Machine controller starts
    mapping the BareMetalHosts referenced by the Metal3Machines, and updates the
-   `disableAutomatedClean` field to True on all the referenced BaremetalHosts.
+   `automatedCleaningMode` field to Disabled on all the referenced BaremetalHosts.
 
-5. Since the `disableAutomatedClean` field is set to True on the BaremetalHosts,
+5. Since the `automatedCleaningMode` field is set to Disabled on the BaremetalHosts,
    Baremetal Operator instructs the Ironic to disable disk cleaning for Ironic
    nodes referenced by the BaremetalHosts.
 
@@ -160,7 +161,7 @@ spec:
 
 1. User wants to disable disk cleaning for a single host
 
-2. User sets True for the `disableAutomatedClean` field on a
+2. User sets Disabled for the `automatedCleaningMode` field on a
    BareMetalHost spec.
 
 3. Baremetal Operator keeps reconciling the BareMetalHost, and after the update on
@@ -169,14 +170,14 @@ spec:
 
 ### Implementation Details/Notes/Constraints
 
-- As a user, you can still modify `disableAutomatedClean` field directly
-   on a BareMetalHost to disable/enable disk cleaning for the host that
+- As a user, you can still modify `automatedCleaningMode` field directly
+   on a BareMetalHost to disable/enable automatic cleaning for the host that
    is not managed by the CAPM3.
 
-- `disableAutomatedClean` can be updated on a BareMetalHost either before the provisioning
+- `automatedCleaningMode` can be updated on a BareMetalHost either before the provisioning
    (i.e. `Ready` state) or deprovisioning (i.e. `Provisioned` state) takes place.
 
-- Updating `disableAutomatedClean` field on a Metal3MachineTemplate will ensure to
+- Updating `automatedCleaningMode` field on a Metal3MachineTemplate will ensure to
     have the same value on all the corresponding Metal3Machines and BareMetalHosts
     no matter what the current value is.
 
@@ -186,9 +187,9 @@ None
 
 ### Work Items
 
-- Implement a new field `disableAutomatedClean` in the spec of the Metal3MachineTemplate
-- Implement a new field `disableAutomatedClean` in the spec of the Metal3Machine
-- Implement a new field `disableAutomatedClean` in the spec of BareMetalHost
+- Implement a new field `automatedCleaningMode` in the spec of the Metal3MachineTemplate
+- Implement a new field `automatedCleaningMode` in the spec of the Metal3Machine
+- Implement a new field `automatedCleaningMode` in the spec of BareMetalHost
 - Implement a new Metal3MachineTemplate controller in Cluster-api-provider-metal3
 
 ### Dependencies
@@ -210,7 +211,7 @@ None
 
 ## Drawbacks
 
-It may present some security issues since anyone can edit the `disableAutomatedClean`
+It may present some security issues since anyone can edit the `automatedCleaningMode`
 field. However, these operations can be restricted by proper RBAC rules.
 
 ## Alternatives
