@@ -41,7 +41,7 @@ a specific problem or perhaps another reason.
 
 ### Goals
 
-- Add an extra attribute to `IPMI` and `Redfish` BMC definitions allowing
+Add an extra attribute to `IPMI` and `Redfish` BMC definitions allowing
 creation of Ironic nodes with noop management interface through metal3.
 
 ### Non-Goals
@@ -78,9 +78,7 @@ Resource Definition, `baremetalhost_types`, `make-bm-worker` and BMO
 templates so that the request to create the node with `noop`
 `management_interface` is passed to Ironic.
 
-A work-in-progress proposal can be found here:
-
-https://github.com/rhjanders/baremetal-operator/tree/noop_mgmt
+A work-in-progress proposal can be found [here](https://github.com/rhjanders/baremetal-operator/tree/noop_mgmt)
 
 Currently only `IPMI` and `Redfish` Ironic drivers support noop management
 interface.
@@ -91,7 +89,6 @@ interface.
   appropriately - perhaps through a new `SupportsNoopManagement` call
   to `AccessDetails`?
 - this call could return true for `redfish://` and `ipmi://`
-
 
 ### Risks and Mitigations
 
@@ -104,8 +101,8 @@ defined boot sequence can fall back from local storage to network boot.
 
 ### Work Items
 
-* add `NoopManagement` attribute to `IPMI` and `RedFish` BMC types.
-* identify what changes need to be made in the Installer to expose the new attribute.
+- add `NoopManagement` attribute to `IPMI` and `RedFish` BMC types.
+- identify what changes need to be made in the Installer to expose the new attribute.
 
 ### Dependencies
 
@@ -131,9 +128,7 @@ None.
 
 Two new BMC types  - `IPMINoop` and `RedFishNoop` - can be created as an alternative.
 
-Work in progress example:
-
-https://github.com/metal3-io/baremetal-operator/compare/master...rhjanders:noop_mgmt_2
+Work in progress [example](https://github.com/metal3-io/baremetal-operator/compare/master...rhjanders:noop_mgmt_2)
 
 ## References
 
@@ -158,14 +153,8 @@ traffic on other, tagged VLANs).
 
 Sample BZs:
 
-efibootmgr has wrong BootOrder causing cluster expansions to timeout:
+[efibootmgr has wrong BootOrder causing cluster expansions to timeout](https://bugzilla.redhat.com/show_bug.cgi?id=1767227)
 
-https://bugzilla.redhat.com/show_bug.cgi?id=1767227
+[Add the noop management interface to RedFish Ironic driver](https://bugzilla.redhat.com/show_bug.cgi?id=1840087)
 
-Add the noop management interface to RedFish Ironic driver:
-
-https://bugzilla.redhat.com/show_bug.cgi?id=1840087
-
-[RFE] provide the ability to control if ironic sets boot order or not during provisioning:
-
-https://bugzilla.redhat.com/show_bug.cgi?id=1684988
+[\[RFE\] provide the ability to control if ironic sets boot order or not during provisioning](https://bugzilla.redhat.com/show_bug.cgi?id=1684988)
