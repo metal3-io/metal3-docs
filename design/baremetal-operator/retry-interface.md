@@ -7,7 +7,7 @@
 
 # Title
 
-Resume from error state
+Retry from error state
 
 ## Status
 
@@ -16,9 +16,9 @@ provisional
 ## Summary
 
 This proposal aims to introduce a new declarative API
-to forcibly resume a waiting BareMetalHost resource from an error state
-when a fix is immediately available, so that it could be possible
-to reduce the waiting time required
+to forcibly retry the reconciliation of a waiting BareMetalHost resource
+(being in error state) when a fix is immediately available, so that it
+could be possible to reduce the waiting time required
 
 ## Motivation
 
@@ -32,14 +32,16 @@ intervention to fix the issue. If the fix involves amending the
 BMH resource then an immediate reconciliation is triggered and the
 new state is evaluated again.
 Instead, if the fix does not generate a relevant event (for example,
-a firmware update on the host) captured by BMO, then it's necessary
+a firmware update on the host or a temporary connectivity loss to the
+BMC network) captured by BMO, then it's necessary
 to wait for the next scheduled reconciliation loop for a new
 state evaluation, and the waiting time could be longer for higher
 values of `Status.ErrorCount`.
 
 ### Goals
 
-* A declarative API to force resuming a BMH currently waiting in error state
+* A declarative API to force retrying the evaluation of a BMH currently
+  waiting in error state
 
 ### Non-Goals
 
@@ -49,7 +51,7 @@ values of `Status.ErrorCount`.
 
 ## Design Details
 
-A new annotation `resume.metal3.io` will be used to trigger a new
+A new annotation `retry.metal3.io` will be used to trigger a new
 reconciliation loop, and to reset the `Status.ErrorCount` field to 1. In this
 way, the BMH resource will restart reconciliation with a narrowed loops
 
@@ -62,7 +64,7 @@ set to zero) then the annotation must be removed and the event properly logged.
 
 ### Risks and Mitigations
 
-None
+-
 
 ### Work Items
 
@@ -72,7 +74,7 @@ None
 ### Test Plan
 
 Verify through unit tests that a reconcile loop remove the
-`resume.metal3.io` annotation and sets the ErrorCount field to 1 (if the BMH
+`retry.metal3.io` annotation and sets the ErrorCount field to 1 (if the BMH
 was in error)
 
 ### Upgrade / Downgrade Strategy
