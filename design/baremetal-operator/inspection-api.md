@@ -1,8 +1,8 @@
-# re-inspection API
+# inspection API
 
 ## Status
 
-implementable
+implemented
 
 ## Summary
 
