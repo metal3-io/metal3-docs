@@ -58,12 +58,16 @@ tree metal3-overview/
 metal3-overview/
 ├── metal3-components.png
 ├── metal3-integration-capi.png
-└── metal3-overview.html
+├── metal3-overview.html
+├── slide-example-1.png
+├── slide-example-2.png
+└── slide-example-3.png
 ```
 
 *`metal3-overview.html`* : is rendered with revealjs to create the slides, also
 contains the markdown content inline
-*`.png files`* : images that we created to be used in the slides
+*`metal3 .png files`* : images that we created to be used in the slides
+*`slide .png files`* : snapshots of a few slides in the presentation
 
 In this example we have used an inline markdown for slides' content via
 `<section data-markdown>`, but we can also include
