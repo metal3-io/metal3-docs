@@ -78,6 +78,23 @@ Resource Definition, `baremetalhost_types`, `make-bm-worker` and BMO
 templates so that the request to create the node with `noop`
 `management_interface` is passed to Ironic.
 
+For example, the BareMetalHost CRD with this proposal implemented would gain
+an optional `noop` field in the `bmc` section and would look like this:
+
+```yaml
+---
+apiVersion: metal3.io/v1alpha1
+kind: BareMetalHost
+metadata:
+  name: hostname
+spec:
+  online: true
+  bmc:
+    address: bmcAddress
+    credentialsName: hostname-bmc-secret
+    noop: true
+```
+
 A work-in-progress proposal can be found [here](https://github.com/rhjanders/baremetal-operator/tree/noop_mgmt)
 
 Currently only `IPMI` and `Redfish` Ironic drivers support noop management
