@@ -9,7 +9,7 @@ http://creativecommons.org/licenses/by/3.0/legalcode
 
 ## Status
 
-implementable
+implemented
 
 ## Summary
 
@@ -153,7 +153,7 @@ Step2 can be done as follows:
     - Once it is picked up, remove the whole label
     (`infrastructure.cluster.x-k8s.io/node-reuse: md-pool1`)
     from the host.
-  - If host is found in `Deprovisioning` state:
+  - If host is found in any other state than `Ready` state:
     - Requeue until that host becomes `Ready`;
   - If no host is found, while it should be (i.e for some reason host
     is not in the cluster anymore):
