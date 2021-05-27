@@ -80,7 +80,7 @@ The expected workflow is as follows:
 
 1. A user sets `CustomDeploy.Method = "step_name"` and optionally `Image.URL`,
    `UserData` and `NetworkData`.
-2. BMO sets `Node.DeployInterface = "custom-deploy"` and requests deployment
+2. BMO sets `Node.DeployInterface = "custom-agent"` and requests deployment
    with a custom deploy step `step_name`.
 3. Ironic boots the agent (if not booted for inspection/cleaning already).
 4. Ironic requests the agent to execute the deploy step `step_name` (it is
