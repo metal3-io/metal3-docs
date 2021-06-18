@@ -5,7 +5,7 @@
  http://creativecommons.org/licenses/by/3.0/legalcode
 -->
 
-# Early out-of-band cleaning
+# resetting BMC through Ironic prior to BMH deployment
 
 This document proposes running driver-specific out-of-band clean
 steps.
@@ -37,7 +37,7 @@ doing anything else to it.
 ### Goals
 
 * Provide a mechanism to run out-of-band clean steps before inspection.
-* Run `known_good_state` step for iDRAC.
+* Run `known_good_state` clean step for iDRAC.
 
 ### Non-Goals
 
@@ -84,7 +84,7 @@ exactly the same version as we, which was deemed undesirable.
 
 We could move the logic of determining the right clean steps for a node
 completely to `pkg/provisioner/ironic`. That would require introducing
-driver-specific logic, which currenctly lives only in `pkg/bmc`.
+driver-specific logic, which currently lives only in `pkg/bmc`.
 
 ### Risks and Mitigations
 
