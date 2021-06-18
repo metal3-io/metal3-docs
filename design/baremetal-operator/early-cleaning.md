@@ -53,8 +53,6 @@ that are reasonable fast (an order of seconds). When entering the `Registering`
 state, we will check if the driver supplies any reset clean steps. If yes, we
 will start manual cleaning and wait. Otherwise we'll move on.
 
-Resetting won't happen for externally provisioned host.
-
 ### Implementation Details/Notes/Constraints
 
 The `AccessDetails` interface will be extended with a new call:
