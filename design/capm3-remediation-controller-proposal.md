@@ -95,7 +95,7 @@ own remediation controller to reconcile External Machine Remediation (EMR) CRs.
 EMRs are generated using infrastructure provider defined External Remediation
 Template.
 
-CAPM3 needs a new controller, rmediation controller to watch and reconcile
+CAPM3 needs a new controller, remediation controller to watch and reconcile
 Metal3Remediation objects. New controller does not have effect on existing APIs
 and adding new remediation features does not include changes in other CAPM3
 controllers. This design adds two new CRDs, namely Metal3Remediation and
@@ -104,24 +104,28 @@ Metal3RemediationTemplate.
 #### Remediation Controller
 
 * MRC watches for the presence of Metal3Remediation CR.
-* Based on the remediation strategy defined in ```.spec.strategy``` in
+* Based on the remediation strategy defined in ```.spec.strategy.type``` in
   Metal3Remediation, RC uses BMO APIs to get hosts back into a healthy or
   manageable state.
 * RC uses ```.status.phase``` to save the states of the remediation. Available
-  states are running, rebooting, power off, failed.
+  states are running, waiting, deleting machine.
 * After RC have finished its remediation, it will wait for the Metal3Remediation
   CR to be removed. (When using CAPI MachineHealthCheck controller,
   MHC will noticed the Node becomes healthy and deletes the instantiated
   MachineRemediation CR.).
-* If RCs timeout for Node to become healthy expires, it annotates BareMetalHost
-  with ```capi.metal3.io/unhealthy``` annotation, sets BMH Online field
-  to False and removes the Machine object.
+* If RCs timeout for Node to become healthy expires, it sets
+  `capi.MachineOwnerRemediatedCondition` to False on Machine object
+  to start deletion of the unhealthy Machine and the corresponding Metal3Remediation.
+* If RCs timeout for Node to become healthy expires, it annotates BareMetalHost with
+  `capi.metal3.io/unhealthy` annotation, sets BMH Online field to False and
+  removes the Machine object.
 
 #### Remediation operations
 
 * BMO reboot annotation: ```reboot.metal3.io```
 * BMO power off/on annotation: ```reboot.metal3.io/{key}```
 * CAPM3 unhealthy annotation: ```capi.metal3.io/unhealthy```
+* CAPI condition: ```capi.MachineOwnerRemediatedCondition```
 
 #### Watch
 
@@ -132,6 +136,7 @@ Metal3RemediationTemplate.
 
 * Fetch a Machine matching the name of the Metal3Remediation and operate over
   BareMetalHost objects.
+* Sets ```capi.MachineOwnerRemediatedCondition``` to False on Machine objects.
 
 #### Metal3Remediation CRD
 
@@ -143,15 +148,17 @@ metadata:
   namespace: NAMESPACE_OF_UNHEALTHY_MACHINE
   ownerReferences:
    - apiVersion: cluster.x-k8s.io/v1alphaX
-     kind: MachineHealthCheck
-     name: REMEDIATION_GROUP
+     kind: Machine
+     name: MACHINE_NAME
 spec:
-  type: reboot
-  rebootLimit: 3
-  timeout: 300s
+  strategy:
+    type: reboot
+    retryLimit: 3
+    timeout: 300s
 status:
-  phase: rebooting
+  phase: running
   retryCount: 1
+  lastRemediated: LAST_REMEDIATION_TIMESTAMP
 ```
 
 #### Metal3RemediationTemplate CRD
