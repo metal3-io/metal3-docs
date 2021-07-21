@@ -168,8 +168,8 @@ None
 
 Enable the functionality in the integration test, using the default (trivial)
 controller implementation for the `PreprovisioningImage`. This should produce
-the same result as today, but exercise the integration between the the two
-resource types.
+the same result as today, but exercise the integration between the two resource
+types.
 
 ### Upgrade / Downgrade Strategy
 
