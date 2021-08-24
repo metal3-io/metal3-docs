@@ -122,7 +122,7 @@ The discovery and deployment ramdisk image needs to be able to:
 Between ironic and ironic-inspector:
 
 - Each service must be able to reach the API endpoint for
-  the the other service.
+  the other service.
 
 ## What is ironic-inspector
 
