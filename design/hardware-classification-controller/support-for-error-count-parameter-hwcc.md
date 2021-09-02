@@ -50,7 +50,7 @@ HWCC only supports error state which are defined in Baremetal host.
 ## Proposal
 
 * In HWCC Status, introduce new fields to show the count of
-matched, unmatched and failedhost.
+  matched, unmatched and failedhost.
 
 * In addition to get the count of host failed due to specific failure.
 
@@ -59,7 +59,7 @@ matched, unmatched and failedhost.
 Add support for new fields:
 
 1. `matchedCount`
-  
+
      Under `hwcc.Status`, new parameter  `matchedCount` will be added
      After applying user profile once resulted matched host found, count of
      matched host will be updated in `matchedCount`
@@ -157,38 +157,38 @@ Add support for new fields:
 ### Implementation Details/Notes/Constraints
 
 * Update these existing schema `HardwareClassification` by adding new
-parameter in the Status.
+  parameter in the Status.
 
-  * `matchedCount`
-  * `unmatchedCount`
-  * `errorHosts`
-  * `registrationErrorCount`
-  * `introspectionErrorCount`
-  * `provisioningErrorCount`
-  * `powerMgmtErrorCount`
-  * `detachErrorCount`
-  * `preparationErrorCount`
-  * `provisionedRegistrationErrorCount`
+    * `matchedCount`
+    * `unmatchedCount`
+    * `errorHosts`
+    * `registrationErrorCount`
+    * `introspectionErrorCount`
+    * `provisioningErrorCount`
+    * `powerMgmtErrorCount`
+    * `detachErrorCount`
+    * `preparationErrorCount`
+    * `provisionedRegistrationErrorCount`
 
 * Add function to filter the failed host from the baremetal host list.
 
 * Once list of failed host is identified, Add a new function to identify
-the error count of below parameter by iterating over failed host list and
-find the count using error type of each host
+  the error count of below parameter by iterating over failed host list and
+  find the count using error type of each host
 
-  * `registrationErrorCount`
-  * `introspectionErrorCount`
-  * `provisioningErrorCount`
-  * `powerMgmtErrorCount`
-  * `detachErrorCount`
-  * `preparationErrorCount`
-  * `provisionedRegistrationErrorCount`
-  
+    * `registrationErrorCount`
+    * `introspectionErrorCount`
+    * `provisioningErrorCount`
+    * `powerMgmtErrorCount`
+    * `detachErrorCount`
+    * `preparationErrorCount`
+    * `provisionedRegistrationErrorCount`
+
 * Once the classification is completed, count of matched and unmatched host
-can be found from the filtered hosts.
+  can be found from the filtered hosts.
 
 * Update the count of above parameter in the hardware classification
-status before reconciliation ends.
+  status before reconciliation ends.
 
 * Total number of hosts is equal to sum of matched, unmatched and error hosts.
 
@@ -201,24 +201,24 @@ None
 ### Work Items
 
 1. Add new parameters
-in the file /api/v1alpha1/hardwareClassification_types.go.
+   in the file /api/v1alpha1/hardwareClassification_types.go.
 
-   * "MatchedCount"
-   * "UnmatchedCount"
-   * "ErrorHosts"
-   * "RegistrationErrorCount"
-   * "IntrospectionErrorCount"
-   * "ProvisioningErrorCount"
-   * "PowerMgmtErrorCount"
-   * "DetachErrorCount"
-   * "PreparationErrorCount"
-   * "ProvisionedRegistrationErrorCount"
+     * "MatchedCount"
+     * "UnmatchedCount"
+     * "ErrorHosts"
+     * "RegistrationErrorCount"
+     * "IntrospectionErrorCount"
+     * "ProvisioningErrorCount"
+     * "PowerMgmtErrorCount"
+     * "DetachErrorCount"
+     * "PreparationErrorCount"
+     * "ProvisionedRegistrationErrorCount"
 
 1. Add new function which filters the failed host from the fetched
-baremetal host list
+   baremetal host list
 
 1. Add function to identify the count of respective failed host state
-from host error type
+   from host error type
 
 1. Update count of all parameter before reconciliation ends
 
