@@ -62,22 +62,22 @@ Add support for new fields:
 
      Under `hwcc.Status`, new parameter  `matchedCount` will be added
      After applying user profile once resulted matched host found, count of
-     matched host will be updated in `matchedCount`
+     matched host will be updated in `matchedCount`.
 
-2. `unmatchedCount`
+1. `unmatchedCount`
 
      Under `Status`, new parameter  `unmatchedCount` will be added
      After applying user profile once resulted matched host found,
-     count of unmatched host will be updated in `unmatchedCount`
+     count of unmatched host will be updated in `unmatchedCount`.
 
-3. `errorHosts`
+1. `errorHosts`
 
      Under `hwcc.Status`, new parameter  `errorHosts` will be added
      After applying user profile, Once baremetal host are fetched, will add a
      function which returns the failed host which contains OperationalStatus
-     as error. Update the count of failed host in the  `errorHosts`
+     as error. Update the count of failed host in the  `errorHosts`.
 
-4. `registrationErrorCount`
+1. `registrationErrorCount`
 
      Under `hwcc.Status`, new parameter  `registrationErrorCount` will be
      added. After applying user profile, Once list of failed baremetal host
@@ -86,21 +86,21 @@ Add support for new fields:
      `registrationErrorCount`.
 
      RegistrationError is an error condition occurring when the
-     controller is unable to connect to the Host's baseboard management
+     controller is unable to connect to the Host's baseboard management.
      controller.
 
-5. `introspectionErrorCount`
+1. `introspectionErrorCount`
 
      Under `hwcc.Status`, new parameter  `introspectionErrorCount` will be
      added After applying user profile, Once list of failed baremetal host are
      identified, filter out the introspection error host using host error type.
      Update the count of host failed due to introspection error in the
-     `introspectionErrorCount`
+     `introspectionErrorCount`.
 
      InspectionError is an error condition occurring when an attempt to
      obtain hardware details from the Host fails.
 
-6. `provisioningErrorCount`
+1. `provisioningErrorCount`
 
      Under `hwcc.Status`, new parameter  `provisioningErrorCount` will be added
      After applying user profile, Once list of failed baremetal host are
@@ -110,7 +110,7 @@ Add support for new fields:
 
      ProvisioningError is an error condition occurring when the controller
      fails to provision or deprovision the Host.
-7. `powerMgmtErrorCount`
+1. `powerMgmtErrorCount`
 
      Under `hwcc.Status`, new parameter  `powerMgmtErrorCount` will be added
      After applying user profile, Once list of failed baremetal host are
@@ -121,7 +121,7 @@ Add support for new fields:
      PowerManagementError is an error condition occurring when the
      controller is unable to modify the power state of the Host.
 
-8. `detachError`
+1. `detachError`
 
      Under `hwcc.Status`, new parameter `detachErrorCount` will be added
      After applying user profile, Once list of failed baremetal host are
@@ -132,7 +132,7 @@ Add support for new fields:
      DetachError is an error condition occurring when the
      controller is unable to detach the host from the provisioner.
 
-9. `preparationErrorCount`
+1. `preparationErrorCount`
 
      Under `hwcc.Status`, new parameter `preparationErrorCount` will be added
      After applying user profile, Once list of failed baremetal host are
@@ -143,7 +143,7 @@ Add support for new fields:
      PreparationError is an error condition occurring when do
      cleaning steps failed.
 
-10. `provisionedRegistrationErrorCount`
+1. `provisionedRegistrationErrorCount`
 
      Under `hwcc.Status`, new parameter `provisionedRegistrationErrorCount`
      will be added After applying user profile, Once list of failed baremetal
@@ -200,27 +200,27 @@ None
 
 ### Work Items
 
-1. Add new parameters
-   in the file /api/v1alpha1/hardwareClassification_types.go.
+* Add new parameters
+  in the file /api/v1alpha1/hardwareClassification_types.go.
 
-   * "MatchedCount"
-   * "UnmatchedCount"
-   * "ErrorHosts"
-   * "RegistrationErrorCount"
-   * "IntrospectionErrorCount"
-   * "ProvisioningErrorCount"
-   * "PowerMgmtErrorCount"
-   * "DetachErrorCount"
-   * "PreparationErrorCount"
-   * "ProvisionedRegistrationErrorCount"
+  * "MatchedCount"
+  * "UnmatchedCount"
+  * "ErrorHosts"
+  * "RegistrationErrorCount"
+  * "IntrospectionErrorCount"
+  * "ProvisioningErrorCount"
+  * "PowerMgmtErrorCount"
+  * "DetachErrorCount"
+  * "PreparationErrorCount"
+  * "ProvisionedRegistrationErrorCount"
 
-1. Add new function which filters the failed host from the fetched
+* Add new function which filters the failed host from the fetched
    baremetal host list
 
-1. Add function to identify the count of respective failed host state
+* Add function to identify the count of respective failed host state
    from host error type
 
-1. Update count of all parameter before reconciliation ends
+* Update count of all parameter before reconciliation ends
 
 ### Dependencies
 
