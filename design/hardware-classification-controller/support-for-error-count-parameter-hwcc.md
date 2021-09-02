@@ -1,4 +1,4 @@
-# add support for matched, unmatched and error hosts count parameter in hardware classification controller
+# add support for matched, unmatched and error hosts count parameter
 
 ## Status
 
@@ -39,6 +39,7 @@ Along with Introduction of following parameters
 * `detachErrorCount`
 * `preparationErrorCount`
 * `provisionedRegistrationErrorCount`
+
 (Please refer section- `Investigation Details` for functionality of above parameters)
 
 ### Non-Goals
@@ -66,7 +67,8 @@ Add support for new fields:
 2. `unmatchedCount`
 
      Under `Status`, new parameter  `unmatchedCount` will be added
-     After applying user profile once resulted matched host found, count of unmatched host will be updated in `unmatchedCount`
+     After applying user profile once resulted matched host found,
+     count of unmatched host will be updated in `unmatchedCount`
 
 3. `errorHosts`
 
@@ -149,12 +151,14 @@ Add support for new fields:
      using host error type.Update the count of host failed due to provisioned
      registration error in the `provisionedRegistrationErrorCount`.
 
-     ProvisionedRegistrationError is an error condition occurring when the controller is unable to re-register an already provisioned host.
+     ProvisionedRegistrationError is an error condition occurring when
+     the controller is unable to re-register an already provisioned host.
 
 ### Implementation Details/Notes/Constraints
 
 * Update these existing schema `HardwareClassification` by adding new
-parameter in the Status.  
+parameter in the Status.
+
   * `matchedCount`
   * `unmatchedCount`
   * `errorHosts`
@@ -171,6 +175,7 @@ parameter in the Status.
 * Once list of failed host is identified, Add a new function to identify
 the error count of below parameter by iterating over failed host list and
 find the count using error type of each host
+
   * `registrationErrorCount`
   * `introspectionErrorCount`
   * `provisioningErrorCount`
