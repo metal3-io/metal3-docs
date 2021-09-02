@@ -159,16 +159,16 @@ Add support for new fields:
 * Update these existing schema `HardwareClassification` by adding new
   parameter in the Status.
 
-    * `matchedCount`
-    * `unmatchedCount`
-    * `errorHosts`
-    * `registrationErrorCount`
-    * `introspectionErrorCount`
-    * `provisioningErrorCount`
-    * `powerMgmtErrorCount`
-    * `detachErrorCount`
-    * `preparationErrorCount`
-    * `provisionedRegistrationErrorCount`
+  * `matchedCount`
+  * `unmatchedCount`
+  * `errorHosts`
+  * `registrationErrorCount`
+  * `introspectionErrorCount`
+  * `provisioningErrorCount`
+  * `powerMgmtErrorCount`
+  * `detachErrorCount`
+  * `preparationErrorCount`
+  * `provisionedRegistrationErrorCount`
 
 * Add function to filter the failed host from the baremetal host list.
 
@@ -176,13 +176,13 @@ Add support for new fields:
   the error count of below parameter by iterating over failed host list and
   find the count using error type of each host
 
-    * `registrationErrorCount`
-    * `introspectionErrorCount`
-    * `provisioningErrorCount`
-    * `powerMgmtErrorCount`
-    * `detachErrorCount`
-    * `preparationErrorCount`
-    * `provisionedRegistrationErrorCount`
+  * `registrationErrorCount`
+  * `introspectionErrorCount`
+  * `provisioningErrorCount`
+  * `powerMgmtErrorCount`
+  * `detachErrorCount`
+  * `preparationErrorCount`
+  * `provisionedRegistrationErrorCount`
 
 * Once the classification is completed, count of matched and unmatched host
   can be found from the filtered hosts.
@@ -203,16 +203,16 @@ None
 1. Add new parameters
    in the file /api/v1alpha1/hardwareClassification_types.go.
 
-     * "MatchedCount"
-     * "UnmatchedCount"
-     * "ErrorHosts"
-     * "RegistrationErrorCount"
-     * "IntrospectionErrorCount"
-     * "ProvisioningErrorCount"
-     * "PowerMgmtErrorCount"
-     * "DetachErrorCount"
-     * "PreparationErrorCount"
-     * "ProvisionedRegistrationErrorCount"
+   * "MatchedCount"
+   * "UnmatchedCount"
+   * "ErrorHosts"
+   * "RegistrationErrorCount"
+   * "IntrospectionErrorCount"
+   * "ProvisioningErrorCount"
+   * "PowerMgmtErrorCount"
+   * "DetachErrorCount"
+   * "PreparationErrorCount"
+   * "ProvisionedRegistrationErrorCount"
 
 1. Add new function which filters the failed host from the fetched
    baremetal host list
