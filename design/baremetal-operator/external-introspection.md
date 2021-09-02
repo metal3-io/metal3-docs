@@ -33,7 +33,7 @@ more quickly, ref user stories below).
 
 ### Disable inspection proposal
 
-To align with the [re-inspection API proposal](https://github.com/metal3-io/metal3-docs/blob/master/design/baremetal-operator/re-introspection-interface.md),
+To align with the [inspection API proposal](https://github.com/metal3-io/metal3-docs/blob/master/design/baremetal-operator/inspection-api.md),
 the `inspect.metal3.io` annotation will be reused, with the addition of a value.
 
 The optional `inspect.metal3.io: disabled` annotation will be used to describe
@@ -103,6 +103,6 @@ status fields.
 
 ## References
 
-- Re-Inspect API [proposal](https://github.com/metal3-io/metal3-docs/blob/master/design/baremetal-operator/re-introspection-interface.md)
+- Inspection API [proposal](https://github.com/metal3-io/metal3-docs/blob/master/design/baremetal-operator/inspection-api.md)
 - Live Image [proposal](https://github.com/metal3-io/metal3-docs/pull/150)
 - Live Image [implementation](https://github.com/metal3-io/baremetal-operator/pull/754)
