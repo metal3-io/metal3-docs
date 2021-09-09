@@ -78,8 +78,8 @@ baremetalhost.metal3.io/detached: ""
 The value is ignored, similar to the `paused` annotation and could optionally
 include context from the system/user which applies the annotation.
 
-This annotation will only be consumed while the BMH is in either `Provisioned`
-or `ExternallyProvisioned` state, in all other cases it is ignored.
+This annotation will only be consumed while the BMH is in either `Provisioned`,
+`ExternallyProvisioned` or `Ready`/`Available` state, in all other cases it is ignored.
 
 This annotation will be evaluated early in the `Reconcile()` loop, but after the
 `paused` `status` and `hardwaredetails` annotations are evaluated.
