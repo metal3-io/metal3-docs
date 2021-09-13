@@ -131,11 +131,13 @@ cGFzc3dvcmQ=
 
 ### BareMetalHost Spec
 
-* bmc  : contains the connection information for the BMC (Baseboard Management Controller) on the host, its subfields are :
-	* address :
-	* credentialsName
-	* disableCertificateVerification
-* bootMACAddress : address of the NIC used to PXE boot the system for provisioning
+* __bmc__  : contains the connection information for the BMC (Baseboard Management Controller) on the host, its subfields are :
+	* __address__ : The URL for communicating with the BMC controller, based on the provider being used.
+	* __credentialsName__ : A reference to a secret containing the username and password for the BMC.
+	* __disableCertificateVerification__ : A boolean to skip certificate validation when true.
+* __bootMACAddress__ : address of the NIC used to PXE boot the system for provisioning
+
+For more details check [here](https://github.com/metal3-io/baremetal-operator/blob/master/docs/api.md#bmc)
 
 
 
@@ -171,13 +173,13 @@ There are a few more features in the API such as :
 The operator supports several configuration options for controlling its interaction with Ironic.
 <br>
 <br>
-DEPLOY_RAMDISK_URL -- The URL for the ramdisk of the image containing the Ironic agent..
+DEPLOY_RAMDISK_URL -- The URL for the image containing the Ironic agent.
 <br>
 <br>
-DEPLOY_KERNEL_URL -- The URL for the kernel to go with the deploy ramdisk..
+DEPLOY_KERNEL_URL -- The URL for the kernel to go with the deploy ramdisk.
 <br>
 <br>
-IRONIC_ENDPOINT -- The URL for the operator to use when talking to Ironic..
+IRONIC_ENDPOINT -- The URL for the operator to use when talking to Ironic.
 <br>
 <br>
 IRONIC_INSPECTOR_ENDPOINT -- The URL for the operator to use when talking to Ironic Inspector..
@@ -326,7 +328,7 @@ Implementation of this proposal is based on using annotation (similar to [Reboot
 
 ### Worker Config Drive
 
-Provisioning hosts requires two separate images. The first is the primary target image for the host, and contains the operating system and other software that the host will run. These are generally reusable across many hosts. The second image is the "config drive image", which contains configuration settings passed to the target image by writing an ISO to a separate partition accessible when the host boots. The config drive image is often, but not always, customized for each host. It is always often customized for the role a host plays (master, worker, etc.).
+Provisioning hosts requires two separate images. The first is the primary target image for the host, and contains the operating system and other software that the host will run. These are generally reusable across many hosts. The second image is the "config drive image", which contains configuration settings passed to the target image by writing an ISO to a separate partition accessible when the host boots. The config drive image is often customized for each host. It is always often customized for the role a host plays (master, worker, etc.).
 
 <br>
 <br>
