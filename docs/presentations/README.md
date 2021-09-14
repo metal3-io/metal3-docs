@@ -22,14 +22,17 @@ test-image1.png  test-image2-capi.png test-presentation.html
 
 To test your presentation with the revealjs framework, there are two simple
 options :
+
 * Copy all the presentation files under the revealjs repository and open the
-presentation `.html` file inside a browser.
+  presentation `.html` file inside a browser.
+
 * Copy the `dist` and `plugin` directories from revealjs respository to the
-presentations directory.
+  presentations directory.
 
 Here is an example :
 
 ```bash
+
 ## Clone revealjs repository
 git clone https://github.com/hakimel/reveal.js.git
 
@@ -40,7 +43,9 @@ cp -r ${revealjs_directory}/dist .
 
 ## Option 2
 cp ${your_presentation_directory}/* ${revealjs_directory}
+
 ```
+
 For full scale revealjs deployment refer
 [here](https://revealjs.com/installation/#full-setup)
 
