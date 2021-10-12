@@ -44,7 +44,7 @@ attributes are to be introduced in the BareMetalHost spec.
 All the BIOS related attributes or fields will come under the
 sub-section called ```bios``` in spec. The values for each attribute
 can be a boolean or a string. The vendor driver type to implement this
-configuration is not to be specified separetely as it is already known
+configuration is not to be specified separately as it is already known
 from the bmc sub-section.
 
 The proposed BMH looks like the following, given the three supported
