@@ -2,21 +2,18 @@
 
 REPOS=" \
   baremetal-operator \
-  base-image \
   cluster-api-provider-metal3 \
   hardware-classification-controller \
   ip-address-manager \
+  ironic-agent-image \
   ironic-client \
   ironic-image \
   ironic-hardware-inventory-recorder-image \
-  ironic-inspector-image \
   ironic-ipa-downloader \
-  ironic-prometheus-exporter \
   metal3-io.github.io \
   metal3-dev-env \
   metal3-docs \
   metal3-helm-chart \
-  metal3-smart-exporter \
   project-infra \
   static-ip-manager-image \
 "

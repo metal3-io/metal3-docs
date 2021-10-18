@@ -2,16 +2,17 @@
 # See metal3-docs/maintainers/all-owners.sh
 
 approvers:
+- andfasano
 - bfournie
-- codificat
 - derekhiggins
-- dhellmann
 - digambar15
 - dtantsur
+- elfosardo
+- furkatgofurov7
 - fmuyassarov
 - hardys
-- imain
-- juliakreger
+- hroyrh
+- iurygregory
 - kashifest
 - knowncitizen
 - maelk
