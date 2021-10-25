@@ -6,3 +6,4 @@
 | Integration | Red Hat | 2019 | [link](https://docs.openshift.com/container-platform/4.8/installing/installing_bare_metal_ipi/ipi-install-overview.html) | Red Hat's OpenShift distribution includes metal3 as part of its solution for automating the deployment of bare metal clusters. |
 | Integration | Airship | 2019 | [link](https://www.airshipit.org/) | The Airship project uses Metal3 as its Kubernetes Cluster API (CAPI) provider for lifecycle managing bare metal cloud infrastructure. |
 | Integration | DT Technik "Das SCHIFF" | 2021 | [link](https://github.com/telekom/das-schiff) | "Das SCHIFF" uses parts of Metal3 to handle Bare Metal provisioning in its CAPI-Based Infrastructure |
+| Integration | Fujitsu | 2019 | | As a server vendor, we are developing and using Metal3 to provide Fujitsu servers as Kubernetes bare metal nodes. |
