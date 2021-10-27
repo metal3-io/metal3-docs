@@ -5,49 +5,35 @@
  http://creativecommons.org/licenses/by/3.0/legalcode
 -->
 
-# worker-config-drive
+# host-config-drive
 
 ## Status
 
-implementable
+[Implemented](https://github.com/metal3-io/baremetal-operator/pull/70)
 
 ## Summary
 
 Provisioning hosts requires two separate images. The first is the
 primary target image for the host, and contains the operating system
 and other software that the host will run. These are generally
-reusable across many hosts. The second image is the "config drive
-image", which contains configuration settings passed to the target
-image by writing an ISO to a separate partition accessible when the
-host boots. The config drive image is often, but not always,
-customized for each host. It is always often customized for the role a
-host plays (master, worker, etc.).
+reusable across many hosts. Customization data can also be provided
+via a second "config drive" image, which contains configuration settings
+that are typically interpreted by a firstboot agent (cloud-init, ignition)
+in the primary target image.
 
-In order to bring a host into the cluster as a worker we have to give
-it the correct Ignition configuration as it boots as the "user data"
-portion of the config drive image.  The target images we are using for
-nodes in an OpenShift (and eventually Kubernetes) cluster are RHEL
-CoreOS images with Ignition configured to look for its data in the
-OpenStack config drive format using the path
+Customization data can be provided in several formats, but most commonly
+a "user data" blob is provided, with a format that depends on the specific
+firstboot agent.  This data can be  built into an ISO image, which is handled
+ by Ironic via writing an ISO to a separate partition with a predictable disk
+label, accessible to the primary target image when the host boots.
+
+Given use of Ironic, first boot agents must be configured to look for data
+in the OpenStack config drive format using the path
 `/openstack/latest/user_data`.
 
-The Ignition file contents are stored in a Secret within the
-kubernetes database because they contain certificate authority
-information. There are different Ignition settings for worker and
-master nodes, so something will need to know the intended role of each
-host being provisioned in order to select the correct settings. Each
-Secret has a key `userData` already.
-
-Once the Ignition file contents are selected, they can be passed to
-Ironic as the user data for the host and Ironic can build the config
-drive ISO using the correct path based on the OpenStack standard
-format.
-
-The component best situated to select the right Ignition file contents
-is currently is the baremetal actuator in the cluster-api provider.
-The actuator knows the role of the host being allocated to a Machine,
-so it can select the right Ignition configuration to include as the
-user data.
+User data contents are stored in a Secret within the
+kubernetes database because they can contain sensitive
+information.
 
 The baremetal operator can receive the Secret, extract the `userData`
 value, and pass the contents to Ironic as part of preparing the host
@@ -70,30 +56,20 @@ N/A
 
 ### Implementation Details/Notes/Constraints
 
-Under OpenShift, the worker settings come from the contents of a
-secret (`openshift-machine-api/worker-user-data`), which holds a
-base64-encoded copy of the Ignition JSON data in the `userData` key.
+User data settings come from the contents of a secret, is referenced
+via the BaremetalHost userData spec field.  The format of this data may
+differ depending on the firstboot tool in the primary OS image, so
+assumptions regarding the specific tool should be avoided in the BMO.
 
-Before allocating a host to be a worker, the actuator will identify
-the Secret containing the worker settings and include a reference to
-it with the other provisioning instructions (image name, checksum,
-etc.) it gives to the baremetal operator when it allocates a host. The
-baremetal operator will access the secret and pass the contents to
-Ironic as the user data content for the config drive.
-
-The OpenStack cloud provider uses a value in the provider spec in the
-Machine object to determine the name of this secret. We could do
-something similar in our actuator, which would make it easier to
-support generic Kubernetes as well as OpenShift.
+Corresponding changes will be required in the Cluster/Machine API layer
+to ensure the required secret for the given host role is provided via
+the BMH userData field.
 
 ### Risks and Mitigations
 
 Passing the user data to Ironic as a JSON string instead of an encoded
-ISO requires a newer version of Ironic than we have available in our
-images today, but it should be available within the next few weeks
-since the development cycle for Stein is ending. If we need it before
-then, we could build the ISO in the operator and pass the encoded
-contents instead.
+ISO requires a recent version of Ironic (since the development cycle for Stein),
+an interim solution may be required until this is available in the metal3 images.
 
 ## Design Details
 
@@ -105,7 +81,7 @@ contents instead.
 - We may want to define a new type to hold all of the provisioning
   instructions, rather than adding individual fields to the host spec
   directly.
-- Update the actuator to find and pass the worker user data Secret to
+- Update the cluster-api provider to find and pass the worker user data Secret to
   the baremetal operator through the new field in the
   `BareMetalHostSpec`.
 - Update the baremetal operator to retrieve the user data Secret
@@ -113,7 +89,7 @@ contents instead.
 
 ### Dependencies
 
-This will require work in both the actuator and operator repositories.
+This will require work in both the actuator/provider and operator repositories.
 
 We will need to use version of Ironic from the Stein release series,
 which includes the user data support in the API.
