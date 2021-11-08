@@ -56,7 +56,7 @@ To achieve this, we need to
 
 1. be able to disable disk cleaning while deprovisioning.
   This [feature](https://github.com/metal3-io/metal3-docs/blob/master/design/cluster-api-provider-metal3/allow_disabling_node_disk_cleaning.md)
-  is WIP right now.
+  is implemented.
 
 2. be able reuse the same pool of hosts so that we get the storage
   data back. Currently, there is no mechanism available in Metal³ to pick the
@@ -132,7 +132,7 @@ We should perform two steps to re-use the same pool of hosts.
 
 1. During host deprovisioning, set the `infrastructure.cluster.x-k8s.io/node-reuse`
   label;
-2. During next provisioning, try to select any host in Ready state and having
+2. During next provisioning, try to select any host in `Available` state and having
   a matching `infrastructure.cluster.x-k8s.io/node-reuse` label;
 
 The actual implementation will be done within the CAPM3 Machine controller.
@@ -148,13 +148,13 @@ Step2 can be done as follows:
   `infrastructure.cluster.x-k8s.io/node-reuse: md-pool1` label.
 
   Next:
-  - If host is found in `Ready` state:
+  - If host is found in `Available` state:
     - Pick that host for newly created M3M;
     - Once it is picked up, remove the whole label
     (`infrastructure.cluster.x-k8s.io/node-reuse: md-pool1`)
     from the host.
-  - If host is found in any other state than `Ready` state:
-    - Requeue until that host becomes `Ready`;
+  - If host is found in any other state than `Available` state:
+    - Requeue until that host becomes `Available`;
   - If no host is found, while it should be (i.e for some reason host
     is not in the cluster anymore):
     - Fall back to the current flow, which selects host randomly.
