@@ -33,7 +33,7 @@ more quickly, ref user stories below).
 
 ### Disable inspection proposal
 
-To align with the [inspection API proposal](https://github.com/metal3-io/metal3-docs/blob/master/design/baremetal-operator/inspection-api.md),
+To align with the [inspection API proposal](https://github.com/metal3-io/metal3-docs/blob/main/design/baremetal-operator/inspection-api.md),
 the `inspect.metal3.io` annotation will be reused, with the addition of a value.
 
 The optional `inspect.metal3.io: disabled` annotation will be used to describe
@@ -41,7 +41,7 @@ the situation where we wish to disable the default inspection behavior.
 
 When the BMO finds this annotation, it will skip performing inspection
 during the
-[Inspecting state](https://github.com/metal3-io/baremetal-operator/blob/master/docs/BaremetalHost_ProvisioningState.png)
+[Inspecting state](https://github.com/metal3-io/baremetal-operator/blob/main/docs/BaremetalHost_ProvisioningState.png)
 
 ### Hardware status update proposal
 
@@ -103,6 +103,6 @@ status fields.
 
 ## References
 
-- Inspection API [proposal](https://github.com/metal3-io/metal3-docs/blob/master/design/baremetal-operator/inspection-api.md)
+- Inspection API [proposal](https://github.com/metal3-io/metal3-docs/blob/main/design/baremetal-operator/inspection-api.md)
 - Live Image [proposal](https://github.com/metal3-io/metal3-docs/pull/150)
 - Live Image [implementation](https://github.com/metal3-io/baremetal-operator/pull/754)

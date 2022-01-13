@@ -74,7 +74,7 @@ environments.
 * No changes to any of the metal3 components: the focus of this change is only
   on the development environment
 * Continue to pull metal3 dependencies themselves (BMO, CAPM3, etc.) from
-  master directly. Only external software outside of the main mandate of the
+  main directly. Only external software outside of the main mandate of the
   metal3 project is included in this proposal.
 
 ## Proposal

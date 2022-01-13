@@ -43,18 +43,18 @@ GitHub issues on each repository.
 
 *Release Methodology and Mechanics*:
 
-* link:https://github.com/metal3-io/cluster-api-provider-metal3/blob/master/docs/releasing.md[cluster-api-provider-metal3] - Following the same release cadence as the cluster-api project of the Kubernetes cluster lifecycle SIG
+* link:https://github.com/metal3-io/cluster-api-provider-metal3/blob/main/docs/releasing.md[cluster-api-provider-metal3] - Following the same release cadence as the cluster-api project of the Kubernetes cluster lifecycle SIG
 * baremetal-operator - No releases yet, link:https://github.com/metal3-io/metal3-docs/issues/71[issue for creating release process here].
 
 *Initial committers*:
 
 Initial committers are reflected in the OWNERS file from each repository.  For example:
 
-* link:https://github.com/metal3-io/cluster-api-provider-metal3/blob/master/OWNERS[cluster-api-provider-metal3 repository owners file]
-* link:https://github.com/metal3-io/baremetal-operator/blob/master/OWNERS[baremetal-operator repository owners file]
+* link:https://github.com/metal3-io/cluster-api-provider-metal3/blob/main/OWNERS[cluster-api-provider-metal3 repository owners file]
+* link:https://github.com/metal3-io/baremetal-operator/blob/main/OWNERS[baremetal-operator repository owners file]
 
 The process for adding/removing committers (or maintainers) is
-link:https://github.com/metal3-io/metal3-docs/tree/master/maintainers[here].
+link:https://github.com/metal3-io/metal3-docs/tree/main/maintainers[here].
 
 There are currently maintainers across different repositories from the following
 companies:
@@ -87,7 +87,7 @@ As of 2020-03-25:
   https://prow.apps.ci.metal3.io/
 * Jenkins server for some additional CI jobs using capacity from
   https://www.nordix.org/:
-  https://github.com/metal3-io/project-infra/blob/master/jenkins/README.md
+  https://github.com/metal3-io/project-infra/blob/main/jenkins/README.md
 * Web page (https://metal3.io) hosted on GitHub pages:
   https://github.com/metal3-io/metal3-io.github.io
 * Infrastructure resources: https://github.com/metal3-io/project-infra/
@@ -108,19 +108,19 @@ As of 2020-03-25:
 *Other References*:
 
 * link:https://www.youtube.com/watch?v=KIIkVD7gujY[Talk at KubeCon San Diego, Fall 2019]
-* link:https://github.com/metal3-io/metal3-docs/blob/master/design/community/foundation-proposal.md[Proposal to metal3-io community to apply to the CNCF Sandbox]
+* link:https://github.com/metal3-io/metal3-docs/blob/main/design/community/foundation-proposal.md[Proposal to metal3-io community to apply to the CNCF Sandbox]
 
 *Project Logo*:
 
-* link:https://github.com/metal3-io/metal3-docs/blob/master/images/metal3.svg[SVG]
-* link:https://github.com/metal3-io/metal3-docs/blob/master/images/metal3.png[PNG]
-* link:https://github.com/metal3-io/metal3-docs/blob/master/images/metal3-white.svg[SVG - White]
-* link:https://github.com/metal3-io/metal3-docs/blob/master/images/metal3-white.png[PNG - White]
-* link:https://github.com/metal3-io/metal3-docs/blob/master/images/metal3-.svg[SVG - Black]
-* link:https://github.com/metal3-io/metal3-docs/blob/master/images/metal3-black.png[PNG - Black]
-* link:https://github.com/metal3-io/metal3-docs/blob/master/images/metal3-website-sticker.svg[SVG - Sticker]
-* link:https://github.com/metal3-io/metal3-docs/blob/master/images/metal3-website-sticker.png[PNG - Sticker]
-* link:https://github.com/metal3-io/metal3-docs/blob/master/images/metal3-banner.pdf[PDF - Banner]
+* link:https://github.com/metal3-io/metal3-docs/blob/main/images/metal3.svg[SVG]
+* link:https://github.com/metal3-io/metal3-docs/blob/main/images/metal3.png[PNG]
+* link:https://github.com/metal3-io/metal3-docs/blob/main/images/metal3-white.svg[SVG - White]
+* link:https://github.com/metal3-io/metal3-docs/blob/main/images/metal3-white.png[PNG - White]
+* link:https://github.com/metal3-io/metal3-docs/blob/main/images/metal3-.svg[SVG - Black]
+* link:https://github.com/metal3-io/metal3-docs/blob/main/images/metal3-black.png[PNG - Black]
+* link:https://github.com/metal3-io/metal3-docs/blob/main/images/metal3-website-sticker.svg[SVG - Sticker]
+* link:https://github.com/metal3-io/metal3-docs/blob/main/images/metal3-website-sticker.png[PNG - Sticker]
+* link:https://github.com/metal3-io/metal3-docs/blob/main/images/metal3-banner.pdf[PDF - Banner]
 
 *External Dependencies*:
 

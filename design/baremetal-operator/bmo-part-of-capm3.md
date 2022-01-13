@@ -206,9 +206,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: capm3-system
 resources:
-- github.com/metal3-io/baremetal-operator/deploy/operator/?ref=master
-- github.com/metal3-io/baremetal-operator/deploy/crds/?ref=master
-- github.com/metal3-io/baremetal-operator/deploy/rbac/?ref=master
+- github.com/metal3-io/baremetal-operator/deploy/operator/?ref=main
+- github.com/metal3-io/baremetal-operator/deploy/crds/?ref=main
+- github.com/metal3-io/baremetal-operator/deploy/rbac/?ref=main
 
 configMapGenerator:
 - behavior: create

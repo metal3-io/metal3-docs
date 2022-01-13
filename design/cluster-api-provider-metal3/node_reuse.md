@@ -55,7 +55,7 @@ on the label `infrastructure.cluster.x-k8s.io/node-reuse`).
 To achieve this, we need to
 
 1. be able to disable disk cleaning while deprovisioning.
-  This [feature](https://github.com/metal3-io/metal3-docs/blob/master/design/cluster-api-provider-metal3/allow_disabling_node_disk_cleaning.md)
+  This [feature](https://github.com/metal3-io/metal3-docs/blob/main/design/cluster-api-provider-metal3/allow_disabling_node_disk_cleaning.md)
   is implemented.
 
 2. be able reuse the same pool of hosts so that we get the storage
@@ -220,5 +220,5 @@ None
 
 ## References
 
-- Remediation proposal in Metal3: [Remediation](https://github.com/metal3-io/metal3-docs/blob/master/design/capm3-remediation-controller-proposal.md)
-- Disable disk cleaning proposal in Metal3: [Disable disk cleaning](https://github.com/metal3-io/metal3-docs/blob/master/design/cluster-api-provider-metal3/allow_disabling_node_disk_cleaning.md)
+- Remediation proposal in Metal3: [Remediation](https://github.com/metal3-io/metal3-docs/blob/main/design/capm3-remediation-controller-proposal.md)
+- Disable disk cleaning proposal in Metal3: [Disable disk cleaning](https://github.com/metal3-io/metal3-docs/blob/main/design/cluster-api-provider-metal3/allow_disabling_node_disk_cleaning.md)

@@ -25,7 +25,7 @@ all_owners_raw() {
     else
       filter='.approvers'
     fi
-    curl -s "https://raw.githubusercontent.com/metal3-io/$repo/master/OWNERS" | \
+    curl -s "https://raw.githubusercontent.com/metal3-io/$repo/main/OWNERS" | \
       yq -y $filter | \
       grep -v "null" | \
       grep -v "\.\.\."

@@ -38,4 +38,4 @@ come talk to us!
 
 ## Code of Conduct
 
-See our [Code of Conduct](https://github.com/metal3-io/metal3-docs/blob/master/CODE_OF_CONDUCT.md)
+See our [Code of Conduct](https://github.com/metal3-io/metal3-docs/blob/main/CODE_OF_CONDUCT.md)
