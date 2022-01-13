@@ -1,0 +1,19 @@
+# See the OWNERS docs at https://go.k8s.io/owners
+# This the copy of OWNERS in Baremetal Operator
+# See https://github.com/metal3-io/baremetal-operator/blob/main/OWNERS
+approvers:
+ - andfasano
+ - dtantsur
+ - fmuyassarov
+ - hardys
+ - maelk
+ - zaneb
+
+reviewers:
+ - ardaguclu
+ - bfournie
+ - honza
+ - dukov
+ - furkatgofurov7
+ - kashifest
+ - s3rj1k
