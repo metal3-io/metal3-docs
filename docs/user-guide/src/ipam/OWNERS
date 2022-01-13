@@ -1,0 +1,13 @@
+# See the OWNERS docs at https://go.k8s.io/owners
+# This the copy of OWNERS in IPAM
+# See https://github.com/metal3-io/ip-address-manager/blob/main/OWNERS
+
+approvers:
+ - russellb
+ - maelk
+ - kashifest
+ - fmuyassarov
+ - furkatgofurov7
+
+reviewers:
+- macaptain
