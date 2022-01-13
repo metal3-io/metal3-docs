@@ -20,7 +20,7 @@ sequential changes to the spec).
 ## Motivation
 
 We require a non-destructive way to fence a Kubernetes node. Some nodes cannot
-be replaced (it is currently not possible for a new master to join a cluster),
+be replaced (it is currently not possible for a new controlplane to join a cluster),
 or are expensive to replace (e.g. if this would require rebalancing Ceph data).
 A solution to this is for fencing to reboot the Host, thus ensuring that
 running processes are stopped to avoid a split-brain scenario while still

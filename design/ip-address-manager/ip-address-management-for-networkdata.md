@@ -390,7 +390,7 @@ of the *IPAddress* objects.
 
 ### Dependencies
 
-[MetaData and NetworkData implementation](https://github.com/metal3-io/metal3-docs/blob/master/design/metadata-handling.md)
+[MetaData and NetworkData implementation](https://github.com/metal3-io/metal3-docs/blob/main/design/metadata-handling.md)
 
 ### Test Plan
 

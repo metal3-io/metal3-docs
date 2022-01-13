@@ -14,7 +14,7 @@ in-progress
 ## Summary
 
 This document explains the implementation of the Baremetal Operator Pod
-as provisioned on any one of the masters in the cluster.
+as provisioned on any one of the controlplanes in the cluster.
 
 ## Motivation
 
@@ -54,9 +54,9 @@ specific location or from the internet.
 The requirement for a static IP stems from being able to run a DHCP/PXE
 server within the pod.  Using a dhcp assigned address on the provisioning
 network causes dnsmasq to error out.  At first I had thought of just
-assigning static IPs to each provisioning interface on each master node
+assigning static IPs to each provisioning interface on each controlplane node
 but this quickly becomes complicated to manage.  Especially in the event
-of a master going down and being reprovisioned, rebooted etc.
+of a controlplane going down and being reprovisioned, rebooted etc.
 
 The solution we came up with to resolve this is to use the 'lifetime'
 From the ip-address manpage:

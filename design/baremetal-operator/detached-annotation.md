@@ -97,7 +97,7 @@ move directly to the `Deleting` state, without performing any `Deprovisioning`.
 ## Alternatives
 
 It would be possible to modify the behavior of the
-[pause annotation](https://github.com/metal3-io/baremetal-operator/blob/master/docs/api.md#pausing-reconciliation)
+[pause annotation](https://github.com/metal3-io/baremetal-operator/blob/main/docs/api.md#pausing-reconciliation)
 such that Ironic hosts are removed while paused, however
 this means that we cannot reflect any error via the status
 or increment the errorCount for the retry backoff.

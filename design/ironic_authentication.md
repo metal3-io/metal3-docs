@@ -228,7 +228,7 @@ None
 ### Test Plan
 
 The secure setup will be deployed and tested as part of the metal3-dev-env
-integration tests ran for all PRs and daily from master.
+integration tests ran for all PRs and daily from main.
 
 ### Upgrade / Downgrade Strategy
 

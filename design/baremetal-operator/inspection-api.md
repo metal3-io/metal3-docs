@@ -19,7 +19,7 @@ including those changes need to be re-collected and updated on the spec of the
 corresponding BareMetalHost object without having to delete it.
 
 Implementation of this proposal is based on using annotation (similar to
-[Reboot API](https://github.com/metal3-io/metal3-docs/blob/master/design/baremetal-operator/reboot-interface.md))
+[Reboot API](https://github.com/metal3-io/metal3-docs/blob/main/design/baremetal-operator/reboot-interface.md))
 to request inspection of a `Ready` BareMetalHost.
 Once the annotation is set on BareMetalHost, the baremetal operator will
 request hardware inspection of the host from Ironic.
@@ -84,5 +84,5 @@ hardware details of the host.
 
 ## References
 
-- Reboot API [proposal](https://github.com/metal3-io/metal3-docs/blob/master/design/baremetal-operator/reboot-interface.md)
+- Reboot API [proposal](https://github.com/metal3-io/metal3-docs/blob/main/design/baremetal-operator/reboot-interface.md)
 - Reboot API [implementation](https://github.com/metal3-io/baremetal-operator/pull/424)
