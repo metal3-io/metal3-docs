@@ -5,6 +5,8 @@ approvers:
  - dtantsur
  - fmuyassarov
  - hardys
- - maelk
  - russellb
  - zaneb
+
+emeritus_approvers:
+ - maelk
