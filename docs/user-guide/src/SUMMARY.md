@@ -3,7 +3,7 @@
 [Introduction](introduction.md)
 
 - [Project Overview]()
-- [Baremetal Operator]()
+- [Baremetal Operator](bmo/introduction.md)
     - [Install Baremetal Operator]()
     - [Features]()
         - [Automated Cleaning API]()
