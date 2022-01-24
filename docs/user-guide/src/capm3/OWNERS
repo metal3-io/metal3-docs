@@ -5,13 +5,14 @@
 approvers:
  - hardys
  - kashifest
- - maelk
  - furkatgofurov7
  - Xenwar
 
- 
 reviewers:
  - fmuyassarov
  - jan-est
  - namnx228
  - smoshiur1237
+
+emeritus_approvers:
+ - maelk

@@ -11,7 +11,9 @@ approvers:
 
 reviewers:
  - iurygregory
- - maelk
  - namnx228
  - stbenjam
  - zaneb
+
+emeritus_reviewers:
+ - maelk
