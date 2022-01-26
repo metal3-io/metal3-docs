@@ -4,10 +4,12 @@
 
 approvers:
  - russellb
- - maelk
  - kashifest
  - fmuyassarov
  - furkatgofurov7
 
 reviewers:
 - macaptain
+
+emeritus_approvers:
+ - maelk

@@ -15,9 +15,11 @@ approvers:
 - iurygregory
 - kashifest
 - knowncitizen
-- maelk
 - mhrivnak
 - ogelbukh
 - russellb
 - stbenjam
 - zaneb
+
+emeritus_approvers:
+ - maelk
