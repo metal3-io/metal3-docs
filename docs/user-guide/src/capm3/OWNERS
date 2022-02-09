@@ -10,9 +10,11 @@ approvers:
 
 reviewers:
  - fmuyassarov
- - jan-est
  - namnx228
  - smoshiur1237
 
 emeritus_approvers:
  - maelk
+
+emeritus_reviewers:
+ - jan-est
