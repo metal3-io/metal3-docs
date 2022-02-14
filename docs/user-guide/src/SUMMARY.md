@@ -15,6 +15,7 @@
         - [Reboot annotation]()
 - [Ironic in Metal3]()
     - [Install Ironic]()
+    - [Ironic python agent](ironic/ironic-python-agent.md)
 - [Cluster-api-provider-metal3]()
     - [Install Metal³ provider]()
     - [Upgrade]()
