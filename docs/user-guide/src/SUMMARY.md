@@ -22,7 +22,7 @@
     - [Features]()
         - [Automated cleaning API]()
         - [Remediation](capm3/remediaton.md)
-        - [Node Reuse]()
+        - [Node Reuse](capm3/node_reuse.md)
         - [Pivoting](capm3/pivoting.md)
 - [Ip-address-manager]()
     - [Install Ip-address-manager]()
