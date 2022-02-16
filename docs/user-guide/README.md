@@ -43,8 +43,8 @@ Our Netlify configuration is in the [netlify.toml](https://github.com/metal3-io/
 All the configurations of the mdbook, such as content path, version, from where to get the binary while building the user-guide is defined in the [Makefile](https://github.com/metal3-io/metal3-docs/blob/main/Makefile).
 
 ```sh
-MDBOOK_VERSION ?= 0.4.5
-MDBOOK_BIN_VERSION ?= v0.4.5
+MDBOOK_VERSION ?= latest
+MDBOOK_BIN_VERSION ?= v0.4.15
 SOURCE_PATH := docs/user-guide
 CONTAINER_RUNTIME ?= sudo docker
 IMAGE_NAME := quay.io/metal3-io/mdbook
