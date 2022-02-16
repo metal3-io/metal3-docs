@@ -1,8 +1,9 @@
-MDBOOK_VERSION ?= latest
+MDBOOK_VERSION ?= 0.4.15
 MDBOOK_BIN_VERSION ?= v0.4.15
 SOURCE_PATH := docs/user-guide
 CONTAINER_RUNTIME ?= sudo docker
 IMAGE_NAME := quay.io/metal3-io/mdbook
+IMAGE_VERSION ?= latest
 HOST_PORT ?= 3000
 BIN_DIR := hack
 MDBOOK_BIN := $(BIN_DIR)/mdbook
@@ -30,14 +31,14 @@ netlify-build: $(MDBOOK_BIN) # Build the user guide
 .PHONY: container-image
 container-image: # Build mdbook local container image
 	$(CONTAINER_RUNTIME) build --build-arg MDBOOK_VERSION=$(MDBOOK_VERSION) \
-	./docs/ -t $(IMAGE_NAME):$(MDBOOK_VERSION)
+	./docs/ -t $(IMAGE_NAME):$(IMAGE_VERSION)
 
 .PHONY: build
 build: # Build the user guide
 	$(CONTAINER_RUNTIME) run \
 	--rm -it --name metal3 \
 	-v "$$(pwd):/workdir" \
-	$(IMAGE_NAME):$(MDBOOK_VERSION) \
+	$(IMAGE_NAME):$(IMAGE_VERSION) \
 	mdbook build $(SOURCE_PATH)
 
 .PHONY: serve
@@ -46,7 +47,7 @@ serve: # Serve the user-guide on localhost:3000 (by default)
 	--rm -it --init --name metal3 \
 	-v "$$(pwd):/workdir" \
 	-p $(HOST_PORT):3000 \
-	$(IMAGE_NAME):$(MDBOOK_VERSION) \
+	$(IMAGE_NAME):$(IMAGE_VERSION) \
 	mdbook serve --open $(SOURCE_PATH) -p 3000 -n 0.0.0.0
 
 .PHONY: clean
@@ -54,5 +55,5 @@ clean: # Clean mdbook generated content
 	$(CONTAINER_RUNTIME) run \
 	--rm -it --name metal3 \
 	-v "$$(pwd):/workdir" \
-	$(IMAGE_NAME):$(MDBOOK_VERSION) \
+	$(IMAGE_NAME):$(IMAGE_VERSION) \
 	mdbook clean $(SOURCE_PATH)
