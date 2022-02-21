@@ -10,12 +10,20 @@ Below is the concatenated file structure for the Metal³ user-guide.
 
 ```shell
 ├── book.toml
+├── README.md
 ├── src
-│   ├── images
-│   │   └── metal3-color.svg
-│   ├── introduction.md
-│   ├── project-overview.md
-│   └── SUMMARY.md
+│   ├── bmo
+│   │   └── OWNERS
+│   ├── capm3
+│   │   └── OWNERS
+│   ├── images
+│   │   └── metal3-color.svg
+│   ├── introduction.md
+│   ├── ipam
+│   │   └── OWNERS
+│   ├── ironic
+│   │   └── OWNERS
+│   └── SUMMARY.md
 └── theme
     └── favicon.svg
 ```
@@ -63,10 +71,4 @@ All the commands below are executed within mdbook container.
 
     ```bash
     $ make clean
-    ```
-
-1. Build mdbook container image locally.
-
-    ```bash
-    $ make container-image
     ```
