@@ -25,8 +25,17 @@ all_owners_raw() {
     else
       filter='.approvers'
     fi
-    curl -s "https://raw.githubusercontent.com/metal3-io/$repo/main/OWNERS" | \
-      yq -y $filter | \
+    if [ "$repo" = "hardware-classification-controller" ] ||  [ "$repo" = "ironic-client" ] \
+      || [ "$repo" = "ironic-hardware-inventory-recorder-image" ] || [ "$repo" = "metal3-dev-env" ] \
+      || [ "$repo" = "metal3-helm-chart" ] || [ "$repo" = "static-ip-manager-image" ]; then
+      branch='master'
+    elif [ "$repo" = "metal3-io.github.io" ]; then
+      branch='source'
+    else
+      branch='main'
+    fi
+    curl -s "https://raw.githubusercontent.com/metal3-io/$repo/$branch/OWNERS" | \
+      yq $filter | \
       grep -v "null" | \
       grep -v "\.\.\."
   done
