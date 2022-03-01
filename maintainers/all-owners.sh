@@ -35,7 +35,7 @@ all_owners_raw() {
       branch='main'
     fi
     curl -s "https://raw.githubusercontent.com/metal3-io/$repo/$branch/OWNERS" | \
-      yq $filter | \
+      yq -y $filter | \
       grep -v "null" | \
       grep -v "\.\.\."
   done
