@@ -10,6 +10,7 @@ REPOS=" \
   ironic-image \
   ironic-hardware-inventory-recorder-image \
   ironic-ipa-downloader \
+  mariadb-image \
   metal3-io.github.io \
   metal3-dev-env \
   metal3-docs \
