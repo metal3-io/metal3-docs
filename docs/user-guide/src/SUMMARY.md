@@ -23,7 +23,7 @@
         - [Automated cleaning API]()
         - [External Remediation]()
         - [Node Reuse]()
-        - [Pivoting]()
+        - [Pivoting](capm3/pivoting.md)
 - [Ip-address-manager]()
     - [Install Ip-address-manager]()
 - [Developer environment]()
