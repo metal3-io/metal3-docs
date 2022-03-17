@@ -1,0 +1,25 @@
+# See the OWNERS docs at https://go.k8s.io/owners
+
+approvers:
+ - andfasano
+ - bfournie
+ - derekhiggins
+ - dtantsur
+ - elfosardo
+ - fmuyassarov
+ - furkatgofurov7
+ - hardys
+ - iurygregory
+ - kashifest
+ - russellb
+ - Xenwar
+ - zaneb
+ 
+reviewers:
+ - ardaguclu
+ - dukov
+ - honza
+ - macaptain
+ - namnx228
+ - smoshiur1237
+ - s3rj1k
