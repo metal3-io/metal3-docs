@@ -21,7 +21,7 @@
     - [Upgrade]()
     - [Features]()
         - [Automated cleaning API]()
-        - [External Remediation]()
+        - [Remediation](capm3/remediaton.md)
         - [Node Reuse]()
         - [Pivoting]()
 - [Ip-address-manager]()
