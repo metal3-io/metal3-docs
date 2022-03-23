@@ -1,0 +1,32 @@
+@startuml
+skinparam BackgroundColor transparent
+skinparam componentStyle rectangle
+
+title: Inspection phase
+component cluster-api-provider-metal3 as capm3 {
+   component "Metal3Machine"
+}
+component "Baremeta Operator" as bmo {
+   component "BareMetalHost"
+   note as notebmo
+    - bootMACAddress(BMC)
+    - IP address    
+    - server credentials
+    - Hardware details [cpu,disk,…]
+  end note
+  BareMetalHost .. notebmo
+}
+component Ironic as ironic {
+   component “Node Information" as nodeinfo
+}
+component "Bare metal Server" as server {
+   component "Bare metal Server" as bms
+   note as noteserver
+    - service ramdisk
+  end note
+  bms .. noteserver
+}
+Metal3Machine -> BareMetalHost
+BareMetalHost -> ironic
+nodeinfo -> bms
+@enduml
