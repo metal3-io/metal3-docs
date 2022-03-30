@@ -1,0 +1,55 @@
+# Install Cluster-api-provider-metal3
+
+You can either use clusterctl (recommended) to install Metal³ infrastructure provider
+or kustomize for manual installation. Both methods install provider CRDs,
+its controllers and [Ip-address-manager](https://github.com/metal3-io/ip-address-manager).
+Please keep in mind that Baremetal Operator and Ironic are decoupled from CAPM3
+and will not be installed when the provider is initialized. As such, you need to
+install them yourself.
+
+## Prerequisites
+
+1. Install `clusterctl`, refer to Cluster API [book](https://cluster-api.sigs.k8s.io/user/quick-start.html#install-clusterctl) for installation instructions.
+1. Install `kustomize`, refer to official instructions [here](https://kubectl.docs.kubernetes.io/installation/kustomize/).
+1. Install Ironic, refer to [TODO](TODO).
+1. Install Baremetal Operator, refer to [TODO](TODO).
+1. Install Cluster API core compoenents i.e., core, bootstrap and control-plane providers. This will also install cert-manager, if it is not already installed.
+
+    ```bash
+     clusterctl init --core cluster-api:v1.1.3 --bootstrap kubeadm:v1.1.3 \
+     --control-plane kubeadm:v1.1.3 -v5
+    ```
+
+## With clusterctl
+
+This method is recommended. You can specify the CAPM3 version you want to install by appending a version tag, e.g. `:v1.1.0`. If the version is not specified, the latest version available will be installed.
+
+```bash
+clusterctl init --infrastructure metal3:v1.1.0
+```
+
+## With kustomize
+
+To install specific version, edit the controller-manager image version in `config/default/capm3/manager_image_patch.yaml`
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: controller-manager
+  namespace: system
+spec:
+  template:
+    spec:
+      containers:
+      # Change the value of image/tag to your desired image URL or version tag
+      - image: quay.io/metal3-io/cluster-api-provider-metal3:v1.1.0
+        name: manager
+```
+
+Apply the manifests
+
+```bash
+cd cluster-api-provider-metal3
+kustomize build config/default | kubectl apply -f -
+```

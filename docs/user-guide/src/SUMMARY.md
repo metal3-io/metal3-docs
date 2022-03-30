@@ -17,7 +17,7 @@
     - [Install Ironic]()
     - [Ironic python agent](ironic/ironic-python-agent.md)
 - [Cluster-api-provider-metal3]()
-    - [Install Metal³ provider]()
+    - [Install Metal³ provider](capm3/installation_guide.md)
     - [Upgrade]()
     - [Features]()
         - [Automated cleaning API]()
