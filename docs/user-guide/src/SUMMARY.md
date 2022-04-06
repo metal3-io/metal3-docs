@@ -14,7 +14,7 @@
         - [External Inspection]()
         - [Inspect annotation]()
         - [Reboot annotation](bmo/reboot_annotation.md)
-- [Ironic in Metal3]()
+- [Ironic in Metal3](ironic/introduction.md)
     - [Install Ironic]()
     - [Ironic python agent](ironic/ironic-python-agent.md)
 - [Cluster-api-provider-metal3]()
