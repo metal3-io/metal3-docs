@@ -1,0 +1,97 @@
+@startuml
+hide empty description
+skinparam defaultFontName Courier
+skinparam shadowing true
+[*] --> Metal3MachineTemplate
+Metal3MachineTemplate : apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+Metal3MachineTemplate : kind: Metal3MachineTemplate
+Metal3MachineTemplate : metadata:
+Metal3MachineTemplate : <U+00A0>  name: workers-template
+Metal3MachineTemplate : <U+00A0>  namespace: metal3
+Metal3MachineTemplate : spec:
+Metal3MachineTemplate : <U+00A0>  <color:Red>// automatedCleaningMode is unset here:
+Metal3MachineTemplate : <U+00A0>  template:
+Metal3MachineTemplate : <U+00A0>     image:
+Metal3MachineTemplate : <U+00A0>       checksum: http://172.22.0.1/ubuntu.md5sum
+Metal3MachineTemplate : <U+00A0>       checksumType: md5
+Metal3MachineTemplate : <U+00A0>       format: raw
+Metal3MachineTemplate : <U+00A0>       url: http://172.22.0.1/ubuntu.img
+
+Metal3MachineTemplate --> Metal3Machine0
+Metal3Machine0 : apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+Metal3Machine0 : kind: Metal3Machine
+Metal3Machine0 : metadata:
+Metal3Machine0 : <U+00A0>   name: node-0
+Metal3Machine0 : <U+00A0>   namespace: metal3
+Metal3Machine0 : spec:
+Metal3Machine0 : <U+00A0>   **automatedCleaningMode: disabled**
+Metal3Machine0 : <U+00A0>   image:
+Metal3Machine0 : <U+00A0>     checksum: http://172.22.0.1/ubuntu.img.md5sum
+Metal3Machine0 : <U+00A0>     checksumType: md5
+Metal3Machine0 : <U+00A0>     format: raw
+Metal3Machine0 : <U+00A0>     url: http://172.22.0.1/ubuntu.img
+
+
+Metal3MachineTemplate --> Metal3Machine1
+Metal3Machine1 : apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+Metal3Machine1 : kind: Metal3Machine
+Metal3Machine1 : metadata:
+Metal3Machine1 : <U+00A0>   name: node-1
+Metal3Machine1 : <U+00A0>   namespace: metal3
+Metal3Machine1 : spec:
+Metal3Machine1 : <U+00A0>   **automatedCleaningMode: metadata**
+Metal3Machine1 : <U+00A0>   image:
+Metal3Machine1 : <U+00A0>     checksum: http://172.22.0.1/ubuntu.img.md5sum
+Metal3Machine1 : <U+00A0>     checksumType: md5
+Metal3Machine1 : <U+00A0>     format: raw
+Metal3Machine1 : <U+00A0>     url: http://172.22.0.1/ubuntu.img
+
+Metal3Machine0 --> BareMetalHost0
+BareMetalHost0 : apiVersion: metal3.io/v1alpha1
+BareMetalHost0 : kind: BareMetalHost
+BareMetalHost0 : metadata:
+BareMetalHost0 : <U+00A0>   name: node-0
+BareMetalHost0 : <U+00A0>   namespace: metal3
+BareMetalHost0 : spec:
+BareMetalHost0 : <U+00A0>   **automatedCleaningMode: disabled**
+BareMetalHost0 : <U+00A0>   bmc:
+BareMetalHost0 : <U+00A0>     address: ipmi://192.168.111.1:6230
+BareMetalHost0 : <U+00A0>     credentialsName: node-0-bmc-secret
+BareMetalHost0 : <U+00A0>   bootMACAddress: 00:40:4c:41:71:90
+BareMetalHost0 : <U+00A0>   consumerRef:
+BareMetalHost0 : <U+00A0>     apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+BareMetalHost0 : <U+00A0>     kind: Metal3Machine
+BareMetalHost0 : <U+00A0>     name: node-0
+BareMetalHost0 : <U+00A0>     namespace: metal3
+BareMetalHost0 : <U+00A0>   image:
+BareMetalHost0 : <U+00A0>     checksum: http://172.22.0.1/ubuntu.img.md5sum
+BareMetalHost0 : <U+00A0>     checksumType: md5
+BareMetalHost0 : <U+00A0>     format: raw
+BareMetalHost0 : <U+00A0>     url: http://172.22.0.1/ubuntu.img
+BareMetalHost0 : <U+00A0>   online: true
+
+
+Metal3Machine1 --> BareMetalHost1
+BareMetalHost1 : apiVersion: metal3.io/v1alpha1
+BareMetalHost1 : kind: BareMetalHost
+BareMetalHost1 : metadata:
+BareMetalHost1 : <U+00A0>   name: node-1
+BareMetalHost1 : <U+00A0>   namespace: metal3
+BareMetalHost1 : spec:
+BareMetalHost1 : <U+00A0>   **automatedCleaningMode: metadata**
+BareMetalHost1 : <U+00A0>   bmc:
+BareMetalHost1 : <U+00A0>     address: ipmi://192.168.111.1:6230
+BareMetalHost1 : <U+00A0>     credentialsName: node-0-bmc-secret
+BareMetalHost1 : <U+00A0>   bootMACAddress: 00:40:4c:41:71:90
+BareMetalHost1 : <U+00A0>   consumerRef:
+BareMetalHost1 : <U+00A0>     apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+BareMetalHost1 : <U+00A0>     kind: Metal3Machine
+BareMetalHost1 : <U+00A0>     name: node-1
+BareMetalHost1 : <U+00A0>     namespace: metal3
+BareMetalHost1 : <U+00A0>   image:
+BareMetalHost1 : <U+00A0>     checksum: http://172.22.0.1/ubuntu.img.md5sum
+BareMetalHost1 : <U+00A0>     checksumType: md5
+BareMetalHost1 : <U+00A0>     format: raw
+BareMetalHost1 : <U+00A0>     url: http://172.22.0.1/ubuntu.img
+BareMetalHost1 : <U+00A0>   online: true
+@enduml
