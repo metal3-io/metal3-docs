@@ -14,7 +14,11 @@ Kubernetes interfaces.
 * [Quick start](http://metal3.io/try-it.html)
 * [Demos](https://www.youtube.com/watch?v=VFbIHc3NbJo&list=PL2h5ikWC8viKmhbXHo1epPelGdCkVlF16&ab_channel=Metal3)
 * [Blog posts](https://metal3.io/blog/index.html)
-* [FAQ](https://metal3.io/blog/index.html)
+
+## Documentation
+
+Please see our [user-guide](https://metal3io.netlify.app/) to familiarize yourself with Metal³ and its features. We are currently in the process of writing
+the user-guide. As such, not all the topics might be covered yet.
 
 ## Community
 
