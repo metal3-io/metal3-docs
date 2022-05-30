@@ -13,7 +13,7 @@
         - [Status annotation](bmo/status_annotation.md)
         - [External Inspection]()
         - [Inspect annotation]()
-        - [Reboot annotation]()
+        - [Reboot annotation](bmo/reboot_annotation.md)
 - [Ironic in Metal3]()
     - [Install Ironic]()
     - [Ironic python agent](ironic/ironic-python-agent.md)
