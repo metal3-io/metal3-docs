@@ -7,3 +7,9 @@ hack/mdbook
 # Ignore mdbook boilerplate
 # from being committed.
 docs/user-guide/book
+
+# Ignore reveals plugin
+# and dist directories
+# from being commited
+docs/presentations/dist
+docs/presentations/plugin
