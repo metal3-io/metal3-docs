@@ -23,11 +23,8 @@ test-image1.png  test-image2-capi.png test-presentation.html
 To test your presentation with the revealjs framework, there are two simple
 options :
 
-* Copy all the presentation files under the revealjs repository and open the
-  presentation `.html` file inside a browser.
-
-* Copy the `dist` and `plugin` directories from revealjs respository to the
-  presentations directory.
+1. Copy the `dist` and `plugin` directories from revealjs respository to the presentations directory.
+2. Copy all the presentation files under the revealjs repository and open the presentation `.html` file inside a browser.
 
 Here is an example :
 
