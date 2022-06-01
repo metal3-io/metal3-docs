@@ -1,12 +1,12 @@
-# hostData custom resource for host inspection data
+# hardwareData custom resource for host inspection data
 
 ## Status
 
-implementable
+implemented
 
 ## Summary
 
-Introduce HostData Custom Resource (CR) to store host inspection data.
+Introduce HardwareData Custom Resource (CR) to store host inspection data.
 
 ## Motivation
 
@@ -31,9 +31,9 @@ the move process will fail to pivot BareMetalHosts successfully.
 
 ### Goals
 
-- Store host inspection data into Spec of HostData CR
-- Adjust pivoting workflow to restore inspection data from HostData
-- Make the HostData CR immutable
+- Store host inspection data into Spec of HardwareData CR
+- Adjust pivoting workflow to restore inspection data from HardwareData
+- Make the HardwareData CR immutable
 - Don't write `status.hardware` data to the status annotation
 
 ### Non-Goals
@@ -51,16 +51,16 @@ API, CAPM3 and BMO objects to a target cluster successfully.
 ## Design Details
 
 Apart from writing hardware details into the status of BareMetalHost, write it to a
-HostData CR spec. BareMetalHost and HostData will be parent and child objects
+HardwareData CR spec. BareMetalHost and HardwareData will be parent and child objects
 respectively, and this relationship is controlled via ownerReferences chain. As such,
-the same name and namespace will be used for HostData as its owning object BareMetalHost.
-The spec of HostData will contain the same fields & hardware information as currently
+the same name and namespace will be used for HardwareData as its owning object BareMetalHost.
+The spec of HardwareData will contain the same fields & hardware information as currently
 under `status.hardware` of BareMetalHost.
 
 OwnerReferences refers to the linked BareMetalHost and is added by the operator.
 To see all the available fields of ObjectReference type, check [core/v1](https://pkg.go.dev/k8s.io/api/core/v1#ObjectReference) package.
 
-There will be duplication of inspection data, i.e.,in the HostData spec and BareMetalHost
+There will be duplication of inspection data, i.e.,in the HardwareData spec and BareMetalHost
 status, for the purpose of avoiding breaking API changes. However, we plan to drop
 [hardware](https://github.com/metal3-io/baremetal-operator/blob/05d12b6768a9989a9a4e61dad6cd1f9e84a6e078/apis/metal3.io/v1alpha1/baremetalhost_types.go#L721)
 field from the status of BareMetalHost in the first version bump of the API.
@@ -68,37 +68,37 @@ field from the status of BareMetalHost in the first version bump of the API.
 ### Pivoting
 
 To pivot objects excluded from Cluster API chain to a target cluster, one can set
-`clusterctl.cluster.x-k8s.io=""` label on HostData and BareMetalHost CRDs.
+`clusterctl.cluster.x-k8s.io=""` label on HardwareData and BareMetalHost CRDs.
 Current status annotation based pivoting workflow will stay as it is. However,
 CAPM3 machine controller will no longer copy `status.hardware` of BareMetalHost
-to the annotation. Because that part will be avialable in the form of HostData CR
+to the annotation. Because that part will be avialable in the form of HardwareData CR
 in the target cluster.
 
 ### Implementation Details/Notes/Constraints
 
-The life of HostData is dependent on BareMetalHost. When BareMetalHost is entering
-inspection state, the HostData will be created. Failure in reaching inspection state
+The life of HardwareData is dependent on BareMetalHost. When BareMetalHost is entering
+inspection state, the HardwareData will be created. Failure in reaching inspection state
 or having `inspect.metal3.io: disabled` (without `inspect.metal3.io/hardwaredetails`
 annotation) annotation on BareMetalHost will force the operator to not create the
-HostData. Deleting a BareMetalHost will result in deletion of a HostData respectively.
+HardwareData. Deleting a BareMetalHost will result in deletion of a HardwareData respectively.
 
-HostData should be immutable and this will be controlled via [Validating Webhook](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#validatingadmissionwebhook) and with RBAC permissions.
+HardwareData should be immutable and this will be controlled via [Validating Webhook](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#validatingadmissionwebhook) and with RBAC permissions.
 In case, when [re-inspection](https://github.com/metal3-io/baremetal-operator/blob/master/docs/inspectAnnotation.md) of a `available` BareMetalHost is requested,
-new HostData will be re-created, because updating the old HostData will be
+new HardwareData will be re-created, because updating the old HardwareData will be
 blocked by the Validating Webhook.
 
-Deprovisioning of the BareMetalHost must not delete the HostData. It can
+Deprovisioning of the BareMetalHost must not delete the HardwareData. It can
 be deleted either when BareMetalHost is being deleted or when re-inspection
-is requested. To ensure HostData availability while BareMetalHost is provisioned,
-a finalizer should be set on the HostData.
+is requested. To ensure HardwareData availability while BareMetalHost is provisioned,
+a finalizer should be set on the HardwareData.
 
-Only operator will be granted with create permissions for HostData and everyone
+Only operator will be granted with create permissions for HardwareData and everyone
 else will be given no write permissions. If the BareMetalHost was inspected but
-HostData is missing, operator acts differently depending on the current
+HardwareData is missing, operator acts differently depending on the current
 state of the BareMetalHost.
 
-- host is provisioned: we expect that HostData never existed. Even if it was existed
-    but user deleted it, then it is user's fault. Normally finalizer blocks HostData
+- host is provisioned: we expect that HardwareData never existed. Even if it was existed
+    but user deleted it, then it is user's fault. Normally finalizer blocks HardwareData
     deletion until BareMetalHost exists.
 - host is available:
     1. copy inspection data from the status of BareMetalHost if exists;
@@ -106,27 +106,27 @@ state of the BareMetalHost.
         This will be the first and only option in the future when `status.hardware` is removed;
 
 As mentioned above, we will have two copies of inspection data available for the
-time being. One in the Spec of HostData and the other in the Status of BareMetalHost.
+time being. One in the Spec of HardwareData and the other in the Status of BareMetalHost.
 In the future, when new API version of BareMetalHost is introduced, `status.hardware`
-will be removed from BareMetalHost. As such, missing HostData for available BareMetalHost
+will be removed from BareMetalHost. As such, missing HardwareData for available BareMetalHost
 will result in another inspection before starting provisioning.
 
-**Note:** [cross-namespace owner references are not allowed](https://kubernetes.io/docs/concepts/overview/working-with-objects/owners-dependents/#owner-references-in-object-specifications). Thus, HostData
+**Note:** [cross-namespace owner references are not allowed](https://kubernetes.io/docs/concepts/overview/working-with-objects/owners-dependents/#owner-references-in-object-specifications). Thus, HardwareData
 and BareMetalHost must be in the same namespace.
 
-#### Example of HostData lifecycle
+#### Example of HardwareData lifecycle
 
 - BareMetalHost is created
 - BareMetalHost is in inspecting state
-- Operator creates a HostData with the same name and namespace as BareMetalHost, fills out
-    the HostData with the host inspection data and sets ownerReferences
+- Operator creates a HardwareData with the same name and namespace as BareMetalHost, fills out
+    the HardwareData with the host inspection data and sets ownerReferences
 - Provisioning is requested
-- Pivoted to a target cluster, operator restores host inspection data from HostData and
+- Pivoted to a target cluster, operator restores host inspection data from HardwareData and
     the rest from status annotation (e.g. `status.Provisioning`, `status.poweredOn` and etc)
 - Deprovisioning is requested
-- BareMetalHost deletion requested, operator deletes the HostData and BareMetalHost
+- BareMetalHost deletion requested, operator deletes the HardwareData and BareMetalHost
 
-The spec of HostData:
+The spec of HardwareData:
 
 ```go
 // Adding HardwareDetails struct here for visibility. During implementation,
@@ -153,7 +153,7 @@ Example CR:
 
 ```yaml
 apiVersion: metal3.io/v1alpha1
-kind: HostData
+kind: HardwareData
 metadata:
   finalizers:
   - baremetalhost.metal3.io
@@ -177,13 +177,13 @@ spec:
 
 ### Risks and Mitigations
 
-Existing deployments will require installation of the HostData CRD and necessary
+Existing deployments will require installation of the HardwareData CRD and necessary
 RBAC permissions when bumping the operator version. This needs to be clearly
 documented.
 
 ### Work Items
 
-- Add HostData API
+- Add HardwareData API
 - Modify the operator code
 - Adjust CAPM3 machine controller to exlude writing `status.hardware` into the statusAnnotation
 - Add unit tests
@@ -203,11 +203,11 @@ From a user perspective, this feature doesn't introduce any breaking changes
 to existing deployments, because `status.hardware` field will stay until is
 decided otherwise and this feature is only an addition to the current APIs.
 For now, there will be two copies of inspection data available, in the
-`spec.hardware` of HostData and `status.hardware` of BareMetalHost.
+`spec.hardware` of HardwareData and `status.hardware` of BareMetalHost.
 
 ### Version Skew Strategy
 
-To mitigate version skew issues, we plan to keep BaremetalHost and HostData
+To mitigate version skew issues, we plan to keep BaremetalHost and HardwareData
 synchronized by bi-directional copying of inspection data.
 
 ## Drawbacks
