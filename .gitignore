@@ -8,7 +8,7 @@ hack/mdbook
 # from being committed.
 docs/user-guide/book
 
-# Ignore reveals plugin
+# Ignore revealjs plugin
 # and dist directories
 # from being commited
 docs/presentations/dist
