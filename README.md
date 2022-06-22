@@ -32,7 +32,7 @@ come talk to us!
 * Join to the [Metal3-dev](https://groups.google.com/forum/#!forum/metal3-dev)
   google group for the edit access to the
   [Community meetings Notes](https://docs.google.com/document/d/1IkEIh-ffWY3DaNX3aFcAxGbttdEY_symo7WAGmzkWhU/edit)
-* Subscribe to the [Metal³ Development Mailing List](https://docs.google.com/document/d/1d7jqIgmKHvOdcEmE2v72WDZo9kz7WwhuslDOili25Ls/edit)
+* Subscribe to the [Metal³ Development Mailing List](https://groups.google.com/forum/#!forum/metal3-dev)
   for the project related anouncements, discussions and questions.
 * Come and meet us in our weekly community meetings on every
   Wednesday at 14:00 UTC on [Zoom](https://zoom.us/j/97255696401?pwd=ZlJMckNFLzdxMDNZN2xvTW5oa2lCZz09)
