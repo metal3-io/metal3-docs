@@ -20,19 +20,31 @@ ls metal3-docs/docs/presentations/test-presentation
 test-image1.png  test-image2-capi.png test-presentation.html
 ```
 
-To use this with revealjs, follow these steps (for more details refer
-  [here](https://revealjs.com/installation/#full-setup)) :
+To test your presentation with the revealjs framework, there are two simple
+options:
+
+1. Copy the `dist` and `plugin` directories from revealjs repository to the presentations directory.
+2. Copy all the presentation files under the revealjs repository and open the presentation `.html` file inside a browser.
+
+Here is an example :
 
 ```bash
+
 ## Clone revealjs repository
+git clone https://github.com/hakimel/reveal.js.git
 
-cd ${to_your_presentation_directory} && git clone https://github.com/hakimel/reveal.js.git
+## Option 1
+cd ${your_presentation_directory}
+cp -r ${revealjs_directory}/plugin .
+cp -r ${revealjs_directory}/dist .
 
-## Optional steps
+## Option 2
+cp ${your_presentation_directory}/* ${revealjs_directory}
 
-cd reveal.js && npm install
-npm start
 ```
+
+For full scale revealjs deployment refer
+[here](https://revealjs.com/installation/#full-setup)
 
 Now you can simply edit the presentation html, markdown files(when using an
 external markdown file) to build on top of the presentation.
