@@ -1,4 +1,4 @@
-# Pronic Python Agent (IPA)
+# Ironic Python Agent (IPA)
 
 [IPA](https://docs.openstack.org/ironic-python-agent/latest/) is a service written in python that runs within a ramdisk. It provides remote access to `ironic` and `ironic-inspector` services to perform various operations on the managed server. It also sends information about the server to `Ironic`.
 
