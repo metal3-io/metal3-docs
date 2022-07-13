@@ -1,17 +1,28 @@
 # Baremetal host single instance and multi-instance operator
+
 ## Introduction
+
 Currently, the metal3 system is to set up a Kubernetes cluster on bare-metal hosts which is tightly bound with cluster-api and Kubernetes. We target to allocate bare-metal hosts that just pre-installing the OS, or pre-installing the applications as required.
+
 ## Motivation 
+
 To meet the scenery that only requires a pure bare-metal host or with a simple application installed.
+
 ## Goals
+
 - Allocate one pure bare-metal host 
 - Allocate multiple bare-metal hosts
 - Allocate bare-metal host with pre-installed applications
 - Specify the different configurations for different bare-metal host 
+
 ## Non-goals
+
 - Allocate different types of bare-metal hosts at one time
+
 ## Proposal
+
 ### Architecture
+
 The operators include the metal3Host operator, metal3HostDeployment operator, and data operator.
 ![modules](images/metal3hostModules.png)
 
@@ -22,19 +33,26 @@ Metal3Host is a virtual instance. Users could define it to require a bare-metal 
 Metal3HostDeployment will define a group of metal3Hosts with the same configuration. It could define the number of replicas. It could scale up/down. We even could auto-scale by some rules after the monitor function is leveraged.
 
 The data operator will set up the boot time configuration & routine. It includes three parts: the userData, the metaData, and the networkData. The userData includes some user-specified data such as installing a package, or running a command like "mkdir /test". The metaData defines some host-specific data such as hostname. The networkData includes the network configuration. The data is bound with the baremetal host. For example, the networkData defines a NIC with an IP, the NIC name is host related. So a dataTemplate should be pre-defined, it will be bound to the bare-metal host when a metal3host is defined and associated with a bare-metal host.
+
 ### Routine
+
 #### Pre-define a dataTemplate
+
 ![createDataTemplate](images/createDataTemplate.png)
 
 #### Require a metal3host
+
 ![createMetal3Host](images/createMetal3Host.png)
 
 #### Require a metal3HostDeployment
+
 ![createMetal3HostDeployment](images/createMetal3HostDeployment.png)
 
 ### Configuration
+
 #### metal3host
 
+    '''golang
     // Metal3HostSpec defines the desired state of Metal3Host
     type Metal3HostSpec struct {
         // ProviderID will be the  Metal3Host in ProviderID format
@@ -66,9 +84,12 @@ The data operator will set up the boot time configuration & routine. It includes
         // +optional
         AutomatedCleaningMode *string `json:"automatedCleaningMode,omitempty"`
     }
+    '''
 
 #### metal3hostDeployment
-	// Metal3HostDeploymentSpec defines the desired state of Metal3HostDeployment.
+
+    '''golang
+    // Metal3HostDeploymentSpec defines the desired state of Metal3HostDeployment.
 	type Metal3HostDeploymentSpec struct {
 		// Number of desired machines. Defaults to 1.
 		// This is a pointer to distinguish between explicit zero and not specified.
@@ -155,8 +176,11 @@ The data operator will set up the boot time configuration & routine. It includes
 
 		Conditions capi.Conditions `json:"conditions,omitempty"`
 	}
+    '''
 
 #### datatemplate
+
+    '''golang
 	// DataTemplateSpec defines the desired state of DataTemplate
 	type DataTemplateSpec struct {
 		//MetaData contains the information needed to generate the metadata secret
@@ -254,8 +278,11 @@ The data operator will set up the boot time configuration & routine. It includes
 		// +optional
 		FromAnnotations []MetaDataFromAnnotation `json:"fromAnnotations,omitempty"`
 	}
+    '''
 
 #### data
+
+    '''golang
 	// DataSpec defines the desired state of Data
 	type DataSpec struct {
 		// DataTemplate is the CUMetalDataTemplate this was generated from.
@@ -284,3 +311,4 @@ The data operator will set up the boot time configuration & routine. It includes
 		// +optional
 		ErrorMessage *string `json:"errorMessage,omitempty"`
 	}
+    '''
