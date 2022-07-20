@@ -4,16 +4,16 @@
 
 Currently, the metal3 system is to set up a Kubernetes cluster on bare-metal hosts which is tightly bound with cluster-api and Kubernetes. We target to allocate bare-metal hosts that just pre-installing the OS, or pre-installing the applications as required.
 
-## Motivation 
+## Motivation
 
 To meet the scenery that only requires a pure bare-metal host or with a simple application installed.
 
 ## Goals
 
-- Allocate one pure bare-metal host 
+- Allocate one pure bare-metal host
 - Allocate multiple bare-metal hosts
 - Allocate bare-metal host with pre-installed applications
-- Specify the different configurations for different bare-metal host 
+- Specify the different configurations for different bare-metal host
 
 ## Non-goals
 
@@ -90,225 +90,225 @@ The data operator will set up the boot time configuration & routine. It includes
 
     '''golang
     // Metal3HostDeploymentSpec defines the desired state of Metal3HostDeployment.
-	type Metal3HostDeploymentSpec struct {
-		// Number of desired machines. Defaults to 1.
-		// This is a pointer to distinguish between explicit zero and not specified.
-		// +optional
-		// +kubebuilder:default=1
-		Replicas *int32 `json:"replicas,omitempty"`
+    type Metal3HostDeploymentSpec struct {
+        // Number of desired machines. Defaults to 1.
+        // This is a pointer to distinguish between explicit zero and not specified.
+        // +optional
+        // +kubebuilder:default=1
+        Replicas *int32 `json:"replicas,omitempty"`
 
-		// HostSelector specifies matching criteria for labels on BareMetalHosts.
-		// This is used to limit the set of BareMetalHost objects considered for
-		// claiming for a machine.
-		// +optional
-		HostSelector HostSelector `json:"hostSelector,omitempty"`
+        // HostSelector specifies matching criteria for labels on BareMetalHosts.
+        // This is used to limit the set of BareMetalHost objects considered for
+        // claiming for a machine.
+        // +optional
+        HostSelector HostSelector `json:"hostSelector,omitempty"`
 
-		// Template describes the metal3 hosts that will be created.
-		Template Metal3HostTemplateSpec `json:"template"`
+        // Template describes the metal3 hosts that will be created.
+        Template Metal3HostTemplateSpec `json:"template"`
 
-		// Minimum number of seconds for which a newly created machine should
-		// be ready.
-		// Defaults to 0 (machine will be considered available as soon as it
-		// is ready)
-		// +optional
-		MinReadySeconds *int32 `json:"minReadySeconds,omitempty"`
+        // Minimum number of seconds for which a newly created machine should
+        // be ready.
+        // Defaults to 0 (machine will be considered available as soon as it
+        // is ready)
+        // +optional
+        MinReadySeconds *int32 `json:"minReadySeconds,omitempty"`
 
-		// The number of old MachineSets to retain to allow rollback.
-		// This is a pointer to distinguish between explicit zero and not specified.
-		// Defaults to 1.
-		// +optional
-		RevisionHistoryLimit *int32 `json:"revisionHistoryLimit,omitempty"`
+        // The number of old MachineSets to retain to allow rollback.
+        // This is a pointer to distinguish between explicit zero and not specified.
+        // Defaults to 1.
+        // +optional
+        RevisionHistoryLimit *int32 `json:"revisionHistoryLimit,omitempty"`
 
-		// Indicates that the deployment is paused.
-		// +optional
-		Paused bool `json:"paused,omitempty"`
+        // Indicates that the deployment is paused.
+        // +optional
+        Paused bool `json:"paused,omitempty"`
 
-		// The maximum time in seconds for a deployment to make progress before it
-		// is considered to be failed. The deployment controller will continue to
-		// process failed deployments and a condition with a ProgressDeadlineExceeded
-		// reason will be surfaced in the deployment status. Note that progress will
-		// not be estimated during the time a deployment is paused. Defaults to 600s.
-		// +optional
-		ProgressDeadlineSeconds *int32 `json:"progressDeadlineSeconds,omitempty"`
-	}
+        // The maximum time in seconds for a deployment to make progress before it
+        // is considered to be failed. The deployment controller will continue to
+        // process failed deployments and a condition with a ProgressDeadlineExceeded
+        // reason will be surfaced in the deployment status. Note that progress will
+        // not be estimated during the time a deployment is paused. Defaults to 600s.
+        // +optional
+        ProgressDeadlineSeconds *int32 `json:"progressDeadlineSeconds,omitempty"`
+    }
 
-	// Metal3HostDeploymentStatus defines the observed state of Metal3HostDeployment.
-	type Metal3HostDeploymentStatus struct {
-		// The generation observed by the deployment controller.
-		// +optional
-		ObservedGeneration int64 `json:"observedGeneration,omitempty"`
+    // Metal3HostDeploymentStatus defines the observed state of Metal3HostDeployment.
+    type Metal3HostDeploymentStatus struct {
+        // The generation observed by the deployment controller.
+        // +optional
+        ObservedGeneration int64 `json:"observedGeneration,omitempty"`
 
-		// Total number of non-terminated machines targeted by this deployment
-		// (their labels match the selector).
-		// +optional
-		Replicas int32 `json:"replicas"`
+        // Total number of non-terminated machines targeted by this deployment
+        // (their labels match the selector).
+        // +optional
+        Replicas int32 `json:"replicas"`
 
-		// Total number of non-terminated machines targeted by this deployment
-		// that have the desired template spec.
-		// +optional
-		UpdatedReplicas int32 `json:"updatedReplicas"`
+        // Total number of non-terminated machines targeted by this deployment
+        // that have the desired template spec.
+        // +optional
+        UpdatedReplicas int32 `json:"updatedReplicas"`
 
-		// Total number of ready machines targeted by this deployment.
-		// +optional
-		ReadyReplicas int32 `json:"readyReplicas"`
+        // Total number of ready machines targeted by this deployment.
+        // +optional
+        ReadyReplicas int32 `json:"readyReplicas"`
 
-		// Total number of available machines (ready for at least minReadySeconds)
-		// targeted by this deployment.
-		// +optional
-		AvailableReplicas int32 `json:"availableReplicas"`
+        // Total number of available machines (ready for at least minReadySeconds)
+        // targeted by this deployment.
+        // +optional
+        AvailableReplicas int32 `json:"availableReplicas"`
 
-		// Total number of unavailable machines targeted by this deployment.
-		// This is the total number of machines that are still required for
-		// the deployment to have 100% available capacity. They may either
-		// be machines that are running but not yet available or machines
-		// that still have not been created.
-		// +optional
-		UnavailableReplicas int32 `json:"unavailableReplicas"`
+        // Total number of unavailable machines targeted by this deployment.
+        // This is the total number of machines that are still required for
+        // the deployment to have 100% available capacity. They may either
+        // be machines that are running but not yet available or machines
+        // that still have not been created.
+        // +optional
+        UnavailableReplicas int32 `json:"unavailableReplicas"`
 
-		// Phase represents the current phase of a Metal3HostDeployment (ScalingUp, ScalingDown, Running, Failed, or Unknown).
-		// +optional
-		Phase string `json:"phase,omitempty"`
+        // Phase represents the current phase of a Metal3HostDeployment (ScalingUp, ScalingDown, Running, Failed, or Unknown).
+        // +optional
+        Phase string `json:"phase,omitempty"`
 
-		// FailureReason indicates that there is a fatal problem reconciling the
-		// state, and will be set to a descriptive error message.
-		// +optional
-		FailureReason *string `json:"failureReason,omitempty"`
+        // FailureReason indicates that there is a fatal problem reconciling the
+        // state, and will be set to a descriptive error message.
+        // +optional
+        FailureReason *string `json:"failureReason,omitempty"`
 
-		Conditions capi.Conditions `json:"conditions,omitempty"`
-	}
+        Conditions capi.Conditions `json:"conditions,omitempty"`
+    }
     '''
 
 #### datatemplate
 
     '''golang
-	// DataTemplateSpec defines the desired state of DataTemplate
-	type DataTemplateSpec struct {
-		//MetaData contains the information needed to generate the metadata secret
-		// +optional
-		MetaData *MetaData `json:"metaData,omitempty"`
+    // DataTemplateSpec defines the desired state of DataTemplate
+    type DataTemplateSpec struct {
+        //MetaData contains the information needed to generate the metadata secret
+        // +optional
+        MetaData *MetaData `json:"metaData,omitempty"`
 
-		//NetworkData contains the information needed to generate the networkdata
-		// secret
-		// +optional
-		NetworkData *NetworkData `json:"networkData,omitempty"`
+        //NetworkData contains the information needed to generate the networkdata
+        // secret
+        // +optional
+        NetworkData *NetworkData `json:"networkData,omitempty"`
 
-		//UserData contains the information defined by user
-		// secret
-		// +optional
-		UserData *UserData `json:"userData,omitempty"`
-	}
+        //UserData contains the information defined by user
+        // secret
+        // +optional
+        UserData *UserData `json:"userData,omitempty"`
+    }
 
-	// NetworkData represents a networkData object
-	type NetworkData struct {
-		// Links is a structure containing lists of different types objects
-		// +optional
-		Links NetworkDataLink `json:"links,omitempty"`
+    // NetworkData represents a networkData object
+    type NetworkData struct {
+        // Links is a structure containing lists of different types objects
+        // +optional
+        Links NetworkDataLink `json:"links,omitempty"`
 
-		//Networks  is a structure containing lists of different types objects
-		// +optional
-		Networks NetworkDataNetwork `json:"networks,omitempty"`
+        //Networks  is a structure containing lists of different types objects
+        // +optional
+        Networks NetworkDataNetwork `json:"networks,omitempty"`
 
-		//Services  is a structure containing lists of different types objects
-		// +optional
-		Services NetworkDataService `json:"services,omitempty"`
-	}
+        //Services  is a structure containing lists of different types objects
+        // +optional
+        Services NetworkDataService `json:"services,omitempty"`
+    }
 
-	// UserData contains the information defined by user
-	type UserData struct {
-		//Users define the user&password information
-		// +optional
-		Users []User `json:"users"`
+    // UserData contains the information defined by user
+    type UserData struct {
+        //Users define the user&password information
+        // +optional
+        Users []User `json:"users"`
 
-		//WriteFile files to be created at the boot time
-		// +optional
-		WriteFiles []WriteFile `json:"write_files"`
+        //WriteFile files to be created at the boot time
+        // +optional
+        WriteFiles []WriteFile `json:"write_files"`
 
-		//BootCmd commands to be run at the boot time
-		// +optional
-		BootCmd []string `json:"bootcmd"`
-	}
+        //BootCmd commands to be run at the boot time
+        // +optional
+        BootCmd []string `json:"bootcmd"`
+    }
 
-	// MetaData represents a keyand value of the metadata
-	type MetaData struct {
-		// Strings is the list of metadata items to be rendered from strings
-		// +optional
-		Strings []MetaDataString `json:"strings,omitempty"`
+    // MetaData represents a keyand value of the metadata
+    type MetaData struct {
+        // Strings is the list of metadata items to be rendered from strings
+        // +optional
+        Strings []MetaDataString `json:"strings,omitempty"`
 
-		// ObjectNames is the list of metadata items to be rendered from the name
-		// of objects.
-		// +optional
-		ObjectNames []MetaDataObjectName `json:"objectNames,omitempty"`
+        // ObjectNames is the list of metadata items to be rendered from the name
+        // of objects.
+        // +optional
+        ObjectNames []MetaDataObjectName `json:"objectNames,omitempty"`
 
-		// Indexes is the list of metadata items to be rendered from the index of the
-		// CUMetalData
-		// +optional
-		Indexes []MetaDataIndex `json:"indexes,omitempty"`
+        // Indexes is the list of metadata items to be rendered from the index of the
+        // CUMetalData
+        // +optional
+        Indexes []MetaDataIndex `json:"indexes,omitempty"`
 
-		// Namespaces is the list of metadata items to be rendered from the namespace
-		// +optional
-		Namespaces []MetaDataNamespace `json:"namespaces,omitempty"`
+        // Namespaces is the list of metadata items to be rendered from the namespace
+        // +optional
+        Namespaces []MetaDataNamespace `json:"namespaces,omitempty"`
 
-		// IPAddressesFromPool is the list of metadata items to be rendered as ip addresses.
-		// +optional
-		IPAddressesFromPool []FromPool `json:"ipAddressesFromIPPool,omitempty"`
+        // IPAddressesFromPool is the list of metadata items to be rendered as ip addresses.
+        // +optional
+        IPAddressesFromPool []FromPool `json:"ipAddressesFromIPPool,omitempty"`
 
-		// PrefixesFromPool is the list of metadata items to be rendered as network prefixes.
-		// +optional
-		PrefixesFromPool []FromPool `json:"prefixesFromIPPool,omitempty"`
+        // PrefixesFromPool is the list of metadata items to be rendered as network prefixes.
+        // +optional
+        PrefixesFromPool []FromPool `json:"prefixesFromIPPool,omitempty"`
 
-		// GatewaysFromPool is the list of metadata items to be rendered as gateway addresses.
-		// +optional
-		GatewaysFromPool []FromPool `json:"gatewaysFromIPPool,omitempty"`
+        // GatewaysFromPool is the list of metadata items to be rendered as gateway addresses.
+        // +optional
+        GatewaysFromPool []FromPool `json:"gatewaysFromIPPool,omitempty"`
 
-		// DNSServersFromPool is the list of metadata items to be rendered as dns servers.
-		// +optional
-		DNSServersFromPool []FromPool `json:"dnsServersFromIPPool,omitempty"`
+        // DNSServersFromPool is the list of metadata items to be rendered as dns servers.
+        // +optional
+        DNSServersFromPool []FromPool `json:"dnsServersFromIPPool,omitempty"`
 
-		// FromHostInterfaces is the list of metadata items to be rendered as MAC
-		// addresses of the host interfaces.
-		// +optional
-		FromHostInterfaces []MetaDataHostInterface `json:"fromHostInterfaces,omitempty"`
+        // FromHostInterfaces is the list of metadata items to be rendered as MAC
+        // addresses of the host interfaces.
+        // +optional
+        FromHostInterfaces []MetaDataHostInterface `json:"fromHostInterfaces,omitempty"`
 
-		// FromLabels is the list of metadata items to be fetched from object labels
-		// +optional
-		FromLabels []MetaDataFromLabel `json:"fromLabels,omitempty"`
+        // FromLabels is the list of metadata items to be fetched from object labels
+        // +optional
+        FromLabels []MetaDataFromLabel `json:"fromLabels,omitempty"`
 
-		// FromAnnotations is the list of metadata items to be fetched from object
-		// Annotations
-		// +optional
-		FromAnnotations []MetaDataFromAnnotation `json:"fromAnnotations,omitempty"`
-	}
+        // FromAnnotations is the list of metadata items to be fetched from object
+        // Annotations
+        // +optional
+        FromAnnotations []MetaDataFromAnnotation `json:"fromAnnotations,omitempty"`
+    }
     '''
 
 #### data
 
     '''golang
-	// DataSpec defines the desired state of Data
-	type DataSpec struct {
-		// DataTemplate is the CUMetalDataTemplate this was generated from.
-		Template corev1.ObjectReference `json:"template"`
+    // DataSpec defines the desired state of Data
+    type DataSpec struct {
+        // DataTemplate is the CUMetalDataTemplate this was generated from.
+        Template corev1.ObjectReference `json:"template"`
 
-		// MetaData points to the rendered MetaData secret.
-		// +optional
-		MetaData *corev1.SecretReference `json:"metaData,omitempty"`
+        // MetaData points to the rendered MetaData secret.
+        // +optional
+        MetaData *corev1.SecretReference `json:"metaData,omitempty"`
 
-		// NetworkData points to the rendered NetworkData secret.
-		// +optional
-		NetworkData *corev1.SecretReference `json:"networkData,omitempty"`
+        // NetworkData points to the rendered NetworkData secret.
+        // +optional
+        NetworkData *corev1.SecretReference `json:"networkData,omitempty"`
 
-		// NetworkData points to the rendered UserData secret.
-		// +optional
-		UserData *corev1.SecretReference `json:"userData,omitempty"`
-	}
+        // NetworkData points to the rendered UserData secret.
+        // +optional
+        UserData *corev1.SecretReference `json:"userData,omitempty"`
+    }
 
-	// DataStatus defines the observed state of Data
-	type DataStatus struct {
-		// Ready is a flag set to True if the secrets were rendered properly
-		// +optional
-		Ready bool `json:"ready"`
+    // DataStatus defines the observed state of Data
+    type DataStatus struct {
+        // Ready is a flag set to True if the secrets were rendered properly
+        // +optional
+        Ready bool `json:"ready"`
 
-		// ErrorMessage contains the error message
-		// +optional
-		ErrorMessage *string `json:"errorMessage,omitempty"`
-	}
+        // ErrorMessage contains the error message
+        // +optional
+        ErrorMessage *string `json:"errorMessage,omitempty"`
+    }
     '''
