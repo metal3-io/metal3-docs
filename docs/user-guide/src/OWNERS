@@ -8,7 +8,6 @@ approvers:
  - elfosardo
  - fmuyassarov
  - furkatgofurov7
- - hardys
  - iurygregory
  - kashifest
  - russellb
@@ -23,3 +22,6 @@ reviewers:
  - namnx228
  - smoshiur1237
  - s3rj1k
+
+emeritus_approvers:
+ - hardys
