@@ -12,7 +12,7 @@ External remediation provides remediation solutions other than deleting unhealth
 
 ## Metal3 Remediation
 
-The CAPM3 remediation controller reconciles Metal3Remediation objects created by CAPI MachineHealthCheck. It locates a Machine with the same name as the Metal3Remediation object and uses BMO and CAPM3 APIs to remediate associated unhealthy node. The remediation controller supports a reboot strategy specified in the Metal3Remediation CRD and uses the same object to store states of the current remediation cycle.
+The CAPM3 remediation controller reconciles Metal3Remediation objects created by CAPI MachineHealthCheck. It locates a Machine with the same name as the Metal3Remediation object and uses BMO and CAPM3 APIs to remediate associated unhealthy node. The remediation controller supports a reboot strategy specified in the Metal3Remediation CRD and uses the same object to store states of the current remediation cycle. The reboot strategy consists of three steps: power off the Machine, delete the related Node, and power the Machine on again. Deleting the Node indicates that the workloads on the Node are not running anymore, which results in quicker rescheduling and lower downtime of the affected workloads.
 
 ### Enable remediation for worker nodes
 
