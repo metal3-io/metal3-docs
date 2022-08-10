@@ -10,7 +10,6 @@ approvers:
 - elfosardo
 - fmuyassarov
 - furkatgofurov7
-- hardys
 - hroyrh
 - imain
 - iurygregory
@@ -25,3 +24,4 @@ approvers:
 
 emeritus_approvers:
  - maelk
+ - hardys
