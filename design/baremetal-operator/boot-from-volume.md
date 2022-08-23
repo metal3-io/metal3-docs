@@ -37,11 +37,13 @@ For boot from remote volume, you should specify the "BootVolume" attributes in B
 
 2. VolumeDriver: the volume driver name, now ironic only support noop, cinder or external, where only cinder or external driver can support boot from volume. 
 
-3. ConnectorType: the connector type of baremetal and volume, it can be iscsi(implemented) or fibre-channel(not included now). 
+3. ConnectorId:  the identification of connection with target, format like "iqn.2010-10.openstack.org.nodeId".
 
-4. IscsiConnector: the details of iscsi attributes, include AuthUser, AuthPasswd, AuthMethod, Iqn, Lun, Portal, IType and so on, in which AuthMethod is "CHAP",  IType is "iqn". 
+4. TargetType: the target type of baremetal and volume, it can be iscsi(implemented) or fibre-channel(not included now). 
 
-5. IscsiCredentialsName:  the credential in k8s for baremetal-operator to replace AuthUser and AuthPasswd in iscsi attributes for safety (not implemented in controller now).
+5. IscsiTarget: the details of iscsi attributes, include AuthUser, AuthPasswd, AuthMethod, Iqn, Lun, Portal, IType and so on, in which AuthMethod is "CHAP",  IType is "iqn". 
+
+6. IscsiCredentialsName:  the credential in k8s for baremetal-operator to replace AuthUser and AuthPasswd in iscsi attributes for safety (not implemented in controller now).
 
 
 If VolumeId and VolumeDriver are configured, it will go to the boot from volume logic implementation, so please do not speicify them if you don't want this to happen. 
@@ -58,7 +60,7 @@ Risks lie in other dependent project, e.g. ironic and gophercloud.  Some version
 Most of the work is completed, some tasks are still outstanding:
 
 - Credentials to replace AuthUser and AuthPasswd for iscsi in baremetal operator.
-- Other volume connectors (not only iscsi) implementation.
+- Other volume connective targets (not only iscsi) implementation.
 
 ### Dependencies
 
