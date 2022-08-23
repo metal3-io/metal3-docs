@@ -3,7 +3,6 @@
 approvers:
  - andfasano
  - dtantsur
- - fmuyassarov
  - russellb
  - zaneb
 
@@ -13,3 +12,4 @@ reviewers:
 emeritus_approvers:
  - maelk
  - hardys
+ - fmuyassarov

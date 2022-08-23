@@ -8,7 +8,6 @@ approvers:
 - derekhiggins
 - dtantsur
 - elfosardo
-- fmuyassarov
 - furkatgofurov7
 - hroyrh
 - imain
@@ -25,3 +24,4 @@ approvers:
 emeritus_approvers:
  - maelk
  - hardys
+ - fmuyassarov

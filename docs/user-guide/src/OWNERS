@@ -6,7 +6,6 @@ approvers:
  - derekhiggins
  - dtantsur
  - elfosardo
- - fmuyassarov
  - furkatgofurov7
  - iurygregory
  - kashifest
@@ -25,3 +24,4 @@ reviewers:
 
 emeritus_approvers:
  - hardys
+ - fmuyassarov
