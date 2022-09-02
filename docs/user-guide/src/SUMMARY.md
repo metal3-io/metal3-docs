@@ -7,7 +7,7 @@
     - [Install Baremetal Operator]()
     - [Features]()
         - [Automated Cleaning](bmo/automated_cleaning.md)
-        - [Automatic Secure Boot]()
+        - [Automatic Secure Boot](bmo/automatic_secure_boot.md)
         - [Live ISO](bmo/live-iso.md)
         - [Detached annotation](bmo/detached_annotation.md)
         - [Status annotation](bmo/status_annotation.md)
