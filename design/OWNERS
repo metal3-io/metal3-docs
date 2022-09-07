@@ -1,0 +1,18 @@
+# See the OWNERS docs at https://go.k8s.io/owners
+
+approvers:
+ - andfasano
+ - dtantsur
+ - russellb
+ - zaneb
+
+reviewers:
+ - furkatgofurov7
+
+emeritus_approvers:
+ - maelk
+ - hardys
+ - fmuyassarov
+
+options:
+  no_parent_owners: true
