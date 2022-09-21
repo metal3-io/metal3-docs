@@ -7,3 +7,4 @@
 | Integration | Airship | 2019 | [link](https://www.airshipit.org/) | The Airship project uses Metal3 as its Kubernetes Cluster API (CAPI) provider for lifecycle managing bare metal cloud infrastructure. |
 | Integration | DT Technik "Das SCHIFF" | 2021 | [link](https://github.com/telekom/das-schiff) | "Das SCHIFF" uses parts of Metal3 to handle Bare Metal provisioning in its CAPI-Based Infrastructure |
 | Integration | Fujitsu | 2019 | | As a server vendor, we are developing and using Metal3 to provide Fujitsu servers as Kubernetes bare metal nodes. |
+| Integration | IKEA IT AB | 2020 | | IKEA IT AB uses Metal3 to handle Bare Metal provisioning and lifecycle management in its CAPI-Based bare metal cloud infrastructure. |
