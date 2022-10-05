@@ -32,6 +32,6 @@
 - [Flake tracker](flake/introduction.md)
     - [Nordix harbor 504 timeout](flake/nordix_timeout.md)
     - [Download Calico manifests connection failure](flake/calico_manifest_download.md)
-    - [BMH restart gets stuck](flake/bmh_stuck.md)
+    - [Waiting for BMH to be available again](flake/bmh_stuck.md)
     - [Floating IP error](flake/floating_ip_error.md)
 - [Version Support](version_support.md)
