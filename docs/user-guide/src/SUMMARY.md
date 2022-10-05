@@ -11,7 +11,7 @@
         - [Live ISO]()
         - [Detached annotation](bmo/detached_annotation.md)
         - [Status annotation](bmo/status_annotation.md)
-        - [External Inspection]()
+        - [External Inspection](bmo/external_inspection.md)
         - [Inspect annotation]()
         - [Reboot annotation](bmo/reboot_annotation.md)
 - [Ironic in Metal3](ironic/introduction.md)
