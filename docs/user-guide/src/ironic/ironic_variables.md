@@ -18,5 +18,7 @@ The following environmental variables can be passed to configure the Ironic serv
 - `IPA_DOWNLOAD_ENABLED` - enables the use of the Ironic Python Agent Downloader container to download IPA archive (default true)
 - `USE_LOCAL_IPA` - enables the use of locally supplied IPA archive. This condition is handled by BMO and this has effect only when `IPA_DOWNLOAD_ENABLED` is "false", otherwise `IPA_DOWNLOAD_ENABLED` takes precedence. (default false)
 - `LOCAL_IPA_PATH` - this has effect only when `USE_LOCAL_IPA` is set to "true", points to the directory where the IPA archive is located. This variable is handled by BMO. The variable should contain an arbitrary path pointing to the directory that contains the ironic-python-agent.tar
+- `GATEWAY_IP` - gateway IP address to use for ironic dnsmasq (dhcpd)
+- `DNS_IP` - DNS IP address to use for ironic dnsmasq (dhcpd)
 
 To know how to pass these variables, please see the sections below.
