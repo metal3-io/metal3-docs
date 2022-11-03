@@ -7,21 +7,28 @@ approvers:
  - dtantsur
  - elfosardo
  - furkatgofurov7
+ - honza
  - iurygregory
  - kashifest
- - russellb
- - Xenwar
  - zaneb
  
 reviewers:
+ - adilGhaffarDev
  - ardaguclu
  - dukov
- - honza
- - macaptain
- - namnx228
+ - lentzi90
+ - mboukhalfa
+ - Rozzii
  - smoshiur1237
  - s3rj1k
+ - zhouhao3
 
 emeritus_approvers:
- - hardys
  - fmuyassarov
+ - hardys
+ - russellb
+ - Xenwar
+
+emeritus_reviewers:
+ - macaptain
+ - namnx228
