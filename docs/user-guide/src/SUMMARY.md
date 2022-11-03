@@ -8,7 +8,7 @@
     - [Features]()
         - [Automated Cleaning](bmo/automated_cleaning.md)
         - [Automatic Secure Boot]()
-        - [Live ISO]()
+        - [Live ISO](bmo/live-iso.md)
         - [Detached annotation](bmo/detached_annotation.md)
         - [Status annotation](bmo/status_annotation.md)
         - [External Inspection](bmo/external_inspection.md)
