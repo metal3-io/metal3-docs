@@ -76,7 +76,3 @@ We also use the issue tracker to track features. If you have an idea for a featu
 - Some of our larger features will require proposals. If you would like to include a technical design for your feature please open a feature proposal in [metal3-docs](https://github.com/metal3-io/metal3-docs) using [this template](https://github.com/metal3-io/metal3-docs/blob/main/design/_template.md).
 
 After the new feature is well understood, and the design agreed upon we can start coding the feature. We would love for you to code it. So please open up a WIP (work in progress) pull request, and happy coding.
-
-## Documentation
-
-Please see our [user-guide](https://metal3io.netlify.app/) for in-depth documentation.
