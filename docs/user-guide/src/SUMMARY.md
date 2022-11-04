@@ -35,3 +35,4 @@
     - [Waiting for BMH to be available again](flake/bmh_stuck.md)
     - [Floating IP error](flake/floating_ip_error.md)
 - [Version Support](version_support.md)
+- [Project Security Policy](security_policy.md)
