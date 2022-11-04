@@ -21,7 +21,6 @@
     - [Install Metal³ provider](capm3/installation_guide.md)
     - [Upgrade]()
     - [Features]()
-        - [Automated cleaning API]()
         - [Remediation](capm3/remediaton.md)
         - [Node Reuse](capm3/node_reuse.md)
         - [Pivoting](capm3/pivoting.md)
