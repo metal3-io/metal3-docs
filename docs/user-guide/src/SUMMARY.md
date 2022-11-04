@@ -12,7 +12,7 @@
         - [Detached annotation](bmo/detached_annotation.md)
         - [Status annotation](bmo/status_annotation.md)
         - [External Inspection](bmo/external_inspection.md)
-        - [Inspect annotation]()
+        - [Inspect annotation](bmo/inspect_annotation.md)
         - [Reboot annotation](bmo/reboot_annotation.md)
 - [Ironic in Metal3](ironic/introduction.md)
     - [Install Ironic](ironic/ironic_installation.md)
