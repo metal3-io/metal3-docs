@@ -42,4 +42,3 @@ An inactive issue in one of the releases (marked as stale) can be moved back to
 the `Backlog` column, and issues in the `feature requests` column that are not
 actual feature proposals but issues related to metal3-docs repository can be
 removed from the project.
-

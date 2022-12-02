@@ -109,4 +109,3 @@ and there are concerns about corner-cases such as adoption when an
 ephemeral Ironic is used and a rechedule occurs.
 
 ## References
-

@@ -14,7 +14,5 @@ reading manifest latest in registry.nordix.org/quay-io-proxy/metal3-io/vbmc: rec
 - 29.06.2022: [metal3_main_v1b1_e2e_test_centos](https://artifactory.nordix.org/ui/native/metal3/jenkins-logs/registry-timeout-metal3_main_v1b1_e2e_test_centos-213.tgz)
 
 - 28.06.2022:
-  - [metal3_main_v1b1_integration_test_centos](https://artifactory.nordix.org/artifactory/metal3/jenkins-logs/registry-timeout-metal3_main_v1b1_integration_test_centos-190.tgz)
-  - [metal3_main_v1a5_integration_test_centos](https://artifactory.nordix.org/artifactory/metal3/jenkins-logs/registry-timeout-metal3_main_v1a5_integration_test_centos-167.tgz)
-
-
+   - [metal3_main_v1b1_integration_test_centos](https://artifactory.nordix.org/artifactory/metal3/jenkins-logs/registry-timeout-metal3_main_v1b1_integration_test_centos-190.tgz)
+   - [metal3_main_v1a5_integration_test_centos](https://artifactory.nordix.org/artifactory/metal3/jenkins-logs/registry-timeout-metal3_main_v1a5_integration_test_centos-167.tgz)
