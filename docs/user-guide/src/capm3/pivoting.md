@@ -169,4 +169,3 @@ This can now be achieved with the following procedure:
     ```
 
 9. Delete the bootstrap cluster
-

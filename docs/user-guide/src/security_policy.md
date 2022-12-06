@@ -124,4 +124,3 @@ public repo's review process as soon as possible and merge it.
 | Adam Rozman       | Rozzii              | Ericsson Software Technology   |
 
 **Please don't report any security vulnerability to the committee members directly.**
-
