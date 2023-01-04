@@ -29,6 +29,7 @@
 - [Ip-address-manager](ipam/introduction.md)
     - [Install Ip-address-manager](ipam/ipam_installation.md)
 - [Developer environment]()
+- [Baremetal](baremetal/guide.md)
 - [Flake tracker](flake/introduction.md)
     - [Nordix harbor 504 timeout](flake/nordix_timeout.md)
     - [Download Calico manifests connection failure](flake/calico_manifest_download.md)
