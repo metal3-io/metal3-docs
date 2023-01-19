@@ -3,25 +3,19 @@
 
 approvers:
 - andfasano
-- ashughorla
 - bfournie
 - derekhiggins
 - dtantsur
 - elfosardo
 - furkatgofurov7
-- hroyrh
-- imain
+- honza
 - iurygregory
 - kashifest
-- knowncitizen
-- ogelbukh
-- ravipwaghmare
-- russellb
-- stbenjam
-- xenwar
 - zaneb
 
 emeritus_approvers:
- - maelk
- - hardys
- - fmuyassarov
+- fmuyassarov
+- hardys
+- maelk
+- russellb
+- xenwar
