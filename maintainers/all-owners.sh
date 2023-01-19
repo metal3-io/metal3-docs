@@ -3,7 +3,6 @@
 REPOS=" \
   baremetal-operator \
   cluster-api-provider-metal3 \
-  hardware-classification-controller \
   ip-address-manager \
   ironic-agent-image \
   ironic-client \
