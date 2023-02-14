@@ -1,6 +1,6 @@
 # Title
 
-Metal3 Issue Triage Proccess
+Metal3 Issue Triage Process
 
 ## Status
 
