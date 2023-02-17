@@ -30,7 +30,7 @@ The final content is built on the fly by Netlify as such, we don't store it on G
 
 ## What's the URL of the current user-guide
 
-[https://metal3io.netlify.app/](https://metal3io.netlify.app/)
+[https://book.metal3.io/](https://book.metal3.io/)
 
 ## How to check book content when reviewing a GitHub patch
 
