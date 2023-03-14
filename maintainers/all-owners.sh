@@ -11,6 +11,7 @@ declare -a REPOS=(
     ip-address-manager
     ironic-agent-image
     ironic-client
+    ironic-hardware-inventory-recorder-image
     ironic-image
     ironic-ipa-downloader
     mariadb-image
@@ -18,7 +19,6 @@ declare -a REPOS=(
     metal3-docs
     metal3-io.github.io
     project-infra
-    static-ip-manager-image
 )
 
 declare -a OWNER_TYPES=(
