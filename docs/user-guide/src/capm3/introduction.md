@@ -19,7 +19,7 @@ cluster on top of bare metal infrastructure using Metal3.
 | CAPM3 version | Cluster API version | CAPM3 Release |
 |---------------|---------------------|---------------|
 | ~~v1alpha4~~  | ~~v1alpha3~~        | ~~v0.4.X~~    |
-| v1alpha5      | v1alpha4            | v0.5.X        |
+| ~~v1alpha5~~  | ~~v1alpha4~~        | ~~v0.5.X~~    |
 | v1beta1       | v1beta1             | v1.1.X        |
 | v1beta1       | v1beta1             | v1.2.X        |
 
