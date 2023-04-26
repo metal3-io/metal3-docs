@@ -33,8 +33,8 @@ the following in their interaction with the project:
 - Contribution of significant new features through the patch submission
   process where:
 
-  - Submissions are free of obvious critical defects
-  - Submissions do not typically require many iterations of improvement
+   - Submissions are free of obvious critical defects
+   - Submissions do not typically require many iterations of improvement
     to be accepted
 
 - Consistent participation in code review of other's patches, including

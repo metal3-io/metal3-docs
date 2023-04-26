@@ -27,7 +27,7 @@ least minimally configurable.
 
 - Identify the "owner" for specifying the version of the provisioning
   image
-- Idenitfy the "owner" for specifying the version of the target image
+- Identify the "owner" for specifying the version of the target image
 
 ### Non-Goals
 

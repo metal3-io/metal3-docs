@@ -17,7 +17,7 @@ Kubernetes interfaces.
 
 ## Documentation
 
-Please see our [user-guide](https://metal3io.netlify.app/) to familiarize yourself with Metal³ and its features. We are currently in the process of writing
+Please see our [user-guide](https://book.metal3.io/) to familiarize yourself with Metal³ and its features. We are currently in the process of writing
 the user-guide. As such, not all the topics might be covered yet.
 
 ## Community
