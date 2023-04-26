@@ -4,7 +4,8 @@ The Cluster API includes the [remediation](https://cluster-api.sigs.k8s.io/tasks
 
 ## CAPI Remediation
 
-A MachineHealthCheck is a Cluster API resource, which allows users to define conditions under which Machines within a Cluster should be considered unhealthy. Users can also specify a timeout for each of the conditions that they define to check on the Machine’s Node. If any of these conditions are met for the duration of the timeout, the Machine will be remediated. CAPM3 will use the MachineHealthCheck to create remediation requests based on Metal3RemediationTemplate and Metal3Remediation CRDs to plug-in remediation solution. For more info, please read the [CAPI MHC](https://cluster-api.sigs.k8s.io/tasks/automated-machine-management/healthchecking.html)link.
+A MachineHealthCheck is a Cluster API resource, which allows users to define conditions under which Machines within a Cluster should be considered unhealthy. Users can also specify a timeout for each of the conditions that they define to check on the Machine’s Node. If any of these conditions are met for the duration of the timeout, the Machine will be remediated. CAPM3 will use the MachineHealthCheck to create remediation requests based on Metal3RemediationTemplate and Metal3Remediation CRDs to plug-in remediation solution. For more info, please read the [CAPI MHC](https://cluster-api.sigs.k8s.io/tasks/automated-machine-management/healthchecking.html) link.
+
 
 ## External Remediation
 
@@ -137,3 +138,4 @@ spec:
 * If there is no Node joins the cluster for a Machine after the ```NodeStartupTimeout```, the Machine will be remediated
 
 * If a Machine fails for any reason and the ```FailureReason``` is set, the Machine will be remediated immediately
+
