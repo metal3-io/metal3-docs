@@ -137,3 +137,4 @@ spec:
 * If there is no Node joins the cluster for a Machine after the ```NodeStartupTimeout```, the Machine will be remediated
 
 * If a Machine fails for any reason and the ```FailureReason``` is set, the Machine will be remediated immediately
+

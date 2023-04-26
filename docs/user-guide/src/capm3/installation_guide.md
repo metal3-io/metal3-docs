@@ -53,3 +53,4 @@ Apply the manifests
 cd cluster-api-provider-metal3
 kustomize build config/default | kubectl apply -f -
 ```
+
