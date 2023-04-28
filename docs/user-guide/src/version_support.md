@@ -54,3 +54,28 @@ Supported container images for CAPM3 and IPAM will always follow the supported r
 
 - quay.io/metal3-io/cluster-api-provider-metal3:v1.2.0
 - quay.io/metal3-io/ip-address-manager:v1.2.0
+
+## CI Test Matrix
+
+The table describes which branches/image-tags are tested in each periodic CI tests:
+
+<!-- markdownlint-disable -->
+
+| TESTS                                                | CAPM3 branch | IPAM branch  | BMO branch/tag  | Keepalived tag | MariaDB | Ironic |
+| ------                                               | ------------ | -----------  | --------------- | -------------- | ------- | ------ |
+| **Integration tests**                                |              |              |                 |                |         |        |
+| daily_main_integration_test_ubuntu/centos            | main         | main         | main            | latest         | latest  | latest |
+| daily_main_e2e_integration_test_ubuntu/centos        | main         | main         | main            | latest         | latest  | latest |
+| daily_release-1-3_integration_test_ubuntu/centos     | release-1.3  | release-1.3  | v0.2.0          | v0.2.0         | latest  | latest |
+| daily_release-1-2_integration_test_ubuntu/centos     | release-1.2  | release-1.2  | v0.1.2          | v0.1.2         | latest  | latest |
+| daily_release-1-1_integration_test_ubuntu/centos     | release-1.1  | release-1.1  | v0.1.1          | v0.1.1         | latest  | latest |
+| **Feature and e2e feature tests**                    |              |              |                 |                |         |        |
+| daily_main_e2e_feature_test_ubuntu/centos            | main         | main         | main            | latest         | latest  | latest |
+| daily_release-1-3_e2e_feature_test_ubuntu/centos     | release-1.3  | release-1.3  | v0.2.0          | v0.2.0         | latest  | latest |
+| daily_release-1-2_e2e_feature_test_ubuntu/centos     | release-1.2  | release-1.2  | v0.1.2          | v0.1.2         | latest  | latest |
+| daily_release-1-1_e2e_feature_test_ubuntu/centos     | release-1.1  | release-1.1  | v0.1.1          | v0.1.1         | latest  | latest |
+| daily_main_feature_tests_ubuntu/centos               | main         | main         | main            | latest         | latest  | latest |
+| **Ephemeral tests**                                  |              |              |                 |                |         |        |
+| daily_main_e2e_ephemeral_test_centos                 | main         | main         | main            | latest         | latest  | latest |
+
+All tests use latest images of VBMC and sushy-tools.
