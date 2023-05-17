@@ -70,7 +70,7 @@ does a nice job discussing what services they offer projects on the
 - (russellb) Write this proposal.
 - (everyone) Provide feedback on initial proposal, reach consensus.
 - (russellb) If approved, draft the [CNCF Sandbox
-  application](https://github.com/cncf/toc/blob/master/process/project_proposals.adoc)
+  application](https://github.com/cncf/toc/blob/main/process/project_proposals.md)
   first as a draft in this repository.
 - (everyone) Provide feedback on application text, reach consensus.
 - (russellb) Submit Application.
@@ -113,4 +113,4 @@ collaborate with the cluster-api project.
 - Sample application: [KubeVirt sandbox
   application](https://github.com/cncf/toc/pull/265)
 - [CNCF Graduation
-  Criteria](https://github.com/cncf/toc/blob/master/process/graduation_criteria.adoc)
+  Criteria](https://github.com/cncf/toc/blob/main/process/graduation_criteria.md)
