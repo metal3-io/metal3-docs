@@ -44,7 +44,7 @@ into baremetal host.
 ### Implementation Details/Notes/Constraints
 
 Please refer to the [metal3 spec for
-bare-metal](https://github.com/metal3-io/baremetal-operator/blob/main/deploy/crds/metal3.io_baremetalhosts_crd.yaml).
+bare-metal](https://github.com/metal3-io/baremetal-operator/blob/dabe5e14bafa00db6ccb37f1169c74ee3dac4425/config/crd/bases/metal3.io_baremetalhosts.yaml).
 
 - Below is sample yaml of Kind HardwareClassification.
 
