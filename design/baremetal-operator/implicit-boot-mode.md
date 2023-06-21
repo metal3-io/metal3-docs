@@ -106,7 +106,7 @@ that is also easy to document.
 The proposal, therefore, is to always use BIOS mode when using IPMI
 and to prefer UEFI when using Redfish. We can implement this by adding
 a new method to the [AccessDetails
-interface](https://github.com/metal3-io/baremetal-operator/blob/main/pkg/bmc/access.go#L27)
+interface](https://github.com/metal3-io/baremetal-operator/blob/93cd6bdae72ff44a3b68cea7d549abd758d27838/pkg/hardwareutils/bmc/access.go#L47)
 to return the properties for a host, including the `boot_mode`. This
 API is consistent with other similar methods in that class that return
 other sets of data passed to Ironic when a host is registered.
@@ -141,7 +141,7 @@ values later for other hardware platforms.
 ## Design Details
 
 - Update the [AccessDetails
-  interface](https://github.com/metal3-io/baremetal-operator/blob/main/pkg/bmc/access.go#L27)
+  interface](https://github.com/metal3-io/baremetal-operator/blob/93cd6bdae72ff44a3b68cea7d549abd758d27838/pkg/hardwareutils/bmc/access.go#L47)
   to include the new method, `NodeProperties()`.
 - Update each implementation of the interface to include the new
   method with at least a static return value.

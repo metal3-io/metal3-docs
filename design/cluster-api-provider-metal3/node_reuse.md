@@ -220,5 +220,5 @@ None
 
 ## References
 
-- Remediation proposal in Metal3: [Remediation](https://github.com/metal3-io/metal3-docs/blob/main/design/capm3-remediation-controller-proposal.md)
+- Remediation proposal in Metal3: [Remediation](https://github.com/metal3-io/metal3-docs/blob/c4a981275e6bf7cf8b77a274d7db83089b6edd4a/design/cluster-api-provider-metal3/capm3-remediation-controller-proposal.md)
 - Disable disk cleaning proposal in Metal3: [Disable disk cleaning](https://github.com/metal3-io/metal3-docs/blob/main/design/cluster-api-provider-metal3/allow_disabling_node_disk_cleaning.md)

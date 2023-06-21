@@ -71,7 +71,7 @@ ironic-provisioning-log-watch.sh will be created in
 ironic-inspection-log-watch.sh will be created in
 <https://github.com/metal3-io/ironic-inspector-image>
 Both scripts will be added as new container entry points to
-<https://github.com/metal3-io/baremetal-operator/blob/main/ironic-deployment/ironic/ironic.yaml>
+<https://github.com/metal3-io/baremetal-operator/blob/dabe5e14bafa00db6ccb37f1169c74ee3dac4425/ironic-deployment/base/ironic.yaml>
 
 ### Implementation Details/Notes/Constraints
 
