@@ -2,8 +2,9 @@
 
 [IPA](https://docs.openstack.org/ironic-python-agent/latest/) is a service written in python that runs within a ramdisk. It provides remote access to `ironic` and `ironic-inspector` services to perform various operations on the managed server. It also sends information about the server to `Ironic`.
 
-By default, RDO ramdisks from [registry](https://images.rdoproject.org/centos9/master/rdo_trunk/current-tripleo/) is used. However, another remote registry or a local IPA archive can be specified.
-[ipa-downloader](https://github.com/metal3-io/ironic-ipa-downloader) is responsible for downloading the IPA ramdisk image to a shared volume from where the nodes are able to retrieve it.
+By default, we pull IPA images from [Ironic upstream](https://tarballs.opendev.org/openstack/ironic-python-agent/dib) archive where an image is built on every commit to the *master* git branch.
+
+However, another remote registry or a local IPA archive can be specified. [ipa-downloader](https://github.com/metal3-io/ironic-ipa-downloader) is responsible for downloading the IPA ramdisk image to a shared volume from where the nodes are able to retrieve it.
 
 ## Data flow
 
