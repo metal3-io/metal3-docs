@@ -1,9 +1,9 @@
 # Inspect annotation
 
-The inspect annotation can be used to request the baremetal operator to (re-)inspect a `Ready` BareMetalHost.
+The inspect annotation can be used to request the baremetal operator to (re-)inspect an `Available` BareMetalHost.
 This is useful in case there were hardware changes for example.
-Note that it is only possible to do this when BareMetalHost is in `Ready` state.
-If an inspection request is made while BareMetalHost is any other state than Ready, the request will be ignored.
+Note that it is only possible to do this when BareMetalHost is in `Available` state.
+If an inspection request is made while BareMetalHost is any other state than `Available`, the request will be ignored.
 
 To request a new inspection, simply annotating the host with `inspect.metal3.io` is enough.
 Once inspection is requested, you should see the BMH in inspecting state until inspection is completed, and by the end of inspection the `inspect.metal3.io` annotation will be removed automatically.
@@ -34,6 +34,6 @@ Why is this needed?
 
 Caveats:
 
-- It is only possible to inspect a BareMetalHost when it is in `Ready` state.
+- It is only possible to inspect a BareMetalHost when it is in `Available` state.
 
 Note: For other use cases, like disabling inspection or providing externally gathered inspection data, see [external inspection](./external_inspection.md).
