@@ -3,7 +3,7 @@
 The detached annotation provides a way to prevent management of a BareMetalHost.
 It works by deleting the host information from Ironic without triggering deprovisioning.
 The BareMetal Operator will recreate the host in Ironic again once the annotation is removed.
-This annotation can be used with BareMetalHosts in `Provisioned`, `ExternallyProvisioned`, `Ready` or `Available` states.
+This annotation can be used with BareMetalHosts in `Provisioned`, `ExternallyProvisioned` or `Available` states.
 
 Normally, deleting a BareMetalHost will always trigger deprovisioning.
 This can be problematic and unnecessary if we just want to, for example, move the BareMetalHost from one cluster to another.
