@@ -14,7 +14,7 @@ approvers:
  
 reviewers:
  - adilGhaffarDev
- - ardaguclu
+ - hroyrh
  - lentzi90
  - mboukhalfa
  - Rozzii
@@ -30,6 +30,7 @@ emeritus_approvers:
  - Xenwar
 
 emeritus_reviewers:
+ - ardaguclu
  - dukov
  - macaptain
  - namnx228
