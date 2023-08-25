@@ -3,6 +3,7 @@
 [Introduction](introduction.md)
 
 - [Project Overview]()
+- [Installing on Baremetal](baremetal/guide.md)
 - [Baremetal Operator](bmo/introduction.md)
     - [Install Baremetal Operator]()
     - [Features]()
@@ -30,6 +31,5 @@
     - [Install Ip-address-manager](ipam/ipam_installation.md)
 - [Developer environment]()
     - [Try it](developer_environment/tryit.md)
-- [Baremetal](baremetal/guide.md)
 - [Version Support](version_support.md)
 - [Project Security Policy](security_policy.md)

@@ -19,6 +19,8 @@ This is a separate machine, e.g. your laptop or one of the servers, that has acc
     * ibmc
     * iLO
 
+  See [Install Ironic](../ironic/ironic_installation.md) for other requirements.
+
   Install following requirements on the host.
 
     * Python
@@ -66,6 +68,8 @@ This is a separate machine, e.g. your laptop or one of the servers, that has acc
 
   ```
 
+## Prepare image cache
+
 * Start httpd container. This is used to host the the OS images that the BareMetalHosts will be provisioned with.
 
   ```bash
@@ -111,6 +115,8 @@ This is a separate machine, e.g. your laptop or one of the servers, that has acc
   kubectl create namespace metal3
   clusterctl init --core cluster-api:v1.4.2 --bootstrap kubeadm:v1.4.2 --control-plane kubeadm:v1.4.2 --infrastructure=metal3:v1.4.0 -v5
   ```
+
+## Install provisioning components
 
 * Launch baremetal operator.
 
