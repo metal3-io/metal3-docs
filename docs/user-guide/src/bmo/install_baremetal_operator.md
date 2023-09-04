@@ -8,8 +8,7 @@ Installing Baremetal Operator (BMO) involves usually three steps:
 
 *Note*: This guide assumes that a local clone of the repository is available.
 
-Configuration Settings
-----------------------
+## Configuration Settings
 
 Review and edit the file `ironic.env` found in `config/default`.
 The operator supports several configuration options for controlling
@@ -60,8 +59,7 @@ BMO_CONCURRENCY value lower than the requested PROVISIONING_LIMIT. Default is 20
 nodes that use IPv6. In dual stack environments, this can be used to tell Ironic which IP
 version it should set on the BMC.
 
-Kustomization Configuration
----------------------------
+## Kustomization Configuration
 
 It is possible to deploy ```baremetal-operator``` with three different operator
 configurations, namely:
@@ -72,8 +70,7 @@ configurations, namely:
 
 A detailed overview of the configuration is presented in the following sections.
 
-Notes on external Ironic
-------------------------
+### Notes on external Ironic
 
 When an external Ironic is used, the following requirements must be met:
 
@@ -269,33 +266,33 @@ For more information, check the readme in the `ironic-deployment` folder.
 There is a useful deployment script that configures and deploys BareMetal
 Operator and Ironic. It requires some variables :
 
-- IRONIC_HOST : domain name for Ironic and inspector
-- IRONIC_HOST_IP : IP on which Ironic and inspector are listening
+* IRONIC_HOST : domain name for Ironic and inspector
+* IRONIC_HOST_IP : IP on which Ironic and inspector are listening
 
 In addition you can configure the following variables. They are **optional**.
 If you leave them unset, then passwords and certificates will be generated
 for you.
 
-- KUBECTL_ARGS : Additional arguments to kubectl apply
-- IRONIC_USERNAME : username for ironic
-- IRONIC_PASSWORD : password for ironic
-- IRONIC_INSPECTOR_USERNAME : username for inspector
-- IRONIC_INSPECTOR_PASSWORD : password for inspector
-- IRONIC_CACERT_FILE : CA certificate path for ironic
-- IRONIC_CAKEY_FILE : CA certificate key path, unneeded if ironic
+* KUBECTL_ARGS : Additional arguments to kubectl apply
+* IRONIC_USERNAME : username for ironic
+* IRONIC_PASSWORD : password for ironic
+* IRONIC_INSPECTOR_USERNAME : username for inspector
+* IRONIC_INSPECTOR_PASSWORD : password for inspector
+* IRONIC_CACERT_FILE : CA certificate path for ironic
+* IRONIC_CAKEY_FILE : CA certificate key path, unneeded if ironic
+* certificates exist
+* IRONIC_CERT_FILE : Ironic certificate path
+* IRONIC_KEY_FILE : Ironic certificate key path
+* IRONIC_INSPECTOR_CERT_FILE : Inspector certificate path
+* IRONIC_INSPECTOR_KEY_FILE : Inspector certificate key path
+* IRONIC_INSPECTOR_CACERT_FILE : CA certificate path for inspector, defaults to
+* IRONIC_CACERT_FILE
+* IRONIC_INSPECTOR_CAKEY_FILE : CA certificate key path, unneeded if inspector
   certificates exist
-- IRONIC_CERT_FILE : Ironic certificate path
-- IRONIC_KEY_FILE : Ironic certificate key path
-- IRONIC_INSPECTOR_CERT_FILE : Inspector certificate path
-- IRONIC_INSPECTOR_KEY_FILE : Inspector certificate key path
-- IRONIC_INSPECTOR_CACERT_FILE : CA certificate path for inspector, defaults to
-  IRONIC_CACERT_FILE
-- IRONIC_INSPECTOR_CAKEY_FILE : CA certificate key path, unneeded if inspector
-  certificates exist
-- MARIADB_KEY_FILE: Path to the key of MariaDB
-- MARIADB_CERT_FILE:  Path to the cert of MariaDB
-- MARIADB_CAKEY_FILE: Path to the CA key of MariaDB
-- MARIADB_CACERT_FILE: Path to the CA certificate of MariaDB
+* MARIADB_KEY_FILE: Path to the key of MariaDB
+* MARIADB_CERT_FILE:  Path to the cert of MariaDB
+* MARIADB_CAKEY_FILE: Path to the CA key of MariaDB
+* MARIADB_CACERT_FILE: Path to the CA certificate of MariaDB
 
 Then run :
 
@@ -303,11 +300,11 @@ Then run :
 ./tools/deploy.sh [-b -i -t -n -k]
 ```
 
-- `-b`: deploy BMO
-- `-i`: deploy Ironic
-- `-t`: deploy with TLS enabled
-- `-n`: deploy without authentication
-- `-k`: deploy with keepalived
+* `-b`: deploy BMO
+* `-i`: deploy Ironic
+* `-t`: deploy with TLS enabled
+* `-n`: deploy without authentication
+* `-k`: deploy with keepalived
 
 This will deploy BMO and / or Ironic with the proper configuration.
 
