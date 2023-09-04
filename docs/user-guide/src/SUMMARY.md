@@ -5,7 +5,7 @@
 - [Project Overview]()
 - [Installing on Baremetal](baremetal/guide.md)
 - [Baremetal Operator](bmo/introduction.md)
-    - [Install Baremetal Operator]()
+    - [Install Baremetal Operator](bmo/install_baremetal_operator.md)
     - [Features]()
         - [Automated Cleaning](bmo/automated_cleaning.md)
         - [Automatic Secure Boot](bmo/automatic_secure_boot.md)
