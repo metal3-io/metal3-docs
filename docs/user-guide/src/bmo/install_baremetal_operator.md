@@ -9,9 +9,9 @@ Installing Baremetal Operator (BMO) involves usually three steps:
 *Note*: This guide assumes that a local clone of the repository is available.
 
 Configuration Settings
-======================
+----------------------
 
-Review and edit the file `ironic.env` found in `config/dev`.
+Review and edit the file `ironic.env` found in `config/default`.
 The operator supports several configuration options for controlling
 its interaction with Ironic.
 
@@ -82,14 +82,14 @@ When an external Ironic is used, the following requirements must be met:
 
 * API version 1.74 (Xena release cycle) or newer must be available.
 
-# Authenticating to Ironic
+## Authenticating to Ironic
 
 Because hosts under the control of Metal³ need to contact the Ironic and Ironic
 Inspector APIs during inspection and provisioning, it is highly advisable to
 require authentication on those APIs, since the provisioned hosts running user
 workloads will remain connected to the provisioning network.
 
-## Configuration
+### Configuration
 
 The `baremetal-operator` supports connecting to Ironic and Ironic Inspector
 configured with the following `auth_strategy` modes:
@@ -108,19 +108,19 @@ Ironic client configuration, and `ironic-inspector` for Ironic Inspector client
 configuration. (This allows the data to be populated from separate secrets when
 deploying in Kubernetes.)
 
-### `noauth`
+#### `noauth`
 
 This is the default, and will be chosen if the auth root directory does not
 exist. In this mode, the baremetal-operator does not attempt to do any
 authentication against the Ironic APIs.
 
-### `http_basic`
+#### `http_basic`
 
 This mode is configured by files in each authentication subdirectory named
 `username` and `password`, and containing the Basic auth username and password,
 respectively.
 
-# Running Bare Metal Operator with or without Ironic
+## Running Bare Metal Operator with or without Ironic
 
 This section explains the deployment scenarios of deploying Bare Metal
 Operator(BMO) with or without Ironic as well as deploying only Ironic scenario.
@@ -133,9 +133,9 @@ Operator(BMO) with or without Ironic as well as deploying only Ironic scenario.
 
 3. Deploying only Ironic.
 
-## Current structure of baremetal-operator config directory
+### Current structure of baremetal-operator config directory
 
-```diff
+```console
 tree config/
 config/
 ├── basic-auth
@@ -218,9 +218,9 @@ and it deploys only baremetal-operator through kustomization file calling
 `prometheus`, `rbac`, `tls` and `webhook`folders have their own kustomization
 and yaml files. `samples` folder includes yaml representation of sample CRDs.
 
-## Current structure of ironic-deployment directory
+### Current structure of ironic-deployment directory
 
-```diff
+```console
 tree ironic-deployment/
 ironic-deployment/
 ├── base
@@ -264,7 +264,7 @@ This makes it easy to combine the configurations, for example basic auth + TLS.
 There are some ready made overlays in the `overlays` folder that shows how this can be done.
 For more information, check the readme in the `ironic-deployment` folder.
 
-## Deployment commands
+### Deployment commands
 
 There is a useful deployment script that configures and deploys BareMetal
 Operator and Ironic. It requires some variables :
@@ -311,7 +311,7 @@ Then run :
 
 This will deploy BMO and / or Ironic with the proper configuration.
 
-## Useful tips
+### Useful tips
 
 It is worth mentioning some tips for when the different configurations are
 useful as well. For example:
