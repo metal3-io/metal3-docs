@@ -1,25 +1,25 @@
-# Releasing
+# Releasing in Metal3
 
 This document details the high-level process of creating a Metal3 release, and
 the post-release actions required to add new release branches to the CI.
 
-Note the [TODO](#todo) section in the end.
+Note the [TODO](#releasing-process-todo) section in the end.
 
 ## Process
 
-High-level release process we followed in case it makes it clearer:
+High-level release process for a major/minor release. For patch releases, only
+release the relevant versions.
 
 1. [Release IPAM](https://github.com/metal3-io/ip-address-manager/blob/main/docs/releasing.md)
 1. [Release BMO](https://github.com/metal3-io/baremetal-operator/blob/main/docs/releasing.md)
 1. [Release CAPM3](https://github.com/metal3-io/cluster-api-provider-metal3/blob/main/docs/releasing.md)
-1. Update Metal3 dev-env and CI to support new releases
+1. [Tag Ironic and Mariadb images](#tag-ironic-and-mariadb-images)
+1. [Update Metal3 dev-env and CI to support new releases](#update-metal3-dev-env-and-ci-to-support-new-releases)
 
-## Update Metal3 dev-env and CI to support new releases
+**NOTE**: Always follow release documentation from the respective main branch.
+Release documentation in release branches may be outdated.
 
-If a new minor or major release was published, we need to make changes in
-Metal3 dev-env and CI.
-
-### Tag Ironic and Mariadb images
+## Tag Ironic and Mariadb images
 
 After releasing `v1.x.y` version of CAPM3, create an annotated tag with `capm3-`
 prefix + release version in
@@ -37,6 +37,13 @@ After this, [Ironic](https://quay.io/repository/metal3-io/ironic) and
 be built automatically  with `capm3-v1.x.y` tag in Quay. Verify the build is
 triggered, as often Quay has disabled the build trigger due build failures or
 other reasons.
+
+## Update Metal3 dev-env and CI to support new releases
+
+If a new minor or major release was published, we need to make changes in
+Metal3 dev-env and CI.
+**NOTE**: These changes shall only be merged after the releases are out, as they
+require the releases they refer to be out already to pass PR tests to merge!
 
 ### Create Jenkins jobs
 
@@ -91,7 +98,7 @@ Email template:
 Hey folks,
 
 CAPM3 v1.x.y, IPAM v1.x.y and BMO v0.x.y minor releases are out now!
-Release notes can be found here: CAPM3 release notes[1], IPAM release notes[2] and BMO release notes[3].
+Release notes can be found here: [1], [2], [3].
 
 Thanks to all our contributors!
 
@@ -108,21 +115,28 @@ Hey folks,
 CAPM3 v1.x.y, IPAM v1.x.y and BMO v0.x.y minor releases are out now :tada::metal3:!
 
 Release notes can be found here:
-- CAPM3 v1.x.y: https://github.com/metal3-io/cluster-api-provider-metal3/releases/tag/v1.x.y
-- IPAM v1.x.y: https://github.com/metal3-io/ip-address-manager/releases/tag/v1.x.y
-- BMO: v0.x.y: https://github.com/metal3-io/baremetal-operator/releases/tag/v0.x.y
+- https://github.com/metal3-io/cluster-api-provider-metal3/releases/tag/v1.x.y
+- https://github.com/metal3-io/ip-address-manager/releases/tag/v1.x.y
+- https://github.com/metal3-io/baremetal-operator/releases/tag/v0.x.y
 
 Thanks to all our contributors! :blush:
 ```
 
-## TODO
+## Releasing process TODO
 
-BMO releasing to be discussed.
+### BMO
+
+BMO releasing to be implemented.
 
 1. BMO releasing and maintenance
    - BMO does not have release branches, only tags off the `main` branch
    - Without release branches, maintaining BMO versions that are coupled with
      CAPM3 releases is impossible
+   - [BMO release documentation](https://github.com/metal3-io/baremetal-operator/blob/main/docs/releasing.md)
+     is already up to date for releasing from branches, but BMO CI needs to be
+     decoupled from CAPM3 CI, and BMO end-to-end testing implemented to support
+     release branches.
+     [Proposal PR here](https://github.com/metal3-io/metal3-docs/pull/345).
 1. BMO dependencies
    - BMO contains `keepalived`
      ([within BMO repo](https://github.com/metal3-io/baremetal-operator/tree/main/resources/keepalived-docker))
@@ -132,3 +146,11 @@ BMO releasing to be discussed.
 1. BMO makes assumption about the exact configuration of MariaDB.
    However, [mariadb-image](https://github.com/metal3-io/mariadb-image) is
    currently branchless.
+
+### Ironic-image
+
+Ironic-image releasing to be implemented. Largely same issues as BMO.
+
+### Mariadb-image
+
+Mariadb-image releasing to be implemented. Largely same issues as BMO.
