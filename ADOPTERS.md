@@ -8,4 +8,4 @@
 | Integration | DT Technik "Das SCHIFF" | 2021 | [link](https://github.com/telekom/das-schiff) | "Das SCHIFF" uses parts of Metal3 to handle Bare Metal provisioning in its CAPI-Based Infrastructure |
 | Integration | Fujitsu | 2019 | | As a server vendor, we are developing and using Metal3 to provide Fujitsu servers as Kubernetes bare metal nodes. |
 | Integration | IKEA IT AB | 2020 | | IKEA IT AB uses Metal3 to handle Bare Metal provisioning and lifecycle management in its CAPI-Based bare metal cloud infrastructure. |
-| Integration | PITS Global Data Recovery Services | 2023 | [link](https://pitsdatarecovery.net/)| The Metal3 is used to manage highly-loaded internal infrastructure prividing reliable and flexible k8s solutions. | 
+| Integration | PITS Global Data Recovery Services | 2023 | [link](https://pitsdatarecovery.net/)| The Metal3 is used to manage highly-loaded internal infrastructure prividing reliable and flexible k8s solutions. |
