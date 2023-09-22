@@ -240,7 +240,7 @@ this label.
 
 There is also a security vulnerability associated with kubelet's ability to
 self-label the Node object. This has been
-[addressed](https://github.com/kubernetes/enhancements/blob/master/keps/sig-auth/0000-20170814-bounding-self-labeling-kubelets.md).
+[addressed](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#node-isolation-restriction).
 However, as a consequence, BMH labels that fall within the *.kubernetes.io/*
 space cannot be specified via kubelet's `--node-labels` flag.
 
