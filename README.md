@@ -11,7 +11,7 @@ Kubernetes interfaces.
 
 ## Useful links
 
-* [Quick start](http://metal3.io/try-it.html)
+* [Quick start](https://book.metal3.io/developer_environment/tryit)
 * [Demos](https://www.youtube.com/watch?v=VFbIHc3NbJo&list=PL2h5ikWC8viKmhbXHo1epPelGdCkVlF16&ab_channel=Metal3)
 * [Blog posts](https://metal3.io/blog/index.html)
 
