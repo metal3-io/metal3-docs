@@ -10,9 +10,10 @@ approvers:
 
 reviewers:
  - Rozzii
+ - tuminoid
 
 emeritus_approvers:
- - maelk
- - hardys
  - fmuyassarov
+ - hardys
+ - maelk
  - russellb
