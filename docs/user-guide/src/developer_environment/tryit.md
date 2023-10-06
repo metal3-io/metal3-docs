@@ -1,5 +1,5 @@
 
-# Getting started with Metal3
+# Trying Metal3 on a development environment
 
  Ready to start taking steps towards your first experience with metal3? Follow these commands to get started!
 
@@ -33,6 +33,23 @@
 - Bare metal preferred, as we will be creating VMs to emulate bare metal hosts
 - Run as a user with passwordless sudo access
 - Minimum resource requirements for the host machine: 4C CPUs, 16 GB RAM memory
+
+For execution with VMs
+
+- Setup passwordless sudo access
+
+```console
+  $ sudo visudo
+```
+
+- Include this line at the end of the sudoers file
+
+```console
+  username  ALL=(ALL) NOPASSWD: ALL
+```
+
+- Save and exit
+- Manually **enable nested virtualization** if you don't have it enabled in your VM
 
 ### 1.2. Setup
 
