@@ -1,7 +1,6 @@
 # See the OWNERS docs at https://go.k8s.io/owners
 
 approvers:
- - andfasano
  - dtantsur
  - furkatgofurov7
  - kashifest
@@ -13,6 +12,7 @@ reviewers:
  - tuminoid
 
 emeritus_approvers:
+ - andfasano
  - fmuyassarov
  - hardys
  - maelk
