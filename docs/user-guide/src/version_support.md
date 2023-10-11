@@ -39,12 +39,10 @@ The compatability of IPAM and CAPM3 API versions with CAPI is discussed
 ## Baremetal Operator
 
 Since `capm3-v1.1.2`, BMO follows the semantic versioning scheme for its own
-release cycle, the same way as CAPM3 and IPAM. At the moment, we always cut
-rolling releases from the main branch of BMO and tag them with the release
-version (i.e: `v0.x.y`).
-
-Please note that there are currently no release branches for BMO and no support
-for older releases.
+release cycle, the same way as CAPM3 and IPAM. Currently, we have release-0.4
+and release-0.3 release branches for `v0.4.x` and `v0.3.x` release cycle
+respectively and as such these two braches are maintained as supported releases.
+Following table summarizes BMO release/test process:
 
 | Minor release | Status    |
 | ------------- | --------- |
@@ -83,15 +81,15 @@ The table describes which branches/image-tags are tested in each periodic CI tes
 | ------------------------------------------------ | ------------ | ----------- | -------------- | -------------- | ----------- | ---------- |
 | daily_main_integration_test_ubuntu/centos        | main         | main        | main           | latest         | latest      | latest     |
 | daily_main_e2e_integration_test_ubuntu/centos    | main         | main        | main           | latest         | latest      | latest     |
-| daily_release-1-5_integration_test_ubuntu/centos | release-1.5  | release-1.5 | v0.4.0         | v0.4.0         | latest      | latest     |
-| daily_release-1-4_integration_test_ubuntu/centos | release-1.4  | release-1.4 | v0.3.1         | v0.3.1         | latest      | latest     |
+| daily_release-1-5_integration_test_ubuntu/centos | release-1.5  | release-1.5 | release-0.4    | v0.4.0         | latest      | latest     |
+| daily_release-1-4_integration_test_ubuntu/centos | release-1.4  | release-1.4 | release-0.3    | v0.3.1         | latest      | latest     |
 | daily_release-1-3_integration_test_ubuntu/centos | release-1.3  | release-1.3 | v0.2.0         | v0.2.0         | latest      | latest     |
 
 | FEATURE AND E2E TESTS                            | CAPM3 branch | IPAM branch | BMO branch/tag | Keepalived tag | MariaDB tag | Ironic tag |
 | ------------------------------------------------ | ------------ | ----------- | -------------- | -------------- | ----------- | ---------- |
 | daily_main_e2e_feature_test_ubuntu/centos        | main         | main        | main           | latest         | latest      | latest     |
-| daily_release-1-5_e2e_feature_test_ubuntu/centos | release-1.5  | release-1.5 | v0.4.0         | v0.4.0         | latest      | latest     |
-| daily_release-1-4_e2e_feature_test_ubuntu/centos | release-1.4  | release-1.4 | v0.3.1         | v0.3.1         | latest      | latest     |
+| daily_release-1-5_e2e_feature_test_ubuntu/centos | release-1.5  | release-1.5 | release-0.4    | v0.4.0         | latest      | latest     |
+| daily_release-1-4_e2e_feature_test_ubuntu/centos | release-1.4  | release-1.4 | release-0.3    | v0.3.1         | latest      | latest     |
 | daily_release-1-3_e2e_feature_test_ubuntu/centos | release-1.3  | release-1.3 | v0.2.0         | v0.2.0         | latest      | latest     |
 | daily_main_feature_tests_ubuntu/centos           | main         | main        | main           | latest         | latest      | latest     |
 
