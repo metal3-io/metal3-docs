@@ -5,6 +5,7 @@
 
 set -eu
 
+# repos and which branch is the default
 declare -a REPOS=(
     baremetal-operator
     cluster-api-provider-metal3
@@ -19,11 +20,12 @@ declare -a REPOS=(
     metal3-docs
     metal3-io.github.io
     project-infra
+    utility-images
 )
 
+# which owner types we want to list
 declare -a OWNER_TYPES=(
     approvers
-    emeritus_approvers
 )
 
 
@@ -37,30 +39,19 @@ all_owners_raw()
     owner_type="${1:?need to pass in one of: approvers, reviewers, emeritus_approvers, emeritus_reviewers}"
 
     for repo in "${REPOS[@]}"; do
-        if [ "${repo}" = "metal3-io.github.io" ]; then
+        if [[ "${repo}" = "metal3-io.github.io" ]]; then
             filter=".filters.\".*\".${owner_type}"
         else
             filter=".${owner_type}"
         fi
 
-        git ls-remote -q --exit-code --heads "https://github.com/metal3-io/${repo}" main >/dev/null 2>&1
-        retVal=$?
+        branch=$(git remote show "https://github.com/metal3-io/${repo}" | sed -n '/HEAD branch/s/.*: //p')
 
-        if [ ${retVal} -eq 0 ]; then
-            branch='main'
-        elif [ ${retVal} -ne 0 ]; then
-            if [ "${repo}" = "metal3-io.github.io" ]; then
-            branch='source'
-        else
-            branch='master'
-        fi
-    fi
-
-    # NOTE: yq -y is not supported by any recent version of yq
-    curl -s "https://raw.githubusercontent.com/metal3-io/${repo}/${branch}/OWNERS" | \
-        yq "${filter}" | \
-        grep -v "null" | \
-        grep -v "\.\.\."
+        # NOTE: yq -y is not supported by any recent version of yq
+        curl -s "https://raw.githubusercontent.com/metal3-io/${repo}/${branch}/OWNERS" | \
+            yq "${filter}" | \
+            grep -v "null" | \
+            grep -v "\.\.\."
     done
 }
 
@@ -70,6 +61,5 @@ echo "# See metal3-docs/maintainers/all-owners.sh"
 for owner in "${OWNER_TYPES[@]}"; do
     echo -e "\n${owner}:"
     all_owners_raw "${owner}" | \
-        tr '[:upper:]' '[:lower:]' | \
-        sort -u
+        sort -uf
 done
