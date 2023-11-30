@@ -77,16 +77,17 @@ accepted by the upstream Ironic community.
 
 ## Design Details
 
-Add an optional section `DataImage` to `BareMetalHostSpec`, with sub-fields
-`Url`, `CredentialsName`, `DisableCertificateVerification` and a secret
-for dataImage with name `CredentialsName`.
+Add an optional section `DataImage` to `BareMetalHostSpec`, with sub-field
+`Url`.
 
-The ISO will be attached when the host is in either the `StateProvisioned` or
-the `StateExternallyProvisioned` state before `actionManageSteadyState` is
-called to maintain the State and manage the host power status.
+The ISO will be attached when the `BareMetalHost` object is edited to add
+the `DataImage` spec triggering a reconciliation. In case a reboot is requested
+at the same time using `RebootAnnotation`, the ISO will be attached first.
 
-We want to attach the non-bootable ISO without an extra reboot when both
-attaching the ISO and reboot are requested at the same time.
+The `BareMetalHostStatus` will cache the image details, which will inform
+us if the attachment succeeded and will also be used for detachment, either
+when the attachment fails and we retry or when the user explicitly requests
+detachment by removing the `DataImage` spec from `BareMetalHost` object.
 
 ### Implementation Details
 
