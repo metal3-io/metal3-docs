@@ -50,7 +50,7 @@ a next step of applying as a CNCF Sandbox project.
   proposal is only about the community future.
 - No changes to committer processes are proposed here.  We already have a
   documented [process for adding and removing
-  maintainers](../../maintainers/README.md).
+  maintainers](https://github.com/metal3-io/community/blob/main/maintainers/README.md).
 
 ## Proposal
 
