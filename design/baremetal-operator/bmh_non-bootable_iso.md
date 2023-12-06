@@ -35,7 +35,7 @@ drivers other than Redfish and its derived drivers.
 Add a new optional section in the BareMetalHost spec containing details of the
 non-bootable iso image, example :
 
-#### Current design
+#### Design spec
 
 ```yaml
   spec:
@@ -43,37 +43,21 @@ non-bootable iso image, example :
       url: http://1.2.3.4/image.iso
 ```
 
-#### Desired future design
-
-```yaml
-  spec:
-    dataImage:
-      url: http://1.2.3.4/image.iso
-      credentialsName: dataimage-secret
-      disableCertificateVerification: false
-```
-
-Secret holding the image url credentials, base64 encoded :
-
-```yaml
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: dataimage-secret
-type: Opaque
-data:
-  username: dGVzdA==
-  password: cGFzc3dvcmQ=
-```
+We may consider adding support for HTTP credentials and TLS settings in the future
+but it's outside the scope of this proposal.
 
 **Note** : As part of this proposal, the dataImage will be attached after the node
 has been Provisioned or ExternallyProvisioned.
 
-### Ironic Proposal
+### Ironic Support
 
 The [proposal](https://bugs.launchpad.net/ironic/+bug/2033288) for exposing this functionaility in Ironic has been
 accepted by the upstream Ironic community.
+
+The [Ironic implementation](https://review.opendev.org/c/openstack/ironic/+/894918) based on the above proposalon has been completed.
+
+Other than that, we just need the implementation for driver specific support,
+which in this proposal is Redfish.
 
 ## Design Details
 
@@ -88,6 +72,12 @@ The `BareMetalHostStatus` will cache the image details, which will inform
 us if the attachment succeeded and will also be used for detachment, either
 when the attachment fails and we retry or when the user explicitly requests
 detachment by removing the `DataImage` spec from `BareMetalHost` object.
+
+A flag will be used at the webhook level to validate if a given driver supports the
+non-bootable ISO feature. Since the support for attaching an ISO as virtual media is
+equivalent for both `PreprovisioningISOImage` and `NonBootableISOImage`, we plan to
+rename the existing flag for `PreprovisioningISOImage` i.e. `SupportsISOPreprovisioningImage`
+to `SupportVirtualMediaISOImage` and use it for both the cases.
 
 ### Implementation Details
 
