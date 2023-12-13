@@ -2,6 +2,8 @@
 
 # Metal³
 
+[![CLOMonitor](https://img.shields.io/endpoint?url=https://clomonitor.io/api/projects/cncf/metal3-io/badge)](https://clomonitor.io/projects/cncf/metal3-io)
+
 ## What is Metal³
 
 The Metal³ project (pronounced: Metal Kubed) exists to provide components that
