@@ -17,7 +17,7 @@ describes the process for adding reviewers to a metal3 project repo.
 
 ### Non-Goals
 
-1. Change the process for adding [maintainers](../maintainers/).
+1. Change the process for adding [maintainers](https://github.com/metal3-io/community/blob/main/maintainers/).
 
 ## Proposal
 
