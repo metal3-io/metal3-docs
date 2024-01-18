@@ -113,10 +113,46 @@ This is a separate machine, e.g. your laptop or one of the servers, that has acc
 
   ```bash
   kubectl create namespace metal3
-  clusterctl init --core cluster-api:v1.4.2 --bootstrap kubeadm:v1.4.2 --control-plane kubeadm:v1.4.2 --infrastructure=metal3:v1.4.0 -v5
+  clusterctl init --core cluster-api --bootstrap kubeadm --control-plane kubeadm --infrastructure metal3
+  # NOTE: In clusterctl init you can change the version of provider like this "cluster-api:v1.6.0",
+  # if no version is given by deafult latest stable release will be used.
   ```
 
 ## Install provisioning components
+
+* Exporting necessary variables for baremetal operator and Ironic deployment.
+
+  ```bash
+  # The URL of the kernel to deploy.
+  export DEPLOY_KERNEL_URL="http://172.22.0.1:6180/images/ironic-python-agent.kernel"
+
+  # The URL of the ramdisk to deploy.
+  export DEPLOY_RAMDISK_URL="http://172.22.0.1:6180/images/ironic-python-agent.initramfs"
+
+  # The URL of the Ironic endpoint.
+  export IRONIC_URL="http://172.22.0.1:6385/v1/"
+
+  # The URL of the Ironic inspector endpoint.
+  export IRONIC_INSPECTOR_URL="http://172.22.0.1:5050/v1/"
+
+  # Do not use a dedicated CA certificate for Ironic API.
+  # Any value provided in this variable disables additional CA certificate validation.
+  # To provide a CA certificate, leave this variable unset.
+  # If unset, then IRONIC_CA_CERT_B64 must be set.
+  export IRONIC_NO_CA_CERT=true
+
+  # Disables basic authentication for Ironic API.
+  # Any value provided in this variable disables authentication.
+  # To enable authentication, leave this variable unset.
+  # If unset, then IRONIC_USERNAME and IRONIC_PASSWORD must be set.
+  export IRONIC_NO_BASIC_AUTH=true
+
+  # Disables basic authentication for Ironic inspector API.
+  # Any value provided in this variable disables authentication.
+  # To enable authentication, leave this variable unset.
+  # If unset, then IRONIC_INSPECTOR_USERNAME and IRONIC_INSPECTOR_PASSWORD must be set.
+  export IRONIC_INSPECTOR_NO_BASIC_AUTH=true
+  ```
 
 * Launch baremetal operator.
 
@@ -178,44 +214,20 @@ This is a separate machine, e.g. your laptop or one of the servers, that has acc
 ## Create and apply cluster, controlplane and worker template
 
   ```bash
-  # The URL of the kernel to deploy.
-  export DEPLOY_KERNEL_URL="http://172.22.0.1:6180/images/ironic-python-agent.kernel"
-
-  # The URL of the ramdisk to deploy.
-  export DEPLOY_RAMDISK_URL="http://172.22.0.1:6180/images/ironic-python-agent.initramfs"
-
-  # The URL of the Ironic endpoint.
-  export IRONIC_URL="http://172.22.0.1:6385/v1/"
-
-  # The URL of the Ironic inspector endpoint.
-  export IRONIC_INSPECTOR_URL="http://172.22.0.1:5050/v1/"
-
-  # Do not use a dedicated CA certificate for Ironic API.
-  # Any value provided in this variable disables additional CA certificate validation.
-  # To provide a CA certificate, leave this variable unset.
-  # If unset, then IRONIC_CA_CERT_B64 must be set.
-  export IRONIC_NO_CA_CERT=true
-
-  # Disables basic authentication for Ironic API.
-  # Any value provided in this variable disables authentication.
-  # To enable authentication, leave this variable unset.
-  # If unset, then IRONIC_USERNAME and IRONIC_PASSWORD must be set.
-  export IRONIC_NO_BASIC_AUTH=true
-
-  # Disables basic authentication for Ironic inspector API.
-  # Any value provided in this variable disables authentication.
-  # To enable authentication, leave this variable unset.
-  # If unset, then IRONIC_INSPECTOR_USERNAME and IRONIC_INSPECTOR_PASSWORD must be set.
-  export IRONIC_INSPECTOR_NO_BASIC_AUTH=true
+  #API endpoint IP and port for target cluster
+  export CLUSTER_APIENDPOINT_HOST="192.168.111.249"
+  export CLUSTER_APIENDPOINT_PORT="6443"
 
   # Export node image variable and node image hash varibale that we created before.
   # Change name according to what was downlowded from artifactory
-  export IMAGE_RAW_URL=http://172.22.0.1/images/CENTOS_9_NODE_IMAGE_K8S_v1.27.1-raw.img
-  export IMAGE_RAW_CHECKSUM=http://172.22.0.1/images/CENTOS_9_NODE_IMAGE_K8S_v1.27.1-raw.img.sha256sum
+  export IMAGE_URL=http://172.22.0.1/images/CENTOS_9_NODE_IMAGE_K8S_v1.27.1-raw.img
+  export IMAGE_CHECKSUM=http://172.22.0.1/images/CENTOS_9_NODE_IMAGE_K8S_v1.27.1-raw.img.sha256sum
+  export IMAGE_CHECKSUM_TYPE=sha256
+  export IMAGE_FORMAT=raw
 
   # Generate templates with clusterctl, change control plane and worker count according to
   # the number of BareMetalHosts
-  clusterctl generate cluster capm3-cluster --flavor development \
+  clusterctl generate cluster capm3-cluster \
     --kubernetes-version v1.27.0 \
     --control-plane-machine-count=3 \
     --worker-machine-count=3 \
