@@ -74,26 +74,26 @@ bare-metal](https://github.com/metal3-io/baremetal-operator/blob/93cd6bdae72ff44
 - Write a new API as hardware-classification/api/v1alpha1 and new
   kind(CRD) HardwareClassification.
 
-  - Create the Schema struct for `ExpectedHardwareConfiguration`
+   - Create the Schema struct for `ExpectedHardwareConfiguration`
     inside `HardwareClassificationSpec`, in file
     /api/v1alpha1/hardwareClassification_types.go.
 
-  - Implement a new function fetchHost() which will fetch all
+   - Implement a new function fetchHost() which will fetch all
     baremetal hosts from Baremetal-Operator of provided namespace by
     user in CRD_yaml. We will add a watch on the baremetalhost kind
     for the hardware setting changes.
 
-  - Create a classification_manager.go file. Create a function which
+   - Create a classification_manager.go file. Create a function which
     will call appropriate filter written in classification_filter.go
     based on minimum or maximum requiremnets specified by user in
     CRD_yaml.
 
-  - The ClassificationFilters.go file will contain implementation of
+   - The ClassificationFilters.go file will contain implementation of
     classification algorithms based on requirements given by user (i.e
     minimum or maximum). Classification will be done for minimum >=
     and for maximum <= against hosts.
 
-  - Once the classification is completed, will add label if user has
+   - Once the classification is completed, will add label if user has
     provided any, otherwise it will be added as
     `hardwareclassification.metal3.io/<profile-name>: matches`.
 

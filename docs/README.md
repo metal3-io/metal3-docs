@@ -53,7 +53,7 @@ All the commands below are executed within mdbook container.
 1. Build the user-guide.
 
     ```bash
-    $ make build
+    make build
     ```
 
 1. Preview the user-guide built before pushing your changes. This will open the
@@ -63,12 +63,12 @@ All the commands below are executed within mdbook container.
     will detect your changes, render them and refresh your browser page automatically.
 
     ```bash
-    $ make serve
+    make serve
     ```
 
 1. Clean Mdbook auto-generated content from docs/user-guide/book path once you
     have finished local preview.
 
     ```bash
-    $ make clean
+    make clean
     ```

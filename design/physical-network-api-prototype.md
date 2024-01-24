@@ -134,13 +134,13 @@ A link to the PoC code is linked below. [^2] A demo is also linked below. [^3]
 #### Limitations
 
 - Network Runner not in Ansible Galaxy
-  - Manual inclusion in operator
+   - Manual inclusion in operator
 - Limited number of switches supported in Network Runner
-  - Should be relatively simple to add new ones, as long as there is an
-    Ansible Networking module supporting the target switch
+   - Should be relatively simple to add new ones, as long as there is an
+     Ansible Networking module supporting the target switch
 - Limited number of operations in Network Runner
-  - More are being developed
-  - Create/delete VLAN, Create/delete access port, Create/delete trunk port
+   - More are being developed
+   - Create/delete VLAN, Create/delete access port, Create/delete trunk port
 
 All of these limitations should be easy to remedy.
 
@@ -178,15 +178,15 @@ Special thanks to Dan Radez for helping with the virtual switch setup.
 
 #### Links
 
-[^1]: https://github.com/ansible-network/network-runner
+[^1]: <https://github.com/ansible-network/network-runner>
 
 POC Code
 
-[^2]: https://github.com/bcrochet/physical-switch-operator/
+[^2]: <https://github.com/bcrochet/physical-switch-operator/>
 
 Demo
 
-[^3]: https://www.youtube.com/watch?v=zlJmao_qnrw&t=8sNone
+[^3]: <https://www.youtube.com/watch?v=zlJmao_qnrw&t=8sNone>
 
 ### Risks and Mitigations
 

@@ -160,6 +160,7 @@ This provides not only the state of the process, but also information on
 start and ending time, and more.
 An example of status answer:
 
+```json
     {
       "error": null,
       "finished": true,
@@ -174,6 +175,7 @@ An example of status answer:
       "state": "finished",
       "uuid": "c244557e-899f-46fa-a1ff-5b2c6718616b"
     }
+```
 
 There can be multiple introspection processes running at the same time, it's
 possible to retrieve all the statuses using:
@@ -229,6 +231,7 @@ through the “driver_info” option.
 
 An example of a typical node create request in JSON format:
 
+```json
     {
     "name": "test_node_dynamic",
     "driver": "ipmi",
@@ -238,6 +241,7 @@ An example of a typical node create request in JSON format:
     },
     "power_interface": "ipmitool"
     }
+```
 
 The response, if successful, contains a complete record of the node in JSON
 format with provided or default ({}, “null”, or “”) values.
@@ -257,7 +261,9 @@ All nodes in ironic are tied to a state which allows ironic to track what
 actions can be performed upon the node and convey its general disposition.
 This field is the "provision_state" field that can be retrieved via the API.
 
+```console
     GET /v1/nodes/node-id
+```
 
 Inside the returned document, a "provision_state" field can be referenced.
 Further information can be found in ironic's
@@ -272,8 +278,10 @@ of networking ports for identification of the baremetal node and creation
 of PXE/iPXE configuration files in order to help ensure that baremetal node
 is quickly booted for booting into the deployment and discovery ramdisk.
 
+```console
     PUT /v1/nodes/node-id/provision/states
     {"target": "inspect"}
+```
 
 This operation can only be performed in the "manageable" ironic node state.
 If the node is already in the "available" state, the same requst can be used
@@ -291,6 +299,7 @@ Starting with the bare metal node in the "available" provision_state:
    to disk. This is performed as a HTTP PATCH request to the
    `/v1/nodes/node-id` endpoint.
 
+   ```json
        {
        {“op”: “replace”, “path”: “/instance_info”, “value”: {
            “image_source”: “http://url-to-image”,
@@ -298,6 +307,7 @@ Starting with the bare metal node in the "available" provision_state:
            “image_os_hash_value”: “abcdefghi…”}},
        {“op”: “replace”, “path”: “/instance_uuid”, “value”: “anyuuidvalue”}},
        }
+   ```
 
    **NOTE:** Instead of defining the "image_os_hash_*" values, a MD5 based
    image checksum can be set.
@@ -313,15 +323,19 @@ Starting with the bare metal node in the "available" provision_state:
    return code, with a message body that consists of a list of "driver"
    interfaces and any errors if applicable.
 
+   ```console
        GET /v1/nodes/node-id/validate
+   ```
 
    Reply:
 
+   ```json
        {
        "boot": true,
        ..
        "deploy": "configuration error message if applicable"
        }
+   ```
 
    The particular interfaces that would be important to pay attention to are
    ‘boot’, ‘deploy’, ‘power’, ‘management’.
@@ -352,8 +366,10 @@ Starting with the bare metal node in the "available" provision_state:
 4. Send a HTTP POST to `/v1/nodes/node-id/states/provision` to initiate
    the deployment
 
+   ```json
        {“target”: “active”,
         “configdrive”: “http://url-to-config-drive/node.iso.gz”}
+   ```
 
    Once the request to make the node active has been received by ironic,
    it will proceed with the deployment process and execute the required
@@ -392,8 +408,10 @@ erase the contents of the disks. This can be a time intensive process,
 and ultimately may only be useful for cleaning metadata except in limited
 circumstances.
 
+```console
     PUT /v1/nodes/node-id/states/provision
     {"target": "deleted"}
+```
 
 ### How to delete a baremetal node
 

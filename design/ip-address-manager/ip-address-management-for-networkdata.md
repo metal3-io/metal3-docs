@@ -13,30 +13,31 @@ implemented
 
 ## Table of Contents
 
+<!-- markdownlint-disable link-fragments -->
 <!--ts-->
 
-* [Title](#title)
-  * [Status](#status)
-  * [Table of Contents](#table-of-contents)
-  * [Summary](#summary)
-  * [Motivation](#motivation)
-    * [Goals](#goals)
-    * [Non-Goals](#non-goals)
-  * [Proposal](#proposal)
-    * [User Stories](#user-stories-optional)
-      * [Story 1](#story-1)
-      * [Story 2](#story-2)
-    * [Implementation Details/Notes/Constraints [optional]](#implementation-detailsnotesconstraints-optional)
-    * [Risks and Mitigations](#risks-and-mitigations)
-  * [Design Details](#design-details)
-    * [Work Items](#work-items)
-    * [Dependencies](#dependencies)
-    * [Test Plan](#test-plan)
-    * [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
-    * [Version Skew Strategy](#version-skew-strategy)
-  * [Drawbacks [optional]](#drawbacks-optional)
-  * [Alternatives [optional]](#alternatives-optional)
-  * [References](#references)
+- [Title](#title)
+   - [Status](#status)
+   - [Table of Contents](#table-of-contents)
+   - [Summary](#summary)
+   - [Motivation](#motivation)
+      - [Goals](#goals)
+      - [Non-Goals](#non-goals)
+   - [Proposal](#proposal)
+      - [User Stories](#user-stories-optional)
+         - [Story 1](#story-1)
+         - [Story 2](#story-2)
+      - [Implementation Details/Notes/Constraints [optional]](#implementation-detailsnotesconstraints-optional)
+      - [Risks and Mitigations](#risks-and-mitigations)
+   - [Design Details](#design-details)
+      - [Work Items](#work-items)
+      - [Dependencies](#dependencies)
+      - [Test Plan](#test-plan)
+      - [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
+      - [Version Skew Strategy](#version-skew-strategy)
+   - [Drawbacks [optional]](#drawbacks-optional)
+   - [Alternatives [optional]](#alternatives-optional)
+   - [References](#references)
 
 <!-- Added by: stack, at: 2019-02-15T11:41-05:00 -->
 
@@ -68,10 +69,10 @@ The current implementation of Template allows deploying clusters with
 static ip address allocations provided in the Network Data section for
 cloud-init. However, several issues are relating to the design :
 
-* It is not possible to specify multiple non-continuous ranges of IP addresses.
+- It is not possible to specify multiple non-continuous ranges of IP addresses.
   Hence, for example if the user has some public ip addresses available that are
   sparse, not in a continuous pool, this feature is not usable.
-* It is not possible to use the same pool across multiple *Template* objects.
+- It is not possible to use the same pool across multiple *Template* objects.
   For example, if a user wants to use a pool of IP addresses for multiple
   machine deployments (each deployment requiring its own *Template* object),
   he would need to split the pool into smaller non-overlapping pools, one per
@@ -80,7 +81,7 @@ cloud-init. However, several issues are relating to the design :
   scale out, one might have to reserve multiple IP addresses for a deployment
   that will not be used. This will result in large gaps and inefficiency in the
   addresses allocation, specifically if those are public IPv4 addresses.
-* It is not possible to rule out some IP addresses that might be in use for any
+- It is not possible to rule out some IP addresses that might be in use for any
   reason after the deployment.
 
 In addition, the designed system must be compatible with Clusterctl move
@@ -90,17 +91,17 @@ belong to by a chain of owner references.
 
 ### Goals
 
-* Introduce an IPPool, an IPClaim and an IPAddress CRDs.
-* add flexibility in the IP address allocation
-* enable sharing of a pool across machine deployments / KCP
-* enable use of non-continuous pools
-* enable external IP management by using IPAddress CRs
-* offer a predictable way to assign addresses to some nodes
-* be resilient to the clusterctl move operation
+- Introduce an IPPool, an IPClaim and an IPAddress CRDs.
+- add flexibility in the IP address allocation
+- enable sharing of a pool across machine deployments / KCP
+- enable use of non-continuous pools
+- enable external IP management by using IPAddress CRs
+- offer a predictable way to assign addresses to some nodes
+- be resilient to the clusterctl move operation
 
 ### Non-Goals
 
-* provide a DHCP feature or any equivalent level feature.
+- provide a DHCP feature or any equivalent level feature.
 
 ## Proposal
 
@@ -133,11 +134,11 @@ cluster to prevent future conflicts.
 
 ### Implementation Details/Notes/Constraints
 
-* This proposal should be fully backwards compatible and not modify any existing
+- This proposal should be fully backwards compatible and not modify any existing
   behaviour.
-* When shared among multiple machine deployment, the allocation would be
+- When shared among multiple machine deployment, the allocation would be
   random as much as possible to avoid conflicts and re-use as much as possible.
-* If not needed, this feature should not require the user to modify anything
+- If not needed, this feature should not require the user to modify anything
   existing in their CRs
 
 ### Risks and Mitigations
@@ -383,10 +384,10 @@ of the *IPAddress* objects.
 
 ### Work Items
 
-* implement the additional controllers
-* add the logic to create the claim, fetch the IP address and wait for it when
+- implement the additional controllers
+- add the logic to create the claim, fetch the IP address and wait for it when
   rendering the templates
-* Ensure all tests are present (unit and end to end tests)
+- Ensure all tests are present (unit and end to end tests)
 
 ### Dependencies
 
@@ -394,9 +395,9 @@ of the *IPAddress* objects.
 
 ### Test Plan
 
-* All functions will have unit tests
-* integration tests will also be added
-* A specific setup will be added in the metal3-dev-env end to end tests.
+- All functions will have unit tests
+- integration tests will also be added
+- A specific setup will be added in the metal3-dev-env end to end tests.
 
 ### Upgrade / Downgrade Strategy
 
@@ -411,7 +412,7 @@ NA
 
 ## Drawbacks
 
-* In case of large clusters, it might add many objects.
+- In case of large clusters, it might add many objects.
 
 ## Alternatives
 

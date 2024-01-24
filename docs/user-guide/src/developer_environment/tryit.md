@@ -1,22 +1,21 @@
-
 # Trying Metal3 on a development environment
 
  Ready to start taking steps towards your first experience with metal3? Follow these commands to get started!
 
 - [1. Environment Setup](#1-environment-setup)
-  - [1.1. Prerequisites](#11-prerequisites)
-  - [1.2. Setup](#12-setup)
-  - [1.3. Tear Down](#13-tear-down)
-  - [1.4. Using Custom Image](#14-using-custom-image)
-  - [1.5. Setting environment variables](#15-setting-environment-variables)
-- [2. Working with Environment](#2-working-with-environment)
-  - [2.1. BareMetalHosts](#21-baremetalhosts)
-  - [2.2. Provision Cluster and Machines](#22-provision-cluster-and-machines)
-  - [2.3. Deprovision Cluster and Machines](#23-deprovision-cluster-and-machines)
-  - [2.4. Running Custom Baremetal-Operator](#24-running-custom-baremetal-operator)
-  - [2.5. Running Custom Cluster API Provider Metal3](#25-running-custom-cluster-api-provider-metal3)
-    - [Tilt development environment](#tilt-development-environment)
-  - [2.6. Accessing Ironic API](#26-accessing-ironic-api)
+   - [1.1. Prerequisites](#11-prerequisites)
+   - [1.2. Setup](#12-setup)
+   - [1.3. Tear Down](#13-tear-down)
+   - [1.4. Using Custom Image](#14-using-custom-image)
+   - [1.5. Setting environment variables](#15-setting-environment-variables)
+- [2. Working with the Development Environment](#2-working-with-the-development-environment)
+   - [2.1. BareMetalHosts](#21-baremetalhosts)
+   - [2.2. Provision Cluster and Machines](#22-provision-cluster-and-machines)
+   - [2.3. Deprovision Cluster and Machines](#23-deprovision-cluster-and-machines)
+   - [2.4. Running Custom Baremetal-Operator](#24-running-custom-baremetal-operator)
+   - [2.5. Running Custom Cluster API Provider Metal3](#25-running-custom-cluster-api-provider-metal3)
+      - [Tilt development environment](#tilt-development-environment)
+   - [2.6. Accessing Ironic API](#26-accessing-ironic-api)
 
 ---
 
@@ -38,8 +37,8 @@ For execution with VMs
 
 - Setup passwordless sudo access
 
-```console
-  $ sudo visudo
+```shell
+  sudo visudo
 ```
 
 - Include this line at the end of the sudoers file
@@ -513,6 +512,8 @@ controller for Metal3.
 
 #### Tilt development environment
 
+<!-- markdownlint-disable link-fragments -->
+
 [Tilt](https://tilt.dev) setup can deploy CAPM3 in a local kind cluster. Since
 Tilt is applied in the metal3-dev-env deployment, you can make changes inside
 the `cluster-api-provider-metal3` folder and Tilt will deploy the changes
@@ -522,6 +523,8 @@ follow [CAPM3 instructions](#tilt-for-dev-in-capm3). This will save you from
 having to build all of the images for CAPI, which can take a while. If the
 scope of your development will span both CAPM3 and CAPI, then follow the
 [CAPI and CAPM3 instructions](#tilt-for-dev-in-both-capm3-and-capi).
+
+<!-- markdownlint-enable link-fragments -->
 
 ### 2.6. Accessing Ironic API
 

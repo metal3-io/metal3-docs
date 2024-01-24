@@ -26,7 +26,7 @@ attempt to recover capacity.
 Hardware is imperfect, and software contains bugs. When node level failures
 such as kernel hangs or dead NICs occur, the work required from the cluster
 does not decrease - workloads from affected nodes need to be restarted
-somewhere. 
+somewhere.
 
 However some workloads may require at-most-one semantics.  Failures affecting
 these kind of workloads risk data loss and/or corruption if "lost" nodes are
@@ -41,7 +41,7 @@ that no Pods or PersistentVolumes are present there.
 Ideally customers would over-provision the cluster so that a node failure (or
 several) does not put additional stress on surviving peers, however budget
 constraints mean that this is often not the case, particularly in Edge
-deployments which may consist of as few as three nodes of commodity hardware. 
+deployments which may consist of as few as three nodes of commodity hardware.
 Even when deployments start off over-provisioned, there is a tendency for the
 extra capacity to become permanently utilised.  It is therefore usually
 important to recover the lost capacity quickly.
@@ -106,10 +106,10 @@ See [PoC code](https://github.com/kubevirt/machine-remediation/)
 
 - A new [Machine Remediation CRD](https://github.com/kubevirt/machine-remediation/blob/master/pkg/apis/machineremediation/v1alpha1/machineremediation_types.go)
 - Two new controllers:
-  - [node
+   - [node
     reboot](https://github.com/kubevirt/machine-remediation/tree/master/pkg/controllers/nodereboot)
     which looks for the annoation and creates Machine Remediation CRs
-  - [machine
+   - [machine
     remediation](https://github.com/kubevirt/machine-remediation/tree/master/pkg/controllers/machineremediation)
     which reboots the machine and deletes the Node object (which also
     erases the signalling annotation)

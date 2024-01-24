@@ -425,8 +425,8 @@ ways. The following types of objects are available and accept lists:
   `offset` field and using the step from the `step` field. The following
   conditions must be matched :
 
-  - `offset` >= 0
-  - `step` >= 1
+   - `offset` >= 0
+   - `step` >= 1
 
   if the step is unspecified (default value being 0), the controller will
   automatically change it for 1. The attribute `prefix` and `suffix` can contain

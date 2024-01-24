@@ -70,11 +70,13 @@ through the charts metadata (values.yaml files).
 ### Work Items
 
 1. Create a Helm chart for Ironic and its components:
-  - ``ironic``
-  - ``ironic-dnsmasq``
-  - ``ironic-httpd``
-  - ``mariadb``
-  - ``baremetal-operator``.
+
+   - `ironic`
+   - `ironic-dnsmasq`
+   - `ironic-httpd`
+   - `mariadb`
+   - `baremetal-operator`
+
 2. Create a CI for building the Helm chart and smoke verification.
 3. Create a CI for testing Helm chart deployment and functional
    testing.

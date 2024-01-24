@@ -148,22 +148,24 @@ Step2 can be done as follows:
   `infrastructure.cluster.x-k8s.io/node-reuse: md-pool1` label.
 
   Next:
-  - If host is found in `Available` state:
-    - Pick that host for newly created M3M;
-    - Once it is picked up, remove the whole label
+   - If host is found in `Available` state:
+      - Pick that host for newly created M3M;
+      - Once it is picked up, remove the whole label
     (`infrastructure.cluster.x-k8s.io/node-reuse: md-pool1`)
     from the host.
-  - If host is found in any other state than `Available` state:
-    - Requeue until that host becomes `Available`;
-  - If no host is found, while it should be (i.e for some reason host
+   - If host is found in any other state than `Available` state:
+      - Requeue until that host becomes `Available`;
+   - If no host is found, while it should be (i.e for some reason host
     is not in the cluster anymore):
-    - Fall back to the current flow, which selects host randomly.
+      - Fall back to the current flow, which selects host randomly.
 
+<!-- markdownlint-disable no-inline-html -->
 <p align="center">
-    <img src="../images/node_reuse_flow.svg"/>
+    <img src="../images/node_reuse_flow.svg" alt="node reuse flow" />
     <br>
     <em></em>
 </p>
+<!-- markdownlint-enable no-inline-html -->
 
 **What if there are two parallel KCP/MD experiencing upgrade?**
 
