@@ -218,14 +218,14 @@ all metal3 repositories.
 - [operator-sdk 1.0 migration guide](https://sdk.operatorframework.io/docs/building-operators/golang/project_migration_guide/)
 - [migration implementation pull request](https://github.com/metal3-io/baremetal-operator/pull/655)
 - updates to kustomize deployment files and CI fixes:
-  - <https://github.com/metal3-io/baremetal-operator/pull/672>
-  - <https://github.com/metal3-io/baremetal-operator/pull/674>
-  - <https://github.com/metal3-io/baremetal-operator/pull/675>
-  - <https://github.com/metal3-io/baremetal-operator/pull/676>
-  - <https://github.com/metal3-io/baremetal-operator/pull/677>
-  - <https://github.com/metal3-io/baremetal-operator/pull/679>
-  - <https://github.com/metal3-io/metal3-dev-env/pull/510>
-  - <https://github.com/metal3-io/cluster-api-provider-metal3/pull/137>
-  - <https://github.com/metal3-io/cluster-api-provider-metal3/pull/138>
-  - <https://github.com/metal3-io/baremetal-operator/pull/678>
+   - <https://github.com/metal3-io/baremetal-operator/pull/672>
+   - <https://github.com/metal3-io/baremetal-operator/pull/674>
+   - <https://github.com/metal3-io/baremetal-operator/pull/675>
+   - <https://github.com/metal3-io/baremetal-operator/pull/676>
+   - <https://github.com/metal3-io/baremetal-operator/pull/677>
+   - <https://github.com/metal3-io/baremetal-operator/pull/679>
+   - <https://github.com/metal3-io/metal3-dev-env/pull/510>
+   - <https://github.com/metal3-io/cluster-api-provider-metal3/pull/137>
+   - <https://github.com/metal3-io/cluster-api-provider-metal3/pull/138>
+   - <https://github.com/metal3-io/baremetal-operator/pull/678>
 - [baremetal-operator PR](https://github.com/metal3-io/baremetal-operator/pull/650)

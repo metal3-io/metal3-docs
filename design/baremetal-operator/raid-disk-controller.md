@@ -24,14 +24,14 @@ controllers are to be used to construct the hardware RAID volume(s).
 ### Goals
 
 The primary goal is to depict the physical disk and RAID controller names in
-the baremetal-host ``hardware-raid`` section.
+the baremetal-host `hardware-raid` section.
 
 Afterwards, implementation of the same will be done within the
-``baremetal-operator`` by extending the ``baremetal-host`` specification.
+`baremetal-operator` by extending the `baremetal-host` specification.
 
 ### Non-Goals
 
-- This specification does not deal with ``software-raid`` and extension for it.
+- This specification does not deal with `software-raid` and extension for it.
 - It does not attempt to cover any generic (vendor agnostic)  naming convention
   for disks or controllers.
 - It does not cover testing for hardware from all the vendors. It will only be
@@ -96,13 +96,13 @@ The following user story appertains to the proposal in question:
 #### Story 1
 
 As an operator, I'd like to be able to specify the physical disks and/or RAID
-controllers I want to use when defining my ``hardware-raid`` configuration, or
+controllers I want to use when defining my `hardware-raid` configuration, or
 both.
 
 ## Design Details
 
-- The CRD spec will have to be extended to add fields for ``physicalDisks`` and
-  ``controller`` under the ``hardware_raid`` section.
+- The CRD spec will have to be extended to add fields for `physicalDisks` and
+  `controller` under the `hardware_raid` section.
 - The provisioner will then be extended to process these fields.
 - The provisioner will make Ironic API calls with the RAID configuration, as
   before, but including the physical disks and controller names this time (if
@@ -116,15 +116,15 @@ there.
 
 ### Implementation Details/Notes/Constraints
 
-- Two new fields: ``Controller`` and ``PhysicalDisks`` fields will be added to
-  the ``HardwareRAIDVolume`` struct in baremetalhost_types.go.
-- Two new fields: ``Controller`` and ``PhysicalDisks`` fields will be added to
-  the ``nodes.logicalDisk`` struct being constructed in the
-  ``buildTargetHardwareRAIDCfg`` function in pkg/provisioner/ironic/raid.go.
-- A pointer to the ``RAIDConfig`` struct will be added to the
-  ``BareMetalHostStatus`` field in baremetalhost_types.go.
-- Unit test cases will be added for the ``buildTargetHardwareRAIDCfg``
-  function, in a function called ``TestBuildTargetHardwareRAIDCfg`` in
+- Two new fields: `Controller` and `PhysicalDisks` fields will be added to
+  the `HardwareRAIDVolume` struct in baremetalhost_types.go.
+- Two new fields: `Controller` and `PhysicalDisks` fields will be added to
+  the `nodes.logicalDisk` struct being constructed in the
+  `buildTargetHardwareRAIDCfg` function in pkg/provisioner/ironic/raid.go.
+- A pointer to the `RAIDConfig` struct will be added to the
+  `BareMetalHostStatus` field in baremetalhost_types.go.
+- Unit test cases will be added for the `buildTargetHardwareRAIDCfg`
+  function, in a function called `TestBuildTargetHardwareRAIDCfg` in
   pkg/provisioner/ironic/raid_test.go.
 
 ### Risks and Mitigations
@@ -135,8 +135,8 @@ undesirably remove data from disks.
 
 ### Work Items
 
-- Extend the BMH CRD spec and status, adding fields for ``physicalDisks``and
-  ``controller`` under the ``hardware_raid`` section.
+- Extend the BMH CRD spec and status, adding fields for `physicalDisks`and
+  `controller` under the `hardware_raid` section.
 - Extend the provisioner to process these fields.
 - Ensure the provisioner adds the new fields to the Ironic API call made for
   raid configuration.
@@ -151,9 +151,9 @@ undesirably remove data from disks.
 ### Test Plan
 
 The code will be tested in a development environment with a stand-alone
-deployment of the ``baremetal-operator`` and ``ironic``.  A number of
-deployments will be performed with various combinations of ``physicalDisks``
-and ``controller`` fields, and RAID levels; to test maximum possibilities.  The
+deployment of the `baremetal-operator` and `ironic`.  A number of
+deployments will be performed with various combinations of `physicalDisks`
+and `controller` fields, and RAID levels; to test maximum possibilities.  The
 RAID levels 0, 1, 5, 6, 1+0, 5+0 and 6+0 will be tested with the extended
 parameters.
 
@@ -161,7 +161,7 @@ Unit testing will be performed to ensure that the physical disks and
 controllers added to the BMH YAML RAID configuration are added correctly to the
 `logicalDisks` field of the `nodes` object.
 
-Testing will only be performed for ``idrac-wsman``, since only that is
+Testing will only be performed for `idrac-wsman`, since only that is
 available at the moment. (i.e. with Dell EMC hardware). Other vendors will have
 to test the code accordingly.
 
@@ -183,12 +183,16 @@ None.
 
 ## Alternatives
 
-Rely on the current ``hardware-raid`` configuration which does not allow for
+Rely on the current `hardware-raid` configuration which does not allow for
 specifying physical disks and RAID controllers, but works well in use cases
 where such a functionality is not desired.
 
 ## References
 
+<!-- markdownlint-disable link-image-reference-definitions -->
+
 [1]: (https://i.dell.com/sites/doccontent/shared-content/data-sheets/en/Documents/Dell-PowerEdge-Boot-Optimized-Storage-Solution.pdf)
 
 [2]: (https://docs.openstack.org/ironic/latest/admin/raid.html)
+
+<!-- markdownlint-enable link-image-reference-definitions -->

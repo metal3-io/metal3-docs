@@ -20,18 +20,18 @@ We elaborate these points in detail here:
 
 2. Firewall should be configured to allow the required traffic to pass
    through.  The following traffic should be allowed at least:
-  * ARP
-  * DHCP
-  * VRRP
-  * ICMP
-  * HTTP towards internal and external webserver
-  * Ports for the above mentioned services and for `Ironic-IPA`.
-  The list of default ironic-ports are as follows:
+   - ARP
+   - DHCP
+   - VRRP
+   - ICMP
+   - HTTP towards internal and external webserver
+   - Ports for the above mentioned services and for `Ironic-IPA`.
+     The list of default ironic-ports are as follows:
 
-    * 6180 --> for httpd webserver
-    * 5050 --> for ironic-inspector
-    * 6385 --> for ironic-endpoint
-    * 9999 --> for ironic-ipa
+      - 6180 --> for httpd webserver
+      - 5050 --> for ironic-inspector
+      - 6385 --> for ironic-endpoint
+      - 9999 --> for ironic-ipa
 
 3. The webserver container containing node images volume should be
    running and reachable. It is called the `httpd-infra` container in
@@ -43,26 +43,25 @@ We elaborate these points in detail here:
    webserver container with the required node images and other cached
    images:
 
-```ini
-/shared/
-├── html
-│   ├── dualboot.ipxe
-│   ├── images
-│   │   ├── bionic-server-cloudimg-amd64.img
-│   │   ├── bionic-server-cloudimg-amd64.img.md5sum
-│   │   ├── ironic-python-agent-1862f800-59e2c9cab7e95
-│   │   │   ├── ironic-python-agent.initramfs
-│   │   │   ├── ironic-python-agent.kernel
-│   │   │   ├── ironic-python-agent.tar
-│   │   │   └── ironic-python-agent.tar.headers
-│   │   ├── ironic-python-agent.initramfs -> ironic-python-agent-1862f800-59e2c9cab7e95/ironic-python-agent.initramfs
-│   │   ├── ironic-python-agent.kernel -> ironic-python-agent-1862f800-59e2c9cab7e95/ironic-python-agent.kernel
-│   │   └── ironic-python-agent.tar.headers -> ironic-python-agent-1862f800-59e2c9cab7e95/ironic-python-agent.tar.headers
-│   ├── inspector.ipxe
-│   └── uefi_esp.img
-└── tmp
-
-```
+   ```ini
+   /shared/
+   ├── html
+   │   ├── dualboot.ipxe
+   │   ├── images
+   │   │   ├── bionic-server-cloudimg-amd64.img
+   │   │   ├── bionic-server-cloudimg-amd64.img.md5sum
+   │   │   ├── ironic-python-agent-1862f800-59e2c9cab7e95
+   │   │   │   ├── ironic-python-agent.initramfs
+   │   │   │   ├── ironic-python-agent.kernel
+   │   │   │   ├── ironic-python-agent.tar
+   │   │   │   └── ironic-python-agent.tar.headers
+   │   │   ├── ironic-python-agent.initramfs -> ironic-python-agent-1862f800-59e2c9cab7e95/ironic-python-agent.initramfs
+   │   │   ├── ironic-python-agent.kernel -> ironic-python-agent-1862f800-59e2c9cab7e95/ironic-python-agent.kernel
+   │   │   └── ironic-python-agent.tar.headers -> ironic-python-agent-1862f800-59e2c9cab7e95/ironic-python-agent.tar.headers
+   │   ├── inspector.ipxe
+   │   └── uefi_esp.img
+   └── tmp
+   ```
 
 4. The environments variables defined in `ironic-bmo-configmap`
    required for `Baremetal Operator` deployment needs to be defined

@@ -1,4 +1,6 @@
+<!-- markdownlint-disable no-inline-html first-line-h1 -->
 <p align="center"><img alt="Metal³" src="./images/metal3.png" /></p>
+<!-- markdownlint-enable no-inline-html first-line-h1 -->
 
 # Metal³
 

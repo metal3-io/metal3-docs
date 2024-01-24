@@ -10,27 +10,30 @@ This is a separate machine, e.g. your laptop or one of the servers, that has acc
 
 ## Install requirements on the host
 
-  Login to the host from where you want to provision. The baremetal nodes should be accesible from the host via one of the following protocols.
+Login to the host from where you want to provision. The baremetal nodes should be accesible from the host via one of the following protocols.
 
-    * IPMI
-    * Redfish
-    * WSMAN
-    * iRMC
-    * ibmc
-    * iLO
+- IPMI
+- Redfish
+- WSMAN
+- iRMC
+- ibmc
+- iLO
 
-  See [Install Ironic](../ironic/ironic_installation.md) for other requirements.
+See [Install Ironic](../ironic/ironic_installation.md) for other requirements.
 
-  Install following requirements on the host.
+Install following requirements on the host.
 
-    * Python
-    * Golang
-    * Docker for ubuntu and podman for Centos
-    * Ansible
+- Python
+- Golang
+- Docker for ubuntu and podman for Centos
+- Ansible
 
 ## Configure host
 
-* Create network settings. We are creating 2 bridge interfaces: provisioning and external. The provisioning interface is used by Ironic to provision the BareMetalHosts and the external interface allows them to communicate with each other and connect to internet.
+- Create network settings. We are creating 2 bridge interfaces:
+  provisioning and external. The provisioning interface is used by
+  Ironic to provision the BareMetalHosts and the external interface
+  allows them to communicate with each other and connect to internet.
 
   ```bash
   # Create a veth iterface peer.
@@ -65,12 +68,11 @@ This is a separate machine, e.g. your laptop or one of the servers, that has acc
 
   # Add bmext to baremeatal bridge
   brctl addif baremetal bmext
-
   ```
 
 ## Prepare image cache
 
-* Start httpd container. This is used to host the the OS images that the BareMetalHosts will be provisioned with.
+- Start httpd container. This is used to host the the OS images that the BareMetalHosts will be provisioned with.
 
   ```bash
   sudo docker run -d --net host --privileged --name httpd-infra -v /opt/metal3-dev-env/ironic:/shared --entrypoint /bin/runhttpd --env
@@ -97,7 +99,7 @@ This is a separate machine, e.g. your laptop or one of the servers, that has acc
 
 ## Launch management cluster using minikube
 
-* Create a minikube cluster to use as management cluster.
+- Create a minikube cluster to use as management cluster.
 
   ```bash
   minikube start
@@ -109,7 +111,7 @@ This is a separate machine, e.g. your laptop or one of the servers, that has acc
   minikube ssh sudo ip addr add 172.22.0.9/24 dev ironicendpoint
   ```
 
-* Initialize Cluster API and the Metal3 provider.
+- Initialize Cluster API and the Metal3 provider.
 
   ```bash
   kubectl create namespace metal3
@@ -120,7 +122,7 @@ This is a separate machine, e.g. your laptop or one of the servers, that has acc
 
 ## Install provisioning components
 
-* Exporting necessary variables for baremetal operator and Ironic deployment.
+- Exporting necessary variables for baremetal operator and Ironic deployment.
 
   ```bash
   # The URL of the kernel to deploy.
@@ -154,7 +156,7 @@ This is a separate machine, e.g. your laptop or one of the servers, that has acc
   export IRONIC_INSPECTOR_NO_BASIC_AUTH=true
   ```
 
-* Launch baremetal operator.
+- Launch baremetal operator.
 
   ```bash
   # Clone BMO repo
@@ -163,7 +165,7 @@ This is a separate machine, e.g. your laptop or one of the servers, that has acc
   ./baremetal-operator/tools/deploy.sh -b -k -t
   ```
 
-* Launch Ironic.
+- Launch Ironic.
 
   ```bash
   # Run deploy.sh

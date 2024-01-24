@@ -31,7 +31,7 @@ checksums.
   the usage of `v1alpha1`.
 
 - Make the API version reflect the actual support status of the API (see
-  [alternatives](#Alternatives) for details).
+  [alternatives](#alternatives) for details).
 
 ### Non-Goals
 

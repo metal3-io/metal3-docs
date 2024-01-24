@@ -1,3 +1,5 @@
+<!-- markdownlint-disable first-line-h1 -->
+
 The following environmental variables can be passed to configure the Ironic services:
 
 - `HTTP_PORT` - port used by httpd server (default 6180)

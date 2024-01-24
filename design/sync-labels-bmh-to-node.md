@@ -42,13 +42,13 @@ More specifically, synchronization accomplishes the following:
   BMH will result in the addition/removal of that label on the corresponding
   Node. Labels outside the prefix set will be ignored.
 2. Addition/Removal of a label, within the set of predefined prefixes,
-  _directly_ on the Node will result in the removal/re-adding of that label
+  *directly* on the Node will result in the removal/re-adding of that label
   on the Node.
 
 The synchronization should be limited to only labels matching a certain set of
 prefixes. The primary reason for this limitation is to avoid stepping on labels
 managed by other entities. Here CAPM3 would own the set of labels that match the
-prefixes. For example, the user may specify _my-prefix.foobar.io/_ as their
+prefixes. For example, the user may specify *my-prefix.foobar.io/* as their
 prefix. Labels placed on the BMH that match this prefix would be synchronized
 with the labels on the Node object. For example,
 
@@ -103,7 +103,7 @@ Scenario (i) can be handled as follows:
     baremetalhosts,verbs=get;list;watch
 
 2. On each BMH reconcile event, the controller will fetch the corresponding
-  Node. The _mapping_ can be accomplished by:
+  Node. The *mapping* can be accomplished by:
 
     BMH.ConsumerRef --> Metal3Machine.OwnerRef --> Machine.Status.NodeRef
 
@@ -181,8 +181,10 @@ The last step is to map the Metal3Machine to the BMH. Currently, an annotation
 is added to the Metal3Machine of the format  `metal3.io/BareMetalHost:
 Namespace/Name`. We can use this annotation to fetch the corresponding BMH.
 
+```console
     Kind:         Metal3Machine
     Annotations:  metal3.io/BareMetalHost: metal3/bmh-node-0
+```
 
 ### Other Issues
 
@@ -230,7 +232,9 @@ through kubelet's `--node-labels` at node creation. The label can subseqently
 be removed by CAPM3 when it has applied the desired set of labels. The user
 must construct their label-selectors with this label in mind. For example:
 
+```console
     Node.Labels not contain `label-sync-pending` AND Node.Labels not contain `my.prefix/foo=bar`...
+```
 
 This approach can also be implemented entirely by the user. For example, the
 user may specifiy through the KubeadmConfigTemplate a label similar to

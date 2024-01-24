@@ -50,14 +50,14 @@ up-to-date vision on the status of the devices.
 
 - Depending on the device, we need to collect the following
   information, when applicable:
-  - Capacity
-  - Location
-  - Manufacturer
-  - Model
-  - Part Number
-  - Serial Number
-  - Status
-  - SMART details
+   - Capacity
+   - Location
+   - Manufacturer
+   - Model
+   - Part Number
+   - Serial Number
+   - Status
+   - SMART details
 
 - NVMe drives require special tools to get SMART data (e.g. nvme-cli),
   although
@@ -107,11 +107,11 @@ up-to-date vision on the status of the devices.
   take decisions on different operations and might need a separate
   discussion on possible approaches, and includes at least the
   following aspects:
-  - Ensure correct deployment of the new service to all the members of a
+   - Ensure correct deployment of the new service to all the members of a
     cluster.
-  - Correct configuration of the service, that needs to be aware of the
+   - Correct configuration of the service, that needs to be aware of the
     ironic inspector api.
-  - Verify the service is correctly running and regularly reporting up-to-date
+   - Verify the service is correctly running and regularly reporting up-to-date
     data to ironic inspector.
 
   One possible approach would be building a new element (as part of

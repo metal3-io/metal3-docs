@@ -1,6 +1,8 @@
+<!-- markdownlint-disable first-line-h1 no-inline-html -->
 <div style="float: right; position: relative; display: inline;">
-    <img src="images/metal3-color.svg" width="160px" />
+    <img src="images/metal3-color.svg" width="160px" alt="" />
 </div>
+<!-- markdownlint-enable first-line-h1 no-inline-html -->
 
 # Metal³
 

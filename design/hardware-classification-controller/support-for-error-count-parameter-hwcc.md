@@ -26,19 +26,19 @@ to get the count of matched, unmatched and error host.
 
 Use the parameters below,
 
-* `matchedCount`
-* `unmatchedCount`
-* `errorHosts`
+- `matchedCount`
+- `unmatchedCount`
+- `errorHosts`
 
 Along with Introduction of following parameters
 
-* `registrationErrorCount`
-* `introspectionErrorCount`
-* `provisioningErrorCount`
-* `powerMgmtErrorCount`
-* `detachErrorCount`
-* `preparationErrorCount`
-* `provisionedRegistrationErrorCount`
+- `registrationErrorCount`
+- `introspectionErrorCount`
+- `provisioningErrorCount`
+- `powerMgmtErrorCount`
+- `detachErrorCount`
+- `preparationErrorCount`
+- `provisionedRegistrationErrorCount`
 
 (Please refer section- `Investigation Details` for functionality of above parameters)
 
@@ -49,10 +49,10 @@ HWCC only supports error state which are defined in Baremetal host.
 
 ## Proposal
 
-* In HWCC Status, introduce new fields to show the count of
+- In HWCC Status, introduce new fields to show the count of
   matched, unmatched and failedhost.
 
-* In addition to get the count of host failed due to specific failure.
+- In addition to get the count of host failed due to specific failure.
 
 ### Investigation Details
 
@@ -156,41 +156,41 @@ Add support for new fields:
 
 ### Implementation Details/Notes/Constraints
 
-* Update these existing schema `HardwareClassification` by adding new
+- Update these existing schema `HardwareClassification` by adding new
   parameter in the Status.
 
-  * `matchedCount`
-  * `unmatchedCount`
-  * `errorHosts`
-  * `registrationErrorCount`
-  * `introspectionErrorCount`
-  * `provisioningErrorCount`
-  * `powerMgmtErrorCount`
-  * `detachErrorCount`
-  * `preparationErrorCount`
-  * `provisionedRegistrationErrorCount`
+   - `matchedCount`
+   - `unmatchedCount`
+   - `errorHosts`
+   - `registrationErrorCount`
+   - `introspectionErrorCount`
+   - `provisioningErrorCount`
+   - `powerMgmtErrorCount`
+   - `detachErrorCount`
+   - `preparationErrorCount`
+   - `provisionedRegistrationErrorCount`
 
-* Add function to filter the failed host from the baremetal host list.
+- Add function to filter the failed host from the baremetal host list.
 
-* Once list of failed host is identified, Add a new function to identify
+- Once list of failed host is identified, Add a new function to identify
   the error count of below parameter by iterating over failed host list and
   find the count using error type of each host
 
-  * `registrationErrorCount`
-  * `introspectionErrorCount`
-  * `provisioningErrorCount`
-  * `powerMgmtErrorCount`
-  * `detachErrorCount`
-  * `preparationErrorCount`
-  * `provisionedRegistrationErrorCount`
+   - `registrationErrorCount`
+   - `introspectionErrorCount`
+   - `provisioningErrorCount`
+   - `powerMgmtErrorCount`
+   - `detachErrorCount`
+   - `preparationErrorCount`
+   - `provisionedRegistrationErrorCount`
 
-* Once the classification is completed, count of matched and unmatched host
+- Once the classification is completed, count of matched and unmatched host
   can be found from the filtered hosts.
 
-* Update the count of above parameter in the hardware classification
+- Update the count of above parameter in the hardware classification
   status before reconciliation ends.
 
-* Total number of hosts is equal to sum of matched, unmatched and error hosts.
+- Total number of hosts is equal to sum of matched, unmatched and error hosts.
 
 ### Risks and Mitigations
 
@@ -200,27 +200,27 @@ None
 
 ### Work Items
 
-* Add new parameters
+- Add new parameters
   in the file /api/v1alpha1/hardwareClassification_types.go.
 
-  * "MatchedCount"
-  * "UnmatchedCount"
-  * "ErrorHosts"
-  * "RegistrationErrorCount"
-  * "IntrospectionErrorCount"
-  * "ProvisioningErrorCount"
-  * "PowerMgmtErrorCount"
-  * "DetachErrorCount"
-  * "PreparationErrorCount"
-  * "ProvisionedRegistrationErrorCount"
+   - "MatchedCount"
+   - "UnmatchedCount"
+   - "ErrorHosts"
+   - "RegistrationErrorCount"
+   - "IntrospectionErrorCount"
+   - "ProvisioningErrorCount"
+   - "PowerMgmtErrorCount"
+   - "DetachErrorCount"
+   - "PreparationErrorCount"
+   - "ProvisionedRegistrationErrorCount"
 
-* Add new function which filters the failed host from the fetched
+- Add new function which filters the failed host from the fetched
    baremetal host list
 
-* Add function to identify the count of respective failed host state
+- Add function to identify the count of respective failed host state
    from host error type
 
-* Update count of all parameter before reconciliation ends
+- Update count of all parameter before reconciliation ends
 
 ### Dependencies
 
@@ -229,11 +229,11 @@ Baremetal-Operator - To fetch BareMetal-host for classification.
 
 ### Test Plan
 
-* Additional Unit tests for modified modules will be implemented.
-* Functional testing will be performed with respect to implemented
+- Additional Unit tests for modified modules will be implemented.
+- Functional testing will be performed with respect to implemented
   HardwareClassification CRD and controller.
-* Deployment & integration testing will be done.
-* We will carry out testing of HWCC on Dell hardware.
+- Deployment & integration testing will be done.
+- We will carry out testing of HWCC on Dell hardware.
 
 ## Alternatives
 
@@ -241,6 +241,6 @@ None
 
 ## References
 
-* <https://github.com/metal3-io>
-* <https://github.com/metal3-io/hardware-classification-controller>
-* <https://github.com/metal3-io/baremetal-operator>
+- <https://github.com/metal3-io>
+- <https://github.com/metal3-io/hardware-classification-controller>
+- <https://github.com/metal3-io/baremetal-operator>

@@ -1,4 +1,4 @@
-<h1>Bare Metal Operator</h1>
+# Bare Metal Operator
 
 The Bare Metal Operator (BMO) is a custom Kubernetes controller that deploys baremetal hosts, represented in Kubernetes by BareMetalHost (BMH), as Kubernetes nodes. To this end Ironic is used.
 
@@ -68,13 +68,13 @@ The following diagrams ilustrates the information flow and components involved. 
 
 The right most box represents the bare metal server on which the inspection is done, Operating system is installed and bootstrap script is run. And, the third box shows Ironic which synchronizes the information about the Bare Metal server between the two sides.
 
-![](images/ipa-inspection.png)
+![ipa-inspection](images/ipa-inspection.png)
 
 Next, with the information coming from the CAPM3 side, the BareMetalHost is updated with image and cloud-init data. That information is also conveyed to Ironic and the server is booted accordingly.
 
 This happens for example when the user scales a MachineDeployment so that the server should be added to the cluster, or during an upgrade when it must change the image it is booting from.
 
-![](images/ipa-provisioning.png)
+![ipa-provisioning](images/ipa-provisioning.png)
 
 The information flow and operations described above are a bit simplified. CAPM3 provides more data and there are other operations, such as disk cleaning, on the Ironic side as well. However, the overall process remains the same. BMO keeps the server and BareMetalHost resource in sync.
 

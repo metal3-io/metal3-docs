@@ -2,9 +2,11 @@
 
 Kubernetes-native declarative infrastructure for Metal3.
 
+<!-- markdownlint-disable no-inline-html -->
 <div>
-    <img src="../images/metal3-color.svg" width="120px" />
+    <img src="../images/metal3-color.svg" width="120px" alt="" />
 </div>
+<!-- markdownlint-enable no-inline-html -->
 
 ## What is the Cluster API Provider Metal3
 
