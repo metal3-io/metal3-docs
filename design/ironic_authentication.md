@@ -258,9 +258,9 @@ take care of the authentication temporarily, or pass the headers to Ironic and
 Inspector. If not using Ironic’s built-in basic authentication, the endpoints
 used by IPA must remain free of authentication.
 
-The content of the htpasswd file would need to be based on a shared secret
+The content of the `htpasswd` file would need to be based on a shared secret
 between ironic, BMO and the CLI client. Any updates to the secret should update
-the htpasswd file and the clients to avoid breaking the authentication.
+the `htpasswd` file and the clients to avoid breaking the authentication.
 
 The openstack CLI would also need to support basic authentication, if it is not
 the case, using a reverse proxy to set the headers properly would be a

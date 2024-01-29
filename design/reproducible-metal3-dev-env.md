@@ -155,6 +155,7 @@ Not applicable.
 
 ## Drawbacks
 
+<!-- cSpell:ignore spammy -->
 * Pull requests created by Renovate could be spammy. We can configure Renovate
   to get a trade-off between being up-to-date, having the latest external
   dependencies and reducing the amount of spam in pull requests to the repo.

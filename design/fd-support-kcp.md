@@ -130,7 +130,7 @@ CAPM3 supports a [label sync mechanism](https://github.com/metal3-io/metal3-docs
 between the BMH and its corresponding Kubernetes Node. The sync controller
 could be configured to sync zone labels
 (e.g.`topology.kubernetes.io/zone=my-fd-1`) placed on the BMH to the
-corrresponding Node. The operator would add this label to the BMH in
+corresponding Node. The operator would add this label to the BMH in
 addition to standard FD label described above
 (ie. `infrastructure.cluster.x-k8s.io/failure-domain=<my-fd-1>`).
 
@@ -144,7 +144,7 @@ issue for [this feature](https://github.com/kubernetes-sigs/cluster-api/issues/5
 
 ### Cloud-Provider-Interface
 
-In public clouds, these label are genereally added via the
+In public clouds, these label are generally added via the
 [cloud-provider-interface (CPI).](https://github.com/kubernetes/cloud-provider)
 It's the cloud-provider's job of initializing a node with cloud specific
 zone/region labels. For more advanced use case, operators may implement

@@ -26,7 +26,7 @@ Query](https://github.com/issues?utf8=%E2%9C%93&q=archived%3Afalse+user%3Ametal3
 `archived:false user:metal3-io no:label is:issue sort:created-asc
 is:open`
 
-- Evalulate if the issue is still relevant.
+- Evaluate if the issue is still relevant.
    - If not, close the issue.
 - Determine the kind, and apply the right label. For example: bug, feature, etc.
 - Make a best guess at priority, if the issue isn't actively being

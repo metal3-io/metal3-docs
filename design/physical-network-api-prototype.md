@@ -4,6 +4,7 @@
 
  http://creativecommons.org/licenses/by/3.0/legalcode
 -->
+<!-- cSpell:ignore Radez -->
 
 # prototype-a-physical-network-api
 
@@ -71,7 +72,7 @@ vendor neutral modeling already done there.
 
 Another project that could be used as inspiration is the [Ansible Networking
 Neutron ML2 Driver](https://networking-ansible.readthedocs.io/en/latest/) which
-created a Python API to abstract generic switch configuration on top of Anisble
+created a Python API to abstract generic switch configuration on top of Ansible
 networking modules.  Note that the relevant part of the driver was split out
 into the
 [ansible-network/network-runner](https://github.com/ansible-network/network-runner)
