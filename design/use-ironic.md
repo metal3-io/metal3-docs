@@ -150,4 +150,4 @@ is hidden from the user it will not affect users.
 - [Ironic Documentation](https://docs.openstack.org/ironic/latest/)
 - [Ironic Inspector Documentation](https://docs.openstack.org/ironic-inspector/latest/)
 - [Metal3 Ironic image](https://quay.io/repository/metal3-io/ironic)
-- [Metal3 Ironic Inpsector image](https://quay.io/repository/metal3/ironic-inspector)
+- [Metal3 Ironic Inspector image](https://quay.io/repository/metal3/ironic-inspector)

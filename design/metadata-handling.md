@@ -234,7 +234,7 @@ in the BareMetalHost. If any of the `metaData` or `networkData` status fields
 are unset, that field will also remain unset on the BareMetalHost.
 
 When the Metal3Machine gets deleted, the CAPM3 controller will remove its
-ownerreference from the data template object. This will trigger the deletion of
+owner reference from the data template object. This will trigger the deletion of
 the generated Metal3Data object and the secrets generated for this machine.
 
 ### The Metal3DataClaim object
@@ -479,15 +479,15 @@ The **links/ethernets** objects contain the following:
 
 The **links/ethernets/type** can be one of :
 
-- bridge
-- dvs
-- hw_veb
-- hyperv
-- ovs
-- tap
-- vhostuser
-- vif
-- phy
+- `bridge`
+- `dvs`
+- `hw_veb`
+- `hyperv`
+- `ovs`
+- `tap`
+- `vhostuser`
+- `vif`
+- `phy`
 
 The **links/ethernets/macAddress** object can be one of:
 
@@ -687,7 +687,7 @@ Specs. The *ready* field in *renderedData* will then be set accordingly.
 If any error happens during the rendering, an error message will be added.
 
 Since the `templateReference` field is an addition to the existing API, the
-default behaviour of the controller will be to list the Metal3Data objects by
+default behavior of the controller will be to list the Metal3Data objects by
 matching their template field if the `templateReference` is left empty on
 the template object. However, if the `templateReference` is set on the
 Metal3DataTemplate object, but not on the Metal3Data object, then the controller

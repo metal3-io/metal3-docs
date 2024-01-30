@@ -205,7 +205,7 @@ cluster (i.e. kubelet is up and running). There may be a delay (potentially
 several seconds) before the CAPM3 node synchronization logic kicks in to apply
 the labels on the Node.
 
-Kubernetes supports both eqaulity and inequality requirements in label selection.
+Kubernetes supports both equality and inequality requirements in label selection.
 
 In an equality based selection, the user wants to place a workload on node(s)
 matching a specific label (e.g. Node.Labels contains `my.prefix/foo=bar`). The
@@ -215,7 +215,7 @@ the placement of the workload, but this is likely acceptable.
 In an inequality based selection, the user wants to place a workload on node(
 s) that do not contain a specific label (e.g. Node.Labels not contain
 `my.prefix/foo=bar`). The case is potentially problematic because it relies on
-the absense of a label and this can occur during the delay.
+the absence of a label and this can occur during the delay.
 
 One way to address this is to use kubelet's `--node-labels` flag. In CAPI, we
 can potentially utilize `kubeletExtraArgs` within the KubeadmConfig spec for
@@ -227,8 +227,8 @@ from the BMH?
 Another possibility is to utilize the Metal3DataTemplate for labeling the
 nodes. This would need to further investigation as well.
 
-Yet another possiblity is to use a temporary label (e.g. `label-sync-pending`)
-through kubelet's `--node-labels` at node creation. The label can subseqently
+Yet another possibility is to use a temporary label (e.g. `label-sync-pending`)
+through kubelet's `--node-labels` at node creation. The label can subsequently
 be removed by CAPM3 when it has applied the desired set of labels. The user
 must construct their label-selectors with this label in mind. For example:
 
@@ -237,7 +237,7 @@ must construct their label-selectors with this label in mind. For example:
 ```
 
 This approach can also be implemented entirely by the user. For example, the
-user may specifiy through the KubeadmConfigTemplate a label similar to
+user may specify through the KubeadmConfigTemplate a label similar to
 `label-sync-pending`. Subsequently, when the node is ready to accept workloads
 (e.g. the desired labels have been applied by CAPM3), they can manually remove
 this label.
@@ -261,7 +261,7 @@ however document this limitation.
   CAPI community to support such a mechanism. Additionally, for metal3, such a
   scenario would still require that CAPM3 synchronize labels from BMH to
   Metal3Machine.
-* Specifing labels via KubeadmConfigTemplate's
+* Specifying labels via KubeadmConfigTemplate's
   `NodeRegistration.KubeletExtraArgs`. This approach is complementary but has
   certain limitations:
     1. Labels are only applicable at creation time. Adding/Removing a new
@@ -279,14 +279,14 @@ however document this limitation.
       mentioned in this proposal). This is not a deal breaker but definitely
       undesirable.
 * Using node-feature-discovery to apply labels. This approach is also
-    comlementary, but has certain limitations:
+    complementary, but has certain limitations:
     1. Certain information may not be discoverable by host inspection alone.
       For example, user intent cases such as I want to label certain hosts as
       temporary so only workloads that can tolerate interruptions are scheduled
       there.
     2. It would require that users deploy (and potentially implement)
-      controllers for feature discovery. The propsed mechanism for label sync
-      would provide a convenient, albiet more manual, alternative.
+      controllers for feature discovery. The proposed mechanism for label sync
+      would provide a convenient, albeit more manual, alternative.
 
 ### Configuration Alternatives
 
