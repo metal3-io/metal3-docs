@@ -50,6 +50,30 @@ For execution with VMs
 - Save and exit
 - Manually **enable nested virtualization** if you don't have it enabled in your VM
 
+```console
+  # To enable nested virtualization 
+  # On Centos 9 streams (other distros may vary)
+  # check the current setting
+  $ sudo cat /sys/module/kvm_intel/parameters/nested 
+  N     # disabled
+
+  $ sudo vi /etc/modprobe.d/kvm.conf 
+  # uncomment either of the line
+  # for Intel CPU, select [kvm_intel], for AMD CPU, select [kvm_amd]
+
+  options kvm_intel nested=1
+  #options kvm_amd nested=1
+
+  # unload
+  $ sudo modprobe -r kvm_intel
+
+  # reload
+  $ sudo modprobe kvm_intel
+
+  $ sudo cat /sys/module/kvm_intel/parameters/nested
+  Y     # just enabled
+```
+
 ### 1.2. Setup
 
 > **_info:_** "Information"
