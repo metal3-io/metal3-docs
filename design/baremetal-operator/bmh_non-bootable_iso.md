@@ -89,12 +89,14 @@ webhook level to validate if a given driver supports the non-bootable ISO featur
 
 As part of the design we are assuming that to attach an image to a BMH object, the user
 will create the corresponding `DataImage` CR (with the same `Name` and `Namespace` as the
-`BareMetalHost` object) and the BMH Controller will add the ownerReference for the corresponding BMH
-to it (example : [HostFirmwareSettings](https://github.com/metal3-io/baremetal-operator/blob/9ce684e6462a6ab55ff650cb6c11f9ba1ffb395d/docs/api.md?plain=1#L664)). Then, on the next reboot/power on
-of the BMH, the `DataImage` will be attached and the `BareMetalHost` Status will be updated to reflect
-the status of attachment, including which image was attached. In case of detachment of ISO, similar process
-will be followed where the actual detachment will happen on the next reboot/power on and the BMH Status
-will reflect the status of detachment, example : success, number of failures.
+`BareMetalHost` object). The BMH Controller will add the ownerReference for the corresponding BMH
+(example : [HostFirmwareSettings](https://github.com/metal3-io/baremetal-operator/blob/9ce684e6462a6ab55ff650cb6c11f9ba1ffb395d/docs/api.md?plain=1#L664)) and it will also add a finalizer to the `DataImage` after its attached.
+Then, on the next reboot/power-on of the BMH, the `DataImage` will be attached and the `DataImage`
+`Status` will be updated to reflect the status of the attachment, including which image was attached.
+In case of detachment of the ISO(`DataImage`), similar process will be followed where the actual
+detachment will happen on the next reboot/power-on and the `DataImage` Status will reflect the status
+of detachment, example : success, number of failures. The finalizer will also be removed once the
+detachment succeeds.
 
 Since the attachment of the ISO happens when a BMH reconcile is triggered as a result of BMH
 reboot/power on, so handling the attachment/detachment of dataImage when the host reaches steady state (refer [`actionManageSteadyState` function](https://github.com/metal3-io/baremetal-operator/blob/9ce684e6462a6ab55ff650cb6c11f9ba1ffb395d/controllers/metal3.io/baremetalhost_controller.go#L1414) )
@@ -102,8 +104,8 @@ makes sense since we only reach this state when a host has been either provision
 any power state changes (including reboot via rebootAnnotation) are also handled after the host reaches this state
 ( refer [`manageHostPower` function](https://github.com/metal3-io/baremetal-operator/blob/1bb45eef449c942711b1c0937ecff2b10a326eb3/controllers/metal3.io/baremetalhost_controller.go#L222) )
 
-We need to cache the attached image along with the attachment status in `Status`
-of the BareMetalHost to know if the image has been attached successfully. This
+We need to cache the attached image along with the attachment status in the `Status`
+of the `DataImage` to know if the image has been attached successfully. This
 will also help us determine if a different image was attached previously which
 needs to be detached first before attaching the new dataImage. Or, if the user
 deletes the dataImage CR and the `Status` contains a cached entry, which will
@@ -112,7 +114,8 @@ again trigger detachment of that image.
 In case the image fails to attach, we will retry until either the attachment succeeds
 or the user removes the dataImage CR. In case of failure in attachment, we will
 always do a detachment before the next retry, and record the reason for failure in the
-logs.
+logs. In case of persistent failures, we will retry with increasing delays until the
+attachment/detachment succeeds.
 
 ## Dependencies
 
@@ -122,12 +125,12 @@ block the development of the BMO API.
 
 ## Upgrade / Downgrade Strategy
 
-This feature is adds a Custom Resource(CR) to the cluster and a label to `BareMetalHost`
-which doesn't makes any changes to the BareMetalHost API, so all the existing
-`BareMetalHost` definitions should continue to work as before.
+This feature adds a Custom Resource(CR) to the cluster which doesn't make
+any changes to the `BareMetalHost` `Spec`, so all the existing `BareMetalHost`
+definitions should continue to work as before.
 
 This feature will become available after upgrade, and downgrade is also pretty
-straightforward where the user just need to remove the `DataImage` CRs.
+straightforward where the user just needs to remove the `DataImage` CRs.
 
 Explicit microversion negotiation support has been added to Gophercloud ([pr](https://github.com/gophercloud/gophercloud/pull/2791))
 which can be used in case we don't want to use the master branch for Ironic.
