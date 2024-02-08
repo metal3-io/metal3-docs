@@ -77,7 +77,7 @@ and `Namespace` as the `BareMetalHost` where we are attaching the image.
 To attach an ISO, first the `DataImage` CR object is created and then it is attached to the
 BMH on its next reboot/power on.
 
-The `BareMetalHostStatus` will cache the image details including the attachment
+The `DataImage` `Status` will cache the image details including the attachment
 status, which will inform us if the attachment succeeded and can also be used
 for detachment - either when the attachment fails and we retry or when the user
 explicitly requests detachment by deleting the `DataImage` CRD that corresponds to a BMH.
@@ -95,8 +95,19 @@ Then, on the next reboot/power-on of the BMH, the `DataImage` will be attached a
 `Status` will be updated to reflect the status of the attachment, including which image was attached.
 In case of detachment of the ISO(`DataImage`), similar process will be followed where the actual
 detachment will happen on the next reboot/power-on and the `DataImage` Status will reflect the status
-of detachment, example : success, number of failures. The finalizer will also be removed once the
+of detachment, example : number of failures. The finalizer will also be removed once the
 detachment succeeds.
+Here is an example of what the `DataImage` `Status` might look like:
+
+```yaml
+status:
+  lastReconciliation: "2024-01-01T12:00:00Z"
+  error:
+    count: 0
+    message: ""
+  attachedImage:
+    url: "http://example.com/images/dataimage.iso"
+```
 
 Since the attachment of the ISO happens when a BMH reconcile is triggered as a result of BMH
 reboot/power on, so handling the attachment/detachment of dataImage when the host reaches steady state (refer [`actionManageSteadyState` function](https://github.com/metal3-io/baremetal-operator/blob/9ce684e6462a6ab55ff650cb6c11f9ba1ffb395d/controllers/metal3.io/baremetalhost_controller.go#L1414) )
