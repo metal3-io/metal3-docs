@@ -127,9 +127,11 @@ This can now be achieved with the following procedure:
    Example:
 
    ```bash
-   clusterctl init --infrastructure metal3:v1.1.0
+   clusterctl init --infrastructure metal3:{releaselink:repo:https://api.github.com/repos/metal3-io/cluster-api-provider-metal3}
    --target-namespace metal3 --watching-namespace metal3
    ```
+
+   NOTE: In clusterctl init you can change the version of provider by appending a version tag, if no version is given by deafult latest stable release will be used.
 
    This command will create the necessary CAPI controllers (CAPI, CABPK, CAKCP)
    and CAPM3 as the infrastructure provider. All of the controllers will be installed
@@ -155,9 +157,11 @@ This can now be achieved with the following procedure:
     Example:
 
     ```bash
-    clusterctl init --kubeconfig target.yaml --infrastructure metal3:v1.1.0
+    clusterctl init --kubeconfig target.yaml --infrastructure metal3:{releaselink:repo:https://api.github.com/repos/metal3-io/cluster-api-provider-metal3}
     --target-namespace metal3 --watching-namespace metal3
     ```
+
+   NOTE: In clusterctl init you can change the version of provider by appending a version tag, e.g. "metal3:{releaselink:repo:<https://api.github.com/repos/metal3-io/cluster-api-provider-metal3>}", if no version is given by deafult latest stable release will be used.
 
 8. Use `clusterctl` move to move the Cluster API resources from the bootstrap
  cluster to the target management cluster.

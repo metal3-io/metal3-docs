@@ -60,3 +60,10 @@ Guide](https://metal3.io/try-it.html)). Nor is it a reference (for that, see
 the [API Reference
 Documentation](https://github.com/metal3-io/cluster-api-provider-metal3/blob/main/docs/api.md),
 and of course, the code itself.)
+
+NOTE: In this book some version numbers are dynamically generated. This is done
+with JavaScript after rendering the page. If You are seing placeholder text like
+this '{releaselink:repo:api-url-ro-get-version}', this is propably due to your
+browser having JavaScript turned off. This can be fixed by turning JavaScript
+on or you can just remove the placeholder and replace it with a stable version
+or leave the version number out when the lates stable version will be used.  

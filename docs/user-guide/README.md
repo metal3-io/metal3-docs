@@ -68,4 +68,12 @@ Before submitting document change, you can run the same mdbook binary to preview
     ```
 
 You should have the user-guide available now at `localhost:3000`.
-Also, the serve command watches the `src` directory for changes and rebuilds the user-guide for every change.
+Also, the serve command watches the `src` directory for changes and rebuilds theuser-guide for every change.
+
+## Dynamic Version Numbers
+
+Some version numbers are automatically generated. This is done with JavaScript
+after the page is rendered.
+{releaselink:repo:<https://api.github.com/repos/metal3-io/cluster-api-provider-metal3>:stable:any}
+Stable variable can be: any, stable or prerelease. If not set a stable release
+tag will be fetched.

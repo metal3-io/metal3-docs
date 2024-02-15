@@ -16,16 +16,16 @@ install them yourself.
 1. Install Cluster API core compoenents i.e., core, bootstrap and control-plane providers. This will also install cert-manager, if it is not already installed.
 
     ```bash
-     clusterctl init --core cluster-api:v1.1.4 --bootstrap kubeadm:v1.1.4 \
-     --control-plane kubeadm:v1.1.4 -v5
+     clusterctl init --core cluster-api:{releaselink:repo:https://api.github.com/repos/kubernetes-sigs/cluster-api} --bootstrap kubeadm:{releaselink:repo:https://api.github.com/repos/kubernetes/kubernetes} \
+     --control-plane kubeadm:{releaselink:repo:https://api.github.com/repos/kubernetes/kubernetes} -v5
     ```
 
 ## With clusterctl
 
-This method is recommended. You can specify the CAPM3 version you want to install by appending a version tag, e.g. `:v1.1.2`. If the version is not specified, the latest version available will be installed.
+This method is recommended. You can specify the CAPM3 version you want to install by appending a version tag, e.g. `{releaselink:repo:https://api.github.com/repos/metal3-io/cluster-api-provider-metal3}`. If the version is not specified, the latest version available will be installed.
 
 ```bash
-clusterctl init --infrastructure metal3:v1.1.2
+clusterctl init --infrastructure metal3:{releaselink:repo:https://api.github.com/repos/metal3-io/cluster-api-provider-metal3}
 ```
 
 ## With kustomize

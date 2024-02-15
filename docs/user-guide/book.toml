@@ -8,3 +8,4 @@ title = "Metal³ user-guide"
 [output.html]
 git-repository-url = "https://github.com/metal3-io/"
 curly-quotes = true
+additional-js = ["release_version.js"]
