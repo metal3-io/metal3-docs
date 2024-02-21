@@ -56,6 +56,13 @@ to attach a non-bootable iso image to hosts.
 We may consider adding support for HTTP credentials and TLS settings in the future
 but it's outside the scope of this proposal.
 
+As part of this proposal, the DataImage attachment will happen after the next reboot
+because many hardwares need a reboot for attaching an image. For example, Dell iDrac
+usually operates in terms of tasks, so once we create a task to attach a virtual
+media, it will wait for the next reboot.
+But we may add such an option in the future, something like - `immediate: true`,
+to immediately attach the DataImage without waiting for reboot, for compatible hardware.
+
 **Note** : As part of this proposal, the dataImage will be attached after the node
 has been Provisioned or ExternallyProvisioned.
 
