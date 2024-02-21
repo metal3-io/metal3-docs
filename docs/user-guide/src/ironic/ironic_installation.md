@@ -6,7 +6,6 @@ there are a couple of containers that must run in order to provision
 baremetal nodes:
 
 - ironic (the main provisioning service)
-- ironic-inspector (the auxiliary inspection service)
 - ipa-downloader (init container to download and cache the deployment ramdisk
   image)
 - httpd (HTTP server that serves cached images and iPXE configuration)
@@ -20,6 +19,8 @@ A few other containers are optional:
 - ironic-log-watch (to provide access to the deployment ramdisk logs)
 - mariadb (the provisioning service database; SQLite can be used as
   a lightweight alternative)
+- ironic-inspector (the auxiliary inspection service - only used in older
+  versions of Metal3)
 
 ## Prerequisites
 
@@ -30,7 +31,7 @@ A separate provisioning network is required when network boot is used.
 The following ports must be accessible by the hosts being provisioned:
 
 - TCP 6385 (Ironic API)
-- TCP 5050 (Inspector API)
+- TCP 5050 (Inspector API; when used)
 - TCP 80 (HTTP server; can be changed via the `HTTP_PORT` environment variable)
 - UDP 67/68/546/547 (DHCP and DHCPv6; when network boot is used)
 - UDP 69 (TFTP; when network boot is used)
@@ -89,7 +90,6 @@ variables](#environmental-variables) on the current shell before calling [run_lo
 installation script. This will start below containers:
 
 - ironic
-- ironic-inspector
 - ironic-endpoint-keepalived
 - ironic-log-watch
 - ipa-downloader
@@ -101,7 +101,7 @@ If in-cluster ironic installation, we used different manifests for TLS and basic
 here we are exporting environment variables for enabling/disabling TLS & basic auth
 but use the same script.
 
-TLS and Basic authentication disabled
+TLS and Basic authentication disabled (not recommended)
 
 ```bash
  export IRONIC_FAST_TRACK="false"  # Example of manipulating Ironic settings

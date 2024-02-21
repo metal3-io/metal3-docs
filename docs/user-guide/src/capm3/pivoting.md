@@ -119,8 +119,8 @@ This can now be achieved with the following procedure:
  is up and running then the CAPI and provider components can be installed with `clusterctl` to
  the bootstrap cluster.
 
-2. Install Ironic  components namely: ironic, ironic-inspector,
-   ironic-endpoint-keepalived, httpd and dnsmasq.
+2. Install Ironic components, namely: ironic, ironic-endpoint-keepalived, httpd
+   and dnsmasq.
 
 3. Use clusterctl init to install the provider components
 
