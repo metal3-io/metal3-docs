@@ -30,7 +30,16 @@ clusterctl init --infrastructure metal3:v1.1.2
 
 ## With kustomize
 
-To install specific version, edit the controller-manager image version in `config/default/capm3/manager_image_patch.yaml`
+To install a specific version, checkout the `github.com/metal3-io/cluster-api-provider-metal3.git` to the tag with the desired version
+
+```bash
+git clone https://github.com/metal3-io/cluster-api-provider-metal3.git
+cd cluster-api-provider-metal3
+git checkout v1.1.2 -b v1.1.2
+
+```
+
+Then, edit the controller-manager image version in `config/default/capm3/manager_image_patch.yaml`
 
 ```yaml
 apiVersion: apps/v1
