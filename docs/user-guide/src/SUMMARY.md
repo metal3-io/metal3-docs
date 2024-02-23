@@ -1,9 +1,11 @@
 # Metal3 Project
+
 <!-- markdownlint-disable no-empty-links -->
 
 [Introduction](introduction.md)
 
 - [Project Overview]()
+- [Quick-start](quick-start.md)
 - [Installing on Baremetal](baremetal/guide.md)
 - [Baremetal Operator](bmo/introduction.md)
    - [Install Baremetal Operator](bmo/install_baremetal_operator.md)
