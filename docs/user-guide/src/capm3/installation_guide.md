@@ -22,10 +22,10 @@ install them yourself.
 
 ## With clusterctl
 
-This method is recommended. You can specify the CAPM3 version you want to install by appending a version tag, e.g. `:v1.1.2`. If the version is not specified, the latest version available will be installed.
+This method is recommended. You can specify the CAPM3 version you want to install by appending a version tag, e.g. `:{{#releasetag repo:"repo-url-here"}}`. If the version is not specified, the latest version available will be installed.
 
 ```bash
-clusterctl init --infrastructure metal3:v1.1.2
+clusterctl init --infrastructure metal3:{{#releasetag repo:"repo-url-here"}}
 ```
 
 ## With kustomize

@@ -7,6 +7,20 @@ HOST_PORT ?= 3000
 BIN_DIR := hack
 MDBOOK_BIN := $(BIN_DIR)/mdbook
 MDBOOK_RELEASE_URL := https://github.com/rust-lang/mdBook/releases/download/$(MDBOOK_BIN_VERSION)/mdbook-$(MDBOOK_BIN_VERSION)-x86_64-unknown-linux-gnu.tar.gz
+TOOLS_DIR := hack/tools
+TOOLS_BIN_DIR := $(abspath $(TOOLS_DIR)/bin)
+
+export PATH := $(PATH):$(TOOLS_BIN_DIR)
+
+## ------------------------------------
+## Resolve placeholders as tags
+## ------------------------------------
+RELEASETAGS := $(TOOLS_BIN_DIR)/mdbook-releasetags
+$(RELEASETAGS): $(TOOLS_DIR)/go.mod
+	cd $(TOOLS_DIR); go build -tags=tools -o $(TOOLS_BIN_DIR)/mdbook-releasetags ./releasetags
+
+.PHONY: releasetags
+releasetags: $(RELEASETAGS)
 
 ## ------------------------------------
 ## Documentation tooling for Netlify
@@ -19,7 +33,7 @@ $(MDBOOK_BIN): # Download the binary
 	curl -L $(MDBOOK_RELEASE_URL) | tar xvz -C $(BIN_DIR)
 
 .PHONY: netlify-build
-netlify-build: $(MDBOOK_BIN) # Build the user guide
+netlify-build: $(RELEASETAGS) $(MDBOOK_BIN) # Build the user guide
 	$(MDBOOK_BIN) build $(SOURCE_PATH)
 
 
@@ -28,7 +42,8 @@ netlify-build: $(MDBOOK_BIN) # Build the user guide
 ## ------------------------------------
 
 .PHONY: build
-build: # Build the user guide
+build: $(RELEASETAGS)
+# Build the user guide
 	$(CONTAINER_RUNTIME) run \
 	--rm -it --name metal3 \
 	-v "$$(pwd):/workdir" \
@@ -36,13 +51,14 @@ build: # Build the user guide
 	mdbook build $(SOURCE_PATH)
 
 .PHONY: serve
-serve: # Serve the user-guide on localhost:3000 (by default)
+serve: $(RELEASETAGS)
+# Serve the user-guide on localhost:3000 (by default)
 	$(CONTAINER_RUNTIME) run \
 	--rm -it --init --name metal3 \
 	-v "$$(pwd):/workdir" \
 	-p $(HOST_PORT):3000 \
 	$(IMAGE_NAME):$(IMAGE_TAG) \
-	mdbook serve --open $(SOURCE_PATH) -p 3000 -n 0.0.0.0
+	mdbook serve --open $(SOURCE_PATH) -p 3000 -n 0.0.0.0 
 
 .PHONY: clean
 clean: # Clean mdbook generated content
