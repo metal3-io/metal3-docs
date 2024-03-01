@@ -127,7 +127,7 @@ This can now be achieved with the following procedure:
    Example:
 
    ```bash
-   clusterctl init --infrastructure metal3:v1.1.0
+   clusterctl init --infrastructure metal3{{#releasetag owner:"metal3-io" repo:"cluster-api-provider-metal3" }}
    --target-namespace metal3 --watching-namespace metal3
    ```
 
@@ -155,7 +155,7 @@ This can now be achieved with the following procedure:
     Example:
 
     ```bash
-    clusterctl init --kubeconfig target.yaml --infrastructure metal3:v1.1.0
+    clusterctl init --kubeconfig target.yaml --infrastructure metal3{{#releasetag owner:"metal3-io" repo:"cluster-api-provider-metal3" }}
     --target-namespace metal3 --watching-namespace metal3
     ```
 
