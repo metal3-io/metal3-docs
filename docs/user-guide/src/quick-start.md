@@ -418,14 +418,14 @@ kind: Kustomization
 namespace: baremetal-operator-system
 # These are the kustomizations we build on. You can download them and change the URLs to relative
 # paths if you do not want to access them over the network.
-# Note that the ref=v0.5.0 specifies the version to use.
+# Note that the ref=v0.5.1 specifies the version to use.
 resources:
-- https://github.com/metal3-io/baremetal-operator/config/namespace?ref=v0.5.0
-- https://github.com/metal3-io/baremetal-operator/ironic-deployment/base?ref=v0.5.0
+- https://github.com/metal3-io/baremetal-operator/config/namespace?ref=v0.5.1
+- https://github.com/metal3-io/baremetal-operator/ironic-deployment/base?ref=v0.5.1
 # The kustomize components configure basic-auth and TLS
 components:
-- https://github.com/metal3-io/baremetal-operator/ironic-deployment/components/basic-auth?ref=v0.5.0
-- https://github.com/metal3-io/baremetal-operator/ironic-deployment/components/tls?ref=v0.5.0
+- https://github.com/metal3-io/baremetal-operator/ironic-deployment/components/basic-auth?ref=v0.5.1
+- https://github.com/metal3-io/baremetal-operator/ironic-deployment/components/tls?ref=v0.5.1
 
 # Create a ConfigMap from ironic_bmo.env and call it ironic-bmo-configmap.
 # This ConfigMap will be used to set environment variables for the containers.
@@ -549,9 +549,9 @@ kind: Kustomization
 namespace: baremetal-operator-system
 # This is the kustomization that we build on. You can download it and change
 # the URL to a relative path if you do not want to access it over the network.
-# Note that the ref=v0.5.0 specifies the version to use.
+# Note that the ref=v0.5.1 specifies the version to use.
 resources:
-- https://github.com/metal3-io/baremetal-operator/config/overlays/basic-auth_tls?ref=v0.5.0
+- https://github.com/metal3-io/baremetal-operator/config/overlays/basic-auth_tls?ref=v0.5.1
 # Create a ConfigMap from ironic.env and name it ironic.
 configMapGenerator:
 - name: ironic
