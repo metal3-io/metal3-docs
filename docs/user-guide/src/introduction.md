@@ -56,7 +56,7 @@ contributions. The community meets at the following venues:
 
 This user guide aims to explain the Metal³ feature set, and provide how-tos for
 using Metal³. It's not a tutorial (for that, see the [Getting Started
-Guide](https://metal3.io/try-it.html)). Nor is it a reference (for that, see
+Guide](developer_environment/tryit.md)). Nor is it a reference (for that, see
 the [API Reference
 Documentation](https://github.com/metal3-io/cluster-api-provider-metal3/blob/main/docs/api.md),
 and of course, the code itself.)
