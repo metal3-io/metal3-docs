@@ -585,7 +585,7 @@ useful for troubleshooting to find out why a node did not deploy.
 | driver_internal_info   | {u'last_power_state_change': u'2022-01-19T13:04:01.981882', u'agent_version': u'8.3.1.dev2', u'agent_last_heartbeat': u'2022-01-19T13:03:51.874842', u'clean_steps': None, u'agent_erase_devices_iterations': 1, u'agent_erase_devices_zeroize': True, u'agent_continue_if_secure_erase_failed': False, u'agent_continue_if_ata_erase_failed': False, u'agent_enable_nvme_secure_erase': True, u'disk_erasure_concurrency': 1, u'agent_erase_skip_read_only': False, u'hardware_manager_version': {u'generic_hardware_manager': u'1.1'}, u'agent_cached_clean_steps_refreshed': u'2022-01-19 13:03:47.558697', u'deploy_steps': None, u'agent_cached_deploy_steps_refreshed': u'2022-01-19 12:09:34.731244'} |
 | extra                  | {}                                                         |
 | fault                  | None                                                       |
-| inspect_interface      | inspector                                                  |
+| inspect_interface      | agent                                                      |
 | inspection_finished_at | None                                                       |
 | inspection_started_at  | 2022-01-19T10:56:17+00:00                                  |
 | instance_info          | {u'capabilities': {}, u'image_source': u'http://172.22.0.1/images/CENTOS_8_NODE_IMAGE_K8S_v1.22.3-raw.img', u'image_os_hash_algo': u'md5', u'image_os_hash_value': u'http://172.22.0.1/images/CENTOS_8_NODE_IMAGE_K8S_v1.22.3-raw.img.md5sum', u'image_checksum': u'http://172.22.0.1/images/CENTOS_8_NODE_IMAGE_K8S_v1.22.3-raw.img.md5sum', u'image_disk_format': u'raw'} |

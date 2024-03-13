@@ -26,9 +26,6 @@ drivers that support ISO boot. Optional if kernel/ramdisk are set.
 `IRONIC_ENDPOINT` -- The URL for the operator to use when talking to
 Ironic.
 
-`IRONIC_INSPECTOR_ENDPOINT` -- The URL for the operator to use when talking to
-Ironic Inspector.
-
 `IRONIC_CACERT_FILE` -- The path of the CA certificate file of Ironic, if needed
 
 `IRONIC_INSECURE` -- ("True", "False") Whether to skip the ironic certificate
@@ -59,6 +56,11 @@ BMO_CONCURRENCY value lower than the requested PROVISIONING_LIMIT. Default is 20
 nodes that use IPv6. In dual stack environments, this can be used to tell Ironic which IP
 version it should set on the BMC.
 
+### Deprecated options
+
+`IRONIC_INSPECTOR_ENDPOINT` -- The URL for the operator to use when talking to
+Ironic Inspector. Only supported before baremetal-operator 0.5.0.
+
 ## Kustomization Configuration
 
 It is possible to deploy ```baremetal-operator``` with three different operator
@@ -81,29 +83,28 @@ When an external Ironic is used, the following requirements must be met:
 
 ## Authenticating to Ironic
 
-Because hosts under the control of Metal³ need to contact the Ironic and Ironic
-Inspector APIs during inspection and provisioning, it is highly advisable to
-require authentication on those APIs, since the provisioned hosts running user
-workloads will remain connected to the provisioning network.
+Because hosts under the control of Metal³ need to contact the Ironic API during
+inspection and provisioning, it is highly advisable to require authentication
+on those APIs, since the provisioned hosts running user workloads will remain
+connected to the provisioning network.
 
 ### Configuration
 
-The `baremetal-operator` supports connecting to Ironic and Ironic Inspector
-configured with the following `auth_strategy` modes:
+The `baremetal-operator` supports connecting to Ironic with the following
+`auth_strategy` modes:
 
-* `noauth` (no authentication)
+* `noauth` (no authentication - not recommended)
 * `http_basic` (HTTP [Basic access authentication](https://en.wikipedia.org/wiki/Basic_access_authentication))
 
-Note that Keystone authentication methods are not yet supported.
+Note that Keystone (OpenStack Identity) authentication methods are not yet
+supported.
 
 Authentication configuration is read from the filesystem, beginning at the root
 directory specified in the environment variable `METAL3_AUTH_ROOT_DIR`. If this
 variable is empty or not specified, the default is `/opt/metal3/auth`.
 
-Within the root directory there are separate subdirectories, `ironic` for
-Ironic client configuration, and `ironic-inspector` for Ironic Inspector client
-configuration. (This allows the data to be populated from separate secrets when
-deploying in Kubernetes.)
+Within the root directory, there is a separate subdirectory `ironic` for
+Ironic client configuration.
 
 #### `noauth`
 
@@ -229,9 +230,6 @@ ironic-deployment/
 │   │   ├── ironic-auth-config
 │   │   ├── ironic-auth-config-tpl
 │   │   ├── ironic-htpasswd
-│   │   ├── ironic-inspector-auth-config
-│   │   ├── ironic-inspector-auth-config-tpl
-│   │   ├── ironic-inspector-htpasswd
 │   │   └── kustomization.yaml
 │   ├── keepalived
 │   │   ├── ironic_bmo_configmap.env
@@ -266,8 +264,8 @@ For more information, check the readme in the `ironic-deployment` folder.
 There is a useful deployment script that configures and deploys BareMetal
 Operator and Ironic. It requires some variables :
 
-* IRONIC_HOST : domain name for Ironic and inspector
-* IRONIC_HOST_IP : IP on which Ironic and inspector are listening
+* IRONIC_HOST : domain name for Ironic
+* IRONIC_HOST_IP : IP on which Ironic is listening
 
 In addition you can configure the following variables. They are **optional**.
 If you leave them unset, then passwords and certificates will be generated
@@ -276,23 +274,26 @@ for you.
 * KUBECTL_ARGS : Additional arguments to kubectl apply
 * IRONIC_USERNAME : username for ironic
 * IRONIC_PASSWORD : password for ironic
-* IRONIC_INSPECTOR_USERNAME : username for inspector
-* IRONIC_INSPECTOR_PASSWORD : password for inspector
 * IRONIC_CACERT_FILE : CA certificate path for ironic
 * IRONIC_CAKEY_FILE : CA certificate key path, unneeded if ironic
 * certificates exist
 * IRONIC_CERT_FILE : Ironic certificate path
 * IRONIC_KEY_FILE : Ironic certificate key path
-* IRONIC_INSPECTOR_CERT_FILE : Inspector certificate path
-* IRONIC_INSPECTOR_KEY_FILE : Inspector certificate key path
-* IRONIC_INSPECTOR_CACERT_FILE : CA certificate path for inspector, defaults to
-* IRONIC_CACERT_FILE
-* IRONIC_INSPECTOR_CAKEY_FILE : CA certificate key path, unneeded if inspector
-  certificates exist
 * MARIADB_KEY_FILE: Path to the key of MariaDB
 * MARIADB_CERT_FILE:  Path to the cert of MariaDB
 * MARIADB_CAKEY_FILE: Path to the CA key of MariaDB
 * MARIADB_CACERT_FILE: Path to the CA certificate of MariaDB
+
+Before version 0.5.0, Ironic Inspector parameters were also used:
+
+* IRONIC_INSPECTOR_USERNAME : username for inspector
+* IRONIC_INSPECTOR_PASSWORD : password for inspector
+* IRONIC_INSPECTOR_CERT_FILE : Inspector certificate path
+* IRONIC_INSPECTOR_KEY_FILE : Inspector certificate key path
+* IRONIC_INSPECTOR_CACERT_FILE : CA certificate path for inspector, defaults to
+  IRONIC_CACERT_FILE
+* IRONIC_INSPECTOR_CAKEY_FILE : CA certificate key path, unneeded if inspector
+  certificates exist
 
 Then run :
 

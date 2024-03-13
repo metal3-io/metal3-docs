@@ -134,8 +134,8 @@ Install following requirements on the host.
   # The URL of the Ironic endpoint.
   export IRONIC_URL="http://172.22.0.1:6385/v1/"
 
-  # The URL of the Ironic inspector endpoint.
-  export IRONIC_INSPECTOR_URL="http://172.22.0.1:5050/v1/"
+  # The URL of the Ironic inspector endpoint - only before BMO 0.5.0.
+  #export IRONIC_INSPECTOR_URL="http://172.22.0.1:5050/v1/"
 
   # Do not use a dedicated CA certificate for Ironic API.
   # Any value provided in this variable disables additional CA certificate validation.
@@ -147,13 +147,13 @@ Install following requirements on the host.
   # Any value provided in this variable disables authentication.
   # To enable authentication, leave this variable unset.
   # If unset, then IRONIC_USERNAME and IRONIC_PASSWORD must be set.
-  export IRONIC_NO_BASIC_AUTH=true
+  #export IRONIC_NO_BASIC_AUTH=true
 
-  # Disables basic authentication for Ironic inspector API.
+  # Disables basic authentication for Ironic inspector API (when used).
   # Any value provided in this variable disables authentication.
   # To enable authentication, leave this variable unset.
   # If unset, then IRONIC_INSPECTOR_USERNAME and IRONIC_INSPECTOR_PASSWORD must be set.
-  export IRONIC_INSPECTOR_NO_BASIC_AUTH=true
+  #export IRONIC_INSPECTOR_NO_BASIC_AUTH=true
   ```
 
 - Launch baremetal operator.

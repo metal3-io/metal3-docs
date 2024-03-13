@@ -10,7 +10,6 @@ The following environmental variables can be passed to configure the Ironic serv
 - `DEPLOY_KERNEL_URL` - the URL of the kernel to deploy ironic-python-agent
 - `DEPLOY_RAMDISK_URL` - the URL of the ramdisk to deploy ironic-python-agent
 - `IRONIC_ENDPOINT` - the endpoint of the ironic
-- `IRONIC_INSPECTOR_ENDPOINT` - the endpoint of the ironic inspector
 - `CACHEURL` - the URL of the cached images
 - `IRONIC_FAST_TRACK` - whether to enable fast_track provisioning or not (default true)
 - `IRONIC_KERNEL_PARAMS` - kernel parameters to pass to IPA (default console=ttyS0)
