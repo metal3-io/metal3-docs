@@ -331,7 +331,7 @@ IRONIC_HTPASSWD="<output of `htpasswd -n -b -B IRONIC_USERNAME IRONIC_PASSWORD`>
 Similarly for `ironic-inspector-htpasswd`:
 
 ```bash
-IRONIC_HTPASSWD="<output of `htpasswd -n -b -B INSPECTOR_USERNAME INSPECTOR_PASSWORD`>"
+INSPECTOR_HTPASSWD="<output of `htpasswd -n -b -B INSPECTOR_USERNAME INSPECTOR_PASSWORD`>"
 ```
 
 #### Ironic environment variables
