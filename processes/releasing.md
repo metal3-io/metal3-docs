@@ -10,6 +10,9 @@ Note the [TODO](#releasing-process-todo) section in the end.
 High-level release process for a major/minor release. For patch releases, only
 release the relevant versions.
 
+**NOTE**: Ironic-image (via upstream Ironic) has different release cadence as
+Metal3 repos. It is not always possible to release them synced.
+
 1. [Release ironic-image](https://github.com/metal3-io/ironic-image/blob/main/docs/releasing.md)
 1. [Release IPAM](https://github.com/metal3-io/ip-address-manager/blob/main/docs/releasing.md)
 1. [Release BMO](https://github.com/metal3-io/baremetal-operator/blob/main/docs/releasing.md)
@@ -90,19 +93,23 @@ components that are tested in periodic jobs.
 We announce the release in Kubernetes slack on `#cluster-api-baremetal` channel
 and through the `metal3-dev` group mailing list.
 
-Email template:
+Email template, with title `New CAPM3, IPAM and BMO minor releases are out!`
+(adjust as necessary depending on what is being released):
 
 ```text
 Hey folks,
 
-CAPM3 v1.x.y, IPAM v1.x.y and BMO v0.x.y minor releases are out now!
-Release notes can be found here: [1], [2], [3].
+CAPM3 v1.x.y, IPAM v1.x.y, BMO v0.x.y and Ironic-image vx.y.z minor releases are out now!
+Release notes can be found here: [1], [2], [3], [4].
 
 Thanks to all our contributors!
 
 [1] https://github.com/metal3-io/cluster-api-provider-metal3/releases/tag/v1.x.y
 [2] https://github.com/metal3-io/ip-address-manager/releases/tag/v1.x.y
 [3] https://github.com/metal3-io/baremetal-operator/releases/tag/v0.x.y
+[4] https://github.com/metal3-io/ironic-image/releases/tag/vx.y.z
+
+Thanks to all our contributors!
 ```
 
 Slack template:
@@ -110,12 +117,14 @@ Slack template:
 ```text
 Hey folks,
 
-CAPM3 v1.x.y, IPAM v1.x.y and BMO v0.x.y minor releases are out now :tada::metal3:!
+CAPM3 v1.x.y, IPAM v1.x.y, BMO v0.x.y and Ironic-image vx.y.z minor releases
+are out now! now :tada::metal3:!
 
 Release notes can be found here:
 - https://github.com/metal3-io/cluster-api-provider-metal3/releases/tag/v1.x.y
 - https://github.com/metal3-io/ip-address-manager/releases/tag/v1.x.y
 - https://github.com/metal3-io/baremetal-operator/releases/tag/v0.x.y
+- https://github.com/metal3-io/ironic-image/releases/tag/vx.y.z
 
 Thanks to all our contributors! :blush:
 ```
