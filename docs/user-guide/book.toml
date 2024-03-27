@@ -8,3 +8,7 @@ title = "Metal³ user-guide"
 [output.html]
 git-repository-url = "https://github.com/metal3-io/"
 curly-quotes = true
+
+[preprocessor.releasetags]
+command = "mdbook-releasetags"
+renderers = ["html"]
