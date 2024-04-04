@@ -62,8 +62,9 @@ prevent eavesdropping.
 
 ### Installing with Kustomize
 
-In the quickstart guide, we have demonstrated [how to install ironic with kustomize]
-(../quick-start.md#deploy-ironic), by creating an ironic kustomization overlay.
+In the quickstart guide, we have demonstrated
+[how to install ironic with kustomize](../quick-start.md#deploy-ironic),
+by creating an ironic kustomization overlay.
 While that is still what you should follow if you have specific requirements for
 your ironic deployment, we do provide an already-made overlay for the
 most-common usecase, ironic with basic authentication and TLS.
@@ -77,8 +78,8 @@ clone it first and `cd` to the root path.
 ```
 
 The overlay in interest is located at `ironic-deployment/overlay/basic-auth_tls`.
-To make this overlay work, we still need to set up [Authentication]
-(../quick-start.md#authentication-configuration) and
+To make this overlay work, we still need to set up
+[Authentication](../quick-start.md#authentication-configuration) and
 [Ironic Environment Variables](../quick-start.md#ironic-environment-variables),
 as instructed in the quickstart guide.
 
@@ -102,9 +103,9 @@ We can then deploy Ironic with basic authentication and TLS enabled:
 ```
 
 Alternatively, you can use the `deploy.sh` script to deploy Ironic with custom
-elements. Checkout [detailed instruction]
-(../bmo/install_baremetal_operator.md#deployment-commands), and the script
-itself, for more information.
+elements. Checkout
+[detailed instruction](../bmo/install_baremetal_operator.md#deployment-commands),
+and the script itself, for more information.
 
 ## Ironic out-of-cluster installation
 
