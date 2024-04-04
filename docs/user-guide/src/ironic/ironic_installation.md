@@ -52,8 +52,8 @@ disable both for Ironic and Inspector communication. Below we will see kustomize
 folders that will help us to install Ironic for each mentioned case. In each
 of these deployments, a ConfigMap will be created and mounted to the Ironic pod.
 The ConfigMap will be populated based on environment variables from
-[ironic-deployment/default/ironic_bmo_configmap.env](https://github.com/metal3-io/baremetal-operator/blob/main/ironic-deployment/default/ironic_bmo_configmap.env). As such, update
-`ironic_bmo_configmap.env` with your custom values before deploying the Ironic.
+[ironic-deployment/default/ironic_bmo_configmap.env](https://github.com/metal3-io/baremetal-operator/blob/main/ironic-deployment/default/ironic_bmo_configmap.env).
+As such, update `ironic_bmo_configmap.env` with your custom values before deploying the Ironic.
 
 **WARNING:** Ironic normally listens on the host network of the control plane
 nodes. If you do not enable authentication, anyone with access to this network
@@ -61,6 +61,12 @@ can use it to manipulate your nodes. It's also highly advised to use TLS to
 prevent eavesdropping.
 
 ### Installing with Kustomize
+
+In the quickstart guide, we have demonstrated [how to install ironic with kustomize]
+(../quick-start.md#deploy-ironic), by creating an ironic kustomization overlay.
+While that is still what you should follow if you have specific requirements for
+your ironic deployment, we do provide an already-made overlay for the
+most-common usecase, ironic with basic authentication and TLS.
 
 We assume you are inside the local baremetal-operator path, if not you need to
 clone it first and `cd` to the root path.
@@ -70,23 +76,43 @@ clone it first and `cd` to the root path.
  cd baremetal-operator
 ```
 
-Basic authentication enabled:
+The overlay in interest is located at `ironic-deployment/overlay/basic-auth_tls`.
+To make this overlay work, we still need to set up [Authentication]
+(../quick-start.md#authentication-configuration) and
+[Ironic Environment Variables](../quick-start.md#ironic-environment-variables),
+as instructed in the quickstart guide.
+
+Next, check the [Ironic kustomization](../quick-start.md#ironic-kustomization)
+section in the quickstart guide to see how to generate the necessary configMap
+and Secrets for the deployment.
+
+Also, `cert-manager` should have been installed in the cluster before deploying
+Ironic. If you haven't installed `cert-manager` yet:
 
 ```bash
- kustomize build ironic-deployment/basic-auth | kubectl apply -f -
+ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.3/cert-manager.yaml
 ```
 
-TLS enabled:
+Wait a few minutes for all `cert-manager` deployments to achieve `Ready` state.
+
+We can then deploy Ironic with basic authentication and TLS enabled:
 
 ```bash
- kustomize build ironic-deployment/basic-auth/tls | kubectl apply -f -
+ kustomize build ironic-deployment/overlays/basic-auth_tls | kubectl apply -f -
 ```
+
+Alternatively, you can use the `deploy.sh` script to deploy Ironic with custom
+elements. Checkout [detailed instruction]
+(../bmo/install_baremetal_operator.md#deployment-commands), and the script
+itself, for more information.
 
 ## Ironic out-of-cluster installation
 
-For out-of-cluster Ironic installation, we will run a set of docker containers outside
-of a Kubernetes cluster. To pass Ironic settings, you can export corresponding [environmental
-variables](#environmental-variables) on the current shell before calling [run_local_ironic.sh](https://github.com/metal3-io/baremetal-operator/blob/main/tools/run_local_ironic.sh)
+For out-of-cluster Ironic installation, we will run a set of docker containers
+outside of a Kubernetes cluster. To pass Ironic settings, you can export
+corresponding [environmental variables](#environmental-variables) on the current
+shell before calling
+[run_local_ironic.sh](https://github.com/metal3-io/baremetal-operator/blob/main/tools/run_local_ironic.sh)
 installation script. This will start below containers:
 
 - ironic
