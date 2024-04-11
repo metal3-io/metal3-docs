@@ -35,30 +35,26 @@ credentials of servers are not exposed to the tenant).
 
 ## Motivation
 
-So far, the primary use case of cluster-api-baremetal is the creation of a
-single target cluster from a temporary management cluster. The pivot process
-transfers the resources describing the target cluster from the management
-cluster to the target cluster. Once the pivot process is complete, the target
-cluster takes over all the servers. It can scale based on its workload but it
-cannot share its servers with other clusters.
+The standard approach to implementing multi-tenancy in cluster-api is to follow the
+[multi tenancy contract](https://cluster-api.sigs.k8s.io/developer/architecture/controllers/multi-tenancy#contract).
 
-There is another model where a single management cluster is used to create and
-manage several clusters across a set of bare-metal servers. This is the focus
-<!-- cSpell:ignore Sylva Schiff -->
-of the [Sylva Project](https://sylvaproject.org/) of the Linux foundation.
-Another example is [Das Schiff](https://github.com/telekom/das-schiff).
+To adhere to this contract with cluster-api-provider-metal3, the clusters must
+be put in different namespaces and the BareMetalHost objects must be defined
+in those namespaces. In this setup, the tenants are the owners of the servers
+and it becomes difficult to share the same server between different clusters if
+they belong to different tenants.
 
-One of the issue encountered today is that the compute resources
-(BareMetalHost) and the cluster definition (Cluster, MachineDeployment,
-Machines, Metal3Machines, etc.) must be in the same namespace. Since the goal
-is to share the compute resources, this means that a single namespace is used
-for all resources. Consequently, unless very complex access control
-rules are defined, cluster administrators have visibility over all clusters
-and full control over the servers as the credentials are stored in the same
-namespace.
+In order to improve server usage, we would like to have a pool of servers that
+clusters can lease depending on their workload. If we maintain the Metal3
+constraints, all clusters must be defined in the same namespace. Unless very
+complex access control rules are defined, cluster administrators have
+visibility and probably control over all clusters and servers as the server
+credentials are stored with the BareMetalHost resource.
 
-The solution so far is to completely proxy the access to the Kubernetes
-resources that define the clusters.
+We need to relax the constraint that the cluster and the BareMetalHosts are
+in the same namespace but we also need a solution that give sufficient control
+and visibility over the workload deployed on those servers so that tenants
+can maintain the level of information they have had so far.
 
 Another unrelated problem is that Cluster-API has been designed
 to define clusters using homogeneous compute resources: it is challenging to
