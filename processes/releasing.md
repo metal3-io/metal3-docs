@@ -48,8 +48,9 @@ require the releases they refer to be out already to pass PR tests to merge!
 
 ### Create Jenkins jobs
 
-Two Jenkins jobs need to be created in
-[JJB](https://gerrit.nordix.org/plugins/gitiles/infra/cicd/+/refs/heads/master/jjb/metal3/):
+Many Jenkins jobs need to be created in
+[JJB](https://gerrit.nordix.org/plugins/gitiles/infra/cicd/+/refs/heads/master/jjb/metal3/).
+
 
 - a periodic job that runs on a regular basis.
 - a PR verification job that is triggered by a keyword on a PR targeted for that
