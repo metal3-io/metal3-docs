@@ -554,6 +554,9 @@ namespace: baremetal-operator-system
 # Note that the ref=v0.5.1 specifies the version to use.
 resources:
 - https://github.com/metal3-io/baremetal-operator/config/overlays/basic-auth_tls?ref=v0.5.1
+images:
+- name: quay.io/metal3-io/baremetal-operator
+  newTag: v0.5.1
 # Create a ConfigMap from ironic.env and name it ironic.
 configMapGenerator:
 - name: ironic
