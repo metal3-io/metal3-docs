@@ -102,6 +102,7 @@ but make sure to note the MAC address. That will be needed later. You can also
 create more than one if you like.
 
 ```bash
+# use --ram=8192 for Scenario 2
 virt-install \
   --connect qemu:///system \
   --name bmh-vm-01 \
@@ -704,7 +705,8 @@ metadata:
 spec:
   online: true
   bootMACAddress: 00:60:2f:31:81:01
-  bootMode: UEFI
+  bootMode: UEFI # use 'legacy' for Scenario 2
+  hardwareProfile: libvirt
   bmc:
     address: redfish-virtualmedia+http://192.168.222.1:8000/redfish/v1/Systems/bmh-vm-01
     credentialsName: bml-01
@@ -856,7 +858,7 @@ export CLUSTER_APIENDPOINT_PORT="6443"
 With the variables in place, we can render the manifests and apply:
 
 ```bash
-clusterctl generate cluster my-cluster | kubectl apply -f -
+clusterctl generate cluster my-cluster --control-plane-machine-count 1 --worker-machine-count 0 | kubectl apply -f -
 ```
 
 You should see BareMetalHosts be provisioned as they are "consumed" by the
