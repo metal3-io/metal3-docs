@@ -47,9 +47,10 @@ they belong to different tenants.
 
 In order to improve server usage, we would like to have a pool of servers that
 clusters can lease depending on their workload. If we maintain the Metal3
-constraints, all clusters must be defined in the same namespace. Unless very
-complex access control rules are defined, cluster administrators have
-visibility and probably control over all clusters and servers as the server
+constraints, all clusters must be defined in the same namespace where the
+BareMetalHosts are defined.
+Unless very complex access control rules are defined, cluster administrators
+have visibility and probably control over all clusters and servers as the server
 credentials are stored with the BareMetalHost resource.
 
 We need to relax the constraint that the cluster and the BareMetalHosts are
@@ -71,8 +72,8 @@ Due to the unique challenges of managing bare-metal, the Metal3 project has
 developed a set of abstractions and tools that could be used in different
 settings. The main mechanism is the selection process that occurs between
 the Metal3Machine and the BareMetalHost which assigns a disposable workload
-(being a Kubernetes node) to a recyclable compute resource (a
-server).
+(being a node of the target cluster) to a recyclable compute
+resource (a server).
 
 This proposal introduces a new resource called HostClaim that solves
 both problems by decoupling the definition of the workload performed by
@@ -93,6 +94,8 @@ implementation details of the compute resource.
   an arbitrary workload described by an OS image and an initial configuration.
   The user does not need to know exactly which resource is used and may not
   have full control over this resource (typically no BMC access).
+* Using BareMetalHosts defined in other clusters. Support as described here
+  will be limited to the use with cluster-api.
 
 ### Non-Goals
 
@@ -107,9 +110,8 @@ implementation details of the compute resource.
   of such a framework will be addressed in another design document.
 * Pivoting client clusters resources (managed clusters that are not the
   initial cluster).
-* Using BareMetalHosts defined in other clusters. The HostClaim concept
-  supports this use case with some extensions. The design is outlined in the
-  alternative approach section but is beyond the scope of this document.
+* Implementing network isolation between tenant clusters using a common set
+  of BareMetalHosts.
 
 ## Proposal
 
@@ -260,20 +262,22 @@ kind: Metal3MachineTemplate
 metadata:
   name: md-i
 spec:
-  dataTemplate:
-    name: dt-i
-  kind: CT_i
-  args:
-    arg_i1: v1
-    ...
-    arg_ik: vk
-  hostSelector:
-    matchLabels:
-      ...
-    image:
-      checksum: https://image_url.qcow2.md5
-      format: qcow2
-      url: https://image_url.qcow2.md5
+  template:
+    spec:
+      dataTemplate:
+        name: dt-i
+      kind: CT_i
+      args:
+        arg_i1: v1
+        ...
+        arg_ik: vk
+      hostSelector:
+        matchLabels:
+          ...
+      image:
+        checksum: https://image_url.qcow2.md5
+        format: qcow2
+        url: https://image_url.qcow2.md5
 ```
 
 The Metal3Machine controllers will create HostClaims with different kinds
@@ -287,9 +291,107 @@ Controllers for disposable resources such as virtual machine typically do not
 use hostSelectors. Controllers for a "bare-metal as a service" service
 may use selectors.
 
+#### Compute Resources in Another Cluster
+
+As a user I would like to describe my cluster within a specific management
+cluster. However the resources I intend to use (such as BareMetalHosts or
+KubeVirt virtual machines) will be defined in a separate cluster.
+
+The Metal3Machine is augmented with a field ``credentials`` that points to a
+secret containing a kubeconfig object. This kubeconfig will be utilized instead
+of the HostClaim controller service account to create and manage HostClaim
+resources in the default namespace of the remote cluster as defined by the
+kubeconfig object. This kubeconfig should be associated with a Role that
+authorizes only HostClaim and secrets manipulation in a specific namespace.
+
+The following machine resource with the associated kubeconfig secret:
+
+```yaml
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: Metal3Machine
+metadata:
+  name: m3m-xxxx
+spec:
+  kind: baremetalhost
+  credentials: bmh-cluster-credentials
+  userData:
+    name: my-user-data
+  hostSelector:
+    ...
+  image:
+    checksum: https://image_url.qcow2.md5
+    format: qcow2
+    url: https://image_url.qcow2.md5
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: bmh-cluster-credentials
+stringdata:
+  kubeconfig: |
+    apiVersion: v1
+    clusters:
+    - cluster:
+        server: https://bmh-cluster:6443
+        ...
+      name: bmh-cluster
+    contexts:
+    - context:
+        cluster: bmh-cluster
+        user: user1
+      name: user1@bmh-cluster
+      namespace: user1-ns
+    current-context: user1@bmh-cluster
+    kind: Config
+    preferences: {}
+    users:
+    - name: user1
+      ...
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-user-data
+stringdata:
+  format: cloud-config
+  value: ....
+```
+
+will result in the creation of a HostClaim and a secret on ``bmh-cluster``
+within the ``user1-ns`` namespace with the following content:
+
+```yaml
+  apiVersion: metal3.io/v1alpha1
+  kind: HostClaim
+  metadata:
+    name: host-claim-yyyy
+    namespace: user1-ns
+  spec:
+    kind: baremetalhost
+    credentials: bmh-cluster-credentials
+    userData:
+      name: user-data-yyyy
+    hostSelector:
+      ...
+    image:
+      checksum: https://image_url.qcow2.md5
+      format: qcow2
+      url: https://image_url.qcow2.md5
+    online: true
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: user-data-yyyy
+stringdata:
+  format: cloud-config
+  value: ....
+```
+
 #### Manager Cluster Bootstrap
 
-As a cluster administrator I would like to install a new baremetal cluster from a transient cluster.
+As a cluster administrator I would like to install a new baremetal cluster from
+a transient cluster.
 
 The bootstrap process can be performed as usual from an ephemeral cluster
 (e.g., a KinD cluster). The constraint that all resources must be in the same
@@ -325,9 +427,22 @@ from the owner of BareMetalHost resources, especially when we upgrade the
 metal3 cluster api provider to a version supporting HostClaim.
 
 The solution is to enforce that BareMetalHost that can be bound to a
-HostClaim have a label (proposed name: ``hosts.metal3.io/namespaces``)
+HostClaim have a label (proposed name: ``hostclaims.metal3.io/namespaces``)
 restricting authorized HostClaims to specific namespaces. The value could be
 either ``*`` for no constraint, or a comma separated list of namespace names.
+
+#### Security Impact of using Kubeconfig for Access to Remote Cluster Hosting Compute Resources
+
+There is no new real security risk associated with the using credentials stored
+in a secret for a restricted user that can only manipulate HostClaim in a
+specific namespace. It is necessary that the Metal3 cluster-api provider can
+create secrets for cloud-config configuration on the remote cluster. It implies
+that the remote namespace is only used by a single user.
+
+Moreover, when a new user needs to access the remote compute resource, it becomes
+challenging to automate the creation of a new account bound with a specific role
+restricted to a single newly created namespace and to HostClaim resources
+without granting full admin rights to this process.
 
 #### Tenants Trying to Bypass the Selection Mechanism
 
@@ -467,49 +582,28 @@ The disadvantages of the BareMetalPool approach are:
 * The current implementation of the proxy is limited to the Redfish protocol
   and would require significant work for IPMI.
 
-#### HostClaims as a right to consume BareMetalHosts
+#### Explicit Remote HostClaim
 
-The approach combines the concept of remote endpoint of BareMetalPools with
-the API-oriented approach of HostClaims, as described above.
+Instead of relying on the Metal3Machine controller to handle access to a remote
+cluster, this solution introduces a HostClaim with the kind field set to
+``remote``.
 
-In this variation, the HostClaim will be an object in the BareMetalHost
-namespace defined with an API endpoint to drive the associated BareMetalHost.
-The associated credentials are known from the Metal3Machine controller
-because they are associated with the cluster. The Metal3 machine controller
-will use this endpoint and the credentials to create the HostClaim. The
-HostClaim controller will associate the HostClaim with a BareMetalHost.
-Control actions and information about the status of the BareMetalHost will
-be exchanged with the Metal3 machine controller through the endpoint.
+This resource, referred to as the source, is synchronized with another
+HostClaim, referred to as the target,  on a remote cluster.
+The specification of the source HostClaim is copied in the target resource
+excluding the kind field. The status of the target HostClaim is copied
+back to the source. For metadata, most of the fields are copied from the target
+to the source.
 
-The main advantage of the approach is that BareMetalHosts do not need to be on
-the same cluster.
+The source HostClaim must include at least two arguments:
 
-The main drawbacks are:
+* A ``real-kind`` field that define the kind of the remote HostClaim.
+* Credentials and location to access the remote cluster, typically in the form
+  of a kubeconfig.
 
-* It only addresses the multi-tenancy scenario. The hybrid scenario is not
-  solved but the usage of HostClaim outside Cluster-API is not addressed
-  either. The main reason is that there is no counter-part of the
-  BareMetalHost in the namespace of the tenant.
-* The end user will have very limited direct view on the compute resources
-  it is using even when the BareMetalHosts are on the same cluster.
-
-Extending HostClaims with a remote variant fulfills the same requirements
-but keeps an explicit object in the namespace of the cluster definition
-representing the API offered by this approach.
-
-A remote HostClaim is a a HostClaim with kind set to ``remote`` and at
-least two arguments:
-
-* One points to a URL and a set of credentials to access the endpoint on a
-  remote cluster,
-* The second is the kind of the copied HostClaim created on the remote
-  cluster.
-
-The two HostClaims are synchronized: the specification of the source HostClaim
-is copied to the remote one (except the kind part). The status of the target
-HostClaim is copied back to the source.. For meta-data, most of them are copied
-from the target to the source. The exact implementation of this extension is
-beyond the scope of this proposal.
+This solution is more complex as two HostClaims resources are required
+for each Metal3Machine. But, it can also be used to address the *simple
+workload* scenario with remote compute resources.
 
 ### Hybrid Clusters Without HostClaim
 
