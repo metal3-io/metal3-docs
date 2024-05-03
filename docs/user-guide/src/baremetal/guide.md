@@ -116,7 +116,7 @@ Install following requirements on the host.
   ```bash
   kubectl create namespace metal3
   clusterctl init --core cluster-api --bootstrap kubeadm --control-plane kubeadm --infrastructure metal3
-  # NOTE: In clusterctl init you can change the version of provider like this 'cluster-api{{#releasetag owner:"kubernetes-sigs" repo:"cluster-api"}}',
+  # NOTE: In clusterctl init you can change the version of provider like this "cluster-api:v1.6.0",
   # if no version is given by deafult latest stable release will be used.
   ```
 

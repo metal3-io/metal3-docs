@@ -1,4 +1,0 @@
-github.com/blang/semver v3.5.1+incompatible h1:cQNTCjp13qL8KC3Nbxr/y2Bqb63oX6wdnnjpJbkM4JQ=
-github.com/blang/semver v3.5.1+incompatible/go.mod h1:kRBLl5iJ+tD4TcOOxsy/0fnwebNt5EWlYSAyrTnjyyk=
-sigs.k8s.io/kubebuilder/docs/book/utils v0.0.0-20240216033807-8afeb403549f h1:0rbnCuTF/IIxfwoJR/p7zTB5+AA0RaBwB0lqjBUs/28=
-sigs.k8s.io/kubebuilder/docs/book/utils v0.0.0-20240216033807-8afeb403549f/go.mod h1:4CGoZGcqb7Bes5d0qgb4SIHqk+XjUfoxesbbTmpVl6s=

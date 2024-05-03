@@ -72,12 +72,3 @@ All the commands below are executed within mdbook container.
     ```bash
     make clean
     ```
-
-## Markers
-
-There is a preprocessor written in Golang that resolves
-`{{#releasetag owner:"metal3-io" repo:"cluster-api-provider-metal3"}}` type
-markers as the latest version e.g. `:v1.6.1`.  It takes repository name and owner
-as arguments. This preprocessor resolves the markers during netlify-build. Note:
-preprocessor will return an error if the SUMMARY.md file has drafts (aka links
-without a path) in the structure.
