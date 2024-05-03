@@ -1,23 +1,77 @@
 # Bare Metal Operator
 
-The Bare Metal Operator (BMO) is a custom Kubernetes controller that deploys baremetal hosts, represented in Kubernetes by BareMetalHost (BMH), as Kubernetes nodes. To this end Ironic is used.
+The Bare Metal Operator (BMO) is a Kubernetes controller that manages
+bare-metal hosts, represented in Kubernetes by `BareMetalHost` (BMH) *custom
+resources*.
 
-The BMO controller is responsible for the following:
+BMO is responsible for the following operations:
 
-- Inspect the host’s hardware details and report them on the corresponding BareMetalHost. This includes information about CPUs, RAM, disks, NICs, and more.
-- Provision hosts with a desired image.
-- Clean a host’s disk contents before or after provisioning
+- Inspecting the host’s hardware and reporting the details on the corresponding
+  BareMetalHost. This includes information about CPUs, RAM, disks, NICs, and
+  more.
+- Optionally preparing the host by configuring RAID, changing firmware settings
+  or updating the system and/or BMC firmware.
+- Provisioning the host with a desired image.
+- Cleaning the host’s disk contents before and after provisioning.
 
-The BareMetalHost represents a bare metal host (server). The BareMetalHost contains information about the server as shown below. For brevity, some part of the output are omitted, but we can classify the fields into the following broad categories.
+Under the hood, BMO uses [Ironic](../ironic/introduction) to conduct these
+actions.
 
-1. known server properties: Fields such as `bootMACAddress` properties of the server and are known in advance.
-2. unknown server properties: Fields such as `CPU` and `disk` are properties of the server and are discovered by Ironic.
-3. user supplied: Fields such as `image` are supplied by user to dictate boot image for the server.
-4. dynamic fields: Fields such as IP could be dynamically assigned to the server at run time by DHCP server.
+## Enrolling BareMetalHosts
 
-During the life cycle of a bare metal host, upgrade is one example, some of these fields change with information coming from Ironic or other controllers while fields, such as MAC address, do not change (upgrade is one example).
+To enroll a bare-metal machine as a `BareMetalHost`, you need to know at least
+the following properties:
 
-BMO can also work with the Cluster API Provider Metal3 (CAPM3) controller. With the involvement of CAPM3 and Ironic, a simplified information flow path and an overview of the BareMetalHost resource is shown below:
+1. The IP address and credentials of the BMC - the remote management controller
+   of the host.
+2. The protocol that the BMC understands. Most common are IPMI and Redfish.
+3. Boot technology that can be used with the host and the chosen protocol.
+   Most hardware can use network booting, but some Redfish implementations also
+   support virtual media (CD) boot.
+4. MAC address that is used for booting. **Important:** it's a MAC address of
+   an actual NIC of the host, not the BMC MAC address.
+5. The desired boot mode: UEFI or legacy BIOS. UEFI is the default and should
+   be used unless there are serious reasons not to.
+
+This is a minimal example of a valid BareMetalHost:
+
+```yaml
+apiVersion: metal3.io/v1alpha1
+kind: BareMetalHost
+metadata:
+  name: node-0
+  namespace: metal3
+spec:
+  bmc:
+    address: ipmi://192.168.111.1:6230
+    credentialsName: node-0-bmc-secret
+  bootMACAddress: 00:5a:91:3f:9a:bd
+  online: true
+```
+
+When this resource is created, it will undergo *inspection* that will populate
+more fields as part of the `status`.
+
+## Deploying BareMetalHosts
+
+To provision a bare-metal machine, you will need a few more properties:
+
+1. The URL and checksum of the image. Images should be in QCOW2 or raw format.
+   It is common to use various cloud images with BMO, e.g.
+   [Ubuntu](https://cloud-images.ubuntu.com/) or
+   [CentOS](https://cloud.centos.org/centos/). **Important:** not all images
+   are compatible with UEFI boot - check their description.
+2. Optionally, user data: a secret with a configuration or a script that is
+   interpreted by the first-boot service embedded in your image. The most
+   common service is
+   [cloud-init](https://cloudinit.readthedocs.io/en/latest/index.html), some
+   distributions use [ignition](https://coreos.github.io/ignition/).
+3. Optionally, network data: a secret with the network configuration that is
+   enterpreted by the first-boot service. In some cases, the network data is
+   embedded in the user data instead.
+
+Here is a complete example of a host that will be provisioned with a CentOS 9
+image:
 
 ```yaml
 apiVersion: metal3.io/v1alpha1
@@ -31,8 +85,8 @@ spec:
     credentialsName: node-0-bmc-secret
   bootMACAddress: 00:5a:91:3f:9a:bd
   image:
-    checksum: http://172.22.0.1/images/CENTOS_8_NODE_IMAGE_K8S_v1.22.2-raw.img.md5sum
-    url: http://172.22.0.1/images/CENTOS_8_NODE_IMAGE_K8S_v1.22.2-raw.img
+    checksum: http://172.22.0.1/images/CENTOS_9_NODE_IMAGE_K8S_v1.29.0.qcow2.sha256sum
+    url: http://172.22.0.1/images/CENTOS_9_NODE_IMAGE_K8S_v1.29.0.qcow2
   networkData:
     name: test1-workers-tbwnz-networkdata
     namespace: metal3
@@ -59,23 +113,16 @@ status:
       type: HDD
 ```
 
-It would help to use an example to describe what BMO does. There are two operations of interest, getting hardware details of the server and  booting the server with a given image, including user supplied cloud-init data. The BareMetalHost resource contains address and authentication information towards a server.
+## Integration with the cluster API
 
-BMO communicates this information to Ironic and gets hardware details (a.k.a. inspection data), such as CPU and disk, of the server in return. This information is added to the BareMetalHost resource status. In order to get such server related information, the server is booted with service ramdisk.
-If there are hardware related changes, the BareMetalHost is updated accordingly.
+[CAPM3](../capm3/introduction) is the Metal3 component that is responsible for
+integration between Cluster API resources and BareMetalHosts. When using Metal3
+with CAPM3, you will enroll BareMetalHosts as described above first, then use
+`Metal3MachineTemplate` to describe how hosts should be deployed, i.e. which
+images and user data to use.
 
-The following diagrams ilustrates the information flow and components involved. From the left, the first two boxes represent Kubernetes custom controllers reconciling the custom resources shown inside. The comments, in yellow, show some relevant fields in these resources.
-
-The right most box represents the bare metal server on which the inspection is done, Operating system is installed and bootstrap script is run. And, the third box shows Ironic which synchronizes the information about the Bare Metal server between the two sides.
-
-![ipa-inspection](images/ipa-inspection.png)
-
-Next, with the information coming from the CAPM3 side, the BareMetalHost is updated with image and cloud-init data. That information is also conveyed to Ironic and the server is booted accordingly.
-
-This happens for example when the user scales a MachineDeployment so that the server should be added to the cluster, or during an upgrade when it must change the image it is booting from.
+This happens for example when the user scales a MachineDeployment so that the
+server should be added to the cluster, or during an upgrade when it must change
+the image it is booting from:
 
 ![ipa-provisioning](images/ipa-provisioning.png)
-
-The information flow and operations described above are a bit simplified. CAPM3 provides more data and there are other operations, such as disk cleaning, on the Ironic side as well. However, the overall process remains the same. BMO keeps the server and BareMetalHost resource in sync.
-
-To this end, it takes the server as a source of truth for some fields, such as Hardware details. For other fields, such as Boot image, it takes the information from CAPM3 as a source of the truth and does the sync accordingly.
