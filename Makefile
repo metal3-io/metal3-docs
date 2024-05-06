@@ -1,4 +1,4 @@
-MDBOOK_BIN_VERSION ?= v0.4.15
+MDBOOK_BIN_VERSION ?= v0.4.37
 SOURCE_PATH := docs/user-guide
 CONTAINER_RUNTIME ?= sudo docker
 IMAGE_NAME := quay.io/metal3-io/mdbook
