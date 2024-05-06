@@ -33,7 +33,4 @@
 - [Try it (for developers)](developer_environment/tryit.md)
 - [Version Support](version_support.md)
 - [Project Security Policy](security_policy.md)
-- [Refernce]()
-   - [Baremetal Operator Reference](reference/bmo.md)
-   - [Cluster API provider Refernce](reference/capm3.md)
-   - [Ip Addresss Manager Reference](reference/ipam.md)
+- [API Reference](reference.md)
