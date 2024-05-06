@@ -1,4 +1,4 @@
 # Netlify settings
 [build]
-    command = "make netlify-build"
+    command = "RUST_BACKTRACE=full make netlify-build"
     publish = "docs/user-guide/book"
