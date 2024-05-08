@@ -1,35 +1,31 @@
 @startuml
-title: Provisioning phase
+title: Cluster API - full flow
 skinparam BackgroundColor transparent
 
-skinparam componentStyle rectangle
-component cluster-api-provider-metal3 as capm3 {
-   component "Metal3Machine"
-}
-component "Baremeta Operator" as bmo {
-   component "BareMetalHost"
-   note as notebmo
-    - bootMACAddress(BMC)
-    - IP address    
-    - server credentials
-    - Hardware details [cpu,disk,…]
-    - image
-    - cloud-init data 
-  end note
-  BareMetalHost .. notebmo
-}
-component Ironic as ironic {
-   component “Node Information" as nodeinfo
-}
-component "Bare metal Server" as server {
-   component "Bare metal Server" as bms
-   note as noteserver
-    - Ubuntu 20.04
-    - cloud-init data
-  end note
-  bms .. noteserver
-}
-Metal3Machine -> BareMetalHost
-BareMetalHost -> ironic
-nodeinfo -> bms
+participant User as User
+participant "CAPI Provider Metal3" as CAPM3
+participant "BareMetal Operator" as BMO
+participant Ironic as Ironic
+participant "Physical Server" as Server
+
+group "Inspection"
+User -> BMO: Create BareMetalHost
+BMO -> Ironic: Create a Node
+BMO -> Ironic: Start Inspection
+Ironic -> Server: Boot the service ramdisk
+Server -> Ironic: Send back hardware details
+Ironic -> BMO: Success!
+BMO -> Ironic: Fetch hardware details
+
+group "Machine Provisioning"
+User -> CAPM3: Create Metal3Machine
+CAPM3 <-> BMO: Pick a suitable BareMetalHost
+CAPM3 -> BMO: Populate image and user data
+BMO -> Ironic: Start Provisioning
+Ironic -> Server: Clean the disks
+Ironic -> Server: Start Provisioning
+Server -> Ironic: Fetch image
+Ironic -> Server: Reboot into instance
+Ironic -> BMO: Success!
+BMO -> CAPM3: Success!
 @enduml
