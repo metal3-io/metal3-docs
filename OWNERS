@@ -2,7 +2,6 @@
 
 approvers:
 - dtantsur
-- furkatgofurov7
 - kashifest
 - lentzi90
 - zaneb
@@ -20,6 +19,7 @@ reviewers:
 emeritus_approvers:
 - andfasano
 - fmuyassarov
+- furkatgofurov7
 - hardys
 - maelk
 - russellb
