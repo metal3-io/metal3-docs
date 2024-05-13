@@ -117,7 +117,6 @@ public repo's review process as soon as possible and merge it.
 | Dmitry Tantsur    | dtantsur            | Red Hat                        |
 | Riccardo Pittau   | elfosardo           | Red Hat                        |
 | Zane Bitter       | zaneb               | Red Hat                        |
-| Furkat Gofurov    | furkatgofurov7      | SUSE                           |
 | Kashif Khan       | kashifest           | Ericsson Software Technology   |
 | Lennart Jern      | lentzi90            | Ericsson Software Technology   |
 | Tuomo Tanskanen   | tuminoid            | Ericsson Software Technology   |
