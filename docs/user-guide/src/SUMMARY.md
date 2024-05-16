@@ -8,6 +8,7 @@
 - [Installing on Baremetal](baremetal/guide.md)
 - [Baremetal Operator](bmo/introduction.md)
    - [Install Baremetal Operator](bmo/install_baremetal_operator.md)
+   - [Supported Hardware](bmo/supported_hardware.md)
    - [Features](bmo/features.md)
       - [Automated Cleaning](bmo/automated_cleaning.md)
       - [Automatic Secure Boot](bmo/automatic_secure_boot.md)

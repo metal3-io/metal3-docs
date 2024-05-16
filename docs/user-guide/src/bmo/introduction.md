@@ -25,6 +25,7 @@ the following properties:
 1. The IP address and credentials of the BMC - the remote management controller
    of the host.
 2. The protocol that the BMC understands. Most common are IPMI and Redfish.
+   See [supported hardware](supported_hardware) for more details.
 3. Boot technology that can be used with the host and the chosen protocol.
    Most hardware can use network booting, but some Redfish implementations also
    support virtual media (CD) boot.
