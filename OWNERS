@@ -1,20 +1,11 @@
 # See the OWNERS docs at https://go.k8s.io/owners
 
 approvers:
-- dtantsur
-- kashifest
-- lentzi90
-- zaneb
+- metal3-docs-maintainers
 
 reviewers:
-- adilGhaffarDev
-- hroyrh
-- mboukhalfa
-- Rozzii
-- smoshiur1237
-- s3rj1k
-- tuminoid
-- zhouhao3
+- metal3-docs-maintainers
+- metal3-docs-reviewers
 
 emeritus_approvers:
 - andfasano
