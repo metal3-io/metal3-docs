@@ -1,0 +1,30 @@
+# See the OWNERS docs: https://git.k8s.io/community/contributors/guide/owners.md
+
+aliases:
+  # root
+  metal3-docs-maintainers:
+  - dtantsur
+  - kashifest
+  - lentzi90
+  - zaneb
+
+  metal3-docs-reviewers:
+  - adilGhaffarDev
+  - hroyrh
+  - mboukhalfa
+  - Rozzii
+  - smoshiur1237
+  - s3rj1k
+  - tuminoid
+  - zhouhao3
+
+  # design
+  metal3-docs-design-maintainers:
+  - dtantsur
+  - kashifest
+  - Rozzii
+  - zaneb
+
+  metal3-docs-design-reviewers:
+  - elfosardo
+  - lentzi90

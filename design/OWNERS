@@ -1,22 +1,19 @@
 # See the OWNERS docs at https://go.k8s.io/owners
 
 approvers:
- - dtantsur
- - kashifest
- - Rozzii
- - zaneb
+- metal3-docs-design-maintainers
 
 reviewers:
- - elfosardo
- - lentzi90
+- metal3-docs-design-maintainers
+- metal3-docs-design-reviewers
 
 emeritus_approvers:
- - andfasano
- - fmuyassarov
- - furkatgofurov7
- - hardys
- - maelk
- - russellb
+- andfasano
+- fmuyassarov
+- furkatgofurov7
+- hardys
+- maelk
+- russellb
 
 options:
   no_parent_owners: true
