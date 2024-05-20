@@ -680,7 +680,8 @@ file as the secret if you want. Just remember to separate the two resources with
 one line containing `---`.
 
 Here is an example of a BareMetalHost referencing the secret above with MAC
-address and BMC address matching our `bml-01` server.
+address and BMC address matching our `bml-01` server (see [supported
+hardware](bmo/supported_hardware) for information on BMC addressing).
 
 ```yaml
 apiVersion: metal3.io/v1alpha1

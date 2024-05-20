@@ -10,23 +10,14 @@ This is a separate machine, e.g. your laptop or one of the servers, that has acc
 
 ## Install requirements on the host
 
-Login to the host from where you want to provision. The baremetal nodes should be accesible from the host via one of the following protocols.
-
-- IPMI
-- Redfish
-- WSMAN
-- iRMC
-- ibmc
-- iLO
-
-See [Install Ironic](../ironic/ironic_installation.md) for other requirements.
-
-Install following requirements on the host.
+Install following requirements on the host:
 
 - Python
 - Golang
 - Docker for ubuntu and podman for Centos
 - Ansible
+
+See [Install Ironic](../ironic/ironic_installation.md) for other requirements.
 
 ## Configure host
 
