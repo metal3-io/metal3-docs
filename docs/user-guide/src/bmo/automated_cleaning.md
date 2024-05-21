@@ -1,35 +1,40 @@
 # Automated Cleaning
 
-One of the Ironic's feature exposed to Metal3 Baremetal Operator is [node automated cleaning](https://docs.openstack.org/ironic/latest/admin/cleaning.html#automated-cleaning). When enabled, automated cleaning kicks off when a node is provisioned first time and on every time deprovisioned.
+One of the Ironic's feature exposed to Metal3 Baremetal Operator is [node
+automated
+cleaning](https://docs.openstack.org/ironic/latest/admin/cleaning.html#automated-cleaning).
+When enabled, automated cleaning kicks off when a node is provisioned first
+time and on every deprovisioning.
 
-There are two automated cleaning modes available which can be set via `automatedCleaningMode` field of a BareMetalHost `spec`.
+There are two automated cleaning modes available which can be configured via
+`automatedCleaningMode` field of a BareMetalHost `spec`:
 
-- `metadata` to enable the disk cleaning
-- `disabled` to disable the disk cleaning
+- `metadata` (the default) enables the removal of partitioning tables from all
+  disks
+- `disabled` disables the cleaning process
 
-We named enabling mode `metadata` instead of simply `enabled` because we expect that in the future we will expand the feature to allow
-selecting certains disks (specified via metadata) of a node to be cleaned, which is currently out of scope.
+For example:
 
 ```yaml
 apiVersion: metal3.io/v1alpha1
 kind: BareMetalHost
 metadata:
-  name: example-node
+  name: example-host
 spec:
   automatedCleaningMode: metadata
-  online: true
   bootMACAddress: 00:8a:b6:8e:ac:b8
-  bootMode: legacy
   bmc:
     address: ipmi://192.168.111.1:6230
     credentialsName: example-node-bmc-secret
-  automatedCleaningMode: metadata
+  online: true
 ```
 
-For a node with `disabled` value, no cleaning will be performed during deprovisioning. Note that this might introduce security
-vulnerabilities in case there is sensitive data which must be wiped out from the disk when the host is being recycled.
+**Note:** Ironic supports full data removal, which is not currently exposed in
+Metal3.
 
-If `automatedCleaningMode` is not set by the user, it will be set to the default mode `metadata`. To know more about cleaning
-steps that Ironic performs on the node, see the [cleaning steps](https://docs.openstack.org/ironic/latest/admin/cleaning.html#cleaning-steps).
+For a host with cleaning disabled, no cleaning will be performed during
+deprovisioning. This is faster but may cause conflicts on subsequent
+provisionings (e.g. Ceph is known not to tolerate stale data partitions).
 
-If you are using Cluster-api-provider-metal3 on top of Baremetal Operator, then please see [this](../capm3/automated_cleaning.md).
+If you are using Cluster-api-provider-metal3, please see [its cleaning
+documentation](../capm3/automated_cleaning.md).
