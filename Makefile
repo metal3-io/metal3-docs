@@ -1,4 +1,5 @@
-MDBOOK_BIN_VERSION ?= v0.4.37
+MDBOOK_VERSION ?= 0.4.37
+MDBOOK_BIN_VERSION ?= v$(MDBOOK_VERSION)
 SOURCE_PATH := docs/user-guide
 CONTAINER_RUNTIME ?= sudo docker
 IMAGE_NAME := quay.io/metal3-io/mdbook
@@ -39,6 +40,11 @@ netlify-build: $(RELEASETAGS) $(MDBOOK_BIN)
 ## ------------------------------------
 ## Documentation tooling for local dev
 ## ------------------------------------
+
+.PHONY: build
+docker-build: # Build the mdbook container image
+	$(CONTAINER_RUNTIME) build --build-arg MDBOOK_VERSION=$(MDBOOK_VERSION) \
+	--tag $(IMAGE_NAME):$(IMAGE_TAG) -f docs/Dockerfile .
 
 .PHONY: build
 build:# Build the user guide

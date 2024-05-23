@@ -3,7 +3,7 @@ design/*.toc.*
 
 # Ignore all binaries
 # from being committed.
-hack/tools/
+hack/tools/bin
 # Ignore mdbook boilerplate
 # from being committed.
 docs/user-guide/book
