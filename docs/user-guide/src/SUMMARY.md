@@ -4,6 +4,7 @@
 
 [Introduction](introduction.md)
 
+- [Project overview](project-overview.md)
 - [Quick-start](quick-start.md)
 - [Installing on Baremetal](baremetal/guide.md)
 - [Baremetal Operator](bmo/introduction.md)
