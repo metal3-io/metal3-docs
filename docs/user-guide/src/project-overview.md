@@ -29,12 +29,13 @@ turn communicates with [Baseboard Management
 Controllers](https://en.wikipedia.org/wiki/Intelligent_Platform_Management_Interface#Baseboard_management_controller)
 (BMCs) to manage the machines. Ironic can communicate with the BMCs using
 protocols such as Redfish, IPMI, or iDRAC. In this way, it can power on or off
-the machines, change the boot device, and so on.
+the machines, change the boot device, and so on. For more information, see
+[Ironic in Metal3](./ironic/introduction.md)
 
 For more advanced operations, like writing an image to the disk, the [Ironic
-Python Agent](https://opendev.org/openstack/ironic-python-agent) (IPA) is first
-booted on the machine. Ironic can then communicate with the IPA to perform the
-requested operation.
+Python Agent](./ironic/ironic-python-agent.md) (IPA) is first booted on the
+machine. Ironic can then communicate with the IPA to perform the requested
+operation.
 
 The BareMetal Operator (BMO) is a Kubernetes controller that exposes parts of
 Ironics capabilities through the Kubernetes API. This is essentially done
@@ -58,7 +59,8 @@ can be used to assign IP addresses to the hosts.
 ## Requirements
 
 - Server(s) with baseboard management capabilities (i.e. Redfish, iDRAC, IPMI,
-  etc.). For development you can use virtual machines with Sushy-tools.
+  etc.). For development you can use virtual machines with Sushy-tools. More
+  information [here](./bmo/supported_hardware.md).
 - An Ironic instance. More information [here](./ironic/introduction.md).
 - A Kubernetes cluster (the management cluster) where the user stores and
   manages the Metal3 resources. A [kind cluster](https://kind.sigs.k8s.io/) is

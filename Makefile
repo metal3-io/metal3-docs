@@ -70,3 +70,22 @@ clean: # Clean mdbook generated content
 	-v "$$(pwd):/workdir" \
 	$(IMAGE_NAME):$(IMAGE_TAG) \
 	mdbook clean $(SOURCE_PATH)
+
+## ------------------------------------
+## Linting and testing
+## ------------------------------------
+
+.PHONY: lint
+lint: markdownlint spellcheck shellcheck # Run all linting tools
+
+.PHONY: markdownlint
+markdownlint: # Run markdownlint
+	./hack/markdownlint.sh
+
+.PHONY: spellcheck
+spellcheck: # Run spellcheck
+	./hack/spellcheck.sh
+
+.PHONY: shellcheck
+shellcheck: # Run shellcheck
+	./hack/shellcheck.sh
