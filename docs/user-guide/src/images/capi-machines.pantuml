@@ -1,0 +1,23 @@
+@startuml
+rectangle Machine_1
+rectangle Machine_2
+rectangle Machine_3
+rectangle AWSMachine
+rectangle OpenStackMachine
+rectangle Metal3Machine
+cloud EC2 [
+ EC2 instance
+]
+cloud os [
+ openstack server
+]
+node BareMetalHost
+
+Machine_1 --> AWSMachine
+Machine_2 --> OpenStackMachine
+Machine_3 --> Metal3Machine
+
+Metal3Machine --> BareMetalHost
+OpenStackMachine --> os
+AWSMachine --> EC2
+@enduml

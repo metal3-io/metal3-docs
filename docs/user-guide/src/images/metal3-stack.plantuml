@@ -1,0 +1,15 @@
+@startuml
+rectangle CAPI
+rectangle Metal3 {
+ rectangle CAPM3
+ rectangle BMO
+ rectangle IPAM
+}
+rectangle Ironic
+
+CAPI -- CAPM3
+CAPM3 -- BMO
+CAPM3 -- IPAM
+BMO -- Ironic
+
+@enduml

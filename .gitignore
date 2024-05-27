@@ -13,3 +13,6 @@ docs/user-guide/book
 # from being commited
 docs/presentations/dist
 docs/presentations/plugin
+
+# Development containers (https://containers.dev/)
+.devcontainer

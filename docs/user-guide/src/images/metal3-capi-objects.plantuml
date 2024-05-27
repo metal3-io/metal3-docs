@@ -1,0 +1,43 @@
+@startuml
+rectangle Cluster
+rectangle KubeadmControlPlane
+rectangle MachineDeployment
+rectangle Metal3Cluster
+rectangle Metal3MachineTemplate
+collections Metal3Machines
+collections Machines
+collections BareMetalHosts
+
+rectangle IPPool
+collections IPClaims
+collections IPAddresses
+
+rectangle Metal3DataTemplate
+collections Metal3DataClaims
+collections Metal3Data
+
+Cluster --> KubeadmControlPlane
+Cluster --> MachineDeployment
+Cluster --> Metal3Cluster
+KubeadmControlPlane --> Metal3MachineTemplate
+KubeadmControlPlane --> Machines
+MachineDeployment --> Metal3MachineTemplate
+MachineDeployment --> Machines
+
+Metal3MachineTemplate --> Metal3DataTemplate
+Metal3DataTemplate --> Metal3Data
+
+Machines --> Metal3Machines
+Metal3MachineTemplate --> Metal3Machines
+
+Metal3Machines --> BareMetalHosts
+Metal3Machines --> Metal3DataClaims
+Metal3DataClaims --> Metal3Data
+Metal3Data --> IPClaims
+
+IPPool --> IPAddresses
+IPClaims --> IPAddresses
+
+Metal3Data --> BareMetalHosts
+IPAddresses --> BareMetalHosts
+@enduml
