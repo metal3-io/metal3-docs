@@ -1,12 +1,16 @@
 # Inspect annotation
 
-The inspect annotation can be used to request the baremetal operator to (re-)inspect an `Available` BareMetalHost.
-This is useful in case there were hardware changes for example.
-Note that it is only possible to do this when BareMetalHost is in `Available` state.
-If an inspection request is made while BareMetalHost is any other state than `Available`, the request will be ignored.
+## Re-running inspection
 
-To request a new inspection, simply annotating the host with `inspect.metal3.io` is enough.
-Once inspection is requested, you should see the BMH in inspecting state until inspection is completed, and by the end of inspection the `inspect.metal3.io` annotation will be removed automatically.
+The inspect annotation can be used to request the BareMetal Operator to
+(re-)inspect an `available` BareMetalHost, for example, when the hardware
+changes. If an inspection request is made while the host is any other
+state than `available`, the request will be ignored.
+
+To request a new inspection, simply annotate the host with `inspect.metal3.io`.
+Once inspection is requested, you should see the BMH in `inspecting` state
+until inspection is completed, and by the end of inspection the
+`inspect.metal3.io` annotation will be removed automatically.
 
 Here is an example:
 
@@ -19,21 +23,24 @@ metadata:
     # The inspect annotation with no value
     inspect.metal3.io: ""
 spec:
-  online: true
-  bootMACAddress: 00:8a:b6:8e:ac:b8
-  bootMode: legacy
-  bmc:
-    address: ipmi://192.168.111.1:6230
-    credentialsName: example-bmc-secret
-...
+  ...
 ```
 
-Why is this needed?
+## Disabling inspection
 
-- For re-inspecting BareMetalHosts after hardware changes.
+If you do not need the HardwareData collected by inspection, you can disable it
+by setting the `inspect.metal3.io` annotation to `disabled`, for example:
 
-Caveats:
+```yaml
+apiVersion: metal3.io/v1alpha1
+kind: BareMetalHost
+metadata:
+  name: example
+  annotations:
+    inspect.metal3.io: disabled
+spec:
+  ...
+```
 
-- It is only possible to inspect a BareMetalHost when it is in `Available` state.
-
-Note: For other use cases, like disabling inspection or providing externally gathered inspection data, see [external inspection](./external_inspection.md).
+For advanced use cases, such as providing externally gathered inspection data,
+see [external inspection](./external_inspection.md).
