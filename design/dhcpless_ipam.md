@@ -222,7 +222,7 @@ spec:
 In this flow when a Metal3Machine is provisioned via the `MachineDeployment`, BareMetalHost resources labeled
 `cluster-role: control-plane` will have `networkData` defined with an IP derived from the `pool-1` `IPPool`.
 
-In CAPM3 an IPClaim is created to reserve and IP from the IPPool for each Machine, and an IPAddress resource
+In CAPM3 an IPClaim is created to reserve an IP from the IPPool for each Machine, and an IPAddress resource
 contains the data used for templating of the `networkData`
 
 #### Preprovisioning - Common IPPool
