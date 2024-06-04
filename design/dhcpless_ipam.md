@@ -431,7 +431,7 @@ tools that can interpret OpenStack network,user or metadata formats.
 In future it would be interesting to explore alternative options, for example using [nmstate](https://nmstate.io/)
 as the DSL where the nmstate CLI tool could interpret the data independent of specific firstboot tool choice.
 
-This proposal has tries to account for such a future direction, but such implementation would imply pluggable
+This proposal tries to account for such a future direction, but such implementation would imply pluggable
 templating which is outside the scope of this change, and may be considered via a future proposal.
 
 ## Alternatives
