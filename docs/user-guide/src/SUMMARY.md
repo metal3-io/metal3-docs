@@ -1,6 +1,6 @@
 # Metal3 Project
 
-<!-- markdownlint-disable no-empty-links -->
+[comment]: After adding the releasetag preprocessor the build fails with output "thread 'main' panicked at '', src/utils/fs.rs:45:10" if there are links with empty paths.
 
 [Introduction](introduction.md)
 
