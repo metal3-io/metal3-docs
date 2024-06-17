@@ -13,6 +13,7 @@
    - [Basic Features](bmo/features.md)
       - [Automated Cleaning](bmo/automated_cleaning.md)
       - [Automatic Secure Boot](bmo/automatic_secure_boot.md)
+      - [Firmware Settings](bmo/firmware_settings.md)
       - [Inspect Annotation](bmo/inspect_annotation.md)
       - [Reboot Annotation](bmo/reboot_annotation.md)
    - [Advanced Features](bmo/features.md)
