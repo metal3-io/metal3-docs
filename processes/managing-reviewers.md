@@ -31,7 +31,7 @@ remove contributors who are inactive.
 Reviewers may also be removed for behaving in a manner that other
 maintainers view as detrimental to the project, following the process
 described for maintainers in [Revoking Approval
-Access](../maintainers#revoking-approval-access).
+Access](https://github.com/metal3-io/community/blob/main/maintainers/README.md#revoking-approval-access).
 
 Pull requests to add or remove reviewers from OWNERS files should be
 approved using the same policy as other changes: One person with
