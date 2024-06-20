@@ -764,7 +764,8 @@ image and writes it to disk.
 The manifest above is enough to provision the BareMetalHost, but unless you have
 everything you need already baked in the disk image, you will most likely want
 to add some user-data and network-data. We will show here how to configure
-authorized ssh keys using user-data.
+authorized ssh keys using user-data (see [instance
+customization](bmo/instance_customization.md) for more details).
 
 First, we create a file (`user-data.yaml`) with the user-data:
 
