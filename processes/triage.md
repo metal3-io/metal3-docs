@@ -22,7 +22,7 @@ subcategories listed below and apply the process to each issue.
 ### New Issue Triage
 
 [GitHub Search
-Query](https://github.com/issues?utf8=%E2%9C%93&q=archived%3Afalse+user%3Ametal3-io+no%3Alabel+is%3Aissue+sort%3Acreated-asc+is%3Aopen):
+Query](https://github.com/metal3-io/metal3-docs/issues?q=is%3Aissue+is%3Aopen+no%3Alabel):
 `archived:false user:metal3-io no:label is:issue sort:created-asc
 is:open`
 
@@ -38,7 +38,7 @@ is:open`
 ### Awaiting Evidence
 
 [GitHub Search
-Query](https://github.com/issues?utf8=%E2%9C%93&q=archived%3Afalse+user%3Ametal3-io+is%3Aissue+sort%3Acreated-asc+is%3Aopen+label%3Apriority%2Fawaiting-more-evidence):`archived:false
+Query](https://github.com/metal3-io/metal3-docs/issues?q=is%3Aissue+is%3Aopen+label%3Apriority%2Fawaiting-more-evidence):`archived:false
 user:metal3-io is:issue sort:created-asc is:open
 label:priority/awaiting-more-evidence`
 
@@ -48,7 +48,7 @@ label:priority/awaiting-more-evidence`
 ### Stale Issues
 
 [GitHub Search
-Query](https://github.com/issues?q=archived%3Afalse+user%3Ametal3-io+is%3Aissue+sort%3Acreated-asc+is%3Aopen+label%3Alifecycle%2Fstale):
+Query](https://github.com/metal3-io/metal3-docs/issues?q=is%3Aissue+is%3Aopen+label%3Alifecycle%2Fstale):
 `archived:false user:metal3-io is:issue sort:created-asc is:open
 label:lifecycle/stale`
 
