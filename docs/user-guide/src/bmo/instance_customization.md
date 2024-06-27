@@ -127,12 +127,18 @@ spec:
 
 User and network data are passed to the instance via a so called *config
 drive*, which is a small additional disk partition created on the root device
-during provisioning. This partition is mounted by the first boot software and
-configuration loaded from it.
+during provisioning. This partition contains user and network data, as well as
+*meta data* with a host name, as files.
+
+Ironic is responsible for creating a partition image (usually, in the ISO 9660
+format) and passing it to the [IPA](../ironic/ironic-python-agent.md) ramdisk
+together with the rest of the deployment information. Once the instance boots,
+the partition is mounted by the first boot software and the configuration
+loaded from it.
 
 Both *cloud-init* and *Ignition* support various data sources, from which
 user and network data are fetched. Depending on the image type, different
-sources may be enabled by default.
+sources may be enabled by default:
 
 * In case of *cloud-init*, make sure that the [config drive data
   source][configdrive] is enabled. This is not the same as the OpenStack data
