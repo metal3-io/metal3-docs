@@ -245,7 +245,7 @@ no version skew.
 
 ## References
 
-1. [CAPI MachineHealthCheck](https://cluster-api.sigs.k8s.io/tasks/healthcheck.html)
+1. [CAPI MachineHealthCheck](https://cluster-api.sigs.k8s.io/tasks/automated-machine-management/healthchecking)
 2. [CAPI External Remediation Proposal](https://github.com/kubernetes-sigs/cluster-api/pull/3190/files)
-3. [re-inspection API proposal](https://github.com/metal3-io/metal3-docs/blob/main/design/baremetal-operator/re-introspection-interface.md)
+3. [re-inspection API proposal](https://github.com/metal3-io/metal3-docs/blob/main/design/baremetal-operator/inspection-api.md)
 4. [BareMetalHost v1alpha2 API Migration](https://github.com/metal3-io/metal3-docs/pull/101)
