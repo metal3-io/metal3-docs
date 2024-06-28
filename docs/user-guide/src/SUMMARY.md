@@ -16,6 +16,7 @@
       - [Firmware Settings](bmo/firmware_settings.md)
       - [Inspect Annotation](bmo/inspect_annotation.md)
       - [Instance Customization](bmo/instance_customization.md)
+      - [RAID Setup](bmo/raid.md)
       - [Reboot Annotation](bmo/reboot_annotation.md)
    - [Advanced Features](bmo/features.md)
       - [Detached annotation](bmo/detached_annotation.md)
