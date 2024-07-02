@@ -8,7 +8,7 @@ they reference to each other. To see the example CRs check
 ## Environment Variables
 
 The user is required to set the following environment variables before applying
-the [CRs](https://github.com/metal3-io/metal3-dev-env/tree/master/crs)
+the [CRs](https://github.com/metal3-io/metal3-dev-env/tree/b5a53ecf9576c6deab81f692733782d4c5e8091a/crs)
 
 ```console
 CLUSTER_NAME
