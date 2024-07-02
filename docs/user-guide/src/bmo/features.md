@@ -7,6 +7,7 @@
 - [Firmware Settings](./firmware_settings.md)
 - [Inspect annotation](./inspect_annotation.md)
 - [Instance Customization](bmo/instance_customization.md)
+- [RAID Setup](bmo/raid.md)
 - [Reboot annotation](./reboot_annotation.md)
 
 ## Advanced features
