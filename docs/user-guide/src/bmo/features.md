@@ -6,9 +6,10 @@
 - [Automatic Secure Boot](./automatic_secure_boot.md)
 - [Firmware Settings](./firmware_settings.md)
 - [Inspect annotation](./inspect_annotation.md)
-- [Instance Customization](bmo/instance_customization.md)
-- [RAID Setup](bmo/raid.md)
+- [Instance Customization](./instance_customization.md)
+- [RAID Setup](./raid.md)
 - [Reboot annotation](./reboot_annotation.md)
+- [Root Device Hints](./root_device_hints.md)
 
 ## Advanced features
 

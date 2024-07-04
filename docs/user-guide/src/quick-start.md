@@ -759,7 +759,9 @@ spec:
 Note that the URL for the disk image is _not_ using the out of band network.
 Image provisioning works so that the Ironic Python Agent is first booted on the
 machine. From there (i.e. not in the out of band network) it downloads the disk
-image and writes it to disk.
+image and writes it to disk. If the machine has several disks, and you want to
+specify which one to use, set [rootDeviceHints](bmo/root_device_hints.md)
+(otherwise, `/dev/sda` is used by default).
 
 The manifest above is enough to provision the BareMetalHost, but unless you have
 everything you need already baked in the disk image, you will most likely want

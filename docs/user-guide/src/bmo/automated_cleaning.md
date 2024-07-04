@@ -36,5 +36,11 @@ For a host with cleaning disabled, no cleaning will be performed during
 deprovisioning. This is faster but may cause conflicts on subsequent
 provisionings (e.g. Ceph is known not to tolerate stale data partitions).
 
+**Warning:** when disabling cleaning, consider setting [root device
+hints](root_device_hints.md) to specify the exact block device to install to.
+Otherwise, subsequent provisionings may end up with different root devices,
+potentially causing incorrect configuration because of duplicated [config
+drives](instance_customization.md).
+
 If you are using Cluster-api-provider-metal3, please see [its cleaning
 documentation](../capm3/automated_cleaning.md).
