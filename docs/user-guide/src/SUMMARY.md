@@ -18,6 +18,7 @@
       - [Instance Customization](bmo/instance_customization.md)
       - [RAID Setup](bmo/raid.md)
       - [Reboot Annotation](bmo/reboot_annotation.md)
+      - [Root Device Hints](bmo/root_device_hints.md)
    - [Advanced Features](bmo/features.md)
       - [Detached annotation](bmo/detached_annotation.md)
       - [External Inspection](bmo/external_inspection.md)

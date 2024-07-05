@@ -146,8 +146,8 @@ disk will have partitions corresponding to each of the volumes.
 
 ### Software RAID: manual allocation
 
-You can specify the backing physical disks using the same format as the
-`rootDeviceHints` field of the `BareMetalHost` resource, for example:
+You can specify the backing physical disks using the same format as
+[rootDeviceHints](root_device_hints.md), for example:
 
 ```yaml
 spec:
