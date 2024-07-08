@@ -9,6 +9,7 @@
 - [Installing on Baremetal](baremetal/guide.md)
 - [Baremetal Operator](bmo/introduction.md)
    - [Install Baremetal Operator](bmo/install_baremetal_operator.md)
+   - [Host State Machine](bmo/state_machine.md)
    - [Supported Hardware](bmo/supported_hardware.md)
    - [Basic Features](bmo/features.md)
       - [Automated Cleaning](bmo/automated_cleaning.md)
