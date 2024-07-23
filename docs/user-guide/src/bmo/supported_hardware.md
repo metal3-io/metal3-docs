@@ -78,6 +78,29 @@ All drivers based on Redfish allow optionally specifying the carrier protocol
 in the form of `+http` or `+https`, for example: `redfish+http://...` or
 `idrac-virtualmedia+https`. When not specified, HTTPS is used by default.
 
+### Redfish interoperability
+
+As noted above, Redfish allows for very different valid implementations, some
+of which are not compatible with Ironic (and thus Metal3). The Ironic project
+publishes a *Redfish interoperability profile* -- a JSON document that
+describes the required and optionally supported Redfish API features. Its
+available versions can be found in the [Ironic source
+tree][redfish-interop-profiles]. The
+[Redfish-Interop-Validator][Redfish-Interop-Validator] tool can be used to
+validate a server against this profile.
+
+Check the [Ironic interoperability documentation][Ironic interoperability
+documentation] for a rendered version of the latest profile. All features
+required for Ironic are also required for Metal3. Most optional features except
+for the out-of-band inspection are also supported, although the hardware
+metrics support via [ironic-prometheus-exporter][ipe] is currently experimental
+and undocumented.
+
+[redfish-interop-profiles]: https://opendev.org/openstack/ironic/src/branch/master/redfish-interop-profiles
+[Redfish-Interop-Validator]: https://github.com/DMTF/Redfish-Interop-Validator
+[Ironic interoperability documentation]: https://docs.openstack.org/ironic/latest/admin/drivers/redfish/interop.html
+[ipe]: https://docs.openstack.org/ironic-prometheus-exporter/latest/
+
 ## Vendor-specific protocols
 
 <!-- markdownlint-disable MD013 -->
