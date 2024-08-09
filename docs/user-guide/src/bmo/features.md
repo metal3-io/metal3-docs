@@ -4,6 +4,7 @@
 
 - [Automated Cleaning](./automated_cleaning.md)
 - [Automatic Secure Boot](./automatic_secure_boot.md)
+- [Firmware Components](./firmware_components.md)
 - [Firmware Settings](./firmware_settings.md)
 - [Inspect annotation](./inspect_annotation.md)
 - [Instance Customization](./instance_customization.md)
