@@ -16,6 +16,7 @@
       - [Automated Cleaning](bmo/automated_cleaning.md)
       - [Automatic Secure Boot](bmo/automatic_secure_boot.md)
       - [Firmware Settings](bmo/firmware_settings.md)
+      - [Firmware Updates](bmo/firmware_updates.md)
       - [Inspect Annotation](bmo/inspect_annotation.md)
       - [Instance Customization](bmo/instance_customization.md)
       - [RAID Setup](bmo/raid.md)
