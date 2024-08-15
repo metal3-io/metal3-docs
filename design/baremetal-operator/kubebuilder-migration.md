@@ -215,7 +215,7 @@ all metal3 repositories.
 - The [v1alpha2 API
   migration](https://github.com/metal3-io/metal3-docs/pull/101)
   proposal.
-- [operator-sdk 1.0 migration guide](https://sdk.operatorframework.io/docs/building-operators/golang/project_migration_guide/)
+- [operator-sdk 1.0 migration guide](https://sdk.operatorframework.io/docs/building-operators/golang/migration/)
 - [migration implementation pull request](https://github.com/metal3-io/baremetal-operator/pull/655)
 - updates to kustomize deployment files and CI fixes:
    - <https://github.com/metal3-io/baremetal-operator/pull/672>
