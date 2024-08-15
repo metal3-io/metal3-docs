@@ -70,8 +70,8 @@ Following table summarizes Ironic-image release/test process:
 | ------------- | --------- |
 | v25.0         | Supported |
 | v24.1         | Supported |
-| v24.0         | Supported |
-| v23.1         | Tested    |
+| v24.0         | Tested    |
+| v23.1         | EOL       |
 
 ## Image tags
 
