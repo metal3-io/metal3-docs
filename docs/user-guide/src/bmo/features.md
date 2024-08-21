@@ -2,6 +2,7 @@
 
 ## Basic features
 
+- [Provisioning and Deprovisioning](./provisioning.md)
 - [Automated Cleaning](./automated_cleaning.md)
 - [Automatic Secure Boot](./automatic_secure_boot.md)
 - [Firmware Settings](./firmware_settings.md)
