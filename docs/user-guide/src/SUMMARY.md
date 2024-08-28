@@ -12,6 +12,7 @@
    - [Host State Machine](bmo/state_machine.md)
    - [Supported Hardware](bmo/supported_hardware.md)
    - [Basic Features](bmo/features.md)
+      - [Provisioning and Deprovisioning](bmo/provisioning.md)
       - [Automated Cleaning](bmo/automated_cleaning.md)
       - [Automatic Secure Boot](bmo/automatic_secure_boot.md)
       - [Firmware Settings](bmo/firmware_settings.md)
