@@ -105,7 +105,7 @@ The table describes which branches/image-tags are tested in each periodic CI tes
 | -------------------------------------------------------------- | ------------ | ----------- | -------------- | -------------- | ----------- | ---------- |
 | metal3-periodic-ubuntu/centos-e2e-integration-test-main        | main         | main        | main           | latest         | latest      | latest     |
 | metal3_periodic_main_integration_test_ubuntu/centos            | main         | main        | main           | latest         | latest      | latest     |
-| metal3-periodic-ubuntu/centos-e2e-integration-test-release-1-8 | release-1.8  | release-1.8 | release-0.8    | v0.8.0         | latest      | v25.0.0    |
+| metal3-periodic-ubuntu/centos-e2e-integration-test-release-1-8 | release-1.8  | release-1.8 | release-0.8    | v0.8.0         | latest      | v26.0.0    |
 | metal3-periodic-ubuntu/centos-e2e-integration-test-release-1-7 | release-1.7  | release-1.7 | release-0.6    | v0.6.1         | latest      | v24.1.1    |
 | metal3-periodic-ubuntu/centos-e2e-integration-test-release-1-6 | release-1.6  | release-1.6 | release-0.5    | v0.5.0         | latest      | v24.0.0    |
 | metal3-periodic-ubuntu/centos-e2e-integration-test-release-1-5 | release-1.5  | release-1.5 | release-0.4    | v0.5.0         | latest      | v23.1.0    |
@@ -113,17 +113,17 @@ The table describes which branches/image-tags are tested in each periodic CI tes
 | FEATURE AND E2E TESTS                                            | CAPM3 branch | IPAM branch | BMO branch/tag | Keepalived tag | MariaDB tag | Ironic tag |
 | ---------------------------------------------------------------- | ------------ | ----------- | -------------- | -------------- | ----------- | ---------- |
 | metal3-periodic-centos-e2e-feature-test-main-pivoting            | main         | main        | main           | latest         | latest      | latest     |
-| metal3-periodic-centos-e2e-feature-test-release-1-8-pivoting     | release-1.8  | release-1.8 | release-0.8    | v0.8.0         | latest      | v25.0.0    |
+| metal3-periodic-centos-e2e-feature-test-release-1-8-pivoting     | release-1.8  | release-1.8 | release-0.8    | v0.8.0         | latest      | v26.0.0    |
 | metal3-periodic-centos-e2e-feature-test-release-1-7-pivoting     | release-1.7  | release-1.7 | release-0.6    | v0.6.1         | latest      | v24.1.1    |
 | metal3-periodic-centos-e2e-feature-test-release-1-6-pivoting     | release-1.6  | release-1.6 | release-0.5    | v0.5.0         | latest      | v24.0.0    |
 | metal3-periodic-centos-e2e-feature-test-release-1-5-pivoting     | release-1.5  | release-1.5 | release-0.4    | v0.4.0         | latest      | v23.1.0    |
 | metal3-periodic-centos-e2e-feature-test-main-remediation         | main         | main        | main           | latest         | latest      | latest     |
-| metal3-periodic-centos-e2e-feature-test-release-1-8-remediation  | release-1.8  | release-1.8 | release-0.8    | v0.8.0         | latest      | v25.0.0    |
+| metal3-periodic-centos-e2e-feature-test-release-1-8-remediation  | release-1.8  | release-1.8 | release-0.8    | v0.8.0         | latest      | v26.0.0    |
 | metal3-periodic-centos-e2e-feature-test-release-1-7-remediation  | release-1.7  | release-1.7 | release-0.6    | v0.6.1         | latest      | v24.1.1    |
 | metal3-periodic-centos-e2e-feature-test-release-1-6-remediation  | release-1.6  | release-1.6 | release-0.5    | v0.5.0         | latest      | v24.0.0    |
 | metal3-periodic-centos-e2e-feature-test-release-1-5-remediation  | release-1.5  | release-1.5 | release-0.4    | v0.4.0         | latest      | v23.1.0    |
 | metal3-periodic-centos-e2e-feature-test-main-features            | main         | main        | main           | latest         | latest      | latest     |
-| metal3-periodic-centos-e2e-feature-test-release-1-8-features     | release-1.8  | release-1.8 | release-0.8    | v0.8.0         | latest      | v25.0.0    |
+| metal3-periodic-centos-e2e-feature-test-release-1-8-features     | release-1.8  | release-1.8 | release-0.8    | v0.8.0         | latest      | v26.0.0    |
 | metal3-periodic-centos-e2e-feature-test-release-1-7-features     | release-1.7  | release-1.7 | release-0.6    | v0.6.1         | latest      | v24.1.1    |
 | metal3-periodic-centos-e2e-feature-test-release-1-6-features     | release-1.6  | release-1.6 | release-0.5    | v0.5.0         | latest      | v24.0.0    |
 | metal3-periodic-centos-e2e-feature-test-release-1-5-features     | release-1.5  | release-1.5 | release-0.4    | v0.4.0         | latest      | v23.1.0    |
