@@ -215,6 +215,8 @@ Create a configuration file and save it as `dnsmasq.env`.
 Baremetal lab:
 
 ```bash
+# The same HTTP port must be provided to all containers!
+HTTP_PORT=6180
 # Specify the MAC addresses (separated by ;) of the hosts we know about and want to use
 DHCP_HOSTS=80:c1:6e:7a:e8:10;80:c1:6e:7a:5a:a8
 # Ignore unknown hosts so we don't accidentally give out IP addresses to other hosts in the network
@@ -229,6 +231,7 @@ GATEWAY_IP=192.168.0.1
 Virtualized environment:
 
 ```bash
+HTTP_PORT=6180
 DHCP_HOSTS=00:60:2f:31:81:01
 DHCP_IGNORE=tag:!known
 # IP of the host from VM perspective
