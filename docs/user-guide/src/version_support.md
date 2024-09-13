@@ -20,7 +20,7 @@ Cluster API Provider Metal3
 | v1.8          | v1beta1     | Supported |
 | v1.7          | v1beta1     | Supported |
 | v1.6          | v1beta1     | Tested    |
-| v1.5          | v1beta1     | Tested    |
+| v1.5          | v1beta1     | EOL       |
 | v1.4          | v1beta1     | EOL       |
 | v1.3          | v1beta1     | EOL       |
 | v1.2          | v1beta1     | EOL       |
@@ -33,7 +33,7 @@ IP Address Manager
 | v1.8          | v1beta1     | Supported |
 | v1.7          | v1beta1     | Supported |
 | v1.6          | v1beta1     | Tested    |
-| v1.5          | v1beta1     | Tested    |
+| v1.5          | v1beta1     | EOL       |
 | v1.4          | v1beta1     | EOL       |
 | v1.3          | v1beta1     | EOL       |
 | v1.2          | v1beta1     | EOL       |
@@ -45,9 +45,7 @@ The compatability of IPAM and CAPM3 API versions with CAPI is discussed
 ## Baremetal Operator
 
 Since `capm3-v1.1.2`, BMO follows the semantic versioning scheme for its own
-release cycle, the same way as CAPM3 and IPAM. Currently, we have release-0.6, release-0.5
-and release-0.4 release branches for `v0.6.x` `v0.5.x` and `v0.4.x` release cycle
-respectively and as such two braches are maintained as supported releases.
+release cycle, the same way as CAPM3 and IPAM. Two braches are maintained as supported releases.
 Following table summarizes BMO release/test process:
 
 | Minor release | Status    |
@@ -55,7 +53,7 @@ Following table summarizes BMO release/test process:
 | v0.8          | Supported |
 | v0.6          | Supported |
 | v0.5          | Tested    |
-| v0.4          | Tested    |
+| v0.4          | EOL       |
 | v0.3          | EOL       |
 | v0.2          | EOL       |
 | v0.1          | EOL       |
@@ -63,10 +61,9 @@ Following table summarizes BMO release/test process:
 ## Ironic-image
 
 Since `v23.1.0`, Ironic follows the semantic versioning scheme for its own
-release cycle, the same way as CAPM3 and IPAM. Currently, we have release-26.0,
-release-25.0, release-24.1, release-24.0 and release-23.1 release branches for
-`v26.0.x`, `v25.0.x`, `v24.1.x` `v24.0.x` and `v23.1.x` release cycle respectively
-and as such two or three braches are maintained as supported releases.
+release cycle, the same way as CAPM3 and IPAM. Two or three branches are
+maintained as supported releases.
+
 Following table summarizes Ironic-image release/test process:
 
 | Minor release | Status    |
@@ -74,7 +71,7 @@ Following table summarizes Ironic-image release/test process:
 | v26.0         | Supported |
 | v25.0         | Supported |
 | v24.1         | Tested    |
-| v24.0         | EOL       |
+| v24.0         | Tested    |
 | v23.1         | EOL       |
 
 ## Image tags
@@ -108,26 +105,22 @@ The table describes which branches/image-tags are tested in each periodic CI tes
 | metal3_periodic_main_integration_test_ubuntu/centos            | main         | main        | main           | latest         | latest      | latest     |
 | metal3-periodic-ubuntu/centos-e2e-integration-test-release-1-8 | release-1.8  | release-1.8 | release-0.8    | v0.8.0         | latest      | v26.0.0    |
 | metal3-periodic-ubuntu/centos-e2e-integration-test-release-1-7 | release-1.7  | release-1.7 | release-0.6    | v0.6.1         | latest      | v24.1.1    |
-| metal3-periodic-ubuntu/centos-e2e-integration-test-release-1-6 | release-1.6  | release-1.6 | release-0.5    | v0.5.0         | latest      | v24.0.0    |
-| metal3-periodic-ubuntu/centos-e2e-integration-test-release-1-5 | release-1.5  | release-1.5 | release-0.4    | v0.5.0         | latest      | v23.1.0    |
+| metal3-periodic-ubuntu/centos-e2e-integration-test-release-1-6 | release-1.6  | release-1.6 | release-0.5    | v0.5.1         | latest      | v24.0.0    |
 
 | FEATURE AND E2E TESTS                                            | CAPM3 branch | IPAM branch | BMO branch/tag | Keepalived tag | MariaDB tag | Ironic tag |
 | ---------------------------------------------------------------- | ------------ | ----------- | -------------- | -------------- | ----------- | ---------- |
 | metal3-periodic-centos-e2e-feature-test-main-pivoting            | main         | main        | main           | latest         | latest      | latest     |
 | metal3-periodic-centos-e2e-feature-test-release-1-8-pivoting     | release-1.8  | release-1.8 | release-0.8    | v0.8.0         | latest      | v26.0.0    |
-| metal3-periodic-centos-e2e-feature-test-release-1-7-pivoting     | release-1.7  | release-1.7 | release-0.6    | v0.6.1         | latest      | v24.1.1    |
-| metal3-periodic-centos-e2e-feature-test-release-1-6-pivoting     | release-1.6  | release-1.6 | release-0.5    | v0.5.0         | latest      | v24.0.0    |
-| metal3-periodic-centos-e2e-feature-test-release-1-5-pivoting     | release-1.5  | release-1.5 | release-0.4    | v0.4.0         | latest      | v23.1.0    |
+| metal3-periodic-centos-e2e-feature-test-release-1-7-pivoting     | release-1.7  | release-1.7 | release-0.6    | v0.6.2         | latest      | v24.1.1    |
+| metal3-periodic-centos-e2e-feature-test-release-1-6-pivoting     | release-1.6  | release-1.6 | release-0.5    | v0.5.2         | latest      | v24.0.0    |
 | metal3-periodic-centos-e2e-feature-test-main-remediation         | main         | main        | main           | latest         | latest      | latest     |
 | metal3-periodic-centos-e2e-feature-test-release-1-8-remediation  | release-1.8  | release-1.8 | release-0.8    | v0.8.0         | latest      | v26.0.0    |
-| metal3-periodic-centos-e2e-feature-test-release-1-7-remediation  | release-1.7  | release-1.7 | release-0.6    | v0.6.1         | latest      | v24.1.1    |
-| metal3-periodic-centos-e2e-feature-test-release-1-6-remediation  | release-1.6  | release-1.6 | release-0.5    | v0.5.0         | latest      | v24.0.0    |
-| metal3-periodic-centos-e2e-feature-test-release-1-5-remediation  | release-1.5  | release-1.5 | release-0.4    | v0.4.0         | latest      | v23.1.0    |
+| metal3-periodic-centos-e2e-feature-test-release-1-7-remediation  | release-1.7  | release-1.7 | release-0.6    | v0.6.2         | latest      | v24.1.1    |
+| metal3-periodic-centos-e2e-feature-test-release-1-6-remediation  | release-1.6  | release-1.6 | release-0.5    | v0.5.2         | latest      | v24.0.0    |
 | metal3-periodic-centos-e2e-feature-test-main-features            | main         | main        | main           | latest         | latest      | latest     |
 | metal3-periodic-centos-e2e-feature-test-release-1-8-features     | release-1.8  | release-1.8 | release-0.8    | v0.8.0         | latest      | v26.0.0    |
-| metal3-periodic-centos-e2e-feature-test-release-1-7-features     | release-1.7  | release-1.7 | release-0.6    | v0.6.1         | latest      | v24.1.1    |
-| metal3-periodic-centos-e2e-feature-test-release-1-6-features     | release-1.6  | release-1.6 | release-0.5    | v0.5.0         | latest      | v24.0.0    |
-| metal3-periodic-centos-e2e-feature-test-release-1-5-features     | release-1.5  | release-1.5 | release-0.4    | v0.4.0         | latest      | v23.1.0    |
+| metal3-periodic-centos-e2e-feature-test-release-1-7-features     | release-1.7  | release-1.7 | release-0.6    | v0.6.2         | latest      | v24.1.1    |
+| metal3-periodic-centos-e2e-feature-test-release-1-6-features     | release-1.6  | release-1.6 | release-0.5    | v0.5.2         | latest      | v24.0.0    |
 
 | EPHEMERAL TESTS                                                | CAPM3 branch | IPAM branch | BMO branch/tag | Keepalived tag | MariaDB tag | Ironic tag |
 | -------------------------------------------------------------- | ------------ | ----------- | -------------- | -------------- | ----------- | ---------- |
