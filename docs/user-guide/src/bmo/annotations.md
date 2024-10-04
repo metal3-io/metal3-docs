@@ -1,6 +1,6 @@
 # Status and Inspect Annotations
 
-# Status annotation
+## Status annotation
 
 The status annotation is useful when you need to avoid inspection of a BareMetalHost.
 This can happen if the status is already known, for example, when moving the BareMetalHost from one cluster to another.
