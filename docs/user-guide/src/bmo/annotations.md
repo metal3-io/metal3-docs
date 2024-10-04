@@ -1,121 +1,133 @@
 # Status and Inspect Annotations
 
-## Status Annotation
+# Status annotation
 
-Baremetalhost's(BMH) _Status_ sub-resource contain a handful of critical data
-regarding the BMH's state. If the _Status_ is not moved with the object when we
-pivot the BMH from the management cluster to target cluster , the
-Baremetal Operator(BMO) considers it as a new object and triggers introspection
-for the BMH since its _Status_ is empty. _Status_ being empty means although the
- BMH had a _ready_ state in management cluster (for example), it would be again
- in _registering_ and _inspecting_ states in target cluster since we have an
- BMH with empty _Status_ in hand. This is the
-main motivation to take the BMH _Status_ also with the object when we move the
-object from management cluster to target cluster.
+The status annotation is useful when you need to avoid inspection of a BareMetalHost.
+This can happen if the status is already known, for example, when moving the BareMetalHost from one cluster to another.
+By setting this annotation, the BareMetal Operator will take the status of the BareMetalHost directly from the annotation.
 
-To solve this issue, BMO now puts the _Status_ of a BMH as an _Annotation_ at
-the end of each reconciliation loop. The name of the annotation is,
-`baremetalhost.metal3.io/status`. This field holds the entire _Status_
-sub-resource of BMH. As such within this annotation you will find all the fields
-that belong to a BMH _Status_ sub-resource.
+The annotation key is `baremetalhost.metal3.io/status` and the value is a JSON representation of the BareMetalHosts `status` field.
+One simple way of extracting the status and turning it into an annotation is using kubectl like this:
 
-The _Status Annotation_ ensures that the _Status_ of a BMH is always preserved
-as an annotation. In addition to this, BMO is now enhanced to reconstruct a BMH
-object _Status_ if it is empty and the _Status Annotation_ is present.
-This makes sure that  when we pivot a BMH with  _Status Annotation_ ,
-the BMO at the target cluster can reconstruct the BMH _Status_ and so the
-reconciliation of BMH starts from the point it was before pivot. This
-essentially ensures all the critical data residing in BMH _Status_ sub-resource
-is retained and BMH does not suffer any accidental introspection.
+```bash
+# Save the status in json format to a file
+kubectl get bmh <name-of-bmh> -o jsonpath="{.status}" > status.json
+# Save the BMH and apply the status annotation to the saved BMH.
+kubectl -n metal3 annotate bmh <name-of-bmh> \
+  baremetalhost.metal3.io/status="$(cat status.json)" \
+  --dry-run=client -o yaml > bmh.yaml
+```
 
-Note that in the case where only the hardware field requires update, the
-[inspect annotation](https://github.com/SafeEHA/baremetal-operator/blob/main/docs/inspectAnnotation.md) may also be used.
+Note that the above example does not apply the annotation to the BareMetalHost directly since this is most likely not useful to apply it on one that already has a status.
+Instead it saves the BareMetalHost *with the annotation applied* to a file `bmh.yaml`.
+This file can then be applied in another cluster.
+The status would be discarded at this point since the user is usually not allowed to set it, but the annotation is still there and would be used by the BareMetal Operator to set status again.
+Once this is done, the operator will remove the status annotation.
+In this situation you may also want to check the [detached annotation](./detached_annotation.md) for how to remove the BareMetalHost from the old cluster without going through deprovisioning.
 
-Here is an example of a _Status annotation_:
+Here is an example of a BareMetalHost, first without the annotation, but with status and spec, and then the other way around.
+This shows how the status field is turned into the annotation value.
 
 ```yaml
+apiVersion: metal3.io/v1alpha1
+kind: BareMetalHost
+metadata:
+  name: node-0
+  namespace: metal3
+spec:
+  automatedCleaningMode: metadata
+  bmc:
+    address: redfish+http://192.168.111.1:8000/redfish/v1/Systems/febc9f61-4b7e-411a-ada9-8c722edcee3e
+    credentialsName: node-0-bmc-secret
+  bootMACAddress: 00:80:1f:e6:f1:8f
+  bootMode: legacy
+  online: true
+status:
+  errorCount: 0
+  errorMessage: ""
+  goodCredentials:
+    credentials:
+      name: node-0-bmc-secret
+      namespace: metal3
+    credentialsVersion: "1775"
+  hardwareProfile: ""
+  lastUpdated: "2022-05-31T06:33:05Z"
+  operationHistory:
+    deprovision:
+      end: null
+      start: null
+    inspect:
+      end: null
+      start: "2022-05-31T06:33:05Z"
+    provision:
+      end: null
+      start: null
+    register:
+      end: "2022-05-31T06:33:05Z"
+      start: "2022-05-31T06:32:54Z"
+  operationalStatus: OK
+  poweredOn: false
+  provisioning:
+    ID: 8d566f5b-a28f-451b-a70f-419507c480cd
+    bootMode: legacy
+    image:
+      url: ""
+    state: inspecting
+  triedCredentials:
+    credentials:
+      name: node-0-bmc-secret
+      namespace: metal3
+    credentialsVersion: "1775"
+```
 
-baremetalhost.metal3.io/status: '{"operationalStatus":"OK","lastUpdated":
-"2020-05-13T15:03:45Z", "hardwareProfile":"unknown","hardware": {"systemVendor":
-{"manufacturer":"QEMU","productName":"Standard  PC (Q35 + ICH9, 2009)",
-"serialNumber":""},"firmware":{"bios":{"date":"","vendor":"", "version":""}},
-"ramMebibytes":4096,"nics":[{"name":"eth0","model":"0x1af4
-x0001","mac":"00:55:4a:4a:79:1c","ip":"172.22.0.83","speedGbps":0, "vlanId":0,
-"pxe":true},{"name":"eth1","model":"0x1af4 0x0001","mac":"00:55:4a:4a:79:1e",
-"ip":"192.168.111.20","speedGbps":0,"vlanId":0,"pxe":false}],"storage":[{ "name"
-:"/dev/sda","rotational":true, "sizeBytes":53687091200,"vendor":"QEMU",
-"model":"QEMUHARDDISK", "serialNumber":"drive-scsi0-0-0-0","hctl":"6:0:0:0"}],
-"cpu":{"arch":"x86_64","model":"Intel Xeon E3-12xx v2 (IvyBridge)",
-"clockMegahertz":2593.992,"flags":["aes","apic","arat", "avx","clflush","cmov",
-"constant_tsc","cx16","cx8","de","eagerfpu","ept","erms","f16c","flexpriority",
-"fpu","fsgsbase","fxsr","hypervisor" ,"lahf_lm","lm","mca","mce","mmx","msr",
-"mtrr","nopl","nx","pae","pat", "pclmulqdq","pge","pni","popcnt","pse","pse36",
-"rdrand","rdtscp", "rep_good","sep","smep","sse","sse2","sse4_1","sse4_2",
-"ssse3","syscall","tpr_shadow","tsc","tsc_adjust","tsc_deadline_timer","vme",
-"vmx","vnmi","vpid","x2apic","xsave","xsaveopt","xtopology"],"count":4}
-,"hostname":"node-0"},"provisioning":{"state":"provisioned",
-"ID":"73c01ec4-5438-4b50-a49d-4cc4633b2ccb",
-"image":{"url":"http://172.22.0.1/images/bionic-server-cloudimg-amd64.img
-","checksum":"http://172.22.0.1/images/bionic-server-cloudimg-amd64.img.md5sum
-"}},"goodCredentials":{"credentials":{"name":"node-0-bmc-secret", "namespace":
-  "metal3"},"credentialsVersion":"6139"},"triedCredentials":
-{"credentials":{"name":"node-0-bmc-secret","namespace":"metal3"},
-"credentialsVersion":"6139"},"errorMessage":"","poweredOn":true,
-"operationHistory":{"register":{"start":"2020-05-13T14:57:10Z",
-"end":"2020-05-13T14:57:11Z"},"inspect":{"start": "2020-05-13T14:46:13Z",
-"end":"2020-05-13T14:48:23Z"},"provision":
-{"start":"2020-05-13T14:57:12Z","end":"2020-05-13T15:03:45Z"},
-deprovision":{"start":null,"end":null}}}'
-
+```yaml
+apiVersion: metal3.io/v1alpha1
+kind: BareMetalHost
+metadata:
+  name: node-0
+  namespace: metal3
+  annotations:
+    baremetalhost.metal3.io/status: |
+      {"errorCount":0,"errorMessage":"","goodCredentials":{"credentials":{"name":"node-0-bmc-secret","namespace":"metal3"},"credentialsVersion":"1775"},"hardwareProfile":"","lastUpdated":"2022-05-31T06:33:05Z","operationHistory":{"deprovision":{"end":null,"start":null},"inspect":{"end":null,"start":"2022-05-31T06:33:05Z"},"provision":{"end":null,"start":null},"register":{"end":"2022-05-31T06:33:05Z","start":"2022-05-31T06:32:54Z"}},"operationalStatus":"OK","poweredOn":false,"provisioning":{"ID":"8d566f5b-a28f-451b-a70f-419507c480cd","bootMode":"legacy","image":{"url":""},"state":"inspecting"},"triedCredentials":{"credentials":{"name":"node-0-bmc-secret","namespace":"metal3"},"credentialsVersion":"1775"}}
+spec:
+  ...
 ```
 
 ## Inspect Annotation
 
-Baremetalhost's(BMH) _Status_ sub-resource contains a _hardware_ key
-which contains the result of introspection which is carried out during
-BMH registration.
+## Re-running inspection
 
-In some circumstances it may be desirable to disable this inspection process,
-and provide data from external source. The _Inspect Annotation_ provides some
-interfaces to enable this.
+The inspect annotation can be used to request the BareMetal Operator to (re-)inspect an `available` BareMetalHost, for example, when the hardware changes. If an inspection request is made while the host is any otherstate than `available`, the request will be ignored.
 
-Note the `inspect.metal3.io/hardwaredetails` annotation is consumed:
+To request a new inspection, simply annotate the host with `inspect.metal3.io`. Once inspection is requested, you should see the BMH in `inspecting` stateuntil inspection is completed, and by the end of inspection the`inspect.metal3.io` annotation will be removed automatically.
 
-* At any time when `inspect.metal3.io: disabled` is specified
-* When there is no existing HardwareDetails data in the Status
-
-The `inspect.metal3.io/hardwaredetails` annotation will be removed when
-successfully processed or when the status is already set, generating an
-event in each case.
-
-The structure of the annotation's value should match the hardware status
-field schema, or a subset of that schema, for example:
+Here is an example:
 
 ```yaml
-
-inspect.metal3.io: disabled
-inspect.metal3.io/hardwaredetails: '{"systemVendor":{"manufacturer":"QEMU",
-"productName":"Standard PC (Q35 + ICH9, 2009)","serialNumber":""},
-"firmware":{"bios":{"date":"","vendor":"","version":""}},"ramMebibytes":4096,
-"nics":[{"name":"eth0","model":"0x1af4 0x0001","mac":"00:b7:8b:bb:3d:f6",
-"ip":"172.22.0.64","speedGbps":0,"vlanId":0,"pxe":true}],
-"storage":[{"name":"/dev/sda","rotational":true,"sizeBytes":53687091200,
-"vendor":"QEMU","model":"QEMU HARDDISK","serialNumber":"drive-scsi0-0-0-0",
-"hctl":"6:0:0:0"}],"cpu":{"arch":"x86_64",
-"model":"Intel Xeon E3-12xx v2 (IvyBridge)","clockMegahertz":2494.224,
-"flags":["foo"],"count":4},"hostname":"hwdAnnotation-0"}'
-
+apiVersion: metal3.io/v1alpha1
+kind: BareMetalHost
+metadata:
+  name: example
+  annotations:
+    # The inspect annotation with no value
+    inspect.metal3.io: ""
+spec:
+  ...
 ```
 
-Apart from that, sometimes you might want to request re-inspection for an
-already inspected host. This might be necessary when there was a hardware
-change on the host and you want to ensure that BMH status contains the latest
-inspection data about your host. To request a new inspection, simply annotating
-the host with `inspect.metal3.io` is enough. Once inspection is requested, you should
-see the BMH in `inspecting` state until inspection is completed and by the end of
-inspection the `inspect.metal3.io` annotation will be removed by Baremetal Operator.
+## Disabling inspection
 
-Note that, inspection can be requested only when BMH is in `Ready` state (i.e. before
-it is provisioned). The reason for this limitation is because requesting an inspection
-for provisioned BMH will result in rebooting the host, which will result in application
-downtime running on that host.
+If you do not need the HardwareData collected by inspection, you can disable it by setting the `inspect.metal3.io` annotation to `disabled`, for example:
+
+```yaml
+apiVersion: metal3.io/v1alpha1
+kind: BareMetalHost
+metadata:
+  name: example
+  annotations:
+    inspect.metal3.io: disabled
+spec:
+  ...
+```
+
+For advanced use cases, such as providing externally gathered inspection data, see [external inspection](./external_inspection.md).
