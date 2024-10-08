@@ -11,6 +11,15 @@ By applying the annotation before removing the BareMetalHost from the old cluste
 The next step is then to recreate it in the new cluster without triggering a new inspection.
 See the [status annotation page](./status_annotation.md) for how to do this.
 
+The detached annotation is also useful if you want to move the host under
+control of a different management system without fully removing it from
+BareMetal Operator. Particularly, detaching a host stops Ironic from trying to
+enforce its power state as per the `online` field.
+
+For more details, please see the [design proposal](https://github.com/metal3-io/metal3-docs/blob/main/design/baremetal-operator/detached-annotation.md).
+
+## How to detach
+
 The annotation key is `baremetalhost.metal3.io/detached` and the value can be anything (it is ignored).
 Here is an example:
 
@@ -31,9 +40,9 @@ spec:
 ...
 ```
 
-Why is this annotation needed?
+Now wait for the `operationalStatus` field to become `detached`.
 
-- It provides a way to move BareMetalHosts between clusters (essentially deleting them in the old cluster and recreating them in the new) without going through deprovisioning, inspection and provisioning.
-- It allows deleting the BareMetalHost object without triggering deprovisioning. This can be used to hand over management of the host to a different system without disruption.
+## How to attach again
 
-For more details, please see the [design proposal](https://github.com/metal3-io/metal3-docs/blob/main/design/baremetal-operator/detached-annotation.md).
+If you want to attach a previously detached host, remove the annotation and
+wait for the `operationalStatus` field to become `OK`.
