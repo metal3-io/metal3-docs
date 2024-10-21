@@ -20,7 +20,7 @@ WORKDIR="${WORKDIR:-/workdir}"
 
 # all md files, but ignore .github and node_modules
 if [ "${IS_CONTAINER}" != "false" ]; then
-    cspell-cli --show-suggestions -c .cspell-config.json -- ./**/*.md
+    cspell-cli --show-suggestions -c .cspell-config.json -- "./**/*.md"
 else
     "${CONTAINER_RUNTIME}" run --rm \
         --env IS_CONTAINER=TRUE \
