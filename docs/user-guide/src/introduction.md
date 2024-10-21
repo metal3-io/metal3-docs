@@ -6,6 +6,8 @@
 
 # Metal³
 
+<!-- cSpell:ignore kubed -->
+
 The Metal³ project (pronounced: "Metal Kubed") provides components for bare
 metal host management with Kubernetes. You can enrol your bare metal machines,
 provision operating system images, and then, if you like, deploy Kubernetes

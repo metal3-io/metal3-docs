@@ -7,8 +7,10 @@
 
 # how-ironic-works
 
+<!-- cSpell:ignore irmc,xclarity,uncompress -->
+
 This document explains how to use ironic in order to achieve various
-tasks such as creating a node, recreating a node, unprovisioning a
+tasks such as creating a node, recreating a node, deprovisioning a
 node, and deleting a node.
 
 This is not intended to be design specific documentation, but intends
@@ -29,7 +31,7 @@ network attached power distribution unit.
 
 Typically nodes are booted utilizing PXE. In the most ideal scenario this
 would be a hybrid PXE/iPXE configuration such that the deployment ramdisk
-for ironic is able to be quickly and efficently transferred to the
+for ironic is able to be quickly and efficiently transferred to the
 node.
 
 In order to assert this configuration at boot time, a dedicated DHCP server
@@ -70,13 +72,13 @@ The basic workflow consists of:
    inventory.
 4. Ironic initiates deployment by first identifying the root disk upon
    which the disk image is to be written. By default this will be the
-   smallest storage device available, and can be overridden via explict
+   smallest storage device available, and can be overridden via explicit
    configuration of a [root_device hint](https://docs.openstack.org/ironic/latest/install/advanced.html#specifying-the-disk-for-deployment-root-device-hints)
 5. The deployment ramdisk downloads the image to be written and streams
    that to the storage device.
 6. If defined as part of the deployment, ironic will add an additional
    partition for a configuration drive. Ironic will then write the
-   configuraiton drive to disk
+   configuration drive to disk
 7. Finally ironic reboots the machine.
 
 There are some additional steps that ironic performs, mainly fixing
@@ -273,7 +275,7 @@ Further information can be found in ironic's
 
 Inspection may be used if a baremetal node has not been already discovered
 or inspected previously in order to collect up to date details about the
-hardware. This is particullarly important in order to update the records
+hardware. This is particularly important in order to update the records
 of networking ports for identification of the baremetal node and creation
 of PXE/iPXE configuration files in order to help ensure that baremetal node
 is quickly booted for booting into the deployment and discovery ramdisk.
@@ -284,12 +286,12 @@ is quickly booted for booting into the deployment and discovery ramdisk.
 ```
 
 This operation can only be performed in the "manageable" ironic node state.
-If the node is already in the "available" state, the same requst can be used
+If the node is already in the "available" state, the same request can be used
 with a target of "manage", and then the target of "inspect" can be utilized
 to step through the state machine.
 
 After inspection, it is advisable to return nodes to an "available" state.
-This can be performed simillarly via the target "provide".
+This can be performed similarly via the target "provide".
 
 ### How to deploy
 
@@ -315,7 +317,7 @@ Starting with the bare metal node in the "available" provision_state:
    This configuration does two things. First sets the image and checksum
    to be utilized for image verification, and sets an "instance_uuid" value
    which acts as a signal to any client that the node has been claimed by
-   an API cient. The instance_uuid can be set to any value, and is
+   an API client. The instance_uuid can be set to any value, and is
    ultimately not required.
 
 2. Request ironic to perform a "validate" operation on the information
@@ -394,14 +396,14 @@ Starting with the bare metal node in the "available" provision_state:
    A "deploy failed" state indicates that the deployment failed, and
    additional details as to why can be retrieved from the "last_error"
    fiend in the JSON document. With newer versions of ironic, greater
-   granularity can be observed by also refering the "deploy_step"
+   granularity can be observed by also referring the "deploy_step"
    field, however this is a relatively new feature in ironic and the
    information provided is fairly broad as of the time this document
    was written.
 
-### How to unprovision a baremetal node
+### How to deprovision a baremetal node
 
-A provisioned, or "active" baremetal node can be unprovisioned by sending
+A provisioned, or "active" baremetal node can be deprovisioned by sending
 a state change request to the ironic api. This request will move the
 baremetal node through the "cleaning" process which ironic utilizes to
 erase the contents of the disks. This can be a time intensive process,

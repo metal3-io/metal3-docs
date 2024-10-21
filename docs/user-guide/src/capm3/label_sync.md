@@ -9,10 +9,10 @@ To use label synchronization user needs to define prefix(es) for labels. Only
 labels that fall within prefix set are synchronized. User defines prefixes with
 annotation in Metal3Cluster object by using
 **metal3.io/metal3-label-sync-prefixes** annotation key and gives prefixes as
-annotation value. Prefixes should be seperated by comma.
+annotation value. Prefixes should be separated by comma.
 
 In the following example we are defining two label prefixes for label
-syncronization: **test.foobar.io** and **my-prefix**.
+synchronization: **test.foobar.io** and **my-prefix**.
 
 ```bash
 kubectl annotate metal3cluster test1 metal3.io/metal3-label-sync-prefixes=test.foobar.io,my-prefix -n=metal3 --overwrite
@@ -28,7 +28,7 @@ kubectl label baremetalhosts node-0 my-prefix/rack=xyz-123 -n=metal3
 kubectl label baremetalhosts node-0 test.foobar.io/group=abc -n=metal3
 ```
 
-**Note:** Prefixes should be seperated from the rest of the label key by **"/"**, e.g. my-prefix/rack, test.foobar.io/xyz
+**Note:** Prefixes should be separated from the rest of the label key by **"/"**, e.g. my-prefix/rack, test.foobar.io/xyz
 
 Now label sync controller will apply same labels to corresponding Kubernetes node.
 

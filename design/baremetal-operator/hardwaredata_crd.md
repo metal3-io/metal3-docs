@@ -1,5 +1,7 @@
 # hardwareData custom resource for host inspection data
 
+<!-- cSpell:ignore multipath -->
+
 ## Status
 
 implemented
@@ -71,7 +73,7 @@ To pivot objects excluded from Cluster API chain to a target cluster, one can se
 `clusterctl.cluster.x-k8s.io=""` label on HardwareData and BareMetalHost CRDs.
 Current status annotation based pivoting workflow will stay as it is. However,
 CAPM3 machine controller will no longer copy `status.hardware` of BareMetalHost
-to the annotation. Because that part will be avialable in the form of HardwareData CR
+to the annotation. Because that part will be available in the form of HardwareData CR
 in the target cluster.
 
 ### Implementation Details/Notes/Constraints
@@ -185,7 +187,7 @@ documented.
 
 - Add HardwareData API
 - Modify the operator code
-- Adjust CAPM3 machine controller to exlude writing `status.hardware` into the statusAnnotation
+- Adjust CAPM3 machine controller to exclude writing `status.hardware` into the statusAnnotation
 - Add unit tests
 - Update documentation
 

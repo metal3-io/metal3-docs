@@ -1,5 +1,7 @@
 # Firmware Settings
 
+<!-- cSpell:ignore sriov -->
+
 Metal3 supports modifying firmware settings of the hosts before provisioning
 them. This feature can be used, for example, to enable or disable CPU
 virtualization extensions, huge pages or SRIOV support. The corresponding

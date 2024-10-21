@@ -1,5 +1,7 @@
 # CAPM3 Pivoting
 
+<!-- cSpell:ignore cakcp -->
+
 ## What is pivoting
 
 Cluster API Provider Metal3 (CAPM3) implements support for CAPI's 'move/pivoting' feature.
@@ -60,7 +62,7 @@ bootstrap cluster.
    If not, it has to be deployed before the `clusterctl init` and the BMH CRDs
    need to be labeled accordingly manually. Separate labeling for BMH CRDs is required
    because since CAPM3 release [v0.5.0](https://github.com/metal3-io/cluster-api-provider-metal3/releases/tag/v0.5.0)
-   BMO/BMH CRDs are not deplopyed as part of CAPM3 deployment anymore.
+   BMO/BMH CRDs are not deployed as part of CAPM3 deployment anymore.
    This is a prerequisite for both the management and the target cluster.
 
 1. **Objects should have a proper owner reference chain.**

@@ -7,6 +7,8 @@
 
 # Customizable deployment procedure
 
+<!-- cSpell:ignore configdrive,footgun -->
+
 ## Status
 
 implemented

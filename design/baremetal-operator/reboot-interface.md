@@ -7,6 +7,8 @@
 
 # reboot-interface
 
+<!-- cSpell:ignore rebalancing,accomodate,unprovisioned,suffixless -->
+
 ## Status
 
 implemented
@@ -75,7 +77,7 @@ A new date-time field, ``pendingRebootSince``, will be added to the
 ``provisioning`` section of the BareMetalHost status. This records a time
 before which the Host was last requested to reboot (because we cannot trust any
 value from the user, who even if well intentioned, may have created the
-timestamp on a machine that was not synchronised with the cluster or has a
+timestamp on a machine that was not synchronized with the cluster or has a
 different timezone).
 
 Since the user interface requirements are still unclear, we will follow
@@ -200,5 +202,5 @@ noticed them. Selecting this option would also make it more difficult to add
 further reboot-related API features in the future.
 
 The request could be made by adding to a list of client-chosen strings in the
-Host spec. This effectively formalises the annotation-based system proposed
+Host spec. This effectively formalizes the annotation-based system proposed
 here and makes it a permanent part of the interface.

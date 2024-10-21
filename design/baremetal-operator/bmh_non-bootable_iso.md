@@ -68,7 +68,7 @@ has been Provisioned or ExternallyProvisioned.
 
 ### Ironic Support
 
-The [proposal](https://bugs.launchpad.net/ironic/+bug/2033288) for exposing this functionaility in Ironic has been
+The [proposal](https://bugs.launchpad.net/ironic/+bug/2033288) for exposing this functionality in Ironic has been
 accepted by the upstream Ironic community.
 
 The [Ironic implementation](https://review.opendev.org/c/openstack/ironic/+/894918) based on the above proposal has been completed.

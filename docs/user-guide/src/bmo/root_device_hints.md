@@ -59,7 +59,7 @@ them. Available hints are:
   identifier with the vendor extension appended.
 
 - `wwnVendorExtension` -- A string containing the unique vendor
-  storage indentifier.
+  storage identifier.
 
 - `rotational` -- A boolean indicating whether the device must be
   a rotating disk (`true`) or not (`false`). Examples of non-rotational devices
@@ -106,7 +106,7 @@ implies using `/dev/sda` as the root device.
 In a future version of BareMetalHost API, the hardware profile concept will be
 disabled, and Metal3 will default to having no root device hints by default. In
 this case, the default logic in Ironic will apply: the smaller block device
-that is at least 4 GiB. If you want this logic to apply in the current verson
+that is at least 4 GiB. If you want this logic to apply in the current version
 of the API, use the `empty` profile:
 
 ```yaml

@@ -1,5 +1,7 @@
 # kubebuilder-migration
 
+<!-- cSpell:ignore dhellmann's -->
+
 ## Status
 
 implemented

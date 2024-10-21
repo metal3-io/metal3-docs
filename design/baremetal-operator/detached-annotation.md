@@ -106,6 +106,6 @@ We could add an API that sets the Ironic
 [maintenance mode flag](https://docs.openstack.org/api-ref/baremetal/?expanded=set-maintenance-flag-detail#set-maintenance-flag)
 but this means hosts could potentially permanently be in this state
 and there are concerns about corner-cases such as adoption when an
-ephemeral Ironic is used and a rechedule occurs.
+ephemeral Ironic is used and a reschedule occurs.
 
 ## References

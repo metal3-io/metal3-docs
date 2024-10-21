@@ -7,6 +7,8 @@
 
 # Custom agent image controller
 
+<!-- cSpell:ignore statelessly -->
+
 ## Status
 
 implemented
@@ -17,7 +19,7 @@ Enable a custom image containing the ironic-python-agent to be built for each
 BareMetalHost, instead of requiring all hosts to use the same agent image. The
 interface to the image builder will be defined by a new PreprovisioningImage CR
 in metal³, with users able to substitute their own implementations of image
-building (in most cases this is expected to involve light customisation of an
+building (in most cases this is expected to involve light customization of an
 existing image) by creating a controller. The baremetal-operator will create
 and use PreprovisioningImages as required when configured to do so.
 
@@ -41,7 +43,7 @@ image.
 
 ### Goals
 
-- Allow each host to use its own deploy ramdisk image customised with an
+- Allow each host to use its own deploy ramdisk image customized with an
   appropriate network configuration.
 
 ### Non-Goals
@@ -81,7 +83,7 @@ The Status will contain the following fields:
 A default controller for this resource type will be implemented that simply
 sets a fixed URL (supplied in its own environment or command line) as the
 output. However, provision will be made for interested parties to implement
-alternate controllers to allow image customisation by making it easy to disable
+alternate controllers to allow image customization by making it easy to disable
 this default controller.
 
 A command-line switch (defaulting to off) will enable integration between the
@@ -122,11 +124,11 @@ Deprovisioning states, or when required by Ironic.
 The contents of the networkData Secret are generally assumed to be in the same
 format output by OpenStack and consumable by cloud-init. However, for Metal³'s
 purposes this is not a requirement as the data is passed through directly.
-Authors of image customisation controllers are free to interpret the data in
+Authors of image customization controllers are free to interpret the data in
 any way they see fit.
 
 Since PXE-booted hosts generally must be connected to the provisioning network
-on an untagged VLAN using LACP for any NIC bonding, and on the provisioning
+on an untagged VLAN using `LACP` for any NIC bonding, and on the provisioning
 network ironic will supply an IP address via DHCP, there should be no need for
 this feature other than when using virtualmedia drivers. An API option can
 always be added later if this proves not to be the case.
@@ -216,13 +218,13 @@ now baked in to the API.
 Overall this is more flexible, since the image URL can be added in any way (not
 necessarily by adding a separate controller). It also has fewer moving parts.
 On the other hand, the more opinionated proposal above provides a more
-stuctured way for associating the network data with the BareMetalHost it
+structured way for associating the network data with the BareMetalHost it
 applies to.
 
-### Have Ironic customise the image
+### Have Ironic customize the image
 
 Currently Ironic just boots the Node with a given kernel and initrd. However,
-when deploying using virtual media it has the capability to [customise the ISO
+when deploying using virtual media it has the capability to [customize the ISO
 image to include the
 networkData](https://docs.openstack.org/ironic/latest/admin/dhcp-less.html#configuring-network-data).
 (Specifically, this is implemented in the iLO and redfish drivers, and
@@ -242,7 +244,7 @@ ramdisk for discovery).
 
 Ironic verifies the data against a JSON Schema, whereas currently the
 networkData field in the BareMetalHost is free-form JSON. However, the choice
-of schema is customisable by a config option, so it could be set to free-form
+of schema is customizable by a config option, so it could be set to free-form
 to avoid breaking backward compatibility for existing resources.
 
 With this strategy we would always have to update the network data when it
@@ -251,19 +253,19 @@ administrator or other user.
 
 ### Configure the IP address from within a fixed image
 
-Using IPv6 Neighbour Discovery, we can determine the network prefix for each
+Using IPv6 Neighbor Discovery, we can determine the network prefix for each
 interface. Using the network prefix we can statelessly choose a static IP
-address without fear of collison (by using the Modified EUI-64 method based on
+address without fear of collision (by using the Modified EUI-64 method based on
 the MAC address, and/or a stable privacy address).
 
-If the host is not directly attached to the network Ironic is on, Neighbour
+If the host is not directly attached to the network Ironic is on, Neighbor
 Discovery can also locate routers on the attached networks and identify which
 are suitable to be used as a default route.
 
-For dynamically configured bonds (i.e. using LACP), only one port in the bond
+For dynamically configured bonds (i.e. using `LACP`), only one port in the bond
 will be up, but this should be sufficient for the purposes of the ramdisk.
 
-Information about VLANs and static bonds can be obtained only from LLDP. This
+Information about VLANs and static bonds can be obtained only from `LLDP`. This
 information could be theoretically be used to automatically configure the
 interfaces on the ramdisk. However, this is dependent on the network switch
 configuration, and users may prefer not to rely on that (although we also rely
@@ -277,8 +279,8 @@ environments.
 
 ## References
 
-- [Proposal for customisable deployment
+- [Proposal for customizable deployment
   procedure](https://github.com/metal3-io/metal3-docs/pull/180) that includes
   the alternate option of specifying the deploy image in the BareMetalHost Spec.
 - [Stateless IPv6 address
-  autoconfiguration](https://en.wikipedia.org/wiki/IPv6_address#Stateless_address_autoconfiguration)
+  auto configuration](https://en.wikipedia.org/wiki/IPv6_address#Stateless_address_autoconfiguration)

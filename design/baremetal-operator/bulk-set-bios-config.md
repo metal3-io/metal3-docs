@@ -7,6 +7,8 @@
 
 # bulk-set-bios-config
 
+<!-- cSpell:ignore corev -->
+
 ## Status
 
 implementable
@@ -77,7 +79,7 @@ This proposal does not attempt to fulfill the following goals:
 - Keep the BIOS settings on similar hardware in sync automatically
   using an additional operator, although that functionality is planned
   for a follow-on
-- A future feature is planned to make use of this funtionality to
+- A future feature is planned to make use of this functionality to
   automatically keep BIOS settings in sync on similar hardware using
   a new operator. This future will require a separate proposal and is out
   of scope for this proposal.
@@ -244,7 +246,7 @@ actions will be taken:
   a `namespace` hint will be added to the BMO to specify the namespace to
   use for the schema. These BMO changes will be described in a follow-on
   doc.
-- It is recommended that the refererence to the schema not use
+- It is recommended that the reference to the schema not use
   corev1.ObjectReference, but instead define a separate struct, see
   [ObjectReference](https://github.com/kubernetes-sigs/cluster-api/issues/2318)
 

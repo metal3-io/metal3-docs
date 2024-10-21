@@ -4,7 +4,7 @@ This section will show how  IPAM can be installed as a deployment in a cluster.
 
 ## Deploying controllers
 
-CAPI and IPAM controllers need to be deployed at the begining. The IPAM controller has a dependency on Cluster API *Cluster* objects. CAPI CRDs and controllers must be deployed and the cluster objects should exist for successful deployments.
+CAPI and IPAM controllers need to be deployed at the beginning. The IPAM controller has a dependency on Cluster API *Cluster* objects. CAPI CRDs and controllers must be deployed and the cluster objects should exist for successful deployments.
 
 ## Deployment
 

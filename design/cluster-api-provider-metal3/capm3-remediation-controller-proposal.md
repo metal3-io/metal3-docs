@@ -7,6 +7,8 @@
 
 # capm3-remediation-controller
 
+<!-- cSpell:ignore beekhof,maelk,fmuyassarov -->
+
 Co-authored-by: @jan-est, @beekhof, @n1r1, @maelk, @fmuyassarov.
 
 ## Status

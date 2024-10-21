@@ -43,12 +43,12 @@ several) does not put additional stress on surviving peers, however budget
 constraints mean that this is often not the case, particularly in Edge
 deployments which may consist of as few as three nodes of commodity hardware.
 Even when deployments start off over-provisioned, there is a tendency for the
-extra capacity to become permanently utilised.  It is therefore usually
+extra capacity to become permanently utilized. It is therefore usually
 important to recover the lost capacity quickly.
 
 For this reason it is desirable to power the machine back on again, in the hope
 that the problem was transient and the node can return to a healthy state.
-Upon restarting, kubelet automatically contacts the masters to re-register
+Upon restarting, Kubelet automatically contacts the masters to re-register
 itself, allowing it to host workloads.
 
 ### Goals
@@ -108,7 +108,7 @@ See [PoC code](https://github.com/kubevirt/machine-remediation/)
 - Two new controllers:
    - [node
     reboot](https://github.com/kubevirt/machine-remediation/tree/master/pkg/controllers/nodereboot)
-    which looks for the annoation and creates Machine Remediation CRs
+    which looks for the annotation and creates Machine Remediation CRs
    - [machine
     remediation](https://github.com/kubevirt/machine-remediation/tree/master/pkg/controllers/machineremediation)
     which reboots the machine and deletes the Node object (which also
@@ -118,12 +118,12 @@ See [PoC code](https://github.com/kubevirt/machine-remediation/)
 ### Work Items
 
 - Make any requested modifications
-- Create a PR from github.com/kubevirt/machine-remediation into
-  github.com/metal3-io/cluster-api-provider-baremetal
+- Create a PR from [KubeVirt](github.com/kubevirt/machine-remediation)
+  into [CAPM3](github.com/metal3-io/cluster-api-provider-baremetal)
 
 ### Dependencies
 
-This design is intended to integrate with OpenShift’s [Machine Healthcheck
+This design is intended to integrate with OpenShift’s [Machine HealthCheck
 implementation](https://github.com/openshift/machine-api-operator/blob/master/pkg/controller/machinehealthcheck/machinehealthcheck_controller.go#L407)
 
 ### Test Plan
@@ -137,22 +137,22 @@ non-functional or inaccessible.
 ### Upgrade / Downgrade Strategy
 
 The added functionality is inert without external input.
-No changes are required to preserve the existing behaviour.
+No changes are required to preserve the existing behavior.
 
 ### Version Skew Strategy
 
-By shipping the new controller with the baremetal-operator that it consumes, we
+By shipping the new controller with the BareMetal Operator that it consumes, we
 can prevent any version mismatches.
 
 ## Drawbacks
 
-Baremetal is currently the only platform looking to implement this feature, so
+Bare metal is currently the only platform looking to implement this feature, so
 any implementation is necessarily non-standard.
 
 If other platforms come to see value in power based recovery, there may need to
 design a different or more formal signaling method (than an annotation) as well
 as decompose the implementation into discrete units that can live behind a
-platform independant interface such as the Machine or Cluster APIs.
+platform independent interface such as the Machine or Cluster APIs.
 
 ## Alternatives
 

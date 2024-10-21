@@ -130,7 +130,7 @@ there.
 ### Risks and Mitigations
 
 Since we will be specifying physical disks to be used, care needs to be taken
-to not accidently erase media with sensitive data on them. It is very easy to
+to not accidentally erase media with sensitive data on them. It is very easy to
 undesirably remove data from disks.
 
 ### Work Items

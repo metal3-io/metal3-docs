@@ -43,7 +43,7 @@ another Machine without a host could claim it before it gets deleted.
 
 Additionally, by deleting the Machine before scaling down the MachineSet, the
 MachineSet will try to replace it with a new Machine resource. That new
-resourse could match a BareMetalHost if one is available and cause it to start
+resource could match a BareMetalHost if one is available and cause it to start
 provisioning. For this reason, it is better to not directly delete a Machine.
 
 ### Scale down the MachineSet

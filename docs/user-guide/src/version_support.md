@@ -39,13 +39,13 @@ IP Address Manager
 | v1.2          | v1beta1     | EOL       |
 | v1.1          | v1beta1     | EOL       |
 
-The compatability of IPAM and CAPM3 API versions with CAPI is discussed
+The compatibility of IPAM and CAPM3 API versions with CAPI is discussed
 [here](https://github.com/metal3-io/ip-address-manager#compatibility-with-cluster-api).
 
 ## Baremetal Operator
 
 Since `capm3-v1.1.2`, BMO follows the semantic versioning scheme for its own
-release cycle, the same way as CAPM3 and IPAM. Two braches are maintained as supported releases.
+release cycle, the same way as CAPM3 and IPAM. Two branches are maintained as supported releases.
 Following table summarizes BMO release/test process:
 
 | Minor release | Status    |
@@ -77,7 +77,7 @@ Following table summarizes Ironic-image release/test process:
 ## Image tags
 
 The Metal³ team provides container images for all the main projects and also
-many auxilary tools needed for tests or otherwise useful. Some of these images
+many auxiliary tools needed for tests or otherwise useful. Some of these images
 are tagged in a way that makes it easy to identify what version of Cluster API
 provider Metal³ they are tested with. For example, we tag MariaDB
 container images with tags like `capm3-v1.7.0`, where `v1.7.0` would be the

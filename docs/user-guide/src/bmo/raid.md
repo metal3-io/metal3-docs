@@ -156,7 +156,7 @@ spec:
     - level: "1"
       physicalDisks:
       - serialNumber: abcd
-      - serialNumber: efgh
+      - serialNumber: fake
 ```
 
 ### Removing software RAID

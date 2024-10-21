@@ -7,6 +7,8 @@
 
 # managing-provisioning-dependencies
 
+<!-- cSpell:ignore controlplanes,reprovisioned -->
+
 ## Status
 
 in-progress

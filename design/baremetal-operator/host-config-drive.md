@@ -7,6 +7,8 @@
 
 # host-config-drive
 
+<!-- cSpell:ignore firstboot -->
+
 ## Status
 
 [Implemented](https://github.com/metal3-io/baremetal-operator/pull/70)

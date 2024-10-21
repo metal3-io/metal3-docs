@@ -1,5 +1,7 @@
 # Make Bare Metal Operator as part of Cluster API Provider Metal3
 
+<!-- cSpell:ignore bmopath -->
+
 The end goal behind making Bare Metal Operator(BMO) as part of Cluster
 API Provider Metal3(CAPM3) is to use
 [clusterctl](https://cluster-api.sigs.k8s.io/clusterctl/commands/move.html)

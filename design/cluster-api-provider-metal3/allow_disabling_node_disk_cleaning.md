@@ -7,6 +7,8 @@ http://creativecommons.org/licenses/by/3.0/legalcode
 
 # allow disabling automated cleaning
 
+<!-- cSpell:ignore dtantsur -->
+
 ## Status
 
 implemented
@@ -144,7 +146,7 @@ spec:
 
 3. Metal3MachineTemplate controller keeps reconciling the Metal3MachineTemplate objects.
    Once the update is seen on the Metal3MachineTemplate, Metal3MachineTemplate controller
-   starts mapping all the Metal3Machines referenced by that particular Metla3MachineTemplate,
+   starts mapping all the Metal3Machines referenced by that particular Metal3MachineTemplate,
    and updates the `automatedCleaningMode` field to Disabled on all the referenced
    Metal3Machines.
 
@@ -221,7 +223,7 @@ the conductor in [ironic.conf](https://github.com/metal3-io/ironic-image/blob/16
 and then enabled on the node level for nodes that require disk
 cleaning. However, this option introduces a couple of issues:
 
-1. As mentioned by @dtanstur in [2008113](https://storyboard.openstack.org/#!/story/2008113)
+1. As mentioned by @dtantsur in [2008113](https://storyboard.openstack.org/#!/story/2008113)
    there could be some security concerns if we disable automated cleaning globally.
 
 2. Upgrade operations do not happen as frequently as provisioning & de-provisioning.

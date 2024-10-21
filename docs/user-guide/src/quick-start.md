@@ -1,5 +1,7 @@
 # Quick-start for Metal3
 
+<!-- cSpell:ignore htpasswd,virsh -->
+
 This guide has been tested on Ubuntu server 22.04. It should be seen as an
 example rather than the absolute truth about how to deploy and use Metal3. We
 will cover two environments and two scenarios. The environments are

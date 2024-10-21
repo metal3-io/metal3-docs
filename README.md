@@ -8,6 +8,8 @@
 
 ## What is Metal³
 
+<!-- cSpell:ignore Kubed -->
+
 The Metal³ project (pronounced: Metal Kubed) exists to provide components that
 allow you to do bare metal host management for Kubernetes.  Metal³ works as a
 Kubernetes application, meaning it runs on Kubernetes and is managed through
@@ -37,7 +39,7 @@ come talk to us!
   google group for the edit access to the
   [Community meetings Notes](https://docs.google.com/document/d/1IkEIh-ffWY3DaNX3aFcAxGbttdEY_symo7WAGmzkWhU/edit)
 * Subscribe to the [Metal³ Development Mailing List](https://groups.google.com/forum/#!forum/metal3-dev)
-  for the project related anouncements, discussions and questions.
+  for the project related announcements, discussions and questions.
 * Come and meet us in our weekly community meetings on every
   Wednesday at 14:00 UTC on [Zoom](https://zoom.us/j/97255696401?pwd=ZlJMckNFLzdxMDNZN2xvTW5oa2lCZz09)
 * If you missed the previous community meeting, you can still find the notes

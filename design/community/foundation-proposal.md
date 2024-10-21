@@ -7,6 +7,8 @@
 
 # Community Future - Proposal to Move to the CNCF Sandbox
 
+<!-- cSpell:ignore russellb -->
+
 ## Status
 
 provisional

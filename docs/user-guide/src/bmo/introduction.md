@@ -68,7 +68,7 @@ To provision a bare-metal machine, you will need a few more properties:
    [cloud-init](https://cloudinit.readthedocs.io/en/latest/index.html), some
    distributions use [ignition](https://coreos.github.io/ignition/).
 3. Optionally, network data: a secret with the network configuration that is
-   enterpreted by the first-boot service. In some cases, the network data is
+   interpreted by the first-boot service. In some cases, the network data is
    embedded in the user data instead.
 
 Here is a complete example of a host that will be provisioned with a CentOS 9

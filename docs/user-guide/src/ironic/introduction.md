@@ -30,13 +30,13 @@ behind native Kubernetes API.
   from bare metal machine registration and hardware specifications
   retrieval of newly discovered bare metal machines, configuration and
   provisioning with custom operating system images, up to machines reset,
-  cleaning for re-provisionionig or end-of-life retirement.
+  cleaning for re-provisioning or end-of-life retirement.
 
 ## How Metal3 uses Ironic
 
 [Bare Metal Operator](https://github.com/metal3-io/baremetal-operator)
 is the main component that interfaces with the Ironic API for all
-operations needed to provision bare-metal hosts, such as hardware capabilites
+operations needed to provision bare-metal hosts, such as hardware capabilities
 inspection, operating system installation, and re-initialization when
 restoring a bare-metal machine to its original status.
 

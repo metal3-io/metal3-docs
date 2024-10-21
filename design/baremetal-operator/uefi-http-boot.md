@@ -48,7 +48,7 @@ The new hardware driver supports UEFI HTTP boot using the ironic
 ## Design Details
 
 Using exclusively Redfish API, the accepted value of `Firmware Interface` and
-`RAIDInterface` for the `redfish-uefihttp` hardware driver will be `redfish`.  
+`RAIDInterface` for the `redfish-uefihttp` hardware driver will be `redfish`.
 Secure Boot will also be supported.
 
 When the `redfish-uefihttp` hardware driver is used we need to configure the
@@ -58,13 +58,13 @@ in ironic-image.
 ### Implementation Details/Notes/Constraints
 
 It should be enough to add the new `redfish-uefihttp` hardware driver to
-BMO to support the UEFI HTTP boot feature.  
+BMO to support the UEFI HTTP boot feature.
 As for the `redfish-virtualmedia` driver, the new `redfish-uefihttp` relies
 on network boot from an ISO image that is composed by Ironic, but unlike
-Virtual Media boot, it requires a Provisioning Network to be configured.  
+Virtual Media boot, it requires a Provisioning Network to be configured.
 This is because the UEFI HTTP boot is essentially "secured PXE" designed
 to overcome limitations of the traditional PXE boot method, and it requires
-functional DNS, DHCP and HTTP servers to be configured.  
+functional DNS, DHCP and HTTP servers to be configured.
 The ISO image is provided by the HTTP server and the host boots from it
 exactly like it used to boot from a standard ramdisk during PXE booting.
 
@@ -88,8 +88,8 @@ already completed](https://review.opendev.org/c/openstack/ironic/+/900964).
 
 ### Test Plan
 
-The new hardwre driver can currently be tested only on supported hardware
-as the Redfish support must be enabled and supported by the BMC.  
+The new hardware driver can currently be tested only on supported hardware
+as the Redfish support must be enabled and supported by the BMC.
 Although the support for UEFI HTTP boot has been added to sushy-tools, so
 the current BMO e2e tests set can be expanded to cover this scenario.
 
@@ -109,7 +109,7 @@ None
 Adding one more hardware driver with a different boot interface complicates
 the decision process to decide which boot interface to use, in particular in
 this case between `redfish-virtualmedia` and `redfish-uefihttp` since they both
-rely on network booting from an ISO image.  
+rely on network booting from an ISO image.
 In general, the main difference is that the UEFI HTTP boot supports Secure
 Boot, while virtual media does not, but on the other hand, the UEFI HTTP boot
 requires a DHCP server to be present on the network in order to handle
@@ -118,7 +118,7 @@ the boot media discovery and IP address management.
 ## Alternatives
 
 The users will keep using other hardware drivers already implemented in
-Baremetal Operator API.  
+Baremetal Operator API.
 The existing interfaces do not cover some important cases and have some
 limitations, such as:
 
@@ -128,5 +128,5 @@ Control Plane from the BMC.
 
 ## References
 
-[UEFI 2.5 release notes](https://uefi.org/sites/default/files/resources/UEFI%202_5.pdf)  
+[UEFI 2.5 release notes](https://uefi.org/sites/default/files/resources/UEFI%202_5.pdf)
 [Ironic HTTP Boot](https://docs.openstack.org/ironic/latest/admin/interfaces/boot.html#http-boot)
