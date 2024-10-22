@@ -40,6 +40,7 @@ spec:
   image:
     checksum: http://192.168.0.150/SHA256SUMS
     url: http://192.168.0.150/jammy-server-cloudimg-amd64.img
+    checksumType: auto
 ```
 
 In most real cases, you will also want to provide
@@ -66,6 +67,7 @@ spec:
   image:
     checksum: http://192.168.0.150/SHA256SUMS
     url: http://192.168.0.150/jammy-server-cloudimg-amd64.img
+    checksumType: auto
     format: raw
   rootDeviceHints:
     wwn: "0x55cd2e415652abcd"
@@ -103,6 +105,19 @@ large raw images with a lot of empty space.
 
 **NOTE:** the special format value `live-iso` triggers a [live ISO
 provisioning](./live-iso.md) that works differently from a normal one.
+
+### Notes on checksums
+
+Unlike Ironic itself, Metal3 currently assumes the checksum algorithm to be MD5
+when no `checksumType` value is provided. Since more secure algorithms, such as
+SHA256 or SHA512, are popular nowadays, care must be taken to provide the
+correct `checksumType`. The value of `auto` will make Ironic detect the
+checksum type from its length and will become the default in the next version
+of the BareMetalHost API.
+
+The `checksum` value can be provided either as a URL or as the hash value
+directly. Providing a URL is more convenient in case of public cloud images,
+but it provides a weaker defense against man-in-the-middle attacks.
 
 ## Deprovisioning
 
