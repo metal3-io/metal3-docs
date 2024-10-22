@@ -27,7 +27,7 @@ controller to instantiate the cluster.
 for the instantiated cluster.
 
 - Metal3MachineTemplate - templates that will be used to create Metal3Machine
-objects. Can be defined saparately for control plane and worker nodes.
+objects. Can be defined separately for control plane and worker nodes.
 
 - KubeadmConfigTemplate - a template for Kubeadm config.
 

@@ -59,7 +59,7 @@ Add support for new parameters:
    For selection of NVMe disk, user can provide `rotational` parameter
    as false and `hctl` parameter should be blank.
 
-   For example: For HDD disk, user can provide `hctl`value as "0:0:N:0"
+   For example: For HDD disk, user can provide `hctl` value as "0:0:N:0"
    and `rotational` flag as "True".
 
    YAML rules for single Disk:

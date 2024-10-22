@@ -1,5 +1,7 @@
 # Trying Metal3 on a development environment
 
+<!-- cSpell:ignore fcos -->
+
  Ready to start taking steps towards your first experience with metal3? Follow these commands to get started!
 
 - [1. Environment Setup](#1-environment-setup)
@@ -51,13 +53,13 @@ For execution with VMs
 - Manually **enable nested virtualization** if you don't have it enabled in your VM
 
 ```console
-  # To enable nested virtualization 
+  # To enable nested virtualization
   # On Centos 9 streams (other distros may vary)
   # check the current setting
-  $ sudo cat /sys/module/kvm_intel/parameters/nested 
+  $ sudo cat /sys/module/kvm_intel/parameters/nested
   N     # disabled
 
-  $ sudo vi /etc/modprobe.d/kvm.conf 
+  $ sudo vi /etc/modprobe.d/kvm.conf
   # uncomment either of the line
   # for Intel CPU, select [kvm_intel], for AMD CPU, select [kvm_amd]
 
@@ -323,7 +325,7 @@ This section describes how to trigger the provisioning of a cluster and hosts vi
 `Machine` objects as part of the Cluster API integration. This uses Cluster API
 [v1beta1](https://github.com/kubernetes-sigs/cluster-api/tree/v1.0.2) and
 assumes that metal3-dev-env is deployed with the environment variable
-**CAPM3_VERSION** set to **v1beta1**. This is the default behaviour. The v1beta1 deployment can be done with
+**CAPM3_VERSION** set to **v1beta1**. This is the default behavior. The v1beta1 deployment can be done with
 Ubuntu 22.04 or Centos 9 Stream target host images. Please make sure to meet
 [resource requirements](#11-prerequisites) for successful deployment:
 

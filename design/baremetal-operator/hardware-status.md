@@ -7,6 +7,8 @@
 
 # hardware-status
 
+<!-- cSpell:ignore smartmontools -->
+
 ## Status
 
 provisional

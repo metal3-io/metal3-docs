@@ -52,7 +52,7 @@ status:
 - `OK` -- the host is healthy and operational.
 - `discovered` -- the host is known to Metal3 but lacks the required
   information for the normal operation (usually, the BMC credentials).
-- `error` -- error has occured, see the `status.errorType` and
+- `error` -- error has occurred, see the `status.errorType` and
   `status.errorMessage` fields for details.
 - `delayed` -- cannot proceed with the provisioning because the maximum number
   of the hosts in the given state has been reached.

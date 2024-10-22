@@ -85,7 +85,7 @@ bare-metal](https://github.com/metal3-io/baremetal-operator/blob/93cd6bdae72ff44
 
    - Create a classification_manager.go file. Create a function which
     will call appropriate filter written in classification_filter.go
-    based on minimum or maximum requiremnets specified by user in
+    based on minimum or maximum requirements specified by user in
     CRD_yaml.
 
    - The ClassificationFilters.go file will contain implementation of

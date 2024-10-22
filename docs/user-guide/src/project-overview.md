@@ -38,7 +38,7 @@ machine. Ironic can then communicate with the IPA to perform the requested
 operation.
 
 The BareMetal Operator (BMO) is a Kubernetes controller that exposes parts of
-Ironics capabilities through the Kubernetes API. This is essentially done
+Ironic's capabilities through the Kubernetes API. This is essentially done
 through the BareMetalHost custom resource.
 
 The Cluster API infrastructure provider for Metal3 (CAPM3) provides the

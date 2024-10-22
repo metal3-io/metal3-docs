@@ -67,7 +67,7 @@ In the quickstart guide, we have demonstrated
 by creating an ironic kustomization overlay.
 While that is still what you should follow if you have specific requirements for
 your ironic deployment, we do provide an already-made overlay for the
-most-common usecase, ironic with basic authentication and TLS.
+most-common use case, ironic with basic authentication and TLS.
 
 We assume you are inside the local baremetal-operator path, if not you need to
 clone it first and `cd` to the root path.

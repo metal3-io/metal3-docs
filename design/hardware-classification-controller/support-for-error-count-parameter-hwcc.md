@@ -1,5 +1,7 @@
 # add support for matched, unmatched and error hosts count parameter
 
+<!-- cSpell:ignore mgmt -->
+
 ## Status
 
 Implementable
@@ -50,7 +52,7 @@ HWCC only supports error state which are defined in Baremetal host.
 ## Proposal
 
 - In HWCC Status, introduce new fields to show the count of
-  matched, unmatched and failedhost.
+  `matched`, `unmatched` and `failedhost`.
 
 - In addition to get the count of host failed due to specific failure.
 

@@ -1,5 +1,7 @@
 # Metal3-io security policy
 
+<!-- cSpell:ignore lentzi,kashifest,rozzii,dtantsur,tuminoid -->
+
 This document explains the general security policy for the whole
 [project](https://github.com/metal3-io) thus it is applicable for all of its
 active repositories and this file has to be referenced in each repository in

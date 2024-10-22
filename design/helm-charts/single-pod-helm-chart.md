@@ -24,7 +24,7 @@ The goal is to support a popular way to deploy Kubernetes applications
 to simplify creation of development environments on top of arbitrary
 Kubernetes clusters.
 
-Another goal to preare to set a standard for production-grade deployment
+Another goal to prepare to set a standard for production-grade deployment
 of Metal3 and its components.
 
 ### Non-Goals
@@ -113,7 +113,7 @@ creation experience.
 
 ## Alternatives
 
-Currently, the deloyment functionality is already implemented as
+Currently, the deployment functionality is already implemented as
 ``metal3-dev-env`` scripts. Another alternative is to use plain
 Kubernetes manifest from ```baremetal-operator/deploy`` for
 deployment on K8s.

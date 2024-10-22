@@ -43,7 +43,7 @@ As a next step, the following proposal is made for the branching:
   Instead of using tags which is the way we test currently, we can use branch
   names for specific branches of CAPM3. For example, CAPM3 release-1.5 branch
   will be tested with BMO release-0.4 branch and CAPM3 main branch will be
-  tested with BMO main branch. Releasings and branch maintenance is desribed in
+  tested with BMO main branch. Releasing and branch maintenance is described in
   BMO [releasing document](https://github.com/metal3-io/baremetal-operator/blob/main/docs/releasing.md)
 
 - Release  process for BMO need to have proper documentation or uplift

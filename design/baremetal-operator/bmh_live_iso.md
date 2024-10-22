@@ -7,6 +7,8 @@
 
 # Add boot-iso API to BareMetalHost
 
+<!-- cSpell:ignore efibootmgr,fcos -->
+
 ## Status
 
 implemented
@@ -123,6 +125,6 @@ is probably reasonable.
 
 We could avoid exposing this interface and mandate all users rely on IPA to
 deploy disk images, but this doesn't provide a good solution for the
-emphemeral worload case, and requires testing/supporting two install paths
+ephemeral workload case, and requires testing/supporting two install paths
 where a platform (such as FCOS mentioned) provides existing iso based
 tooling to deploy to disk.

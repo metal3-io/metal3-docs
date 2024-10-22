@@ -1,5 +1,7 @@
 # Metal3 Presentations
 
+<!-- cSpell:ignore revealjs,decktape -->
+
 ## Goal
 
 The motivation behind this initiative is to provide easy to use presentation
@@ -10,7 +12,7 @@ spread the project by helping presenters save time and focus on their content.
 
 ## Framework
 
-We are using the [Revealjs](https://revealjs.com/) framework to create the
+We are using the [RevealJS](https://revealjs.com/) framework to create the
 presentation. To contribute a presentation please create a directory, at the
 `meta3-docs/docs/presentations` path, with your files associated with the
 presentation, for example :-
@@ -56,7 +58,7 @@ For exporting the presentation in pdf format, you can use
 decktape reveal test-presentation.html test_deck.pdf
 ```
 
-Exporing to .odp or .pptx formats is not supported but
+Exporting to .odp or .pptx formats is not supported but
 this [issue](https://github.com/hakimel/reveal.js/issues/1702) might help.
 
 ## Example

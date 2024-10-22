@@ -135,7 +135,7 @@ cluster to prevent future conflicts.
 ### Implementation Details/Notes/Constraints
 
 - This proposal should be fully backwards compatible and not modify any existing
-  behaviour.
+  behavior.
 - When shared among multiple machine deployment, the allocation would be
   random as much as possible to avoid conflicts and re-use as much as possible.
 - If not needed, this feature should not require the user to modify anything
@@ -401,7 +401,7 @@ of the *IPAddress* objects.
 
 ### Upgrade / Downgrade Strategy
 
-No change would be required to keep the existing behaviour (the ipaddress field
+No change would be required to keep the existing behavior (the ipaddress field
 could be removed, but was never part of a released API). In order to start using
 this feature, one will just need to modify the *Template* and create
 *IPPool* objects.

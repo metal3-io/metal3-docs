@@ -1,5 +1,7 @@
 # Instance Customization
 
+<!-- cSpell:ignore diskimage -->
+
 When provisioning bare-metal machines, it is usually required to customize the
 resulting instances. Common use cases include injecting SSH keys, adding
 users, installing software, starting services or configuring networking.

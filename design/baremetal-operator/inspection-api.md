@@ -79,7 +79,7 @@ more formal interface for future Metal³ remediation controller.
 ## Alternatives
 
 One alternative approach to keep hardware details updated is to run Ironic
-Python Agent (IPA) as a pod on the node which would be contstantly updating the
+Python Agent (IPA) as a pod on the node which would be constantly updating the
 hardware details of the host.
 
 ## References

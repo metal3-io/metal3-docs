@@ -1,5 +1,7 @@
 # Provisioning and Deprovisioning
 
+<!-- cSpell:ignore fips -->
+
 The most fundamental feature of Metal3 Bare Metal Operator is provisioning of
 bare-metal machines with a user-provided image. This document explains how to
 provision machines using the `BareMetalHost` API directly. Users of the Cluster

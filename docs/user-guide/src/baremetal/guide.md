@@ -27,7 +27,7 @@ See [Install Ironic](../ironic/ironic_installation.md) for other requirements.
   allows them to communicate with each other and connect to internet.
 
   ```bash
-  # Create a veth iterface peer.
+  # Create a veth interface peer.
   sudo ip link add ironicendpoint type veth peer name ironic-peer
 
   # Create provisioning bridge.
@@ -54,10 +54,10 @@ See [Install Ironic](../ironic/ironic_installation.md) for other requirements.
   # Set VLAN interface to be up
   ip link set up dev bmext
 
-  # Check if bmext interface is addded to the bridge
+  # Check if bmext interface is added to the bridge
   brctl show baremetal | grep bmext
 
-  # Add bmext to baremeatal bridge
+  # Add bmext to baremetal bridge
   brctl addif baremetal bmext
   ```
 
@@ -79,7 +79,7 @@ See [Install Ironic](../ironic/ironic_installation.md) for other requirements.
 
    ```bash
   # Change IMAGE_NAME and IMAGE_RAW_NAME according to what you download from artifactory
-  cd /opt/metal3-dev-env/ironic/hrtml/images
+  cd /opt/metal3-dev-env/ironic/html/images
   IMAGE_NAME="CENTOS_9_NODE_IMAGE_K8S_v1.27.1.qcow2"
   IMAGE_RAW_NAME="CENTOS_9_NODE_IMAGE_K8S_v1.27.1-raw.img"
   qemu-img convert -O raw "${IMAGE_NAME}" "${IMAGE_RAW_NAME}"
@@ -108,7 +108,7 @@ See [Install Ironic](../ironic/ironic_installation.md) for other requirements.
   kubectl create namespace metal3
   clusterctl init --core cluster-api --bootstrap kubeadm --control-plane kubeadm --infrastructure metal3
   # NOTE: In clusterctl init you can change the version of provider like this 'cluster-api{{#releasetag owner:"kubernetes-sigs" repo:"cluster-api"}}',
-  # if no version is given by deafult latest stable release will be used.
+  # if no version is given by default latest stable release will be used.
   ```
 
 ## Install provisioning components
@@ -204,15 +204,15 @@ See [Install Ironic](../ironic/ironic_installation.md) for other requirements.
 
   The next step is to create a workload cluster from these BareMetalHosts.
 
-## Create and apply cluster, controlplane and worker template
+## Create and apply cluster, control plane and worker template
 
   ```bash
   #API endpoint IP and port for target cluster
   export CLUSTER_APIENDPOINT_HOST="192.168.111.249"
   export CLUSTER_APIENDPOINT_PORT="6443"
 
-  # Export node image variable and node image hash varibale that we created before.
-  # Change name according to what was downlowded from artifactory
+  # Export node image variable and node image hash variable that we created before.
+  # Change name according to what was downloaded from artifactory
   export IMAGE_URL=http://172.22.0.1/images/CENTOS_9_NODE_IMAGE_K8S_v1.27.1-raw.img
   export IMAGE_CHECKSUM=http://172.22.0.1/images/CENTOS_9_NODE_IMAGE_K8S_v1.27.1-raw.img.sha256sum
   export IMAGE_CHECKSUM_TYPE=sha256

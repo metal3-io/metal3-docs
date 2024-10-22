@@ -52,13 +52,15 @@ threshold.
 - I'd like to configure my BMC to send events to a destination URI.
 - I'd like to provide context to a particular event subscription.
 - I'd like to provide arbitrary HTTP headers
-- I'd like the baremetal-operator to reconcile on the
+- I'd like the BareMetal Operator to reconcile on the
   BMCEventSubscription resource, and ensure its state is accurate in
   Ironic.
 
 ## Design Details
 
 ### Implementation Details
+
+<!-- cSpell:ignore ostest -->
 
 ```yaml
 apiVersion: metal3.io/v1alpha1
@@ -79,7 +81,7 @@ status:
 
 - A BMCEventSubscription resource represents a subscription to the events generated
   by a specific BMC.
-- Ironic will manage configuring the subscription using a vendor passthru API.
+- Ironic will manage configuring the subscription using a vendor passthrough API.
 - The BMCEventSubscription will maintain a reference to a BareMetalHost.
 - The BMCEventSubscription will allow injection of headers using a
   reference to a secret, for example to provide basic auth credentials.
@@ -87,7 +89,7 @@ status:
   BareMetalHost.
 - The BMCEventSubscription will maintain a reference to the subscription ID
   obtained from the BMC.
-- The baremetal-operator binary will be expanded to include an additional
+- The BareMetal Operator binary will be expanded to include an additional
   reconciler with a dedicated controller/reconcile loop for
   BMCEventSubscriptions.
 
@@ -125,7 +127,7 @@ alert that monitors the enclosure's temperature.
 The Redfish standard itself does not seem to have a way to specify
 specific alerts and thresholds. For example, to receive an alert when
 the temperature exceeds 40C, one would need to configure this manually
-according to the vendor's reccomendations.
+according to the vendor's recommendations.
 
 Vendors, however, do provide vendor-specific ways to configure these
 thresholds, but it's hard to abstract to a neutral interface. For
@@ -136,7 +138,9 @@ implementations (if they exist at all).
 
 ## References
 
-- [Ironic Vendor Passthru for Subscriptions](https://storyboard.openstack.org/#!/story/2009061)
+<!-- cSpell:ignore Supermicro,DMTF -->
+
+- [Ironic Vendor Passthrough for Subscriptions](https://storyboard.openstack.org/#!/story/2009061)
 - [Supermicro Redfish Guide](https://www.supermicro.com/manuals/other/RedfishRefGuide.pdf)
 - [DMTF: Redfish Eventing](https://www.dmtf.org/sites/default/files/Redfish%20School%20-%20Events.pdf)
 - [Redfish Event Controller (POC)](https://github.com/dhellmann/redfish-event-controller)

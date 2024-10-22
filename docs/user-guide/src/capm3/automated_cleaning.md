@@ -1,5 +1,7 @@
 # Automated Cleaning
 
+<!-- cSpell:ignore unsetting -->
+
 Before reading this page, please see [Baremetal Operator Automated Cleaning](../bmo/automated_cleaning.md) page.
 
 If you are using only Metal3 Baremetal Operator, you can skip this page and refer to Baremetal

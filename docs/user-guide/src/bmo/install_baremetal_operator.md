@@ -1,5 +1,7 @@
 # Install Baremetal Operator
 
+<!-- cSpell:ignore xena,cakey,kustomizations -->
+
 Installing Baremetal Operator (BMO) involves usually three steps:
 
 1. Clone Metal3 BMO repository `https://github.com/metal3-io/baremetal-operator.git`.
@@ -213,7 +215,7 @@ config/
 The `config` directory has one top level folder for deployment, namely `default`
 and it deploys only baremetal-operator through kustomization file calling
 `manager` folder. In addition, `basic-auth`, `certmanager`, `crd`, `namespace`,
-`prometheus`, `rbac`, `tls` and `webhook`folders have their own kustomization
+`prometheus`, `rbac`, `tls` and `webhook` folders have their own kustomization
 and yaml files. `samples` folder includes yaml representation of sample CRDs.
 
 ### Current structure of ironic-deployment directory

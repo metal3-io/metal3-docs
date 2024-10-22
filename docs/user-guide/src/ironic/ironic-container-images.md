@@ -1,5 +1,7 @@
 # Ironic Container Images
 
+<!-- cSpell:ignore dockerfiles -->
+
 The currently available ironic container images are:
 
 | Name and link to repository | Published image | Content/Purpose |

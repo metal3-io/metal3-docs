@@ -190,7 +190,7 @@ Step2 can be done as follows:
   diagram above, CAPM3 machine controller always picks labelled hosts (when
   found) regardless of nodeReuse feature is disabled/enabled. The reason is, we
   want to ensure that the controller doesn't miss labelled hosts. In short,
-  labelled hosts always take the presedence over unlabelled hosts during selection.
+  labelled hosts always take the precedence over unlabelled hosts during selection.
 
 ### Risks and Mitigations
 

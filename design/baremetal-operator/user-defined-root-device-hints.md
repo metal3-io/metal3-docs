@@ -13,7 +13,7 @@ implemented
 
 ## Summary
 
-This document explains how rootdevicehints could be given as user
+This document explains how `rootdevicehints` could be given as user
 defined parameters as part BaremetalHostSpec. The idea is that user
 would have the possibility to define selective constraints for root
 device selection. Sometimes selective constrains will not be
@@ -154,7 +154,7 @@ This requires refactoring of BMO repository code.
 ### Upgrade / Downgrade Strategy
 
 In the original inventory code there is an Storage struct that has
-pretty much the same content, but by having a separete struct we can
+pretty much the same content, but by having a separate struct we can
 control easily if we want to add or deprecate support for some hints.
 
 ### Version Skew Strategy
