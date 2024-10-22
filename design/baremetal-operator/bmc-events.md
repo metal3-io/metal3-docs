@@ -5,6 +5,8 @@
  http://creativecommons.org/licenses/by/3.0/legalcode
 -->
 
+<!-- cSpell:ignore ostest,passthru -->
+
 # Event Subscription API
 
 Users of bare metal hardware may want to receive events from the
@@ -60,8 +62,6 @@ threshold.
 
 ### Implementation Details
 
-<!-- cSpell:ignore ostest -->
-
 ```yaml
 apiVersion: metal3.io/v1alpha1
 kind: BMCEventSubscription
@@ -81,7 +81,7 @@ status:
 
 - A BMCEventSubscription resource represents a subscription to the events generated
   by a specific BMC.
-- Ironic will manage configuring the subscription using a vendor passthrough API.
+- Ironic will manage configuring the subscription using a vendor passthru API.
 - The BMCEventSubscription will maintain a reference to a BareMetalHost.
 - The BMCEventSubscription will allow injection of headers using a
   reference to a secret, for example to provide basic auth credentials.
@@ -138,9 +138,7 @@ implementations (if they exist at all).
 
 ## References
 
-<!-- cSpell:ignore Supermicro,DMTF -->
-
-- [Ironic Vendor Passthrough for Subscriptions](https://storyboard.openstack.org/#!/story/2009061)
+- [Ironic Vendor Passthru for Subscriptions](https://storyboard.openstack.org/#!/story/2009061)
 - [Supermicro Redfish Guide](https://www.supermicro.com/manuals/other/RedfishRefGuide.pdf)
 - [DMTF: Redfish Eventing](https://www.dmtf.org/sites/default/files/Redfish%20School%20-%20Events.pdf)
 - [Redfish Event Controller (POC)](https://github.com/dhellmann/redfish-event-controller)

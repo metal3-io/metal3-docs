@@ -7,7 +7,7 @@
 
 # how-ironic-works
 
-<!-- cSpell:ignore irmc,xclarity,uncompress -->
+<!-- cSpell:ignore irmc,xclarity -->
 
 This document explains how to use ironic in order to achieve various
 tasks such as creating a node, recreating a node, deprovisioning a
@@ -362,7 +362,7 @@ Starting with the bare metal node in the "available" provision_state:
    5) Compress the resulting ISO9660 image file using the gzip
       algorithm.
    6) Encode the resulting gzip compressed image file in base64 for
-      storage and transport. Ironic does the needful to decode and uncompress
+      storage and transport. Ironic does the needful to decode and decompress
       the configuration drive prior to deployment.
 
 4. Send a HTTP POST to `/v1/nodes/node-id/states/provision` to initiate

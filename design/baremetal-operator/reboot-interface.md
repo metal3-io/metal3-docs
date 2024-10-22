@@ -7,7 +7,7 @@
 
 # reboot-interface
 
-<!-- cSpell:ignore rebalancing,accomodate,unprovisioned,suffixless -->
+<!-- cSpell:ignore rebalancing,unprovisioned,suffixless -->
 
 ## Status
 
@@ -58,7 +58,7 @@ implementation for this would be a RebootSchedule CRD that waits until the
 appointed time before issuing an immediate reboot request to the BareMetalHost.
 This allows multiple reboots to be scheduled, scheduled reboots to be
 manipulated or cancelled, and a record to be left behind of past scheduled
-reboots. The proposed design could easily be extended to accomodate this
+reboots. The proposed design could easily be extended to accommodate this
 requirement should it arise in future.
 
 This API is not responsible for managing unprovisioned hosts, e.g. to recover
