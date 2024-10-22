@@ -7,8 +7,6 @@
 
 # Custom agent image controller
 
-<!-- cSpell:ignore statelessly -->
-
 ## Status
 
 implemented
@@ -254,7 +252,7 @@ administrator or other user.
 ### Configure the IP address from within a fixed image
 
 Using IPv6 Neighbor Discovery, we can determine the network prefix for each
-interface. Using the network prefix we can statelessly choose a static IP
+interface. Using the network prefix we can in a stateless way choose a static IP
 address without fear of collision (by using the Modified EUI-64 method based on
 the MAC address, and/or a stable privacy address).
 
