@@ -69,6 +69,7 @@ spec:
   image:
     checksum: http://192.168.0.150/SHA256SUMS
     url: http://192.168.0.150/jammy-server-cloudimg-amd64.img
+    checksumType: auto
   networkData:
     name: host-0-networkdata
 ```
