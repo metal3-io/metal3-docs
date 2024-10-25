@@ -15,6 +15,7 @@
 
 ## Advanced features
 
+- [Advanced Instance Customization](./advanced_instance_customization.md)
 - [Detached Annotation](./detached_annotation.md)
 - [External Inspection](./external_inspection.md)
 - [Live ISO](./live-iso.md)
