@@ -23,6 +23,7 @@
       - [Reboot Annotation](bmo/reboot_annotation.md)
       - [Root Device Hints](bmo/root_device_hints.md)
    - [Advanced Features](bmo/features.md)
+      - [Advanced Instance Customization](bmo/advanced_instance_customization.md)
       - [Detached annotation](bmo/detached_annotation.md)
       - [External Inspection](bmo/external_inspection.md)
       - [Live ISO](bmo/live-iso.md)

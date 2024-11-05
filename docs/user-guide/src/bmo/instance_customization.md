@@ -38,10 +38,14 @@ instead when possible.
 
 ## NetworkData
 
-*Network data* describes the desired networking configuration in the [OpenStack
-network_data.json][network_data] format supported by *cloud-init* and *Glean*.
-The format is not very well documented, but you can consult the [network_data
-JSON schema][network_data schema] shipped with OpenStack.
+*Network data* describes the desired networking configuration for the deployed
+operating system, and is typically applied on first-boot via tools such as
+*cloud-init*.
+
+The data is specified in the [OpenStack network_data.json][network_data] format
+supported by *cloud-init* and *Glean*.  The format is not very well documented,
+but you can consult the [network_data JSON schema][network_data schema]
+shipped with OpenStack.
 
 Usually, one network data secret is created per host and should be linked to
 it. For example, given a local file `host-0-network.json`, you can create a
