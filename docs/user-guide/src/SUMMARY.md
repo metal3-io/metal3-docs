@@ -19,6 +19,7 @@
       - [Firmware Updates](bmo/firmware_updates.md)
       - [Inspect Annotation](bmo/inspect_annotation.md)
       - [Instance Customization](bmo/instance_customization.md)
+      - [Live Updates (Servicing)](bmo/live_updates_servicing.md)
       - [RAID Setup](bmo/raid.md)
       - [Reboot Annotation](bmo/reboot_annotation.md)
       - [Root Device Hints](bmo/root_device_hints.md)
