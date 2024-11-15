@@ -28,6 +28,7 @@
       - [External Inspection](bmo/external_inspection.md)
       - [Live ISO](bmo/live-iso.md)
       - [Status Annotation](bmo/status_annotation.md)
+   - [Troubleshooting FAQ](bmo/troubleshooting.md)
 - [Ironic in Metal3](ironic/introduction.md)
    - [Install Ironic](ironic/ironic_installation.md)
    - [Ironic python agent](ironic/ironic-python-agent.md)
