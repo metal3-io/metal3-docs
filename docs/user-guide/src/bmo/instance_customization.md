@@ -81,6 +81,102 @@ spec:
 [network_data]: https://docs.openstack.org/nova/latest/user/metadata.html#openstack-format-metadata
 [network_data schema]: https://docs.openstack.org/nova/latest/_downloads/9119ca7ac90aa2990e762c08baea3a36/network_data.json
 
+### NetworkData examples
+
+Configure one NIC to use DHCP over IPv4, use Google DNS:
+
+```json
+{
+  "links": [
+    {
+      "id": "enp130s0f0",
+      "type": "phy",
+      "ethernet_mac_address": "11:22:33:44:55:66"
+    }
+  ],
+  "networks": [
+    {
+      "id": "enp130s0f0",
+      "link": "enp130s0f0",
+      "type": "ipv4_dhcp"
+    }
+  ],
+  "services": [
+    {
+      "type": "dns",
+      "address": "8.8.8.8"
+    }
+  ]
+}
+```
+
+Configure a bond between two physical NICs, use DHCP over IPv4 for it:
+
+```json
+{
+    "links": [
+        {
+            "id": "link0",
+            "type": "phy",
+            "ethernet_mac_address": "00:00:00:00:00:01",
+            "mtu": 9000
+        },
+        {
+            "id": "link1",
+            "type": "phy",
+            "ethernet_mac_address": "00:00:00:00:00:02",
+            "mtu": 9000
+        },
+        {
+            "id": "bond0",
+            "type": "bond",
+            "bond_links": [
+                "link0",
+                "link1"
+            ],
+            "bond_mode": "802.3ad",
+            "bond_xmit_hash_policy": "layer3+4",
+            "mtu": 9000
+        }
+    ],
+    "networks": [
+        {
+            "id": "network0",
+            "link": "bond0",
+            "network_id": "data",
+            "type": "ipv4_dhcp"
+        }
+    ],
+    "services": []
+}
+```
+
+**Hint:** you can use the inspection data from a `HardwareData` resource to
+learn the NIC names and their MAC addresses:
+
+```console
+$ kubectl get hardwaredata -n my-cluster host-0 -o jsonpath='{.spec.hardware.nics}' | jq .
+[
+  {
+    "ip": "192.168.111.25",
+    "mac": "00:f8:a8:a0:d0:d2",
+    "model": "0x1af4 0x0001",
+    "name": "enp2s0"
+  },
+  {
+    "ip": "fd2e:6f44:5dd8:c956::19",
+    "mac": "00:f8:a8:a0:d0:d2",
+    "model": "0x1af4 0x0001",
+    "name": "enp2s0"
+  },
+  {
+    "mac": "00:f8:a8:a0:d0:d0",
+    "model": "0x1af4 0x0001",
+    "name": "enp1s0"
+  }
+]
+```
+
 ## UserData
 
 *User data* describes the desired configuration of the instance in a format
