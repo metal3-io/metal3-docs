@@ -68,6 +68,7 @@ Following table summarizes Ironic-image release/test process:
 
 | Minor release | Status    |
 | ------------- | --------- |
+| v27.0         | Supported |
 | v26.0         | Supported |
 | v25.0         | Supported |
 | v24.1         | Tested    |
