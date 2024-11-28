@@ -149,6 +149,10 @@ a version change is detected.
 
 ## See also
 
+The functionality described here can be used either on newly provisioned nodes
+(Day 1 operation, as described here) or on already provisioned nodes (Day 2
+operation, utilizing [Live Updates / Servicing feature](./live_updates_servicing.md)).
+
 The corresponding functionality in Ironic is called
 [Firmware Updates][1].
 

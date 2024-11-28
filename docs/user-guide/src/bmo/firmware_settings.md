@@ -196,3 +196,9 @@ pending until it gets to this state (e.g. as a result of deprovisioning).
 Alternatively, you can create a `HostFirmwareSettings` object together with
 the `BareMetalHost` object. In this case, the settings will be applied after
 inspection is finished.
+
+## See also
+
+The functionality described here can be used either on newly provisioned nodes
+(Day 1 operation, as described here) or on already provisioned nodes (Day 2
+operation, utilizing [Live Updates / Servicing feature](./live_updates_servicing.md)).
