@@ -8,7 +8,7 @@ The currently available ironic container images are:
 | --- | --- | --- |
 | [ironic-image](https://github.com/metal3-io/ironic-image) | `quay.io/metal3-io/ironic` | Ironic services / BMC emulators |
 | [ironic-ipa-downloader](https://github.com/metal3-io/ironic-ipa-downloader) | `quay.io/metal3-io/ironic-ipa-downloader` | Download and cache the [ironic python agent][ipa] ramdisk |
-| [ironic-client](https://github.com/metal3-io/ironic-client) | `quay.io/metal3-io/ironic-client` | Ironic command-line interface (for debugging) |
+| [ironic-client](https://github.com/metal3-io/ironic-image/tree/main/resources/ironic-client) | `quay.io/metal3-io/ironic-client` | Ironic command-line interface (for debugging) |
 
 The main `ironic-image` currently contains entry points to run both Ironic
 itself and its auxiliary services: *dnsmasq* and *httpd*.
