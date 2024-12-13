@@ -1,4 +1,4 @@
-# Troubleshooting FAQ
+# Troubleshooting
 
 ## Host is stuck in cleaning, how do I delete it?
 
