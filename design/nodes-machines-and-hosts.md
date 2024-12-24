@@ -57,7 +57,7 @@ such as draining the node for maintenance. The definition of Node is
 owned by the Kubernetes core, and offers few opportunities to attach
 custom data.
 
-[Machine](https://kubernetes-sigs.github.io/cluster-api/common_code/machine_controller.html)
+[Machine](https://cluster-api.sigs.k8s.io/developer/core/controllers/machine)
 objects represent a *request* for an instance of kubelet. A parallel
 design is the persistent volume claim and persistent volume in the
 storage APIs. The Machine CRD is owned by the cluster-api SIG. Machine
@@ -68,7 +68,7 @@ data. The lifecycle of a Machine is based on the desired size of the
 cluster. That is, a Machine object does not typically exist in the
 database when it does not represent a request to expand the cluster
 (see caveats below in the [Alternatives](#alternatives)
-section.
+section).
 
 `BareMetalHost` objects represent a physical computer, including its
 hardware inventory and information to access the onboard management
