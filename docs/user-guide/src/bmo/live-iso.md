@@ -24,6 +24,10 @@ kind: BareMetalHost
 metadata:
   name: live-iso-booted-node
 spec:
+  bootMACAddress: 80:c1:6e:7a:e8:10
+  bmc:
+    address: redfish-virtualmedia://192.168.111.1:8000/redfish/v1/Systems/1
+    credentialsName: live-iso-booted-node-secret
   image:
     url: http://1.2.3.4/image.iso
     format: live-iso
