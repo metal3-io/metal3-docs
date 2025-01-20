@@ -72,7 +72,7 @@ does a nice job discussing what services they offer projects on the
 - (russellb) Write this proposal.
 - (everyone) Provide feedback on initial proposal, reach consensus.
 - (russellb) If approved, draft the [CNCF Sandbox
-  application](https://github.com/cncf/toc/tree/main/process)
+  application](https://github.com/cncf/toc/blob/main/process/README.md)
   first as a draft in this repository.
 - (everyone) Provide feedback on application text, reach consensus.
 - (russellb) Submit Application.
