@@ -198,7 +198,7 @@ users:
 ```
 
 ```bash
-kubectl create secret generic host-0-userdata --from-file=userData=host-0.json
+kubectl create secret generic host-0-userdata -n my-cluster --from-file=userData=host-0.yaml
 ```
 
 Then you can attach it to the host during its enrollment or when starting
