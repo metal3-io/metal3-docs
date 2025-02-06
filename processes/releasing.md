@@ -28,16 +28,38 @@ Release documentation in release branches may be outdated.
 After releasing `v1.x.y` version of CAPM3, create an annotated tag with `capm3-`
 prefix + release version in
 [mariadb-image](https://github.com/metal3-io/mariadb-image) Github repository.
+Origin points to `metal3-io`.
+
+For minor releases:
+
+```bash
+git tag -s -a capm3-v1.x.y -m capm3-v1.x.y
+git push origin capm3-v1.x.y
+```
+
+For patch releases:
 
 ```bash
 git tag -s -a capm3-v1.x.y -m capm3-v1.x.y [optional sha, or tag^{}]
 git push origin capm3-v1.x.y
 ```
 
+The last part should point to a previous patch. For example for tag `v.1.x.2`:
+
+```bash
+git tag -s -a capm3-v1.x.2 -m capm3-v1.x.2 capm3-v1.x.1^{}
+```
+
 After this, [MariaDB](https://quay.io/repository/metal3-io/mariadb) container
 image will be built automatically  with `capm3-v1.x.y` tag in Quay. Verify the
 build is triggered, as often Quay has disabled the build trigger due build
 failures or other reasons.
+
+If build is not triggered check:
+
+- Debug and retrigger [workflow](https://github.com/metal3-io/mariadb-image/actions/runs/13174700659/job/36772849955)
+for building container images
+- You can also try running the job in [Jenkins](https://jenkins.nordix.org/view/Metal3/job/metal3_mariadb_container_image_building/)
 
 ## Update Metal3 dev-env and CI to support new releases
 
