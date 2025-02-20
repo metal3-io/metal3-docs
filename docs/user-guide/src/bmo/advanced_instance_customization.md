@@ -9,7 +9,7 @@ For more general guidance around instance customization refer to the
 ## Pre-Provisioning NetworkData
 
 *Pre-provisioning network data* describes the desired networking configuration for the
-deploy ramdisk (IPA).
+deploy ramdisk running `ironic-python-agent` (IPA).
 
 Usage of this API requires an IPA ramdisk image with a tool capable of interpreting and
 applying the data such as *cloud-init*, *Glean* or alternative. The default community
@@ -52,8 +52,7 @@ spec:
   bmc:
     address: redfish-virtualmedia://192.168.1.13
     credentialsName: host-0-bmc
-  preprovisioningNetworkDataName:
-    name: host-0-preprov-networkdata
+  preprovisioningNetworkDataName: host-0-preprov-networkdata
 ```
 
 [network_data]: https://docs.openstack.org/nova/latest/user/metadata.html#openstack-format-metadata
