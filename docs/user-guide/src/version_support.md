@@ -69,14 +69,15 @@ maintained as supported releases.
 
 Following table summarizes Ironic-image release/test process:
 
-| Minor release | Status    |
-| ------------- | --------- |
-| v27.0         | Supported |
-| v26.0         | Supported |
-| v25.0         | Supported |
-| v24.1         | Tested    |
-| v24.0         | EOL       |
-| v23.1         | EOL       |
+| Minor release | Status    | Ironic Branch |
+| ------------- | --------- | ------------- |
+| v28.0         | Supported | bugfix/28.0   |
+| v27.0         | Supported | bugfix/27.0   |
+| v26.0         | Supported | bugfix/26.0   |
+| v25.0         | Tested    | EOL           |
+| v24.1         | Tested    | EOL           |
+| v24.0         | EOL       | EOL           |
+| v23.1         | EOL       | EOL           |
 
 ## Image tags
 
