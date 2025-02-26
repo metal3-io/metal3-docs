@@ -79,7 +79,7 @@ values for each branch and release of the operator:
 
 | Operator version | Ironic version(s) | Default version |
 | ---------------- | ----------------- | --------------- |
-| latest (main)    | 27.0              | latest          |
+| latest (main)    | 28.0, 27.0        | latest          |
 
 **NOTE:** the special version value `latest` always installs the latest
 available version of ironic-image and Ironic.
