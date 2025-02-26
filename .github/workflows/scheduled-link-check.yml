@@ -1,0 +1,17 @@
+name: Scheduled Link Check
+
+permissions:
+  contents: read
+  issues: write
+
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: "0 0 1 * *"
+  repository_dispatch:
+    # run manually
+    types: [check-link]
+
+jobs:
+  check-links:
+    uses: metal3-io/project-infra/.github/workflows/broken-link-check.yml@main
