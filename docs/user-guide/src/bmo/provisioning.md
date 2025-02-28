@@ -108,12 +108,9 @@ provisioning](./live-iso.md) that works differently from a normal one.
 
 ### Notes on checksums
 
-Unlike Ironic itself, Metal3 currently assumes the checksum algorithm to be MD5
-when no `checksumType` value is provided. Since more secure algorithms, such as
-SHA256 or SHA512, are popular nowadays, care must be taken to provide the
-correct `checksumType`. The value of `auto` will make Ironic detect the
-checksum type from its length and will become the default in the next version
-of the BareMetalHost API.
+Starting from BMO v0.10.0, leaving `checksumType` empty prompts Ironic to
+automatically detect the checksum type based on its length. In earlier versions,
+this behavior can be achieved by setting `checksumType` to `auto`.
 
 The `checksum` value can be provided either as a URL or as the hash value
 directly. Providing a URL is more convenient in case of public cloud images,
