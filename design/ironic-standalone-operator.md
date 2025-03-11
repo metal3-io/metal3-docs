@@ -243,6 +243,11 @@ The `IronicDatabase` object is very simple:
 - `image` - container image to use
 - `tlsRef` - a reference to a TLS secret to use for the service
 
+**NOTE:** after this design proposal was accepted, a decision [was
+made](https://github.com/metal3-io/ironic-standalone-operator/issues/142) to
+deprecate `IronicDatabase` in favour of 3rd party operators, such as [mariadb
+operator](https://github.com/mariadb-operator/mariadb-operator).
+
 The `Ironic` object is much more complex and should probably be split into more
 custom resources as we polish its internal architecture. Currently, it uses
 nested structures to logically group fields. Here are the most important fields
