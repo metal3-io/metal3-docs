@@ -1,0 +1,12 @@
+name: PR Check Links
+
+permissions:
+  contents: read
+
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize, ready_for_review]
+
+jobs:
+  check-pr-links:
+    uses: metal3-io/project-infra/.github/workflows/pr-link-check.yml@main
