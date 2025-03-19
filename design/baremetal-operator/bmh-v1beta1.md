@@ -66,16 +66,32 @@ The following addition should be done **before** the version is created:
 - Ensure that a `HardwareData` CR exists for any host that has
   `HardwareDetails` in the status.
 
+- Add a `Spec.InspectionMode` to replace the `disabled` value of the
+  `inspect.metal3.io` annotation. This string field will accept two values:
+  `disabled` to disable inspection and `agent` to run the normal agent-based
+  inspection.
+
+  In the future, a new value may be introduced to run Redfish-based out-of-band
+  inspection.
+
 The following significant changes will be done to the new version:
 
-- Check the default value of `Image.ChecksumType` from `md5` to `auto`.
-  Mark the `md5` type as deprecated for removal before `v1`.
+- Remove the explicit `md5` checksum type. Users of MD5 checksums will be
+  advised to use `auto` until they can migrate.
 
 - Remove `HardwareProfile`, effectively using the `empty` profile in the
   new API version.
 
 - Remove `HardwareDetails` from the `Status` in favour of the already
   introduced `HardwareData` CR.
+
+- Forbid the `disabled` value of the `inspect.metal3.io` annotation. Users will
+  use the `InspectionMode` field instead. Other use cases of the annotation
+  will remain intact.
+
+- Forbid the `vdi` and `vmdk` disk types. After the Ironic image validation
+  fixes, these types got disabled, and it does not look like anyone is
+  actually using them.
 
 The following cosmetic changes will be done to the new version:
 
@@ -92,6 +108,14 @@ The following cosmetic changes will be done to the new version:
 
   Rename `Model` and `Vendor` to `ModelContains` and `VendorContains` to
   reflect the fact that these fields use the `<in>` operator.
+
+- Replace `MetaData`, `NetworkData` and `UserData` structures with string
+  fields `MetaDataName`, `NetworkDataName` and `UserDataName`. The new fields
+  will not allow to specify the namespace. This change makes these fields
+  consistent with `PreprovisioningNetworkDataName`.
+
+  Note that using namespace other than the namespace of the BareMetalHost is
+  already disallowed because of security concerns.
 
 ### Implementation Details/Notes/Constraints
 
@@ -111,6 +135,7 @@ None
 - Add `Architecture` to the current version.
 - Add `empty` hardware profile.
 - Add `auto` checksum type.
+- Add `InspectionMode` to the current version.
 - Copy type definitions and modify them.
 - Create a conversion webhook to change between versions.
 - Make a new BMO release and communicate the change to the community.
@@ -163,17 +188,34 @@ On the path `v1alpha1` -> `v1beta1`:
 
 - Delete `HardwareProfile` and `HardwareDetails`.
 
-- If `Image.ChecksumType` is empty, set it to `md5`.
+- If `Image.ChecksumType` is set to `md5`, unset it (i.e. use `auto`).
 
 - Rename any fields that were not deleted.
+
+- If `inspect.metal3.io` annotation is set to `disabled`, remove it and set
+  the `InspectionMode` to `disabled`.
+
+- Copy the `Name` field of `MetaData`, `NetworkData` and `UserData` into
+  `MetaDataName`, `NetworkDataName` and `UserDataName` accordingly.
+
+- If `Image.Format` is set to `vdi` or `vmdk`, unset it to use the Ironic's
+  auto-detection.
+
+  Rename the `DiskFormat` field in the structure definition to `Format` to be
+  consistent with the field name in the API.
 
 On the path `v1beta1` -> `v1alpha1`:
 
 - If the conversion data is cached, [unmarshal][unmarshal] it.
 
-- If `Image.ChecksumType` is empty, set it to `auto`.
-
 - Rename any fields that were not deleted.
+
+- If `InspectionMode` is set to `disabled` and the `inspect.metal3.io`
+  annotation is not set, set the annotation to `disabled` too.
+
+- Copy  `MetaDataName`, `NetworkDataName` and `UserDataName` into the `Name`
+  field of `MetaData`, `NetworkData` and `UserData` accordingly. Set the
+  `Namespace` to the BareMetalHost's namespace.
 
 [marshal]: https://github.com/kubernetes-sigs/cluster-api/blob/c0744085e7eeae83e69dcc97c95fba8572bf5788/util/conversion/conversion.go#L101
 [unmarshal]: https://github.com/kubernetes-sigs/cluster-api/blob/c0744085e7eeae83e69dcc97c95fba8572bf5788/util/conversion/conversion.go#L122
