@@ -80,3 +80,11 @@ Currently, the only way to get rid of this error is to re-create the Ironic's
 internal database. If your deployment uses SQLite (the default), it is enough
 to restart the pod with Ironic. If you use MariaDB, you need to restart its
 pod, clearing any persistent volumes.
+
+## Power requests are issued for deleted hosts
+
+Similarly to the previous question, a host is not deleted from Ironic in case
+of a forced deletion of its BareMetalHost object. If valid BMC credentials were
+provided, Ironic will keep checking the power state of the host and enforcing
+the last requested power state. The only solution is again to delete the
+Ironic's internal database.
