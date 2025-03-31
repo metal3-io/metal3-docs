@@ -71,6 +71,7 @@ Following table summarizes Ironic-image release/test process:
 
 | Minor release | Status    | Ironic Branch |
 | ------------- | --------- | ------------- |
+| v29.0         | Supported | stable/2025.1 |
 | v28.0         | Supported | bugfix/28.0   |
 | v27.0         | Supported | bugfix/27.0   |
 | v26.0         | Supported | bugfix/26.0   |
