@@ -74,6 +74,8 @@ kind: IPClaim
 metadata:
   name: test1-controlplane-template-0-pool1
   namespace: default
+  annotations:
+    ipAddress: <optional-annotation-for-specific-ip-request>
 spec:
   pool:
     name: pool1
@@ -83,6 +85,11 @@ spec:
 The *spec* field contains the following:
 
 * **pool**: This is a reference to the IPPool that is requested for
+
+The *annotations* field contains the following optional parameter:
+
+* **ipAddress**: This can be populated to acquire a specific IP from a given pool
+* Note: In case of incorrect IP or conflict, error will be stamped on the IPClaim.
 
 ### IPAddress
 
