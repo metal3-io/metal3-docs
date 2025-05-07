@@ -1,0 +1,5 @@
+# https://github.com/issues based urls give error 404 if user is not logged in.
+https://github.com/issues
+
+# Pages with rigorous bot detection
+https://www.dell.com/
