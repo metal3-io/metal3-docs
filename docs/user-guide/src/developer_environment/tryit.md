@@ -43,18 +43,19 @@ For execution with VMs
   sudo visudo
 ```
 
-- Include this line at the end of the sudoers file
+- Include this line at the end of the sudoers file (replace 'username' with the actual
+  account name for passwordless sudo access)
 
 ```console
   username  ALL=(ALL) NOPASSWD: ALL
 ```
 
 - Save and exit
-- Manually **enable nested virtualization** if you don't have it enabled in your VM
+- Manually **enable nested virtualization** if you don't have it enabled in your system
 
 ```console
   # To enable nested virtualization
-  # On Centos 9 streams (other distros may vary)
+  # On CentOS Stream 9 (other distros may vary)
   # check the current setting
   $ sudo cat /sys/module/kvm_intel/parameters/nested
   N     # disabled
@@ -114,7 +115,7 @@ To tear down the environment, run
  make clean
 ```
 
-> info "Note"
+> **_info:_** "Note"
 > When redeploying metal³-dev-env with a different release version of CAPM3, you
 > must set the `FORCE_REPO_UPDATE` variable in `config_${user}.sh` to _true_.
 > warning "Warning"
@@ -136,7 +137,7 @@ downloaded from the `IMAGE_LOCATION` value configured.
 
 ### 1.5. Setting environment variables
 
-> info "Environment variables"
+> **_info:_** "Environment variables"
 > More information about the specific environment variables used to set up metal3-dev-env can be found [here](https://github.com/metal3-io/metal3-dev-env/blob/master/vars.md).
 
 To set environment variables persistently, export them from the configuration file used by metal³-dev-env scripts:
