@@ -1,7 +1,6 @@
 [book]
 authors = ["Metal³ community"]
 language = "en"
-multilingual = false
 src = "src"
 title = "Metal³ user-guide"
 
