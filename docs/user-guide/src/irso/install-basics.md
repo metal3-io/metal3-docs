@@ -20,6 +20,13 @@ answer a few questions before you can pick the one that suits you:
   without TLS. To enable it, you need to manage the TLS secret. [Cert
   Manager](https://cert-manager.io/) is the recommended service for it.
 
+- Do you need persistence for the Ironic's internal database? The examples in
+  this guide assume no persistence, i.e. that **all data is lost on the pod
+  restart**! This ephemeral mode of operation suits Metal3 well, since BMO
+  treats BareMetalHost resources as the primary source of truth. However, for
+  use cases outside of Metal3, you need to configure an [external
+  database](./database.md).
+
 ## Using Ironic
 
 Regardless of the scenario you choose, you will need to create at least an
