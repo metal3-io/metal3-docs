@@ -35,6 +35,7 @@
    - [Ironic container images](ironic/ironic-container-images.md)
    - [Ironic Standalone Operator](irso/introduction.md)
       - [Install Ironic with IrSO](irso/install-basics.md)
+      - [External Database for Ironic](irso/database.md)
 - [Cluster-api-provider-metal3](capm3/introduction.md)
    - [Install Metal³ provider](capm3/installation_guide.md)
    - [Features](capm3/features.md)
