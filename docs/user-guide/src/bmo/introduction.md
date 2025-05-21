@@ -86,8 +86,8 @@ spec:
     credentialsName: node-0-bmc-secret
   bootMACAddress: 00:5a:91:3f:9a:bd
   image:
-    checksum: http://172.22.0.1/images/CENTOS_9_NODE_IMAGE_K8S_v1.29.0.qcow2.sha256sum
-    url: http://172.22.0.1/images/CENTOS_9_NODE_IMAGE_K8S_v1.29.0.qcow2
+    checksum: http://172.22.0.1/images/CENTOS_9_NODE_IMAGE_K8S_v1.33.0.qcow2.sha256sum
+    url: http://172.22.0.1/images/CENTOS_9_NODE_IMAGE_K8S_v1.33.0.qcow2
   networkData:
     name: test1-workers-tbwnz-networkdata
     namespace: metal3
