@@ -80,10 +80,10 @@ The corresponding operational status is `discovered`.
 
 ### Externally Provisioned
 
-An `externally provisioned` host has been deployed using another tool. Hosts
-reach this state when they are created with the `externallyProvisioned` field
-set to `true`. Hosts in this state are monitored, and only their power status
-is managed.
+An [externally provisioned](./externally_provisioned.md) host has been deployed
+using another tool. Hosts reach this state when they are created with the
+`externallyProvisioned` field set to `true`. Hosts in this state are monitored,
+and only their power status is managed.
 
 ### Registering
 

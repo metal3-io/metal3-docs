@@ -14,8 +14,10 @@ digraph BaremetalHost {
     Registering -> ExternallyProvisioned [label="externallyProvisioned"]
     Registering -> Deleting [label="!DeletionTimestamp.IsZero()"]
 
+    /* NOTE(dtantsur): this is currently broken: https://github.com/metal3-io/baremetal-operator/issues/2465
     ExternallyProvisioned -> Inspecting [label="!externallyProvisioned &&\nNeedsHardwareInspection()"]
     ExternallyProvisioned -> Preparing [label="!externallyProvisioned &&\n!NeedsHardwareInspection()"]
+    */
     Available -> ExternallyProvisioned [label="externallyProvisioned"]
 
     Inspecting -> Preparing [label="done"]
