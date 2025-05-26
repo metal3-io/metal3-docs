@@ -271,8 +271,8 @@ sha256sum --ignore-missing -c SHA256SUMS
 wget https://cloud.centos.org/centos/9-stream/x86_64/images/CentOS-Stream-GenericCloud-9-latest.x86_64.qcow2
 wget https://cloud.centos.org/centos/9-stream/x86_64/images/CentOS-Stream-GenericCloud-9-latest.x86_64.qcow2.SHA256SUM
 sha256sum -c CentOS-Stream-GenericCloud-9-latest.x86_64.qcow2.SHA256SUM
-wget https://artifactory.nordix.org/artifactory/metal3/images/k8s_v1.29.0/CENTOS_9_NODE_IMAGE_K8S_v1.29.0.qcow2
-sha256sum CENTOS_9_NODE_IMAGE_K8S_v1.29.0.qcow2
+wget https://artifactory.nordix.org/artifactory/metal3/images/k8s_v1.33.0/CENTOS_9_NODE_IMAGE_K8S_v1.33.0.qcow2
+sha256sum CENTOS_9_NODE_IMAGE_K8S_v1.33.0.qcow2
 popd
 ```
 
@@ -844,10 +844,10 @@ export IMAGE_CHECKSUM="ab54897a1bcae83581512cdeeda787f009846cfd7a63b298e472c1bd6
 export IMAGE_CHECKSUM_TYPE="sha256"
 export IMAGE_FORMAT="qcow2"
 # Baremetal lab IMAGE_URL
-export IMAGE_URL="http://192.168.0.150/CENTOS_9_NODE_IMAGE_K8S_v1.29.0.qcow2"
+export IMAGE_URL="http://192.168.0.150/CENTOS_9_NODE_IMAGE_K8S_v1.33.0.qcow2"
 # Virtualized setup IMAGE_URL
-export IMAGE_URL="http://192.168.222.1/CENTOS_9_NODE_IMAGE_K8S_v1.29.0.qcow2"
-export KUBERNETES_VERSION="v1.29.0"
+export IMAGE_URL="http://192.168.222.1/CENTOS_9_NODE_IMAGE_K8S_v1.33.0.qcow2"
+export KUBERNETES_VERSION="v1.33.0"
 # Make sure this does not conflict with other networks
 export POD_CIDR='["192.168.10.0/24"]'
 # These can be used to add user-data

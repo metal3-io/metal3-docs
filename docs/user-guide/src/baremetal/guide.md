@@ -72,7 +72,7 @@ See [Install Ironic](../ironic/ironic_installation.md) for other requirements.
   Download the node image and put it in the folder where the httpd container can host it.
 
   ```bash
-  wget -O /opt/metal3-dev-env/ironic/html/images https://artifactory.nordix.org/artifactory/metal3/images/k8s_v1.27.1
+  wget -O /opt/metal3-dev-env/ironic/html/images https://artifactory.nordix.org/artifactory/metal3/images/k8s_v1.33.0
   ```
 
   Convert the qcow2 image to raw format and get the hash of the raw image
@@ -80,8 +80,8 @@ See [Install Ironic](../ironic/ironic_installation.md) for other requirements.
    ```bash
   # Change IMAGE_NAME and IMAGE_RAW_NAME according to what you download from artifactory
   cd /opt/metal3-dev-env/ironic/html/images
-  IMAGE_NAME="CENTOS_9_NODE_IMAGE_K8S_v1.27.1.qcow2"
-  IMAGE_RAW_NAME="CENTOS_9_NODE_IMAGE_K8S_v1.27.1-raw.img"
+  IMAGE_NAME="CENTOS_9_NODE_IMAGE_K8S_v1.33.0.qcow2"
+  IMAGE_RAW_NAME="CENTOS_9_NODE_IMAGE_K8S_v1.33.0-raw.img"
   qemu-img convert -O raw "${IMAGE_NAME}" "${IMAGE_RAW_NAME}"
 
   # Create sha256 hash
@@ -213,15 +213,15 @@ See [Install Ironic](../ironic/ironic_installation.md) for other requirements.
 
   # Export node image variable and node image hash variable that we created before.
   # Change name according to what was downloaded from artifactory
-  export IMAGE_URL=http://172.22.0.1/images/CENTOS_9_NODE_IMAGE_K8S_v1.27.1-raw.img
-  export IMAGE_CHECKSUM=http://172.22.0.1/images/CENTOS_9_NODE_IMAGE_K8S_v1.27.1-raw.img.sha256sum
+  export IMAGE_URL=http://172.22.0.1/images/CENTOS_9_NODE_IMAGE_K8S_v1.33.0-raw.img
+  export IMAGE_CHECKSUM=http://172.22.0.1/images/CENTOS_9_NODE_IMAGE_K8S_v1.33.0-raw.img.sha256sum
   export IMAGE_CHECKSUM_TYPE=sha256
   export IMAGE_FORMAT=raw
 
   # Generate templates with clusterctl, change control plane and worker count according to
   # the number of BareMetalHosts
   clusterctl generate cluster capm3-cluster \
-    --kubernetes-version v1.27.0 \
+    --kubernetes-version v1.33.0 \
     --control-plane-machine-count=3 \
     --worker-machine-count=3 \
     > capm3-cluster-template.yaml
