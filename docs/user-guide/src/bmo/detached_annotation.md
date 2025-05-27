@@ -1,4 +1,4 @@
-# Detached annotation
+# Detaching Hosts from Provisioner
 
 The detached annotation provides a way to prevent management of a BareMetalHost.
 It works by deleting the host information from Ironic without triggering deprovisioning.

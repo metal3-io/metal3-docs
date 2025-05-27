@@ -1,4 +1,4 @@
-# Inspect annotation
+# Controlling Inspection
 
 ## Re-running inspection
 

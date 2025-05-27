@@ -1,4 +1,4 @@
-# Root Device Hints
+# Specifying Root Device
 
 Bare-metal machines often have more than one block device, and in many cases
 a user will want to specify, which of them to use as the root device. *Root

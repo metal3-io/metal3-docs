@@ -1,4 +1,4 @@
-# Live ISO
+# Booting from Live ISO
 
 The live-iso API in Metal3 allows booting a BareMetalHost with an ISO image
 instead of writing an image to the local disk using the IPA deploy ramdisk.

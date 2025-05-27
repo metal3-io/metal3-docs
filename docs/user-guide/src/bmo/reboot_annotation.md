@@ -1,4 +1,4 @@
-# Reboot annotation
+# Rebooting hosts
 
 The reboot annotation can be used for rebooting BareMetalHosts in the
 `provisioned` state. The annotation key takes either of the following forms:
