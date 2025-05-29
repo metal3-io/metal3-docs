@@ -337,7 +337,7 @@ The following scripts can be used to provision a cluster, controlplane node and 
 ```console
 ./tests/scripts/provision/cluster.sh
 ./tests/scripts/provision/controlplane.sh
-./tests//scripts/provision/worker.sh
+./tests/scripts/provision/worker.sh
 ```
 
 At this point, the `Machine` actuator will respond and try to claim a
