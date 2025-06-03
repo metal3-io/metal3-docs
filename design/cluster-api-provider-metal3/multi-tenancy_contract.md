@@ -218,4 +218,5 @@ the Metal3Machines.
 ## References
 
 1. [CAPI multi-tenancy
-   contract](https://cluster-api.sigs.k8s.io/developer/architecture/controllers/multi-tenancy#contract)
+   contract](https://cluster-api.sigs.k8s.io/developer/providers/contracts/infra-cluster#multi-tenancy
+   )
