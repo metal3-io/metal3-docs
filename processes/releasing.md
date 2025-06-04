@@ -71,7 +71,7 @@ require the releases they refer to be out already to pass PR tests to merge!
 ### Create Jenkins jobs
 
 Two Jenkins jobs need to be created in
-[JJB](https://gerrit.nordix.org/plugins/gitiles/infra/cicd/+/refs/heads/master/jjb/metal3/):
+[JJB](https://gerrit.nordix.org/gitweb?p=infra/cicd.git;a=tree;f=jjb/metal3;hb=HEAD):
 
 - a periodic job that runs on a regular basis.
 - a PR verification job that is triggered by a keyword on a PR targeted for that
@@ -159,7 +159,7 @@ BMO releasing to be fine-tuned.
 
 1. BMO dependencies
    - BMO contains `keepalived`
-     ([within BMO repo](https://github.com/metal3-io/baremetal-operator/tree/main/resources/keepalived-docker))
+     ([within utility-images repo](https://github.com/metal3-io/utility-images/tree/main/keepalived))
 1. BMO makes assumption about the exact configuration of MariaDB.
    However, [mariadb-image](https://github.com/metal3-io/mariadb-image) is
    currently branchless.
