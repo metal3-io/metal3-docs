@@ -370,6 +370,9 @@ HTTP_PORT=6180
 PROVISIONING_INTERFACE=eth0
 CACHEURL=http://192.168.222.1/images
 IRONIC_KERNEL_PARAMS=console=ttyS0
+# Docker does not allow cross-network access. If using kind to create the management
+# cluster, explicitly set the external ip and use port forwarding to access ironic services. 
+IRONIC_EXTERNAL_IP=192.168.222.1
 ```
 
 For more details on available variables, see the
