@@ -118,8 +118,8 @@ See [PoC code](https://github.com/kubevirt/machine-remediation/)
 ### Work Items
 
 - Make any requested modifications
-- Create a PR from [KubeVirt](github.com/kubevirt/machine-remediation)
-  into [CAPM3](github.com/metal3-io/cluster-api-provider-baremetal)
+- Create a PR from [KubeVirt](https://github.com/kubevirt/machine-remediation)
+  into [CAPM3](https://github.com/metal3-io/cluster-api-provider-baremetal)
 
 ### Dependencies
 
