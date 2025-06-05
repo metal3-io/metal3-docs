@@ -54,7 +54,7 @@ Some things to look out for:
 
 First and foremost, avoid using forced deletion, otherwise you'll have [a
 conflict](#mac-address-conflict-on-registration). If you don't care about disks
-being [cleaned](automated_cleaning.md), you can edit the BareMetalHost resource
+being [cleaned](bmo/automated_cleaning.md), you can edit the BareMetalHost resource
 and disable cleaning:
 
 ```yaml
