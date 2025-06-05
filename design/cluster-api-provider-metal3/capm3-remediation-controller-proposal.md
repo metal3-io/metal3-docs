@@ -27,11 +27,11 @@ recovery of unhealthy nodes we need a programmatic way to put them back into a
 safe and healthy state.
 
 The Cluster API includes an optional
-[MachineHealthcheck](https://cluster-api.sigs.k8s.io/developer/architecture/controllers/machine-health-check.html) (MHC)
-component that implements automated health checking capability, and the with
-[External Remediation proposal](https://github.com/kubernetes-sigs/cluster-api/pull/3190)
+[MachineHealthcheck](https://cluster-api.sigs.k8s.io/tasks/automated-machine-management/healthchecking) (MHC)
+component that implements automated health checking capability, and with
+the [External Remediation proposal](https://github.com/kubernetes-sigs/cluster-api/pull/3190)
 it will be possible to plug in Metal3 specific remediation strategies to
-remediate an unhealthy nodes while relying on Cluster
+remediate unhealthy nodes while relying on Cluster
 API MHC to determine those nodes as unhealthy.
 
 We would like to enable an automated mechanism in Metal3 that supports a
