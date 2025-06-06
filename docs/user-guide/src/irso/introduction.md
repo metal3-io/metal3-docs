@@ -30,13 +30,13 @@ kubectl wait --for=condition=Available --timeout=60s \
 
 ## API resources
 
-IrSO uses two Custom Resources to manage an Ironic installation:
-
-[Ironic](https://github.com/metal3-io/ironic-standalone-operator/blob/main/config/crd/bases/ironic.metal3.io_ironics.yaml)
-manages Ironic itself and all of its auxiliary services.
+IrSO uses the [Ironic][api-ref] custom resource to manage Ironic itself and all
+of its auxiliary services.
 
 See [installing Ironic with IrSO](./install-basics.md) for information on how
 to use these resources.
+
+[api-ref]: https://github.com/metal3-io/ironic-standalone-operator/blob/main/docs/api.md#ironic
 
 ## How is Ironic installed?
 
