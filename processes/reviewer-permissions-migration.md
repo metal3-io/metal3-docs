@@ -48,12 +48,16 @@ permissions for /lgtm as well as /approve.
 
 ### Implementation Details/Notes/Constraints
 
-In order to make the change, we need to review the OWNERS file(s) in
-each repository and update them to include a list of reviewers. We
-have [a process for approval permission](../maintainers) but that does
-not apply to reviewers. We should give reviewer permission more easily
-than approver permission, as a way to grow our teams without friction,
-so we're going to want to have a separate process for that.
+In order to make the change, we need to review the `OWNERS_ALIASES`
+file(s) in each repository and update them to include the appropriate
+list of reviewers. The `OWNERS` files in each repository will
+reference these aliases, which contain the actual usernames for
+reviewers and approvers. We have
+[a process for approval permission](https://github.com/metal3-io/community/blob/main/maintainers/README.md),
+but that does not apply to reviewers. We should give reviewer
+permission more easily than approver permission, as a way to grow our
+teams without friction, so we're going to want to have a separate
+process for that.
 
 If we focus on the transition for now, we can define that process
 separately later. So, I propose that we take the contributors with 10
