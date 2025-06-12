@@ -167,3 +167,10 @@ spec:
 
 **NOTE:** when the DHCP range is not provided, IrSO will pick one for you. In
 this example, it will be `192.0.2.10 - 192.0.2.253`.
+
+## What's next?
+
+Check the [API reference][api-ref] (switch to the branch you're using) for
+all possible settings you can set on an Ironic object.
+
+[api-ref]: https://github.com/metal3-io/ironic-standalone-operator/blob/main/docs/api.md#ironicspec
