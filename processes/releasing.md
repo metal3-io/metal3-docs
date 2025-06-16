@@ -3,27 +3,30 @@
 This document details the high-level process of creating a Metal3 release, and
 the post-release actions required to add new release branches to the CI.
 
-Note the [TODO](#releasing-process-todo) section in the end.
-
 ## Process
 
 High-level release process for a major/minor release. For patch releases, only
 release the relevant versions.
 
-**NOTE**: Ironic-image (via upstream Ironic) has different release cadence as
-Metal3 repos. It is not always possible to release them synced.
+**NOTE**: [Ironic-image](https://github.com/metal3-io/ironic-image) (via
+upstream Ironic) and
+[IrSO](https://github.com/metal3-io/ironic-standalone-operator) (linked to
+Ironic-image releases) have different release cadence as CAPM3, BMO and IPAM
+repos.
 
-1. [Release ironic-image](https://github.com/metal3-io/ironic-image/blob/main/docs/releasing.md)
+1. [Release Ironic-image](https://github.com/metal3-io/ironic-image/blob/main/docs/releasing.md)
+1. [Release IrSO](https://github.com/metal3-io/ironic-standalone-operator/blob/main/docs/releasing.md)
 1. [Release IPAM](https://github.com/metal3-io/ip-address-manager/blob/main/docs/releasing.md)
 1. [Release BMO](https://github.com/metal3-io/baremetal-operator/blob/main/docs/releasing.md)
 1. [Release CAPM3](https://github.com/metal3-io/cluster-api-provider-metal3/blob/main/docs/releasing.md)
-1. [Tag Mariadb image](#tag-mariadb-image)
 1. [Update Metal3 dev-env and CI to support new releases](#update-metal3-dev-env-and-ci-to-support-new-releases)
 
 **NOTE**: Always follow release documentation from the respective main branch.
 Release documentation in release branches may be outdated.
 
 ## Tag Mariadb image
+
+**NOTE**: This step is deprecated and is applied only up to CAPM3 v1.11.x tags.
 
 After releasing `v1.x.y` version of CAPM3, create an annotated tag with `capm3-`
 prefix + release version in
@@ -85,21 +88,27 @@ for periodics and PR jobs.
 We also need to change project-infra keywords for required tests for some of
 the repositories.
 
-[Prior art](https://github.com/metal3-io/project-infra/pull/496)
+Prior art - jobs:
+
+- [BMO](https://github.com/metal3-io/project-infra/pull/1000)
+- [IPAM](https://github.com/metal3-io/project-infra/pull/998)
+- [CAPM3](https://github.com/metal3-io/project-infra/pull/999)
+- [IrSO](https://github.com/metal3-io/project-infra/pull/1034)
+- [Other jobs and milestones](https://github.com/metal3-io/project-infra/pull/1002)
 
 ### Configure Metal3 dev-env to support new branches
 
 Metal3-dev-env needs to be modified to support new release branches and
 tags with supported combination of component versions for testing.
 
-[Prior art](https://github.com/metal3-io/metal3-dev-env/pull/1222)
+[Prior art](https://github.com/metal3-io/metal3-dev-env/pull/1523)
 
 ### Configure Metal3 dev-tools to sync new release branches to Nordix
 
 Dev-tools synchronizes `metal3-io` changes to the `Nordix` fork for the EST
 folks.
 
-[Prior art](https://github.com/Nordix/metal3-dev-tools/pull/672)
+[Prior art](https://github.com/Nordix/metal3-dev-tools/pull/784)
 
 ### Update testing matrix documentation
 
@@ -121,15 +130,15 @@ Email template, with title `New CAPM3, IPAM and BMO minor releases are out!`
 ```text
 Hey folks,
 
-CAPM3 v1.x.y, IPAM v1.x.y, BMO v0.x.y and Ironic-image vx.y.z minor releases are out now!
-Release notes can be found here: [1], [2], [3], [4].
-
+CAPM3 v1.x.y, IPAM v1.x.y, BMO v0.x.y, IrSO v0.x.y and Ironic-image vx.y.z minor
+releases are out now! Release notes can be found here: [1], [2], [3], [4], [5].
 Thanks to all our contributors!
 
 [1] https://github.com/metal3-io/cluster-api-provider-metal3/releases/tag/v1.x.y
 [2] https://github.com/metal3-io/ip-address-manager/releases/tag/v1.x.y
 [3] https://github.com/metal3-io/baremetal-operator/releases/tag/v0.x.y
-[4] https://github.com/metal3-io/ironic-image/releases/tag/vx.y.z
+[4] https://github.com/metal3-io/ironic-standalone-operator/releases/tag/vx.y.z
+[5] https://github.com/metal3-io/ironic-image/releases/tag/vx.y.z
 
 Thanks to all our contributors!
 ```
@@ -139,31 +148,15 @@ Slack template:
 ```text
 Hey folks,
 
-CAPM3 v1.x.y, IPAM v1.x.y, BMO v0.x.y and Ironic-image vx.y.z minor releases
-are out now! now :tada::metal3:!
+CAPM3 v1.x.y, IPAM v1.x.y, BMO v0.x.y, IrSO v0.x.y and Ironic-image vx.y.z minor
+releases are out now! now :tada::metal3:!
 
 Release notes can be found here:
 - https://github.com/metal3-io/cluster-api-provider-metal3/releases/tag/v1.x.y
 - https://github.com/metal3-io/ip-address-manager/releases/tag/v1.x.y
 - https://github.com/metal3-io/baremetal-operator/releases/tag/v0.x.y
+- https://github.com/metal3-io/ironic-standalone-operator/releases/tag/vx.y.z
 - https://github.com/metal3-io/ironic-image/releases/tag/vx.y.z
 
 Thanks to all our contributors! :blush:
 ```
-
-## Releasing process TODO
-
-### BMO
-
-BMO releasing to be fine-tuned.
-
-1. BMO dependencies
-   - BMO contains `keepalived`
-     ([within utility-images repo](https://github.com/metal3-io/utility-images/tree/main/keepalived))
-1. BMO makes assumption about the exact configuration of MariaDB.
-   However, [mariadb-image](https://github.com/metal3-io/mariadb-image) is
-   currently branchless.
-
-### Mariadb-image
-
-Mariadb-image releasing to be implemented.
