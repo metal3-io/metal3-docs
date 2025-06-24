@@ -68,7 +68,7 @@ bootstrap cluster.
 1. **Objects should have a proper owner reference chain.**
 
    `clusterctl move` moves all the objects to the target cluster following the
-   [owner reference chain](https://cluster-api.sigs.k8s.io/clusterctl/provider-contract.html#ownerreferences-chain).
+   [owner reference chain](https://cluster-api.sigs.k8s.io/developer/providers/contracts/clusterctl#ownerreferences-chain).
    So, it is necessary to verify that all the desired objects that needs to
    be moved to the target cluster have a proper owner reference chain.
 
