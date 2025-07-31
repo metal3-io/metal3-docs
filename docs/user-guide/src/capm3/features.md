@@ -5,3 +5,4 @@
 - [Pivoting](./pivoting.md)
 - [Automated cleaning](./automated_cleaning.md)
 - [Label synchronization](./label_sync.md)
+- [Data sources](./data_sources.md)

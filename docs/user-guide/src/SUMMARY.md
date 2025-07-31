@@ -44,6 +44,7 @@
       - [Node Reuse](capm3/node_reuse.md)
       - [Pivoting](capm3/pivoting.md)
       - [Automated cleaning](capm3/automated_cleaning.md)
+      - [Data sources](capm3/data_sources.md)
 - [Ip-address-manager](ipam/introduction.md)
    - [Install Ip-address-manager](ipam/ipam_installation.md)
 - [Troubleshooting FAQ](troubleshooting.md)
