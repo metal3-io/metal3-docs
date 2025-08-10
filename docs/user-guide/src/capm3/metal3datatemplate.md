@@ -257,26 +257,6 @@ networkData:
     dnsFromIPPool: pool-1
 ```
 
-## Template Reference Management
-
-The `templateReference` field enables template versioning and updates:
-
-- **Immutable Templates**: Data template parts are immutable since BareMetalHost
-  references the secrets
-- **Update Process**: Updates require creating a new template and referencing it
-  in the Metal3MachineTemplate
-- **Backward Compatibility**: Supports transition from old templates without
-  `templateReference` to new ones
-
-### Template Linking
-
-Metal3Data objects are linked to Metal3DataTemplate by:
-
-1. Direct reference in the `template` field
-2. Matching `templateReference` key
-3. Template's `templateReference` matching the Metal3Data's template name
-   (backward compatibility)
-
 ## Complete Example
 
 ```yaml
@@ -339,21 +319,3 @@ status:
     "worker-1": worker-template-1
   lastUpdated: "2023-01-01T00:00:00Z"
 ```
-
-## Best Practices
-
-1. **Use Template References**: Always set `templateReference` for better
-   template management
-2. **Plan Indexing**: Consider your indexing strategy for consistent naming
-3. **Validate Network Config**: Test network configurations before deployment
-4. **Use IP Pools**: Leverage IP pools for dynamic address allocation
-5. **Document Templates**: Keep templates well-documented for team
-   collaboration
-
-## Related Resources
-
-- [Metal3Data](metal3data.md) - The rendered data instances
-- [IP Address Manager](https://github.com/metal3-io/ip-address-manager) - IP pool
-  management
-- [Nova Network Data Format](https://docs.openstack.org/nova/latest/) - Network
-  configuration format

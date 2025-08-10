@@ -49,6 +49,15 @@ status:
   error: <boolean>
   errorMessage: "<error-message>"
 ```
+## Template Update Behavior
+
+**Important**: If the `Metal3DataTemplate` object is updated, the generated
+secrets will not be updated automatically. This behavior is intentional to
+allow for reprovisioning of the nodes in the exact same state as they were
+initially provisioned.
+
+To apply template updates to existing nodes, it is necessary to perform a
+rolling upgrade of all nodes that reference the updated template. 
 
 ## Lifecycle
 
@@ -189,74 +198,3 @@ You can mix template-based and manual configuration:
 - Set `dataTemplate` for one type of data (e.g., network data)
 - Set `metaData` or `networkData` directly for the other type
 - The manual configuration overrides the template for that specific secret
-
-## Error Handling
-
-### Common Error Scenarios
-
-1. **Template Not Found**: The referenced `Metal3DataTemplate` doesn't exist
-2. **Index Conflicts**: Multiple controllers try to use the same index
-3. **Secret Creation Failure**: Unable to create the required secrets
-4. **Template Rendering Errors**: Invalid template configuration
-
-### Error Status
-
-When errors occur, the status fields are updated:
-
-```yaml
-status:
-  ready: false
-  error: true
-  errorMessage: "Failed to create metadata secret: template validation failed"
-```
-
-## Best Practices
-
-1. **Monitor Status**: Check the `ready` and `error` status fields
-2. **Handle Errors**: Implement proper error handling for failed data
-   generation
-3. **Use Indexing**: Leverage the automatic indexing for consistent naming
-4. **Template Validation**: Validate templates before deployment
-5. **Secret Management**: Ensure proper RBAC for secret access
-
-## Troubleshooting
-
-### Common Issues
-
-**Issue**: Metal3Data stuck in "not ready" state
-
-- **Check**: Template configuration and validation
-- **Solution**: Verify template syntax and referenced resources
-
-**Issue**: Index conflicts
-
-- **Check**: Existing Metal3Data objects and their indexes
-- **Solution**: Clean up orphaned objects or adjust indexing strategy
-
-**Issue**: Secret creation failures
-
-- **Check**: RBAC permissions and namespace access
-- **Solution**: Ensure proper permissions for secret creation
-
-### Debugging Commands
-
-```bash
-# Check Metal3Data status
-kubectl get metal3data -n <namespace>
-
-# View Metal3Data details
-kubectl describe metal3data <name> -n <namespace>
-
-# Check generated secrets
-kubectl get secrets -n <namespace> | grep <machine-name>
-
-# View secret content
-kubectl get secret <secret-name> -n <namespace> -o yaml
-```
-
-## Related Resources
-
-- [Metal3DataTemplate](metal3datatemplate.md) - Template definitions
-- [Metal3Machine](../introduction.md) - Machine management
-- [BareMetalHost](../bmo/introduction.md) - Host provisioning
-- [IP Address Manager](../ipam/introduction.md) - IP pool management

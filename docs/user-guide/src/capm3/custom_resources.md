@@ -73,11 +73,3 @@ Metal3Data ← Metal3DataTemplate
   interfaces
 - Implement custom metadata generation based on host properties
 
-## Related Documentation
-
-- [Metal3Data](metal3data.md) - Detailed documentation for the Metal3Data
-  resource
-- [Metal3DataTemplate](metal3datatemplate.md) - Detailed documentation for the
-  Metal3DataTemplate resource
-- [Cluster API Documentation](https://cluster-api.sigs.k8s.io/) - General
-  Cluster API concepts and usage
