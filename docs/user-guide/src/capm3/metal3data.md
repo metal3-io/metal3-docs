@@ -49,15 +49,6 @@ status:
   error: <boolean>
   errorMessage: "<error-message>"
 ```
-## Template Update Behavior
-
-**Important**: If the `Metal3DataTemplate` object is updated, the generated
-secrets will not be updated automatically. This behavior is intentional to
-allow for reprovisioning of the nodes in the exact same state as they were
-initially provisioned.
-
-To apply template updates to existing nodes, it is necessary to perform a
-rolling upgrade of all nodes that reference the updated template. 
 
 ## Lifecycle
 
@@ -73,6 +64,16 @@ rolling upgrade of all nodes that reference the updated template.
    metadata and network data secrets
 5. **Status Update**: The `ready` status is set to `true` when all secrets are
    created successfully
+
+### Template Update Behavior
+
+**Important**: If the `Metal3DataTemplate` object is updated, the generated
+secrets will not be updated automatically. This behavior is intentional to
+allow for reprovisioning of the nodes in the exact same state as they were
+initially provisioned.
+
+To apply template updates to existing nodes, it is necessary to perform a
+rolling upgrade of all nodes that reference the updated template.
 
 ### Index Management
 
@@ -120,15 +121,6 @@ Contains network configuration in JSON format following the
 
 **Content**: Rendered network configuration based on the template
 
-## Template Reference Management
-
-The `templateReference` field enables linking to specific template versions:
-
-- **Backward Compatibility**: If not set, the controller matches by template
-  name
-- **Version Control**: When set, enables template versioning and updates
-- **Transition Support**: Allows migration from old templates to new ones
-
 ## Complete Example
 
 ```yaml
@@ -143,7 +135,6 @@ metadata:
     kind: Metal3DataTemplate
     name: worker-template
 spec:
-  templateReference: worker-v1
   index: 0
   claim:
     name: worker-0

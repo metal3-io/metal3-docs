@@ -17,31 +17,6 @@ solution for bare metal cluster management:
 - **Metal3Machine**: Represents a bare metal machine in the cluster
 - **Metal3Cluster**: Represents a bare metal cluster
 
-## Key Concepts
-
-### Data Templates and Instances
-
-CAPM3 uses a template-based approach for generating host-specific configuration
-data:
-
-1. **Metal3DataTemplate**: Contains templates for metadata and network
-   configuration that will be rendered for each host
-2. **Metal3Data**: Represents the actual rendered data for a specific host,
-   created from a template
-
-### Metadata and Network Data
-
-- **Metadata**: Contains host-specific information like hostnames, labels, and
-  custom key-value pairs
-- **Network Data**: Defines the network configuration including interfaces, IP
-  addresses, routes, and DNS settings
-
-### Index Management
-
-CAPM3 automatically manages indexes for hosts to ensure unique identification and
-proper resource allocation. Each Metal3Data instance gets a unique index that is
-used in naming and resource allocation.
-
 ## Resource Relationships
 
 ```mermaid
@@ -72,4 +47,3 @@ Metal3Data ← Metal3DataTemplate
 - Configure complex network topologies with bonds, VLANs, and multiple
   interfaces
 - Implement custom metadata generation based on host properties
-
