@@ -88,3 +88,152 @@ of a forced deletion of its BareMetalHost object. If valid BMC credentials were
 provided, Ironic will keep checking the power state of the host and enforcing
 the last requested power state. The only solution is again to delete the
 Ironic's internal database.
+
+## BMH registration errors
+
+BMC credentials may be incorrect or missing. These issues appear in the
+BareMetalHost’s status and in Events.
+
+Check both `kubectl describe bmh <name>` and recent Events for details.
+
+Example output:
+
+```text
+Normal  RegistrationError  23s   metal3-baremetal-controller  Failed to get 
+power state for node 67ac51af-a6b3. Error: Redfish exception occurred. 
+Error: HTTP GET https://192.168.111.1:8000/redfish/v1/Systems/... returned code 401.
+```
+
+## BMH inspection errors
+
+### The host is not able to communicate back results to Ironic
+
+If the host cannot communicate with Ironic, it will result in a timeout.
+Accessing serial logs is necessary to determine the exact issue.
+
+Example output from `kubectl get bmh -A`:
+
+```text
+NAMESPACE   NAME     STATE        CONSUMER   ONLINE   ERROR              AGE
+metal3      node-1   inspecting             true     inspection error   46m
+```
+
+BareMetalHost's events from `kubectl describe bmh <name> -n <namespace>`:
+
+```text
+Events:
+  Type    Reason              Age    From                         Message
+  ----    ------              ----   ----                         -------
+  Normal  InspectionStarted   37m    metal3-baremetal-controller  Hardware inspection started
+  Normal  InspectionError     7m12s  metal3-baremetal-controller  timeout reached while inspecting the node
+```
+
+### Incompatible configuration
+
+This can occur when attempting to use virtual media or UEFI on hardware that
+does not support it. The error will show in status and in events.
+
+Example `kubectl get bmh -A`:
+
+```text
+NAMESPACE   NAME     STATE        CONSUMER   ONLINE   ERROR              AGE
+metal3      node-1   inspecting              true     inspection error   8m17s
+```
+
+BareMetalHost's events:
+
+```text
+Normal  InspectionError     5s     metal3-baremetal-controller  Failed to inspect hardware. Reason: unable to start inspection:
+Redfish exception occurred. Error: Setting boot mode to bios failed for node ceec28f5-cedb.rror: HTTP PATCH 
+https://192.168.111.1:8000/redfish/v1/Systems/... returned code 500.
+```
+
+## Provisioning errors
+
+Errors during provisioning will be visible when listing the BareMetalHosts:
+
+```text
+NAMESPACE   NAME     STATE          CONSUMER      ONLINE   ERROR                AGE
+metal3      node-1   provisioning   test1-dt8j2   true     provisioning error   149m
+```
+
+Check BareMetalHost's events for the specific reason.
+
+Wrong image checksum example:
+
+```text
+Normal  ProvisioningError   10m    metal3-baremetal-controller  Image provisioning failed: Deploy
+step deploy.write_image failed on node df880558-09da. Image failed to verify against checksum.
+location: CENTOS_9_NODE_IMAGE.img; image ID: /dev/sda; image checksum: abcd1234; verification checksum: ...
+```
+
+No root device found example:
+
+```text
+Normal  ProvisioningStarted  15s    metal3-baremetal-controller  Image provisioning started for http://172.22.0.1/images/CENTOS_9_NODE_IMAGE.img
+Normal  ProvisioningError    1s     metal3-baremetal-controller  Image provisioning failed: Deploy step deploy.write_image failed on node d25ce8de-914e-4146-a0c0-58825274572d. No suitable device was found for deployment using these hints {'name': 's== /dev/vdb'}
+```
+
+## No BareMetalHost available or matching
+
+This appears in the Metal3Machine status:
+
+```text
+Status:
+  Conditions:
+    Last Transition Time:  2025-08-15T10:53:05Z
+    Message:               No available host found. Requeuing.. Object will be requeued after 30s
+    Reason:                AssociateBMHFailed
+    Severity:              Error
+    Status:                False
+    Type:                  AssociateBMH
+```
+
+CAPM3 controller logs when there is no available hosts:
+
+```text
+I0815 11:10:35.699004   1 metal3machine_manager.go:332] "No available host found. Requeuing." logger="controllers.Metal3Machine.Metal3Machine-controller" metal3-machine="metal3/test-no-match-2" machine="test-no-match-2" cluster="test1" metal3-cluster="test1"
+```
+
+CAPM3 controller logs when the annotated host is not found:
+
+```text
+I0815 06:08:54.687380   1 metal3machine_manager.go:788] "Annotated host not found" logger="controllers.Metal3Machine.Metal3Machine-controller" metal3-machine="metal3/test1-zxzn7-qvl6n" machine="test1-zxzn7-qvl6n" cluster="test1" metal3-cluster="test1" host="metal3/node-0"
+```
+
+## Provider ID is missing
+
+This occurs if `cloudProviderEnabled` is set to `true` on Metal3Cluster when no
+external cloud provider is used. The Metal3Machine will remain stuck in the
+Provisioning phase.
+
+Example output from `kubectl get metal3machine -A`:
+
+```text
+NAMESPACE   NAME                AGE    PROVIDERID                           READY   CLUSTER   PHASE
+metal3      test1-82ljr         160m   metal3://metal3/node-0/test1-82ljr   true    test1     
+metal3      test1-bv9mv-2f8th   35m                                                 test1
+```
+
+Metal3Machine's status:
+
+```text
+Status:
+  Conditions:
+    Reason:   NotReady
+    Status:   False
+    Type:     Available
+    Message:  * NodeHealthy: Waiting for Metal3Machine to report spec.providerID
+```
+
+## `nodeRef` missing
+
+A CAPI-level issue. This can be caused by a failure to boot the image or join it
+to the cluster. Access to the node or serial logs is needed to determine the
+exact cause. In particular, cloud-init logs can help pinpoint the issue.
+
+CAPM3 controller logs:
+
+```text
+I0815 11:10:36.545990   1 metal3labelsync_controller.go:150] "Could not find Node Ref on Machine object, will retry" logger="controllers.Metal3LabelSync.metal3-label-sync-controller" metal3-label-sync="metal3/node-0"
+```
