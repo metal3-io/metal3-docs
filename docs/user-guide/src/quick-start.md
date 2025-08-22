@@ -353,6 +353,7 @@ HTTP_PORT=6180
 PROVISIONING_INTERFACE=eth0
 # URL where the http server is exposed (IP of management computer)
 CACHEURL=http://192.168.0.150
+IRONIC_IP=192.168.0.150
 IRONIC_KERNEL_PARAMS=console=ttyS0
 # IP where the BMCs can access Ironic to get the virtualmedia boot image.
 # This is the IP of the management computer in the out of band network.
