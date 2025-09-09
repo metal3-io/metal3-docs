@@ -74,13 +74,14 @@ A major and minor version can be supplied to the `Ironic` resource to request
 a specific branch of ironic-image (and thus Ironic). Here are supported version
 values for each branch and release of the operator:
 
-| Operator version | Ironic version(s)              | Default version |
-| ---------------- | ------------------------------ | --------------- |
-| latest (main)    | latest, 30.0, 29.0, 28.0, 27.0 | latest          |
-| 0.4.0            | 30.0, 29.0, 28.0, 27.0         | 30.0            |
-| 0.3.0            | 29.0, 28.0, 27.0               | latest          |
-| 0.2.0            | 28.0, 27.0                     | latest          |
-| 0.1.0            | 27.0                           | latest          |
+| Operator version | Ironic version(s)                    | Default version | Support status |
+| ---------------- | ------------------------------------ | --------------- | -------------- |
+| latest (main)    | latest, 31.0, 30.0, 29.0, 28.0, 27.0 | latest          | Supported      |
+| 0.5.0            | 31.0, 30.0, 29.0, 28.0, 27.0         | 31.0            | Supported      |
+| 0.4.0            | 30.0, 29.0, 28.0, 27.0               | 30.0            | Supported      |
+| 0.3.0            | 29.0, 28.0, 27.0                     | latest          | EOL            |
+| 0.2.0            | 28.0, 27.0                           | latest          | EOL            |
+| 0.1.0            | 27.0                                 | latest          | EOL            |
 
 **NOTE:** the special version value `latest` always installs the latest
 available version of ironic-image and Ironic. This version value is
