@@ -382,6 +382,70 @@ When reconciling the *RenderedData* object, the reconciler would create an
 templates, filling the IP addresses, prefixes and gateways based on the content
 of the *IPAddress* objects.
 
+### Annotation-based IPPool Reference
+
+> ***NOTE:*** Currently feature is under development
+
+The `fromPoolAnnotation` field provides dynamic IPPool name resolution from annotations
+on BareMetalHost, Machine, or Metal3Machine objects. This enables flexible IPPool
+assignment based on deployment-time decisions.
+
+The `fromPoolAnnotation` field can be used in:
+
+- Network configuration to specify which IPPool to use for IP address allocation
+- Gateway configuration to specify which IPPool to use for gateway IP resolution
+- Route gateway configuration to specify which IPPool to use for route gateway IP resolution
+
+The `fromPoolAnnotation` field contains:
+
+- **object**: The object type to read the annotation from (`baremetalhost`, `machine`, `metal3machine`)
+- **annotation**: The annotation key containing the IPPool name
+
+If the annotation does not exist, the IPPool name is rendered as an empty string,
+and the IP address allocation will fail.
+
+#### Example Configuration
+
+```yaml
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
+kind: Metal3DataTemplate
+metadata:
+  name: nodepool-1
+spec:
+  networkData:
+    networks:
+      ipv4:
+        - id: "Provisioning"
+          link: "vlan2"
+          fromPoolAnnotation:
+            object: baremetalhost
+            annotation: ippool.metal3.io/provisioning
+          routes:
+            - network: "0.0.0.0"
+              prefix: 0
+              gateway:
+                fromPoolAnnotation:
+                  object: baremetalhost
+                  annotation: ippool.metal3.io/provisioning
+```
+
+The corresponding BareMetalHost is annotated with the IPPool name:
+
+```yaml
+apiVersion: metal3.io/v1alpha1
+kind: BareMetalHost
+metadata:
+  name: worker-1
+  annotations:
+    ippool.metal3.io/provisioning: "provisioning-pool-zone-a"
+spec:
+  online: true
+```
+
+When the template is rendered, the controller reads the annotation value
+`provisioning-pool-zone-a` from the BareMetalHost and uses it as the IPPool name
+for IP address allocation.
+
 ### Work Items
 
 - implement the additional controllers
