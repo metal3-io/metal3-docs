@@ -27,6 +27,31 @@ answer a few questions before you can pick the one that suits you:
   use cases outside of Metal3, you need to configure an [external
   database](./database.md).
 
+## Prerequisites
+
+A separate provisioning network is required when network boot is used.
+
+The following ports must be accessible by the hosts being provisioned:
+
+- TCP 6385 (Ironic API)
+- TCP 6180 (HTTP server serving OS and virtual media images)
+- TCP 6183 (HTTP server with TLS)
+
+The main Ironic service must be able to access the hosts' BMC addresses.
+
+When virtual media is used, the hosts' BMCs must be able to access ports 6180
+or 6183 (depending on whether TLS is used).
+
+**NOTE:** all ports can be changed on the Ironic resource.
+
+### Network boot requirements
+
+When network boot (iPXE) is used instead of virtual media, you need a dedicated
+provisioning network. The following ports must be accessible:
+
+- UDP 67/68/546/547 (DHCP and DHCPv6; when network boot is used)
+- UDP 69 (TFTP; when network boot is used)
+
 ## Using Ironic
 
 Regardless of the scenario you choose, you will need to create at least an
