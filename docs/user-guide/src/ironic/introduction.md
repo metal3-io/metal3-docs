@@ -40,9 +40,9 @@ operations needed to provision bare-metal hosts, such as hardware capabilities
 inspection, operating system installation, and re-initialization when
 restoring a bare-metal machine to its original status.
 
-Metal3 provides [a way to install Ironic](ironic_installation) with a suitable
-configuration. Alternatively, Bare Metal Operator can be set up to use an
-externally managed Ironic instance.
+Metal3 provides [a way to install Ironic](../irso/introduction.md) with a
+suitable configuration. Alternatively, Bare Metal Operator can be set up to use
+an externally managed Ironic instance.
 
 ### Requirements for external Ironic
 
@@ -70,11 +70,12 @@ Kubernetes data storage. Metal3 treats the Kubernetes database (e.g.
 desired state of the machines. On any discrepancies, Bare Metal Operator will
 use the Ironic API to enforce the desired state.
 
-In case of Ironic deployed by the [Metal3 deployment
-scripts](ironic_installation), its database is ephemeral by default. SQLite is
-used as a backend, and the data is removed when the Metal3 pod is restarted.
-When this happens, Bare Metal Operator will re-create hosts in Ironic and drive
-them through various actions to enforce the expected state:
+By default, Ironic installed by [Ironic Standalone
+Operator](../irso/introduction.md) or older [Metal3 deployment
+scripts](ironic_installation) used an ephemeral SQLite database for storage.
+The data is removed when the Metal3 pod is restarted. When this happens, Bare
+Metal Operator will re-create hosts in Ironic and drive them through various
+actions to enforce the expected state:
 
 - Hosts in the `provisioned` state will go through
   [adoption](https://docs.openstack.org/ironic/latest/admin/adoption.html)
@@ -86,6 +87,9 @@ them through various actions to enforce the expected state:
 - For hosts in various transient states, Bare Metal Operator will restart the
   action that lead to this state. For instance, a host in the `provisioning`
   state will undergo cleaning, then a new provisioning will be started.
+
+Ironic Standalone Operator can also [install Ironic with
+MariaDB](../irso/database.md).
 
 ### Host enrollment and hardware inventory
 
