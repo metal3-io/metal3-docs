@@ -37,7 +37,8 @@ The following ports must be accessible by the hosts being provisioned:
 - TCP 6180 (HTTP server serving OS and virtual media images)
 - TCP 6183 (HTTP server with TLS)
 
-The main Ironic service must be able to access the hosts' BMC addresses.
+The main Ironic service must be able to access the hosts' BMC addresses, as
+well as port 9999 (ramdisk API) on the hosts.
 
 When virtual media is used, the hosts' BMCs must be able to access ports 6180
 or 6183 (depending on whether TLS is used).
