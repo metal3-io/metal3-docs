@@ -1,5 +1,11 @@
 # Install Ironic
 
+**WARNING:** this document covers the direct installation of Ironic using shell
+scripts and Kustomize configuration from the BareMetal Operator repository.
+This process is being phased out in favour of [Ironic Standalone
+Operator](../irso/introduction.md). You should consider using the latter for
+any new installations.
+
 Metal3 runs Ironic as a set of containers. Those containers
 can be deployed either in-cluster and out-of-cluster. In both scenarios,
 there are a couple of containers that must run in order to provision
@@ -24,25 +30,13 @@ A few other containers are optional:
 
 ## Prerequisites
 
-### Networking
-
-A separate provisioning network is required when network boot is used.
-
-The following ports must be accessible by the hosts being provisioned:
-
-- TCP 6385 (Ironic API)
-- TCP 5050 (Inspector API; when used)
-- TCP 80 (HTTP server; can be changed via the `HTTP_PORT` environment variable)
-- UDP 67/68/546/547 (DHCP and DHCPv6; when network boot is used)
-- UDP 69 (TFTP; when network boot is used)
-
-The main Ironic service must be able to access the hosts' BMC addresses.
-
-When virtual media is used, the hosts' BMCs must be able to access `HTTP_PORT`.
+See [IrSO Prerequisites](../irso/install-basics.md#prerequisites).
 
 ## Environmental variables
 
-{{#include ironic_variables.md}}
+See [ironic-image
+README](https://github.com/metal3-io/ironic-image/blob/main/README.md) for an
+up-to-date list of supported environment variables and their default values.
 
 ## Ironic in-cluster installation
 
