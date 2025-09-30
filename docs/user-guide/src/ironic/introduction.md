@@ -44,6 +44,10 @@ Metal3 provides [a way to install Ironic](../irso/introduction.md) with a
 suitable configuration. Alternatively, Bare Metal Operator can be set up to use
 an externally managed Ironic instance.
 
+### Components overview
+
+![Component overview](./images/overview.png)
+
 ### Requirements for external Ironic
 
 - HTTP basic authentication (OpenStack Identity is not supported - see [issue
