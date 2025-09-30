@@ -30,11 +30,9 @@ credentials of servers are not exposed to the tenant).
 
 ## Motivation
 
-The standard approach to implementing multi-tenancy in Cluster API is to follow the
-[multi-tenancy contract](https://cluster-api.sigs.k8s.io/developer/architecture/controllers/multi-tenancy#contract).
-
-To adhere to this contract with cluster-api-provider-metal3, the clusters must
-be placed in different namespaces, and the BareMetalHost objects must be defined
+To support clusters from different tenants, clusters must
+be placed in different namespaces. As Metal3 provider requires that Machines and
+BareMetalHost are in the same namespace, the BareMetalHost objects must be defined
 in those namespaces. In this setup, the tenants are the owners of the servers,
 and it becomes difficult to share the same server between different clusters if
 they belong to different tenants.
