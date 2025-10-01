@@ -1,0 +1,37 @@
+@startuml
+person User
+package Kubernetes {
+    rectangle API {
+        artifact BareMetalHost as BMH
+        artifact Ironic as IronicCR
+    }
+    rectangle Pods {
+        component "BareMetal Operator" as BMO
+        component Ironic {
+            process Ironic as IronicSvc
+            process HTTPD
+            process DNSMasq
+        }
+        component "Ironic Standalone Operator" as IrSO
+    }
+}
+node Server {
+    node "BMC (Redfish, IPMI)" as BMC
+    process "Ironic Python Agent" as IPA
+}
+
+User --> BMH : edits
+User --> IronicCR : edits
+
+BMH <--> BMO : watches CR
+IronicCR <--> IrSO : watches CR
+
+BMO --> IronicSvc : calls
+IrSO ==0 Ironic : manages
+IronicSvc -0 HTTPD: configures
+
+IronicSvc --> BMC : calls
+HTTPD <-- BMC : downloads vmedia
+IronicSvc <--> IPA : runs commands
+HTTPD <-- IPA : downloads images
+@enduml
