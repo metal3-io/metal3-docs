@@ -14,9 +14,24 @@ IrSO uses [ironic-image](../ironic/ironic-container-images.md) under the hood.
 
 ## Installing Ironic Standalone Operator
 
+The official installation process requires
+[cert-manager](https://cert-manager.io/), please make sure to install it first
+and wait for it to fully initialize.
+
 On every source code change, a new IrSO image is built and published at
-`quay.io/metal3-io/ironic-standalone-operator`. To install it in your cluster,
-you can use the Kustomize templates provided in the source repository:
+`quay.io/metal3-io/ironic-standalone-operator`. Starting with release 0.5.1,
+we also publish a manifest for each release. You can install it this way:
+
+```console
+IRSO_VERSION=0.5.1
+kubectl apply -f \
+    https://github.com/metal3-io/ironic-standalone-operator/releases/download/v${IRSO_VERSION}/install.yaml
+kubectl wait --for=condition=Available --timeout=120s \
+  -n ironic-standalone-operator-system deployment/ironic-standalone-operator-controller-manager
+```
+
+For older versions (or to use an unreleased checkout) you can use the Kustomize
+templates provided in the source repository:
 
 ```console
 git clone https://github.com/metal3-io/ironic-standalone-operator
