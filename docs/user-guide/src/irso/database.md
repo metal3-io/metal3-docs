@@ -21,7 +21,7 @@ spec:
     credentialsName: secret-with-user-password
     host: mariadb.hostname.example.com
     name: database-name
-  version: "27.0"
+  version: "32.0"
 ```
 
 If your database uses TLS, provide the name of the secret with the CA
@@ -160,5 +160,5 @@ follows:
        credentialsName: ironic-user
        host: database-server.mariadb.svc
        name: ironic-database
-     version: "27.0"
+     version: "32.0"
    ```
