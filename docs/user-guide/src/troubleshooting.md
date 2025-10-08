@@ -128,10 +128,7 @@ Events:
   Normal  InspectionError     7m12s  metal3-baremetal-controller  timeout reached while inspecting the node
 ```
 
-### Incompatible configuration
-
-This can occur when attempting to use virtual media or UEFI on hardware that
-does not support it. The error will show in status and in events.
+### Error setting boot mode
 
 Example `kubectl get bmh -A`:
 
@@ -147,6 +144,20 @@ Normal  InspectionError     5s     metal3-baremetal-controller  Failed to inspec
 Redfish exception occurred. Error: Setting boot mode to bios failed for node ceec28f5-cedb.rror: HTTP PATCH 
 https://192.168.111.1:8000/redfish/v1/Systems/... returned code 500.
 ```
+
+There are two possible causes:
+
+- Hardware does not support the requested boot mode. Really old machines may
+  not support UEFI, while really new machines gradually start phasing out
+  legacy boot.
+- Hardware does not support switching between boot modes using Redfish API.
+  This is the case for some iLO 5 machines.
+
+You have options:
+
+- Log into the BMC's UI and change the boot mode to the preferred value.
+- Update your BareMetalHost definition with the `bootMode` value that matches
+  what your hardware supports.
 
 ## Provisioning errors
 
