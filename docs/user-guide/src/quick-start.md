@@ -180,11 +180,6 @@ nodes:
     hostPort: 6385
     listenAddress: "0.0.0.0"
     protocol: TCP
-  # Inspector API
-  - containerPort: 5050
-    hostPort: 5050
-    listenAddress: "0.0.0.0"
-    protocol: TCP
 ```
 
 As you can see, it has a few ports forwarded from the host. This is to make
@@ -297,47 +292,16 @@ mkdir ironic
 
 #### Authentication configuration
 
-Create authentication configuration for Ironic and Inspector. You will need to
-generate a username and password for each. We will here refer to them as
-`IRONIC_USERNAME`, `IRONIC_PASSWORD`, `INSPECTOR_USERNAME` and
-`INSPECTOR_PASSWORD`.
+Create authentication configuration for Ironic. You will need to
+generate a username and password for it. We will here refer to them as
+`IRONIC_USERNAME` and `IRONIC_PASSWORD`.
 
-Create a file `ironic-auth-config` with configuration for how to access Ironic.
-This will be use by Inspector. It should have the following content:
-
-```conf
-[ironic]
-auth_type=http_basic
-username=IRONIC_USERNAME
-password=IRONIC_PASSWORD
-```
-
-Create a file `ironic-inspector-auth-config` with configuration for how to
-access Inspector. This will be used by Ironic. It should have the following
-content:
-
-```conf
-[inspector]
-auth_type=http_basic
-username=INSPECTOR_USERNAME
-password=INSPECTOR_PASSWORD
-```
-
-To enable basic auth, we need to create secrets containing the keys
-`IRONIC_HTPASSWD` and `INSPECTOR_HTPASSWD` with values generated from the
-credentials using htpasswd. We will do this by creating two files
-`ironic-htpasswd` and `ironic-inspector-htpasswd` with the following content.
-
-`ironic-htpasswd`:
+To enable basic auth, we need to create a secret containing the key
+`IRONIC_HTPASSWD` with values generated from the credentials using htpasswd. We
+will do this by creating a file `ironic-htpasswd` with the following content.
 
 ```bash
 IRONIC_HTPASSWD="<output of `htpasswd -n -b -B IRONIC_USERNAME IRONIC_PASSWORD`>"
-```
-
-Similarly for `ironic-inspector-htpasswd`:
-
-```bash
-INSPECTOR_HTPASSWD="<output of `htpasswd -n -b -B INSPECTOR_USERNAME INSPECTOR_PASSWORD`>"
 ```
 
 #### Ironic environment variables
@@ -410,10 +374,7 @@ you should have a file structure like this:
 
 ```text
 ironic/
-├── ironic-auth-config
 ├── ironic-htpasswd
-├── ironic-inspector-auth-config
-├── ironic-inspector-htpasswd
 ├── ironic-patch.yaml
 ├── ironic_bmo.env
 └── kustomization.yaml
@@ -453,8 +414,7 @@ patches:
 # The TLS component adds certificates but it cannot know the exact IPs of our environment.
 # Here we patch the certificates to have the correct IPs.
 # - 192.168.1.7: management computer IP in out of band network
-# - 172.18.0.2: kind cluster node IP. This is what Ironic will see attached to the interface
-#   and use to communicate with Inspector.
+# - 172.18.0.2: kind cluster node IP. This is what Ironic will see attached to the interface.
 # - 192.168.0.150: management computer IP in the other network
 - patch: |-
     - op: replace
@@ -475,7 +435,7 @@ patches:
   #   value: 172.18.0.2
   target:
     kind: Certificate
-    name: ironic-cert|ironic-inspector-cert
+    name: ironic-cert
 # The CA certificate should not have any IP address so we remove it.
 - patch: |-
     - op: remove
@@ -491,16 +451,6 @@ secretGenerator:
   behavior: create
   envs:
   - ironic-htpasswd
-- name: ironic-inspector-htpasswd
-  behavior: create
-  envs:
-  - ironic-inspector-htpasswd
-- name: ironic-auth-config
-  files:
-  - auth-config=ironic-auth-config
-- name: ironic-inspector-auth-config
-  files:
-  - auth-config=ironic-inspector-auth-config
 ```
 
 You can check that it works and inspect the resulting manifest by running this:
@@ -525,12 +475,10 @@ a folder for the kustomization:
 mkdir bmo
 ```
 
-Create files containing the credentials for Ironic and Inspector:
+Create files containing the credentials for Ironic:
 
 - ironic-username
 - ironic-password
-- ironic-inspector-username
-- ironic-inspector-password
 
 We will use kustomize to create secrets from these that Bare Metal Operator can
 use to access Ironic.
@@ -584,10 +532,6 @@ secretGenerator:
   files:
   - username=ironic-username
   - password=ironic-password
-- name: ironic-inspector-credentials
-  files:
-  - username=ironic-inspector-username
-  - password=ironic-inspector-password
 ```
 
 At this point, you should have a folder structure like this:
@@ -596,8 +540,6 @@ At this point, you should have a folder structure like this:
 bmo/
 ├── ironic-password
 ├── ironic-username
-├── ironic-inspector-username
-├── ironic-inspector-password
 ├── ironic.env
 └── kustomization.yaml
 ```
