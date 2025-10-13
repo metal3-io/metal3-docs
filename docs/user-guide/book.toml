@@ -6,6 +6,9 @@ title = "Metal³ user-guide"
 
 [preprocessor.releasetags]
 
+[preprocessor.embed]
+command = "mdbook-embed"
+
 [output.html]
 git-repository-url = "https://github.com/metal3-io/"
 smart-punctuation = true
