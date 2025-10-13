@@ -1,0 +1,16 @@
+apiVersion: kind.x-k8s.io/v1alpha4
+kind: Cluster
+nodes:
+- role: control-plane
+  # Open ports for Ironic
+  extraPortMappings:
+  # Ironic httpd
+  - containerPort: 6180
+    hostPort: 6180
+    listenAddress: "0.0.0.0"
+    protocol: TCP
+  # Ironic API
+  - containerPort: 6385
+    hostPort: 6385
+    listenAddress: "0.0.0.0"
+    protocol: TCP
