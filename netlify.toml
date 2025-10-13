@@ -4,4 +4,4 @@
     publish = "docs/user-guide/book"
 
 [build.environment]
-    GO_VERSION = "1.22.2"
+    GO_VERSION = "1.25.2"
