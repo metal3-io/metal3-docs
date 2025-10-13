@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: baremetal-operator-system
+# This is the kustomization that we build on. You can download it and change
+# the URL to a relative path if you do not want to access it over the network.
+# Note that the ref=main specifies the version to use.
+# We use main here simply because the integration with IrSO is not included in a release yet.
+resources:
+- https://github.com/metal3-io/baremetal-operator/config/use-irso?ref=main
