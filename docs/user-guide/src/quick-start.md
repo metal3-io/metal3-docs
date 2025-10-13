@@ -2,7 +2,7 @@
 
 <!-- cSpell:ignore htpasswd,virsh -->
 
-This guide has been tested on Ubuntu server 22.04. It should be seen as an
+This guide has been tested on Ubuntu server 24.04. It should be seen as an
 example rather than the absolute truth about how to deploy and use Metal3. We
 will cover two environments and two scenarios. The environments are
 
@@ -79,70 +79,29 @@ and the MAC address:
 Start by defining a libvirt network:
 
 ```xml
-<network>
-  <name>baremetal</name>
-  <forward mode='nat'>
-    <nat>
-      <port start='1024' end='65535'/>
-    </nat>
-  </forward>
-  <bridge name='metal3'/>
-  <ip address='192.168.222.1' netmask='255.255.255.0'>
-  </ip>
-</network>
+{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"docs/user-guide/examples/net.xml"}}
 ```
 
-Save this as `net.xml`, define it and start it.
-
-```bash
-virsh -c qemu:///system net-define net.xml
-virsh -c qemu:///system net-start baremetal
-```
-
-Next, we will create a virtual machine. Feel free to adjust at as you see fit,
-but make sure to note the MAC address. That will be needed later. You can also
-create more than one if you like.
-
-```bash
-# use --ram=8192 for Scenario 2
-virt-install \
-  --connect qemu:///system \
-  --name bmh-vm-01 \
-  --description "Virtualized BareMetalHost" \
-  --osinfo=ubuntu-lts-latest \
-  --ram=4096 \
-  --vcpus=2 \
-  --disk size=25 \
-  --graphics=none \
-  --console pty \
-  --serial pty \
-  --pxe \
-  --network network=baremetal,mac="00:60:2f:31:81:01" \
-  --noautoconsole
-```
-
-### Sushy-tools - AKA the BMC
+Save this as `net.xml`.
 
 Metal3 relies on baseboard management controllers to manage the baremetal
 servers, so we need something similar for our virtual machines. This comes in
 the form of [sushy-tools](https://docs.openstack.org/sushy/latest/).
 
-We need to create configuration file first:
+We need to create a configuration file for sushy-tools:
 
 ```conf
-# Listen on 192.168.222.1:8000
-SUSHY_EMULATOR_LISTEN_IP = u'192.168.222.1'
-SUSHY_EMULATOR_LISTEN_PORT = 8000
-# The libvirt URI to use. This option enables libvirt driver.
-SUSHY_EMULATOR_LIBVIRT_URI = u'qemu:///system'
+{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"docs/user-guide/examples/sushy-emulator.conf"}}
 ```
 
+Finally, we start up the virtual baremetal lab and create VMs to simulate the
+servers. Feel free to adjust things as you see fit, but make sure to note the
+MAC address. That will be needed later. You can choose how many VMs to create.
+One is needed for scenario 1, two or more for scenario 2.
+
 ```bash
-docker run --name sushy-tools --rm --network host -d \
-  -v /var/run/libvirt:/var/run/libvirt \
-  -v "$(pwd)/sushy-tools.conf:/etc/sushy/sushy-emulator.conf" \
-  -e SUSHY_EMULATOR_CONFIG=/etc/sushy/sushy-emulator.conf \
-  quay.io/metal3-io/sushy-tools:latest sushy-emulator
+# use --ram=8192 for Scenario 2
+{{#embed-github repo:"Nordix/metal3-docs" branch:"lentzi90/quick-revision" path:"docs/user-guide/examples/setup-virtual-lab.sh"}}
 ```
 
 ## Common setup
@@ -164,22 +123,7 @@ note that this is absolutely not intended for production environments.
 We will use the following configuration file for kind, save it as `kind.yaml`:
 
 ```yaml
-kind: Cluster
-apiVersion: kind.x-k8s.io/v1alpha4
-nodes:
-- role: control-plane
-  # Open ports for Ironic
-  extraPortMappings:
-  # Ironic httpd
-  - containerPort: 6180
-    hostPort: 6180
-    listenAddress: "0.0.0.0"
-    protocol: TCP
-  # Ironic API
-  - containerPort: 6385
-    hostPort: 6385
-    listenAddress: "0.0.0.0"
-    protocol: TCP
+{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"docs/user-guide/examples/kind.yaml"}}
 ```
 
 As you can see, it has a few ports forwarded from the host. This is to make
@@ -195,21 +139,22 @@ We will need to install cert-manager also. It will be used to manage the
 certificates for Ironic later.
 
 ```bash
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.3/cert-manager.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 ```
 
 ### DHCP server
 
 The BareMetalHosts must be able to call back to Ironic when going through the
 inspection phase. This means that they must have IP addresses in a network where
-they can reach Ironic. We will set up a DHCP server for this purpose.
+they can reach Ironic. Any DHCP server can be used for this.
 
-Any DHCP server can be used for this. We will here use the Ironic container
-image that incudes dnsmasq and some scripts for configuring it.
-
-Create a configuration file and save it as `dnsmasq.env`.
+For the virtualized environment, we rely on the libvirt network to provide the DHCP server.
 
 Baremetal lab:
+
+We will here use the Ironic container
+image that incudes dnsmasq and some scripts for configuring it.
+Create a configuration file and save it as `dnsmasq.env`.
 
 ```bash
 # The same HTTP port must be provided to all containers!
@@ -223,26 +168,6 @@ PROVISIONING_IP=192.168.0.150
 # Give out IP addresses in this range
 DHCP_RANGE=192.168.0.100,192.168.0.149
 GATEWAY_IP=192.168.0.1
-```
-
-Virtualized environment:
-
-```bash
-HTTP_PORT=6180
-DHCP_HOSTS=00:60:2f:31:81:01
-DHCP_IGNORE=tag:!known
-# IP of the host from VM perspective
-PROVISIONING_IP=192.168.222.1
-GATEWAY_IP=192.168.222.1
-DHCP_RANGE=192.168.222.100,192.168.222.149
-```
-
-You can now run the DHCP server like this:
-
-```bash
-docker run --name dnsmasq --rm -d --net=host --privileged --user 997:994 \
-  --env-file dnsmasq.env --entrypoint /bin/rundnsmasq \
-  quay.io/metal3-io/ironic
 ```
 
 ### Image server
@@ -336,7 +261,7 @@ PROVISIONING_INTERFACE=eth0
 CACHEURL=http://192.168.222.1/images
 IRONIC_KERNEL_PARAMS=console=ttyS0
 # Docker does not allow cross-network access. If using kind to create the management
-# cluster, explicitly set the external ip and use port forwarding to access ironic services. 
+# cluster, explicitly set the external ip and use port forwarding to access ironic services.
 IRONIC_EXTERNAL_IP=192.168.222.1
 ```
 
@@ -578,7 +503,7 @@ place.
 1. Deploy cert-manager.
 
    ```bash
-   kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.3/cert-manager.yaml
+   kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
    ```
 
 1. Start the DHCP server.
