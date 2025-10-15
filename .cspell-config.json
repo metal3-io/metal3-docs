@@ -95,6 +95,7 @@
     "healthcheck",
     "Hellmann",
     "hostname",
+    "htpasswd",
     "HWCC",
     "idrac",
     "initramfs",
