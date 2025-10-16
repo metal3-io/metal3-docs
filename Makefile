@@ -1,7 +1,6 @@
-MDBOOK_VERSION ?= 0.4.37
-MDBOOK_BIN_VERSION ?= v$(MDBOOK_VERSION)
+MDBOOK_BIN_VERSION ?= v0.4.37
 SOURCE_PATH := docs/user-guide
-CONTAINER_RUNTIME ?= sudo docker
+CONTAINER_RUNTIME ?= docker
 IMAGE_NAME := quay.io/metal3-io/mdbook
 IMAGE_TAG ?= latest
 HOST_PORT ?= 3000
@@ -43,13 +42,14 @@ netlify-build: $(RELEASETAGS) $(MDBOOK_BIN)
 
 .PHONY: build
 docker-build: # Build the mdbook container image
-	$(CONTAINER_RUNTIME) build --build-arg MDBOOK_VERSION=$(MDBOOK_VERSION) \
+	$(CONTAINER_RUNTIME) build --build-arg MDBOOK_RELEASE_URL=$(MDBOOK_RELEASE_URL) \
 	--tag $(IMAGE_NAME):$(IMAGE_TAG) -f docs/Dockerfile .
 
 .PHONY: build
 build:# Build the user guide
 	$(CONTAINER_RUNTIME) run \
 	--rm -it --name metal3 \
+	--user $$(id -u):$$(id -g) \
 	-v "$$(pwd):/workdir" \
 	$(IMAGE_NAME):$(IMAGE_TAG) \
 	mdbook build $(SOURCE_PATH)
@@ -58,6 +58,7 @@ build:# Build the user guide
 serve:# Serve the user-guide on localhost:3000 (by default)
 	$(CONTAINER_RUNTIME) run \
 	--rm -it --init --name metal3 \
+	--user $$(id -u):$$(id -g) \
 	-v "$$(pwd):/workdir" \
 	-p $(HOST_PORT):3000 \
 	$(IMAGE_NAME):$(IMAGE_TAG) \
