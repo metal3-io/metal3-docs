@@ -22,10 +22,10 @@ ARG ARCH=amd64
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=${ARCH} \
   go build -tags=tools -a -ldflags '-extldflags "-static"' \
   -o mdbook-releasetags ./releasetags
-ARG MDBOOK_RELEASE_URL="https://github.com/rust-lang/mdBook/releases/download/v0.4.37/mdbook-v0.4.37-x86_64-unknown-linux-gnu.tar.gz"
+ARG MDBOOK_RELEASE_URL="https://github.com/rust-lang/mdBook/releases/download/v0.4.52/mdbook-v0.4.52-x86_64-unknown-linux-gnu.tar.gz"
 RUN curl -L "${MDBOOK_RELEASE_URL}" \
   | tar xvz -C /workspace
 
-FROM netlify/build:focal
+FROM netlify/build:noble
 WORKDIR /workdir
 COPY --from=builder /workspace/mdbook-releasetags /workspace/mdbook /usr/bin/
