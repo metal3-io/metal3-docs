@@ -1,4 +1,6 @@
 github.com/blang/semver v3.5.1+incompatible h1:cQNTCjp13qL8KC3Nbxr/y2Bqb63oX6wdnnjpJbkM4JQ=
 github.com/blang/semver v3.5.1+incompatible/go.mod h1:kRBLl5iJ+tD4TcOOxsy/0fnwebNt5EWlYSAyrTnjyyk=
+sigs.k8s.io/cluster-api/hack/tools v0.0.0-20251013081700-15a4355c40ca h1:U3Cio0MGuwCzDALEEMn6fwZRqTc1Knb/sF5m773TjBU=
+sigs.k8s.io/cluster-api/hack/tools v0.0.0-20251013081700-15a4355c40ca/go.mod h1:BXduHBx/yDk4RFPa2pC6LGnvdq/DYjG5sGyIoErmA1k=
 sigs.k8s.io/kubebuilder/docs/book/utils v0.0.0-20240216033807-8afeb403549f h1:0rbnCuTF/IIxfwoJR/p7zTB5+AA0RaBwB0lqjBUs/28=
 sigs.k8s.io/kubebuilder/docs/book/utils v0.0.0-20240216033807-8afeb403549f/go.mod h1:4CGoZGcqb7Bes5d0qgb4SIHqk+XjUfoxesbbTmpVl6s=
