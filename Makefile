@@ -12,14 +12,15 @@ MDBOOK_BIN := $(TOOLS_BIN_DIR)/mdbook
 export PATH := $(PATH):$(TOOLS_BIN_DIR)
 
 ## ------------------------------------
-## Resolve placeholders as tags
+## mdbook plugins
 ## ------------------------------------
 RELEASETAGS := $(TOOLS_BIN_DIR)/mdbook-releasetags
 $(RELEASETAGS): $(TOOLS_DIR)/go.mod
 	cd $(TOOLS_DIR); go build -tags=tools -o $(TOOLS_BIN_DIR)/mdbook-releasetags ./releasetags
 
-.PHONY: releasetags
-releasetags: $(RELEASETAGS)
+MDBOOK_EMBED := $(TOOLS_BIN_DIR)/mdbook-embed
+$(MDBOOK_EMBED): $(TOOLS_DIR)/go.mod
+	cd $(TOOLS_DIR); go build -tags=tools -o $(TOOLS_BIN_DIR)/mdbook-embed sigs.k8s.io/cluster-api/hack/tools/mdbook/embed
 
 ## ------------------------------------
 ## Documentation tooling for Netlify
@@ -32,7 +33,7 @@ $(MDBOOK_BIN): # Download the binary
 	curl -L $(MDBOOK_RELEASE_URL) | tar xvz -C $(TOOLS_BIN_DIR)
 
 .PHONY: netlify-build
-netlify-build: $(RELEASETAGS) $(MDBOOK_BIN)
+netlify-build: $(MDBOOK_EMBED) $(RELEASETAGS) $(MDBOOK_BIN)
 	$(MDBOOK_BIN) build $(SOURCE_PATH)
 
 
