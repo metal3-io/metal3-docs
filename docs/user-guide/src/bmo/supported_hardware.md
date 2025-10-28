@@ -108,9 +108,9 @@ and undocumented.
 | Technology      | Protocol | Boot method   | BMC address format                  | Notes                                                                   |
 |-----------------|----------|---------------|-------------------------------------|-------------------------------------------------------------------------|
 | Fujitsu iRMC    | iRMC     | iPXE          | `irmc://<host>:<port>`              | Port is optional, the default is 443.                                   |
-| HPE iLO 4       | iLO      | iPXE          | `ilo4://<host>:<port>`              | Port is optional, the default is 443.                                   |
-|                 | iLO      | Virtual media | `ilo4-virtualmedia://<host>:<port>` |                                                                         |
-| HPE iLO 5       | iLO      | iPXE          | `ilo5://<host>:<port>`              | Should only be used instead of Redfish if you need RAID support.        |
+| HPE iLO 4       | iLO      | iPXE          | `ilo4://<host>:<port>`              | **Removed** after BMO 0.11 / Ironic 32.0.                               |
+|                 | iLO      | Virtual media | `ilo4-virtualmedia://<host>:<port>` | **Removed** after BMO 0.11 / Ironic 32.0.                               |
+| HPE iLO 5       | iLO      | iPXE          | `ilo5://<host>:<port>`              | **Removed** after BMO 0.11 / Ironic 32.0.                               |
 
 <!-- markdownlint-enable MD013 -->
 
