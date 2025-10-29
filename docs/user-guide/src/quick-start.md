@@ -79,7 +79,7 @@ and the MAC address:
 Start by defining a libvirt network:
 
 ```xml
-{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"docs/user-guide/examples/net.xml"}}
+{{#embed-github repo:"Nordix/metal3-docs" branch:"lentzi90/quick-revision" path:"docs/user-guide/examples/net.xml"}}
 ```
 
 Save this as `net.xml`.
@@ -91,7 +91,7 @@ the form of [sushy-tools](https://docs.openstack.org/sushy/latest/).
 We need to create a configuration file for sushy-tools:
 
 ```conf
-{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"docs/user-guide/examples/sushy-emulator.conf"}}
+{{#embed-github repo:"Nordix/metal3-docs" branch:"lentzi90/quick-revision" path:"docs/user-guide/examples/sushy-emulator.conf"}}
 ```
 
 Finally, we start up the virtual baremetal lab and create VMs to simulate the
@@ -122,7 +122,7 @@ note that this is absolutely not intended for production environments.
 We will use the following configuration file for kind, save it as `kind.yaml`:
 
 ```yaml
-{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"docs/user-guide/examples/kind.yaml"}}
+{{#embed-github repo:"Nordix/metal3-docs" branch:"lentzi90/quick-revision" path:"docs/user-guide/examples/kind.yaml"}}
 ```
 
 As you can see, it has a few ports forwarded from the host. This is to make
@@ -132,20 +132,20 @@ We will also need to install cert-manager and Ironic Standalone Operator.
 Finally, we deploy Ironic and Bare Metal Operator.
 
 ```bash
-{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"docs/user-guide/examples/setup-bootstrap.sh"}}
+{{#embed-github repo:"Nordix/metal3-docs" branch:"lentzi90/quick-revision" path:"docs/user-guide/examples/setup-bootstrap.sh"}}
 ```
 
 We use the following manifest to deploy Ironic. Feel free to adjust as
 needed for your environment.
 
 ```yaml
-{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"docs/user-guide/examples/ironic.yaml"}}
+{{#embed-github repo:"Nordix/metal3-docs" branch:"lentzi90/quick-revision" path:"docs/user-guide/examples/ironic.yaml"}}
 ```
 
 For the Bare Metal Operator, we use a kustomization that looks like this:
 
 ```yaml
-{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"docs/user-guide/examples/bmo/kustomization.yaml"}}
+{{#embed-github repo:"Nordix/metal3-docs" branch:"lentzi90/quick-revision" path:"docs/user-guide/examples/bmo/kustomization.yaml"}}
 ```
 
 ### DHCP server
@@ -182,7 +182,7 @@ that can be used to provision the servers. In this guide, we will use an nginx
 container for this. We also download some images that will be used later.
 
 ```bash
-{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"docs/user-guide/examples/image-server.sh"}}
+{{#embed-github repo:"Nordix/metal3-docs" branch:"lentzi90/quick-revision" path:"docs/user-guide/examples/image-server.sh"}}
 ```
 
 ## Deployment summary
