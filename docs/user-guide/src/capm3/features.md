@@ -7,3 +7,4 @@
 - [Label synchronization](./label_sync.md)
 - [Data sources](./data_sources.md)
 - [ClusterClass](./clusterclass.md)
+- [Failure domain](./failure_domain.md)

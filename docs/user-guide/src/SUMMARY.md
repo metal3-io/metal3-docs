@@ -47,6 +47,7 @@
       - [Label synchronization](capm3/label_sync.md)
       - [Data sources](capm3/data_sources.md)
       - [ClusterClass](capm3/clusterclass.md)
+      - [Failure Domain](capm3/failure_domain.md)
 - [Ip-address-manager](ipam/introduction.md)
    - [Install Ip-address-manager](ipam/ipam_installation.md)
 - [Troubleshooting FAQ](troubleshooting.md)
