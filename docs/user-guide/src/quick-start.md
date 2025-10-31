@@ -2,7 +2,7 @@
 
 <!-- cSpell:ignore htpasswd,virsh -->
 
-This guide has been tested on Ubuntu server 22.04. It should be seen as an
+This guide has been tested on Ubuntu server 24.04. It should be seen as an
 example rather than the absolute truth about how to deploy and use Metal3. We
 will cover two environments and two scenarios. The environments are
 
@@ -79,70 +79,28 @@ and the MAC address:
 Start by defining a libvirt network:
 
 ```xml
-<network>
-  <name>baremetal</name>
-  <forward mode='nat'>
-    <nat>
-      <port start='1024' end='65535'/>
-    </nat>
-  </forward>
-  <bridge name='metal3'/>
-  <ip address='192.168.222.1' netmask='255.255.255.0'>
-  </ip>
-</network>
+{{#embed-github repo:"Nordix/metal3-docs" branch:"lentzi90/quick-revision" path:"docs/user-guide/examples/net.xml"}}
 ```
 
-Save this as `net.xml`, define it and start it.
-
-```bash
-virsh -c qemu:///system net-define net.xml
-virsh -c qemu:///system net-start baremetal
-```
-
-Next, we will create a virtual machine. Feel free to adjust at as you see fit,
-but make sure to note the MAC address. That will be needed later. You can also
-create more than one if you like.
-
-```bash
-# use --ram=8192 for Scenario 2
-virt-install \
-  --connect qemu:///system \
-  --name bmh-vm-01 \
-  --description "Virtualized BareMetalHost" \
-  --osinfo=ubuntu-lts-latest \
-  --ram=4096 \
-  --vcpus=2 \
-  --disk size=25 \
-  --graphics=none \
-  --console pty \
-  --serial pty \
-  --pxe \
-  --network network=baremetal,mac="00:60:2f:31:81:01" \
-  --noautoconsole
-```
-
-### Sushy-tools - AKA the BMC
+Save this as `net.xml`.
 
 Metal3 relies on baseboard management controllers to manage the baremetal
 servers, so we need something similar for our virtual machines. This comes in
 the form of [sushy-tools](https://docs.openstack.org/sushy/latest/).
 
-We need to create configuration file first:
+We need to create a configuration file for sushy-tools:
 
 ```conf
-# Listen on 192.168.222.1:8000
-SUSHY_EMULATOR_LISTEN_IP = u'192.168.222.1'
-SUSHY_EMULATOR_LISTEN_PORT = 8000
-# The libvirt URI to use. This option enables libvirt driver.
-SUSHY_EMULATOR_LIBVIRT_URI = u'qemu:///system'
+{{#embed-github repo:"Nordix/metal3-docs" branch:"lentzi90/quick-revision" path:"docs/user-guide/examples/sushy-emulator.conf"}}
 ```
 
+Finally, we start up the virtual baremetal lab and create VMs to simulate the
+servers. Feel free to adjust things as you see fit, but make sure to note the
+MAC address. That will be needed later. You can choose how many VMs to create.
+One is needed for scenario 1, two or more for scenario 2.
+
 ```bash
-docker run --name sushy-tools --rm --network host -d \
-  -v /var/run/libvirt:/var/run/libvirt \
-  -v "$(pwd)/sushy-tools.conf:/etc/sushy/sushy-emulator.conf" \
-  -e SUSHY_EMULATOR_CONFIG=/etc/sushy/sushy-emulator.conf \
-  quay.io/metal3-io/sushy-tools:latest sushy-emulator
+{{#embed-github repo:"Nordix/metal3-docs" branch:"lentzi90/quick-revision" path:"docs/user-guide/examples/setup-virtual-lab.sh"}}
 ```
 
 ## Common setup
@@ -164,52 +122,44 @@ note that this is absolutely not intended for production environments.
 We will use the following configuration file for kind, save it as `kind.yaml`:
 
 ```yaml
-kind: Cluster
-apiVersion: kind.x-k8s.io/v1alpha4
-nodes:
-- role: control-plane
-  # Open ports for Ironic
-  extraPortMappings:
-  # Ironic httpd
-  - containerPort: 6180
-    hostPort: 6180
-    listenAddress: "0.0.0.0"
-    protocol: TCP
-  # Ironic API
-  - containerPort: 6385
-    hostPort: 6385
-    listenAddress: "0.0.0.0"
-    protocol: TCP
+{{#embed-github repo:"Nordix/metal3-docs" branch:"lentzi90/quick-revision" path:"docs/user-guide/examples/kind.yaml"}}
 ```
 
 As you can see, it has a few ports forwarded from the host. This is to make
 Ironic reachable when it is running inside the kind cluster.
 
-Now go ahead and create the cluster:
+We will also need to install cert-manager and Ironic Standalone Operator.
+Finally, we deploy Ironic and Bare Metal Operator.
 
 ```bash
-kind create cluster --config kind.yaml
+{{#embed-github repo:"Nordix/metal3-docs" branch:"lentzi90/quick-revision" path:"docs/user-guide/examples/setup-bootstrap.sh"}}
 ```
 
-We will need to install cert-manager also. It will be used to manage the
-certificates for Ironic later.
+We use the following manifest to deploy Ironic. Feel free to adjust as
+needed for your environment.
 
-```bash
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.3/cert-manager.yaml
+```yaml
+{{#embed-github repo:"Nordix/metal3-docs" branch:"lentzi90/quick-revision" path:"docs/user-guide/examples/ironic.yaml"}}
+```
+
+For the Bare Metal Operator, we use a kustomization that looks like this:
+
+```yaml
+{{#embed-github repo:"Nordix/metal3-docs" branch:"lentzi90/quick-revision" path:"docs/user-guide/examples/bmo/kustomization.yaml"}}
 ```
 
 ### DHCP server
 
 The BareMetalHosts must be able to call back to Ironic when going through the
 inspection phase. This means that they must have IP addresses in a network where
-they can reach Ironic. We will set up a DHCP server for this purpose.
-
-Any DHCP server can be used for this. We will here use the Ironic container
-image that incudes dnsmasq and some scripts for configuring it.
-
-Create a configuration file and save it as `dnsmasq.env`.
+they can reach Ironic. Any DHCP server can be used for this. We will use the Ironic
+container image that includes dnsmasq.
 
 Baremetal lab:
+
+We will here use the Ironic container
+image that incudes dnsmasq and some scripts for configuring it.
+Create a configuration file and save it as `dnsmasq.env`.
 
 ```bash
 # The same HTTP port must be provided to all containers!
@@ -225,340 +175,14 @@ DHCP_RANGE=192.168.0.100,192.168.0.149
 GATEWAY_IP=192.168.0.1
 ```
 
-Virtualized environment:
-
-```bash
-HTTP_PORT=6180
-DHCP_HOSTS=00:60:2f:31:81:01
-DHCP_IGNORE=tag:!known
-# IP of the host from VM perspective
-PROVISIONING_IP=192.168.222.1
-GATEWAY_IP=192.168.222.1
-DHCP_RANGE=192.168.222.100,192.168.222.149
-```
-
-You can now run the DHCP server like this:
-
-```bash
-docker run --name dnsmasq --rm -d --net=host --privileged --user 997:994 \
-  --env-file dnsmasq.env --entrypoint /bin/rundnsmasq \
-  quay.io/metal3-io/ironic
-```
-
 ### Image server
 
 In order to do anything useful, we will need a server for hosting disk images
-that can be used to provision the servers.
-
-Create a directory to hold the disk images:
-
-```bash
-mkdir disk-images
-```
-
-Download images to use for testing (pick those that you want):
+that can be used to provision the servers. In this guide, we will use an nginx
+container for this. We also download some images that will be used later.
 
 ```bash
-pushd disk-images
-wget https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img
-wget https://cloud-images.ubuntu.com/jammy/current/SHA256SUMS
-sha256sum --ignore-missing -c SHA256SUMS
-wget https://cloud.centos.org/centos/9-stream/x86_64/images/CentOS-Stream-GenericCloud-9-latest.x86_64.qcow2
-wget https://cloud.centos.org/centos/9-stream/x86_64/images/CentOS-Stream-GenericCloud-9-latest.x86_64.qcow2.SHA256SUM
-sha256sum -c CentOS-Stream-GenericCloud-9-latest.x86_64.qcow2.SHA256SUM
-wget https://artifactory.nordix.org/artifactory/metal3/images/k8s_v1.33.0/CENTOS_9_NODE_IMAGE_K8S_v1.33.0.qcow2
-sha256sum CENTOS_9_NODE_IMAGE_K8S_v1.33.0.qcow2
-popd
-```
-
-Run a basic http server to expose the disk images:
-
-```bash
-docker run --name image-server --rm -d -p 80:8080 \
-  -v "$(pwd)/disk-images:/usr/share/nginx/html" nginxinc/nginx-unprivileged
-```
-
-### Deploy Ironic
-
-In this section we will create a
-[kustomization](https://kubectl.docs.kubernetes.io/references/kustomize/glossary/#kustomization)
-containing configuration and credentials for deploying Ironic.
-
-Create a folder to hold the kustomization:
-
-```bash
-mkdir ironic
-```
-
-#### Authentication configuration
-
-Create authentication configuration for Ironic. You will need to
-generate a username and password for it. We will here refer to them as
-`IRONIC_USERNAME` and `IRONIC_PASSWORD`.
-
-To enable basic auth, we need to create a secret containing the key
-`IRONIC_HTPASSWD` with values generated from the credentials using htpasswd. We
-will do this by creating a file `ironic-htpasswd` with the following content.
-
-```bash
-IRONIC_HTPASSWD="<output of `htpasswd -n -b -B IRONIC_USERNAME IRONIC_PASSWORD`>"
-```
-
-#### Ironic environment variables
-
-In this section we will create a file containing environment variables used to
-configure Ironic and related components. We will call the file `ironic_bmo.env`.
-It looks like this for the baremetal lab:
-
-```bash
-# Same port as exposed in kind.yaml
-HTTP_PORT=6180
-# This is the interface inside the container
-PROVISIONING_INTERFACE=eth0
-# URL where the http server is exposed (IP of management computer)
-CACHEURL=http://192.168.0.150
-IRONIC_IP=192.168.0.150
-IRONIC_KERNEL_PARAMS=console=ttyS0
-# IP where the BMCs can access Ironic to get the virtualmedia boot image.
-# This is the IP of the management computer in the out of band network.
-IRONIC_EXTERNAL_IP=192.168.1.7
-# URLs where the servers can callback during inspection.
-# IP of management computer in the other network and same ports as in kind.yaml
-IRONIC_EXTERNAL_CALLBACK_URL=https://192.168.0.150:6385
-IRONIC_INSPECTOR_CALLBACK_ENDPOINT_OVERRIDE=https://192.168.0.150:5050
-```
-
-For the virtualized environment it looks like this:
-
-```bash
-HTTP_PORT=6180
-PROVISIONING_INTERFACE=eth0
-CACHEURL=http://192.168.222.1/images
-IRONIC_KERNEL_PARAMS=console=ttyS0
-# Docker does not allow cross-network access. If using kind to create the management
-# cluster, explicitly set the external ip and use port forwarding to access ironic services. 
-IRONIC_EXTERNAL_IP=192.168.222.1
-```
-
-For more details on available variables, see the
-[ironic-image repository](https://github.com/metal3-io/ironic-image/tree/main).
-
-#### Patch Ironic Deployment
-
-The Ironic kustomization that we build on includes a dnsmasq container used for
-DHCP and PXE booting. However, we already set this up separately, because it is
-tricky to expose a DHCP server running inside kind. This means that we do not
-need the dnsmasq container that comes with the kustomization by default.
-
-We will create a patch for removing it. It looks like this:
-
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: ironic
-spec:
-  template:
-    spec:
-      containers:
-      - name: ironic-dnsmasq
-        $patch: delete
-```
-
-Save it as `ironic-patch.yaml`.
-
-#### Ironic kustomization
-
-Time to tie it all together by creating a `kustomization.yaml`. At this point
-you should have a file structure like this:
-
-```text
-ironic/
-├── ironic-htpasswd
-├── ironic-patch.yaml
-├── ironic_bmo.env
-└── kustomization.yaml
-```
-
-Here is a commented `kustomization.yaml`. Check carefully the IP addresses as
-these will always differ depending on environment.
-
-```yaml
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-namespace: baremetal-operator-system
-# These are the kustomizations we build on. You can download them and change the URLs to relative
-# paths if you do not want to access them over the network.
-# Note that the ref=v0.11.0 specifies the version to use.
-resources:
-- https://github.com/metal3-io/baremetal-operator/config/namespace?ref=v0.11.0
-- https://github.com/metal3-io/baremetal-operator/ironic-deployment/base?ref=v0.11.0
-# The kustomize components configure basic-auth and TLS
-components:
-- https://github.com/metal3-io/baremetal-operator/ironic-deployment/components/basic-auth?ref=v0.11.0
-- https://github.com/metal3-io/baremetal-operator/ironic-deployment/components/tls?ref=v0.11.0
-images:
-- name: quay.io/metal3-io/ironic
-  newTag: v32.0.0
-# Create a ConfigMap from ironic_bmo.env and call it ironic-bmo-configmap.
-# This ConfigMap will be used to set environment variables for the containers.
-configMapGenerator:
-- envs:
-  - ironic_bmo.env
-  name: ironic-bmo-configmap
-  behavior: create
-
-patches:
-# Patch for removing dnsmasq
-- path: ironic-patch.yaml
-# The TLS component adds certificates but it cannot know the exact IPs of our environment.
-# Here we patch the certificates to have the correct IPs.
-# - 192.168.1.7: management computer IP in out of band network
-# - 172.18.0.2: kind cluster node IP. This is what Ironic will see attached to the interface.
-# - 192.168.0.150: management computer IP in the other network
-- patch: |-
-    - op: replace
-      path: /spec/ipAddresses/0
-      value: 192.168.1.7
-    - op: add
-      path: /spec/ipAddresses/-
-      value: 172.18.0.2
-    - op: add
-      path: /spec/ipAddresses/-
-      value: 192.168.0.150
-  # The same patch in the virtualized environment looks like this:
-  # - op: replace
-  #   path: /spec/ipAddresses/0
-  #   value: 192.168.222.1
-  # - op: add
-  #   path: /spec/ipAddresses/-
-  #   value: 172.18.0.2
-  target:
-    kind: Certificate
-    name: ironic-cert
-# The CA certificate should not have any IP address so we remove it.
-- patch: |-
-    - op: remove
-      path: /spec/ipAddresses
-  target:
-    kind: Certificate
-    name: ironic-cacert
-# Create secrets from the authentication configuration.
-# These will be mounted or used for environment variables.
-# See the basic-auth component for more details on how they are used.
-secretGenerator:
-- name: ironic-htpasswd
-  behavior: create
-  envs:
-  - ironic-htpasswd
-```
-
-You can check that it works and inspect the resulting manifest by running this:
-
-```bash
-kubectl create -k ironic --dry-run=client -o yaml
-```
-
-When you are happy with the output, apply it in the cluster:
-
-```bash
-kubectl apply -k ironic
-```
-
-### Deploy Bare Metal Operator
-
-Similar to Ironic, we will create a kustomization for deploying Baremetal
-Operator. It will include credentials for accessing Ironic. Start with creating
-a folder for the kustomization:
-
-```bash
-mkdir bmo
-```
-
-Create files containing the credentials for Ironic:
-
-- ironic-username
-- ironic-password
-
-We will use kustomize to create secrets from these that Bare Metal Operator can
-use to access Ironic.
-
-Next, create a file for environment variables. We will call it `ironic.env`. The
-content looks like this for the baremetal lab:
-
-```bash
-DEPLOY_KERNEL_URL=http://192.168.0.150:6180/images/ironic-python-agent.kernel
-DEPLOY_RAMDISK_URL=http://192.168.0.150:6180/images/ironic-python-agent.initramfs
-IRONIC_ENDPOINT=https://192.168.0.150:6385/v1/
-```
-
-The IP address is that of the management computer. The same in the virtualized
-environment looks like this:
-
-```bash
-DEPLOY_KERNEL_URL=http://192.168.222.1:6180/images/ironic-python-agent.kernel
-DEPLOY_RAMDISK_URL=http://192.168.222.1:6180/images/ironic-python-agent.initramfs
-IRONIC_ENDPOINT=https://192.168.222.1:6385/v1/
-```
-
-Finally, create the `kustomization.yaml` with this content:
-
-```yaml
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-namespace: baremetal-operator-system
-# This is the kustomization that we build on. You can download it and change
-# the URL to a relative path if you do not want to access it over the network.
-# Note that the ref=v0.11.0 specifies the version to use.
-resources:
-- https://github.com/metal3-io/baremetal-operator/config/namespace?ref=v0.11.0
-- https://github.com/metal3-io/baremetal-operator/config/base?ref=v0.11.0
-components:
-- https://github.com/metal3-io/baremetal-operator/config/components/basic-auth?ref=v0.11.0
-- https://github.com/metal3-io/baremetal-operator/config/components/tls?ref=v0.11.0
-images:
-- name: quay.io/metal3-io/baremetal-operator
-  newTag: v0.11.0
-# Create a ConfigMap from ironic.env and name it ironic.
-configMapGenerator:
-- name: ironic
-  behavior: create
-  envs:
-  - ironic.env
-
-# We cannot use suffix hashes since the kustomizations we build on
-# cannot be aware of what suffixes we add.
-generatorOptions:
-  disableNameSuffixHash: true
-# Create secrets with the credentials for accessing Ironic.
-secretGenerator:
-- name: ironic-credentials
-  files:
-  - username=ironic-username
-  - password=ironic-password
-```
-
-At this point, you should have a folder structure like this:
-
-```text
-bmo/
-├── ironic-password
-├── ironic-username
-├── ironic.env
-└── kustomization.yaml
-```
-
-You can check that the kustomization works and inspect the resulting manifest by
-running this:
-
-```bash
-kubectl create -k bmo --dry-run=client -o yaml
-```
-
-When you are happy with the output, apply it in the cluster:
-
-```bash
-kubectl apply -k bmo
+{{#embed-github repo:"Nordix/metal3-docs" branch:"lentzi90/quick-revision" path:"docs/user-guide/examples/image-server.sh"}}
 ```
 
 ## Deployment summary
@@ -578,7 +202,7 @@ place.
 1. Deploy cert-manager.
 
    ```bash
-   kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.3/cert-manager.yaml
+   kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
    ```
 
 1. Start the DHCP server.
