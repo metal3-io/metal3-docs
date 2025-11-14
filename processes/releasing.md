@@ -8,6 +8,12 @@ the post-release actions required to add new release branches to the CI.
 High-level release process for a major/minor release. For patch releases, only
 release the relevant versions.
 
+**TIP**: To speed up the release process, run the `hack/verify-release.sh`
+script on all release branches of all repos (and on the main branch for
+pre-releases). The script shows if any modules need updating or if there are
+CVE fixes required. Open PRs to fix these issues in parallel to make the
+release process faster.
+
 **NOTE**: [Ironic-image](https://github.com/metal3-io/ironic-image) (via
 upstream Ironic) and
 [IrSO](https://github.com/metal3-io/ironic-standalone-operator) (linked to
