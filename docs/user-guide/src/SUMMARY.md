@@ -39,6 +39,9 @@
    - [Old Installation Process](ironic/ironic_installation.md)
 - [Cluster-api-provider-metal3](capm3/introduction.md)
    - [Install Metal³ provider](capm3/installation_guide.md)
+   - [Custom Resources](capm3/custom_resources.md)
+      - [Metal3DataTemplate](capm3/metal3datatemplate.md)
+      - [Metal3Data](capm3/metal3data.md)
    - [Features](capm3/features.md)
       - [Remediation](capm3/remediaton.md)
       - [Node Reuse](capm3/node_reuse.md)
@@ -47,7 +50,11 @@
       - [Label synchronization](capm3/label_sync.md)
       - [Data sources](capm3/data_sources.md)
       - [ClusterClass](capm3/clusterclass.md)
+<<<<<<< HEAD
       - [Failure Domain](capm3/failure_domain.md)
+=======
+      - [Label Sync](capm3/label_sync.md)
+>>>>>>> e47b0ef (fix: remove the doc link part and also and fix all the isss)
 - [Ip-address-manager](ipam/introduction.md)
    - [Install Ip-address-manager](ipam/ipam_installation.md)
 - [Troubleshooting FAQ](troubleshooting.md)
