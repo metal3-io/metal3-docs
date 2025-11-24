@@ -1,0 +1,12 @@
+apiVersion: metal3.io/v1alpha1
+kind: BareMetalHost
+metadata:
+  name: bml-vm-01
+spec:
+  online: true
+  bootMACAddress: 00:60:2f:31:81:01
+  bootMode: UEFI
+  hardwareProfile: libvirt
+  bmc:
+    address: redfish-virtualmedia+http://192.168.222.1:8000/redfish/v1/Systems/bmh-vm-01
+    credentialsName: bml-01
