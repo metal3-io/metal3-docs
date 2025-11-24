@@ -107,7 +107,7 @@ and undocumented.
 
 | Technology      | Protocol | Boot method   | BMC address format                  | Notes                                                                   |
 |-----------------|----------|---------------|-------------------------------------|-------------------------------------------------------------------------|
-| Fujitsu iRMC    | iRMC     | iPXE          | `irmc://<host>:<port>`              | Port is optional, the default is 443.                                   |
+| Fujitsu iRMC    | iRMC     | iPXE          | `irmc://<host>:<port>`              | **Deprecated**, to be removed after BMO 0.12.                           |
 | HPE iLO 4       | iLO      | iPXE          | `ilo4://<host>:<port>`              | **Removed** after BMO 0.11 / Ironic 32.0.                               |
 |                 | iLO      | Virtual media | `ilo4-virtualmedia://<host>:<port>` | **Removed** after BMO 0.11 / Ironic 32.0.                               |
 | HPE iLO 5       | iLO      | iPXE          | `ilo5://<host>:<port>`              | **Removed** after BMO 0.11 / Ironic 32.0.                               |
