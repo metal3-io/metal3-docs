@@ -117,6 +117,8 @@ The following cosmetic changes will be done to the new version:
   Note that using namespace other than the namespace of the BareMetalHost is
   already disallowed because of security concerns.
 
+- Remove the `Firmware` field since no maintained drivers support it any more.
+
 ### Implementation Details/Notes/Constraints
 
 Since the new API version will mostly involve removing or renaming fields,
@@ -203,6 +205,8 @@ On the path `v1alpha1` -> `v1beta1`:
 
   Rename the `DiskFormat` field in the structure definition to `Format` to be
   consistent with the field name in the API.
+
+- `Firmware` is removed without replacement.
 
 On the path `v1beta1` -> `v1alpha1`:
 
