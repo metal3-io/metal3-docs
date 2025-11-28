@@ -60,7 +60,7 @@ not schedulable
 
 Below commands may be used to perform servicing operation on a bareMetalHost:
 
-```yaml
+```bash
 cat << EOF > hup.yaml
 apiVersion: metal3.io/v1alpha1
 kind: HostUpdatePolicy

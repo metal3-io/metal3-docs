@@ -286,111 +286,110 @@ spec:
   templateReference: SharedRef
   metaData:
     strings:
-      - key: abc
-        value: def
+    - key: abc
+      value: def
     objectNames:
-      - key: name_m3m
-        object: metal3machine
-      - key: name_machine
-        object: machine
-      - key: name_bmh
-        object: baremetalhost
+    - key: name_m3m
+      object: metal3machine
+    - key: name_machine
+      object: machine
+    - key: name_bmh
+      object: baremetalhost
     indexes:
-      - key: index
-        offset: 0
-        step: 1
+    - key: index
+      offset: 0
+      step: 1
     ipAddesses:
-      - key: ip
-        start: 192.168.0.10
-        end: 192.168.0.100
-        subnet: 192.168.0.0/24
-        step: 1
+    - key: ip
+      start: 192.168.0.10
+      end: 192.168.0.100
+      subnet: 192.168.0.0/24
+      step: 1
     fromHostInterfaces:
-      - key: mac
-        interface: "eth0"
+    - key: mac
+      interface: "eth0"
     fromLabels:
-      - key: label-1
-        object: metal3machine
-        label: mylabelname
+    - key: label-1
+      object: metal3machine
+      label: mylabelname
     fromAnnotations:
-      - key: annotation-1
-        object: machine
-        annotation: myannotationname
+    - key: annotation-1
+      object: machine
+      annotation: myannotationname
   networkData:
     links:
       ethernets:
-        - type: "phy"
-          id: "enp1s0"
-          mtu: 1500
-          macAddress:
-            fromHostInterface: "eth0"
-        - type: "phy"
-          id: "enp2s0"
-          mtu: 1500
-          macAddress:
-            fromHostInterface: "eth1"
+      - type: "phy"
+        id: "enp1s0"
+        mtu: 1500
+        macAddress:
+          fromHostInterface: "eth0"
+      - type: "phy"
+        id: "enp2s0"
+        mtu: 1500
+        macAddress:
+          fromHostInterface: "eth1"
       bonds:
-        - id: "bond0"
-          mtu: 1500
-          macAddress:
-            string: "XX:XX:XX:XX:XX:XX"
-          bondMode: "802.1ad"
-          bondLinks:
-            - enp1s0
-            - enp2s0
+      - id: "bond0"
+        mtu: 1500
+        macAddress:
+          string: "XX:XX:XX:XX:XX:XX"
+        bondMode: "802.1ad"
+        bondLinks:
+        - enp1s0
+        - enp2s0
       vlans:
-        - id: "vlan1"
-          mtu: 1500
-          macAddress:
-            string: "YY:YY:YY:YY:YY:YY"
-          vlanId: 1
-          vlanLink: bond0
+      - id: "vlan1"
+        mtu: 1500
+        macAddress:
+          string: "YY:YY:YY:YY:YY:YY"
+        vlanId: 1
+        vlanLink: bond0
     networks:
       ipv4DHCP:
-        - id: "provisioning"
-          link: "bond0"
-
+      - id: "provisioning"
+        link: "bond0"
       ipv4:
-        - id: "Baremetal"
-          link: "vlan1"
-          ipAddress:
-            start: "192.168.0.10"
-            end: "192.168.0.100"
-            subnet: "192.168.0.0/24"
-            step: 1
-          netmask: 24
-          routes:
-            - network: "0.0.0.0"
-              netmask: 0
-              gateway: "192.168.0.1"
-              services:
-                - type: "dns"
-                  address: "8.8.4.4"
+      - id: "Baremetal"
+        link: "vlan1"
+        ipAddress:
+          start: "192.168.0.10"
+          end: "192.168.0.100"
+          subnet: "192.168.0.0/24"
+          step: 1
+        netmask: 24
+        routes:
+        - network: "0.0.0.0"
+          netmask: 0
+          gateway: "192.168.0.1"
+          services:
+          - type: "dns"
+            address: "8.8.4.4"
       ipv6DHCP:
-        - id: "provisioning6"
-          link: "bond0"
+      - id: "provisioning6"
+        link: "bond0"
       ipv6SLAAC:
-        - id: "provisioning6slaac"
-          link: "bond0"
+      - id: "provisioning6slaac"
+        link: "bond0"
       ipv6:
-        - id: "Baremetal6"
-          link: "vlan1"
-          ipAddress:
-            start: "2001:0db8:85a3::8a2e:0370:a"
-            end: "2001:0db8:85a3::8a2e:0370:fff0"
-            subnet: "2001:0db8:85a3::8a2e:0370:0/64"
-            step: 10
+      - id: "Baremetal6"
+        link: "vlan1"
+        ipAddress:
+          start: "2001:0db8:85a3::8a2e:0370:a"
+          end: "2001:0db8:85a3::8a2e:0370:fff0"
+          subnet: "2001:0db8:85a3::8a2e:0370:0/64"
+          step: 10
           netmask: 64
           routes:
-            - network: "0::0"
-              netmask: 0
-              gateway: "2001:0db8:85a3::8a2e:0370:1"
-              services:
-                - dns: "2001:4860:4860::8844"
+          - network: "0::0"
+            netmask: 0
+            gateway: "2001:0db8:85a3::8a2e:0370:1"
+            services:
+            - dns: "2001:4860:4860::8844"
     services:
       dns:
-        - "8.8.8.8"
-        - "2001:4860:4860::8888"
+      - "8.8.8.8"
+      - "2001:4860:4860::8888"
 status:
   indexes:
     "0": "machine-1"
@@ -409,7 +408,7 @@ while `networkData` will be rendered into a map equivalent of
 [Nova network_data.json](https://docs.openstack.org/nova/latest/user/metadata.html#openstack-format-metadata).
 On the target node, the network data will be rendered as a json object that
 follows the format definition that can be found
-[here](https://docs.openstack.org/nova/latest/_downloads/9119ca7ac90aa2990e762c08baea3a36/network_data.json).
+[over here](https://docs.openstack.org/nova/latest/_downloads/9119ca7ac90aa2990e762c08baea3a36/network_data.json).
 
 #### Metadata Specifications
 
@@ -615,7 +614,7 @@ spec:
   networkData:
     name: machine-1-metadata
     namespace: default
- claim:
+  claim:
     name: machine-1
     namespace: default
   template:

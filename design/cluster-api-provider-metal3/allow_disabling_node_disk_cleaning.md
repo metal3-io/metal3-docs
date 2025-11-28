@@ -82,9 +82,9 @@ apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
 kind: Metal3MachineTemplate
 metadata:
 spec:
- template:
- spec:
-  automatedCleaningMode: Disabled   # default value is Metadata
+  template:
+  spec:
+    automatedCleaningMode: Disabled   # default value is Metadata
 ```
 
 A new Metal3MachineTemplate controller will be introduced to reconcile
@@ -107,10 +107,9 @@ apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
 kind: Metal3Machine
 metadata:
 spec:
- template:
- spec:
-  automatedCleaningMode: Disabled   # default value is Metadata
-
+  template:
+  spec:
+    automatedCleaningMode: Disabled   # default value is Metadata
 ```
 
 #### Baremetal Operator
@@ -127,10 +126,9 @@ cleaning. By default `automatedCleaningMode` will be set to Metadata
 apiVersion: metal3.io/v1alpha1
 kind: BareMetalHost
 metadata:
- name: worker-0
+  name: worker-0
 spec:
- automatedCleaningMode: Disabled   # default value is Metadata
- ...
+  automatedCleaningMode: Disabled   # default value is Metadata
 ```
 
 ## Design Details

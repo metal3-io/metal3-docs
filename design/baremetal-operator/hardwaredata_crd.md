@@ -184,14 +184,14 @@ metadata:
     name: bmh-sample
     uid: 546392e0-66b1-45c0-8d3d-6994ff82b477
 spec:
-    # inspection data
-    cpu:
-    firmware:
-    hostname:
-    nics:
-    ramMebibytes:
-    storage:
-    systemVendor:
+  # inspection data
+  cpu:
+  firmware:
+  hostname:
+  nics:
+  ramMebibytes:
+  storage:
+  systemVendor:
 ```
 
 ### Risks and Mitigations

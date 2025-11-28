@@ -56,11 +56,11 @@ Add support for new parameters:
    Types of architecture are 32-bit (x86) and 64-bit
    (x86-64, IA64, and AMD64).
 
-   ```yaml
-   hardware:
-       cpu:
-          arch: "x86_64"
-   ```
+```yaml
+hardware:
+  cpu:
+    arch: "x86_64"
+```
 
 1. `hardwareCharacteristics.firmware.bios`
 
@@ -80,14 +80,14 @@ Add support for new parameters:
    Investigation details: Below is sample introspection data for firmware.
    `BIOS` field under firmware have two fields, `vendor` and `version`.
 
-    ```yaml
-    hardware:
-        firmware:
-             bios:
-               date: "10/17/2018"
-               vendor: "Dell Inc."
-               version: "1.5.6"
-    ```
+```yaml
+hardware:
+  firmware:
+    bios:
+      date: "10/17/2018"
+      vendor: "Dell Inc."
+      version: "1.5.6"
+```
 
 1. `hardwareCharacteristics.systemVendor`
 
@@ -108,12 +108,12 @@ Add support for new parameters:
    systemVendor. `systemVendor` field contains `manufacturer` and
    `productName`.
 
-    ```yaml
-    hardware:
-        systemVendor:
-          manufacturer: Dell Inc.
-          productName: PowerEdge R640 (SKU=NotProvided;ModelName=PowerEdge R640)
-    ```
+```yaml
+hardware:
+  systemVendor:
+    manufacturer: Dell Inc.
+    productName: PowerEdge R640 (SKU=NotProvided;ModelName=PowerEdge R640)
+```
 
 ### Implementation Details/Notes/Constraints
 
@@ -123,27 +123,26 @@ Link for Existing HWCC Specs
 * Below is sample yaml for additional parameters in HardwareClassification.
   Units will be updated in User guide document of HWC.
 
-   ```yaml
-
-   apiVersion: metal3.io.sigs.k8s.io/v1alpha1
-   kind: HardwareClassification
-   metadata:
-     name: profile1
-   spec:
-     hardwareCharacteristics:
-       CPU:
-          arch: x86_64
-          minimumCount: 4
-          minimumSpeedMHz: 4300
-       Firmware:
-          Bios:
-            vendor: Dell Inc.
-            minorVersion: 1.2.3
-            majorVersion: 3.4.5
-       SystemVendor:
-           manufacturer: Dell Inc.
-           productName: PowerEdge R640
-   ```
+```yaml
+apiVersion: metal3.io.sigs.k8s.io/v1alpha1
+kind: HardwareClassification
+metadata:
+  name: profile1
+spec:
+  hardwareCharacteristics:
+    CPU:
+      arch: x86_64
+      minimumCount: 4
+      minimumSpeedMHz: 4300
+    Firmware:
+      Bios:
+        vendor: Dell Inc.
+        minorVersion: 1.2.3
+        majorVersion: 3.4.5
+    SystemVendor:
+      manufacturer: Dell Inc.
+      productName: PowerEdge R640
+```
 
 * Update the existing Schema `HardwareClassification` by adding new
   parameters "arch" under CPU.

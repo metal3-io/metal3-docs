@@ -177,7 +177,7 @@ metadata:
   # ...
 spec:
   settings:
-     QuietBoot: true
+    QuietBoot: true
 status:
   # ...
 ```

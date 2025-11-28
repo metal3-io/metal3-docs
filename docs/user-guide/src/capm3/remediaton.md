@@ -66,7 +66,6 @@ remediated. Here is an example MachineHealthCheck and Metal3Remediation for
 worker nodes:
 
 ```yaml
-
 apiVersion: cluster.x-k8s.io/v1beta1
 kind: MachineHealthCheck
 metadata:
@@ -108,12 +107,11 @@ spec:
 Metal3RemediationTemplate for worker nodes:
 
 ```yaml
-
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: Metal3RemediationTemplate
 metadata:
-    name: worker-remediation-request
-    namespace: metal3
+  name: worker-remediation-request
+  namespace: metal3
 spec:
   template:
     spec:
@@ -121,7 +119,6 @@ spec:
         type: "Reboot"
         retryLimit: 2
         timeout: 300s
-
 ```
 
 ### Enable remediation for control plane nodes
@@ -134,7 +131,6 @@ remediation feature. Control plane nodes are identified by the
 and Metal3Remediation for control plane nodes:
 
 ```yaml
-
 apiVersion: cluster.x-k8s.io/v1beta1
 kind: MachineHealthCheck
 metadata:
@@ -148,28 +144,26 @@ spec:
     matchLabels:
       cluster.x-k8s.io/control-plane: ""
   unhealthyConditions:
-    - type: Ready
-      status: Unknown
-      timeout: 300s
-    - type: Ready
-      status: "False"
-      timeout: 300s
+  - type: Ready
+    status: Unknown
+    timeout: 300s
+  - type: Ready
+    status: "False"
+    timeout: 300s
   remediationTemplate: # added infrastructure reference
     kind: Metal3RemediationTemplate
     apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
     name: controlplane-remediation-request
-
 ```
 
 Metal3RemediationTemplate for control plane nodes:
 
 ```yaml
-
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: Metal3RemediationTemplate
 metadata:
-    name: controlplane-remediation-request
-    namespace: metal3
+  name: controlplane-remediation-request
+  namespace: metal3
 spec:
   template:
     spec:
@@ -177,7 +171,6 @@ spec:
         type: "Reboot"
         retryLimit: 1
         timeout: 300s
-
 ```
 
 ## Limitations and caveats of Metal3 remediation

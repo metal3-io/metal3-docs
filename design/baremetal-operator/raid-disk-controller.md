@@ -51,11 +51,11 @@ sections in it, for hardware RAID:
 spec:
   raid:
     hardwareRAIDVolumes:
-      - sizeGibiBytes: 1000
-        level: 1
-        name: <volume-name>
-        rotational: true
-        numberOfPhysicalDisks: 2
+    - sizeGibiBytes: 1000
+      level: 1
+      name: <volume-name>
+      rotational: true
+      numberOfPhysicalDisks: 2
 ```
 
 We propose to add fields into the CRD, in the following manner:
@@ -64,24 +64,24 @@ We propose to add fields into the CRD, in the following manner:
 spec:
   raid:
     hardwareRAIDVolumes:
-      - sizeGibiBytes: 1000
-        level: 1
-        name: <volume-1-name>
-        rotational: true
-        numberOfPhysicalDisks: 2
-        physicalDisks:
-          - <disk-1-name>
-          - <disk-2-name>
-        controller: <controller-1-name>
-      - sizeGibiBytes: 2000
-        level: 0
-        name: <volume-2-name>
-        rotational: false
-        numberOfPhysicalDisks: 2
-        physicalDisks:
-          - <disk-3-name>
-          - <disk-4-name>
-        controller: <controller-2-name>
+    - sizeGibiBytes: 1000
+      level: 1
+      name: <volume-1-name>
+      rotational: true
+      numberOfPhysicalDisks: 2
+      physicalDisks:
+      - <disk-1-name>
+      - <disk-2-name>
+      controller: <controller-1-name>
+    - sizeGibiBytes: 2000
+      level: 0
+      name: <volume-2-name>
+      rotational: false
+      numberOfPhysicalDisks: 2
+      physicalDisks:
+      - <disk-3-name>
+      - <disk-4-name>
+      controller: <controller-2-name>
 ```
 
 The disk and RAID controller names are vendor-specific. Examples disk names

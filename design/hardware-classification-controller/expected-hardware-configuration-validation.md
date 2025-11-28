@@ -48,26 +48,25 @@ bare-metal](https://github.com/metal3-io/baremetal-operator/blob/93cd6bdae72ff44
 
 - Below is sample yaml of Kind HardwareClassification.
 
-   ```yaml
-
-   apiVersion: metal3.io.sigs.k8s.io/v1alpha1
-   kind: HardwareClassification
-   metadata:
-     name: profile1
-   spec:
-   expectedValidationConfiguration:
-      namespace: metal3
-      CPU:
-         minimumCount: 4
-         minimumSpeed: 4.3
-      Disk:
-         minimumCount: 2
-         minimumIndividualSizeGB: 2200
-      NIC:
-         minimumCount: 4
-      RAM:
-         minimumSizeGB: 32
-   ```
+```yaml
+apiVersion: metal3.io.sigs.k8s.io/v1alpha1
+kind: HardwareClassification
+metadata:
+  name: profile1
+spec:
+expectedValidationConfiguration:
+  namespace: metal3
+  CPU:
+  minimumCount: 4
+  minimumSpeed: 4.3
+  Disk:
+    minimumCount: 2
+    minimumIndividualSizeGB: 2200
+  NIC:
+    minimumCount: 4
+  RAM:
+    minimumSizeGB: 32
+```
 
    Similarly, user can mention maximum requirements for CPU, Disk, NICS and RAM.
 
