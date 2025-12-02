@@ -63,7 +63,7 @@ The [Goals](#goals) section discusses some of the immediate changes we should
 expect, but as the project continues to mature, many of the other services
 provided by the CNCF would be very beneficial to metal3-io.  The CNCF web site
 does a nice job discussing what services they offer projects on the
-[Services for CNCF Projects](https://www.cncf.io/services-for-projects/) page.
+[Services for CNCF Projects](https://contribute.cncf.io/resources/services/) page.
 
 ## Design Details
 
