@@ -118,7 +118,7 @@ Add support for new parameters:
 ### Implementation Details/Notes/Constraints
 
 Link for Existing HWCC Specs
-[Existing YAML](https://github.com/metal3-io/hardware-classification-controller/blob/master/config/samples/metal3.io_v1alpha1_hardwareclassification.yaml)
+[Existing YAML](https://github.com/metal3-io/hardware-classification-controller/blob/main/config/samples/metal3.io_v1alpha1_hardwareclassification.yaml)
 
 * Below is sample yaml for additional parameters in HardwareClassification.
   Units will be updated in User guide document of HWC.
