@@ -84,7 +84,7 @@ For execution with VMs
 
 This is a high-level architecture of the Metal³-dev-env. Note that for an Ubuntu-based setup, either Kind or Minikube can be used to instantiate an ephemeral cluster, while for a CentOS-based setup, only Minikube is currently supported. The ephemeral cluster creation tool can be manipulated with the EPHEMERAL_CLUSTER environment variable.
 
- ![metal3-dev-env image](https://github.com/metal3-io/metal3-docs/raw/main/images/metal3-dev-env.png)
+ ![metal3-dev-env image](https://raw.githubusercontent.com/metal3-io/metal3-docs/main/images/metal3-dev-env.png)
 
 The short version is: clone [metal³-dev-env](https://github.com/metal3-io/metal3-dev-env)
 and run
@@ -138,7 +138,7 @@ downloaded from the `IMAGE_LOCATION` value configured.
 ### 1.5. Setting environment variables
 
 > **_info:_** "Environment variables"
-> More information about the specific environment variables used to set up metal3-dev-env can be found [here](https://github.com/metal3-io/metal3-dev-env/blob/master/vars.md).
+> More information about the specific environment variables used to set up metal3-dev-env can be found [here](https://github.com/metal3-io/metal3-dev-env/blob/main/vars.md).
 
 To set environment variables persistently, export them from the configuration file used by metal³-dev-env scripts:
 
