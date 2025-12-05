@@ -99,7 +99,7 @@ container images with tags like `capm3-v1.7.0`, where `v1.7.0` would be the
 CAPM3 release it was tested with.
 
 All container images are published through the
-[Metal³ organization in Quay](https://quay.io/organization/metal3-io).
+[Metal³ organization in Quay](https://quay.io/organization/metal3-io/).
 Here are some examples:
 
 - quay.io/metal3-io/cluster-api-provider-metal3:v1.7.0
