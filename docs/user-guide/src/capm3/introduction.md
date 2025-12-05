@@ -48,7 +48,7 @@ We also encourage ALL active community participants to act as if they are mainta
 
 We also would love to add more “official” maintainers, so show us what you can do!
 
-All the repositories in the Metal3 project, including the Cluster API Provider Metal3 GitHub repository, use the Kubernetes bot commands. The full list of the commands can be found [here.](https://go.k8s.io/bot-commands) Note that some of them might not be implemented in metal3 CI.
+All the repositories in the Metal3 project, including the Cluster API Provider Metal3 GitHub repository, use the Kubernetes bot commands. The full list of the commands can be found [here.](https://prow.k8s.io/command-help) Note that some of them might not be implemented in metal3 CI.
 
 ## Community
 
