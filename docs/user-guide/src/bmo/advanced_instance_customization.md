@@ -56,5 +56,5 @@ spec:
 ```
 
 [network_data]: https://docs.openstack.org/nova/latest/user/metadata.html#openstack-format-metadata
-[ipa_builder]: https://docs.openstack.org/ironic-python-agent-builder/
+[ipa_builder]: https://docs.openstack.org/ironic-python-agent-builder/latest/
 [simple_init]: https://docs.openstack.org/diskimage-builder/latest/elements/simple-init/README.html
