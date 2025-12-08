@@ -96,7 +96,7 @@ spec:
   version: "32.0"
 ```
 
-**HINT:** there is need to configure API credentials: IrSO will generate a
+**HINT:** there is no need to configure API credentials: IrSO will generate a
 random password for you.
 
 However, there is one option that you might want to set in all scenarios: the
