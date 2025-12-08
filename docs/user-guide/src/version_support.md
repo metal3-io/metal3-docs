@@ -75,19 +75,20 @@ maintained as supported releases.
 
 Following table summarizes Ironic-image release/test process:
 
-| Minor release | Status    | Ironic Branch      |
-| ------------- | --------- | ------------------ |
-| v32.0         | Supported | stable/2025.2      |
-| v31.0         | Supported | bugfix/31.0        |
-| v30.0         | Supported | bugfix/30.0        |
-| v29.0         | Supported | stable/2025.1      |
-| v28.0         | Supported | bugfix/28.0        |
-| v27.0         | Supported | bugfix/27.0        |
-| v26.0         | EOL       | bugfix/26.0        |
-| v25.0         | EOL       | bugfix/25.0 (EOL)  |
-| v24.1         | EOL       | stable/2024.1      |
-| v24.0         | EOL       | bugfix/24.0 (EOL)  |
-| v23.1         | EOL       | bugfix/23.1 (EOL)  |
+| Minor release | Status    | Ironic Branch       |
+| ------------- | --------- | ------------------- |
+| v33.0         | Supported | bugfix/33.0         |
+| v32.0         | Supported | stable/2025.2       |
+| v31.0         | Supported | bugfix/31.0         |
+| v30.0         | EOL       | bugfix/30.0         |
+| v29.0         | Tested    | stable/2025.1       |
+| v28.0         | EOL       | bugfix/28.0 (EOL)   |
+| v27.0         | Tested    | bugfix/27.0 (EOL)   |
+| v26.0         | EOL       | bugfix/26.0 (EOL)   |
+| v25.0         | EOL       | bugfix/25.0 (EOL)   |
+| v24.1         | EOL       | stable/2024.1 (EOL) |
+| v24.0         | EOL       | bugfix/24.0 (EOL)   |
+| v23.1         | EOL       | bugfix/23.1 (EOL)   |
 
 ## Image tags
 
