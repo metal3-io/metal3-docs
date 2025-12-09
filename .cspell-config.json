@@ -215,6 +215,7 @@
     "sdk",
     "service.d",
     "sh",
+    "shellcheck",
     "SIG",
     "SLAAC",
     "snmp",
