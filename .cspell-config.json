@@ -94,6 +94,8 @@
     "hctl",
     "healthcheck",
     "Hellmann",
+    "HostClaim",
+    "HostClaims",
     "hostname",
     "HWCC",
     "idrac",
