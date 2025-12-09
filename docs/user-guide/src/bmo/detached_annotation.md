@@ -1,14 +1,17 @@
 # Detaching Hosts from Provisioner
 
-The detached annotation provides a way to prevent management of a BareMetalHost.
-It works by deleting the host information from Ironic without triggering deprovisioning.
-The BareMetal Operator will recreate the host in Ironic again once the annotation is removed.
-This annotation can be used with BareMetalHosts in `Provisioned`, `ExternallyProvisioned` or `Available` states.
+The detached annotation provides a way to prevent management of a
+BareMetalHost. It works by deleting the host information from Ironic without
+triggering deprovisioning. The BareMetal Operator will recreate the host in
+Ironic again once the annotation is removed. This annotation can be used with
+BareMetalHosts in `Provisioned`, `ExternallyProvisioned` or `Available` states.
 
-Normally, deleting a BareMetalHost will always trigger deprovisioning.
-This can be problematic and unnecessary if we just want to, for example, move the BareMetalHost from one cluster to another.
-By applying the annotation before removing the BareMetalHost from the old cluster, we can ensure that the host is not disrupted by this (normally it would be deprovisioned).
-The next step is then to recreate it in the new cluster without triggering a new inspection.
+Normally, deleting a BareMetalHost will always trigger deprovisioning. This can
+be problematic and unnecessary if we just want to, for example, move the
+BareMetalHost from one cluster to another. By applying the annotation before
+removing the BareMetalHost from the old cluster, we can ensure that the host is
+not disrupted by this (normally it would be deprovisioned). The next step is
+then to recreate it in the new cluster without triggering a new inspection.
 See the [status annotation page](./status_annotation.md) for how to do this.
 
 The detached annotation is also useful if you want to move the host under
@@ -20,8 +23,8 @@ For more details, please see the [design proposal](https://github.com/metal3-io/
 
 ## How to detach
 
-The annotation key is `baremetalhost.metal3.io/detached` and the value can be anything (it is ignored).
-Here is an example:
+The annotation key is `baremetalhost.metal3.io/detached` and the value can be
+anything (it is ignored). Here is an example:
 
 ```yaml
 apiVersion: metal3.io/v1alpha1

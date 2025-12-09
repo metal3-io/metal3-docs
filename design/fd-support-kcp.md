@@ -103,8 +103,8 @@ metadata:
 
 When CAPM3 reconciles the `Metal3Machine` object representing the control-plane
 Machine that KCP created, it will check if `Machine.Spec.FailureDomain` has a value,
-which in our example is fd-1. CAPM3 will pick a BMH that has the fd-1 label, such as
-the one we have defined above.
+which in our example is fd-1. CAPM3 will pick a BMH that has the fd-1 label,
+such as the one we have defined above.
 
 ## FD labels on the Node object
 

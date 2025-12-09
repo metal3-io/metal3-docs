@@ -394,11 +394,13 @@ The `fromPoolAnnotation` field can be used in:
 
 - Network configuration to specify which IPPool to use for IP address allocation
 - Gateway configuration to specify which IPPool to use for gateway IP resolution
-- Route gateway configuration to specify which IPPool to use for route gateway IP resolution
+- Route gateway configuration to specify which IPPool to use for route gateway
+  IP resolution
 
 The `fromPoolAnnotation` field contains:
 
-- **object**: The object type to read the annotation from (`baremetalhost`, `machine`, `metal3machine`)
+- **object**: The object type to read the annotation from (`baremetalhost`,
+  `machine`, `metal3machine`)
 - **annotation**: The annotation key containing the IPPool name
 
 If the annotation does not exist, the IPPool name is rendered as an empty string,

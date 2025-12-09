@@ -1,6 +1,7 @@
 # Metal3 Project
 
-[comment]: After adding the releasetag preprocessor the build fails with output "thread 'main' panicked at '', src/utils/fs.rs:45:10" if there are links with empty paths.
+<!-- After adding the releasetag preprocessor the build fails with -->
+<!-- "thread 'main' panicked" if there are links with empty paths. -->
 
 [Introduction](introduction.md)
 

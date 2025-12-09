@@ -54,9 +54,9 @@ but overflows could happen in case of slow provisioners and / or higher number o
 concurrent reconciles. For such reasons, it is highly recommended to keep
 BMO_CONCURRENCY value lower than the requested PROVISIONING_LIMIT. Default is 20.
 
-`IRONIC_EXTERNAL_URL_V6` -- This is the URL where Ironic will find the image for
-nodes that use IPv6. In dual stack environments, this can be used to tell Ironic which IP
-version it should set on the BMC.
+`IRONIC_EXTERNAL_URL_V6` -- This is the URL where Ironic will find the image
+for nodes that use IPv6. In dual stack environments, this can be used to tell
+Ironic which IP version it should set on the BMC.
 
 ### Deprecated options
 
@@ -258,8 +258,9 @@ ironic-deployment/
 The `ironic-deployment` folder contains kustomizations for deploying Ironic.
 It makes use of kustomize components for basic auth, TLS and keepalived configurations.
 This makes it easy to combine the configurations, for example basic auth + TLS.
-There are some ready made overlays in the `overlays` folder that shows how this can be done.
-For more information, check the readme in the `ironic-deployment` folder.
+There are some ready made overlays in the `overlays` folder that shows how this
+can be done. For more information, check the readme in the `ironic-deployment`
+folder.
 
 ### Deployment commands
 

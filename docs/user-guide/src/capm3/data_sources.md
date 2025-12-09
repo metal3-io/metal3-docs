@@ -106,8 +106,15 @@ configuration, such as:
 > With other templates the data is mostly just copied over to deployed resources
 > but the networking template supports convenience features like matching NICs
 > (see [NIC matching](### NIC matching). Misconfiguration here can lead to
-> provisioning errors: `"msg"="Reconciler error" "error"="Failed to create secrets: NIC name not found enp1s0"`.
-> For example, see: [CAPM3 Issue #1998](https://github.com/metal3-io/cluster-api-provider-metal3/issues/1998)
+> provisioning errors:
+>
+> ```text
+> "msg"="Reconciler error"
+> "error"="Failed to create secrets: NIC name not found enp1s0".
+> ```
+>
+> For example, see:
+> [CAPM3 Issue #1998](https://github.com/metal3-io/cluster-api-provider-metal3/issues/1998)
 
 The relevant fields in `Metal3Data` are
 

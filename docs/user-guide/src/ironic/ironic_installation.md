@@ -47,7 +47,8 @@ folders that will help us to install Ironic for each mentioned case. In each
 of these deployments, a ConfigMap will be created and mounted to the Ironic pod.
 The ConfigMap will be populated based on environment variables from
 [ironic-deployment/default/ironic_bmo_configmap.env](https://github.com/metal3-io/baremetal-operator/blob/main/ironic-deployment/default/ironic_bmo_configmap.env).
-As such, update `ironic_bmo_configmap.env` with your custom values before deploying the Ironic.
+As such, update `ironic_bmo_configmap.env` with your custom values before
+deploying the Ironic.
 
 **WARNING:** Ironic normally listens on the host network of the control plane
 nodes. If you do not enable authentication, anyone with access to this network
@@ -118,9 +119,9 @@ installation script. This will start below containers:
 - httpd
 - mariadb; if `IRONIC_USE_MARIADB` = "true"
 
-If in-cluster ironic installation, we used different manifests for TLS and basic auth,
-here we are exporting environment variables for enabling/disabling TLS & basic auth
-but use the same script.
+If in-cluster ironic installation, we used different manifests for TLS and
+basic auth, here we are exporting environment variables for enabling/disabling
+TLS & basic auth but use the same script.
 
 TLS and Basic authentication disabled (not recommended)
 

@@ -51,8 +51,8 @@ The compatibility of IPAM and CAPM3 API versions with CAPI is discussed
 ## Baremetal Operator
 
 Since `capm3-v1.1.2`, BMO follows the semantic versioning scheme for its own
-release cycle, the same way as CAPM3 and IPAM. Two branches are maintained as supported releases.
-Following table summarizes BMO release/test process:
+release cycle, the same way as CAPM3 and IPAM. Two branches are maintained as
+supported releases. Following table summarizes BMO release/test process:
 
 | Minor release | Status    |
 | ------------- | --------- |

@@ -2,7 +2,8 @@
 
 <!-- cSpell:ignore fcos -->
 
- Ready to start taking steps towards your first experience with metal3? Follow these commands to get started!
+ Ready to start taking steps towards your first experience with metal3? Follow
+ these commands to get started!
 
 - [1. Environment Setup](#1-environment-setup)
    - [1.1. Prerequisites](#11-prerequisites)
@@ -24,9 +25,9 @@
 ## 1. Environment Setup
 
 > **_info:_** "Naming"
-> For the v1alpha3 release, the Cluster API provider for Metal3 was renamed from
-> Cluster API provider BareMetal (CAPBM) to Cluster API provider Metal3 (CAPM3). Hence,
-> from v1alpha3 onwards it is Cluster API provider Metal3.
+> For the v1alpha3 release, the Cluster API provider for Metal3 was renamed
+> from Cluster API provider BareMetal (CAPBM) to Cluster API provider Metal3
+> (CAPM3). Hence, from v1alpha3 onwards it is Cluster API provider Metal3.
 
 ### 1.1. Prerequisites
 
@@ -51,7 +52,8 @@ For execution with VMs
 ```
 
 - Save and exit
-- Manually **enable nested virtualization** if you don't have it enabled in your system
+- Manually **enable nested virtualization** if you don't have it enabled in
+  your system
 
 ```console
   # To enable nested virtualization
@@ -80,9 +82,16 @@ For execution with VMs
 ### 1.2. Setup
 
 > **_info:_** "Information"
-> If you need detailed information regarding the process of creating a Metal³ emulated environment using metal3-dev-env, it is worth taking a look at the blog post ["A detailed walkthrough of the Metal³ development environment"](https://metal3.io/blog/2020/02/18/metal3-dev-env-install-deep-dive.html).
+> If you need detailed information regarding the process of creating a Metal3
+> emulated environment using metal3-dev-env, it is worth taking a look at the
+> blog post
+> ["A detailed walkthrough of the Metal3 development environment"](https://metal3.io/blog/2020/02/18/metal3-dev-env-install-deep-dive.html).
 
-This is a high-level architecture of the Metal³-dev-env. Note that for an Ubuntu-based setup, either Kind or Minikube can be used to instantiate an ephemeral cluster, while for a CentOS-based setup, only Minikube is currently supported. The ephemeral cluster creation tool can be manipulated with the EPHEMERAL_CLUSTER environment variable.
+This is a high-level architecture of the Metal3-dev-env. Note that for an
+Ubuntu-based setup, either Kind or Minikube can be used to instantiate an
+ephemeral cluster, while for a CentOS-based setup, only Minikube is currently
+supported. The ephemeral cluster creation tool can be manipulated with the
+EPHEMERAL_CLUSTER environment variable.
 
  ![metal3-dev-env image](https://raw.githubusercontent.com/metal3-io/metal3-docs/main/images/metal3-dev-env.png)
 
@@ -100,12 +109,14 @@ The `Makefile` runs a series of scripts, described here:
 - `02_configure_host.sh` - Creates a set of VMs that will be managed as if they
   were bare metal hosts. It also downloads some images needed for Ironic.
 
-- `03_launch_mgmt_cluster.sh` - Launches a management cluster using `minikube` or `kind`
-  and runs the `baremetal-operator` on that cluster.
+- `03_launch_mgmt_cluster.sh` - Launches a management cluster using `minikube`
+  or `kind` and runs the `baremetal-operator` on that cluster.
 
-- `04_verify.sh` - Runs a set of tests that verify that the deployment was completed successfully.
+- `04_verify.sh` - Runs a set of tests that verify that the deployment was
+  completed successfully.
 
-When the environment setup is completed, you should be able to see the `BareMetalHost` (`bmh`) objects in the Ready state.
+When the environment setup is completed, you should be able to see the
+`BareMetalHost` (`bmh`) objects in the Ready state.
 
 ### 1.3. Tear Down
 
@@ -123,24 +134,31 @@ To tear down the environment, run
 >
 > ```console
 > error: failed to connect to the hypervisor \
-> error: Failed to connect socket to '/var/run/libvirt/libvirt-sock':  Permission denied
+> error: Failed to connect socket to '/var/run/libvirt/libvirt-sock': \
+> Permission denied
 > ```
 >
-> You may need to log out then log in again, and run `make clean` and `make` again.
+> You may need to log out then log in again, and run `make clean` and `make`
+> again.
 
 ### 1.4. Using Custom Image
 
-Whether you want to run target cluster Nodes with your own image, you can override the three following variables: `IMAGE_NAME`,
-`IMAGE_LOCATION`, `IMAGE_USERNAME`. If the requested image with the name `IMAGE_NAME` does not
-exist in the `IRONIC_IMAGE_DIR` (/opt/metal3-dev-env/ironic/html/images) folder, then it will be automatically
-downloaded from the `IMAGE_LOCATION` value configured.
+Whether you want to run target cluster Nodes with your own image, you can
+override the three following variables: `IMAGE_NAME`, `IMAGE_LOCATION`,
+`IMAGE_USERNAME`. If the requested image with the name `IMAGE_NAME` does not
+exist in the `IRONIC_IMAGE_DIR` (/opt/metal3-dev-env/ironic/html/images) folder,
+then it will be automatically downloaded from the `IMAGE_LOCATION` value
+configured.
 
 ### 1.5. Setting environment variables
 
 > **_info:_** "Environment variables"
-> More information about the specific environment variables used to set up metal3-dev-env can be found [here](https://github.com/metal3-io/metal3-dev-env/blob/main/vars.md).
+> More information about the specific environment variables used to set up
+> metal3-dev-env can be found
+> [here](https://github.com/metal3-io/metal3-dev-env/blob/main/vars.md).
 
-To set environment variables persistently, export them from the configuration file used by metal³-dev-env scripts:
+To set environment variables persistently, export them from the configuration
+file used by metal3-dev-env scripts:
 
 ```bash
  cp config_example.sh config_$(whoami).sh
@@ -154,18 +172,27 @@ To set environment variables persistently, export them from the configuration fi
 This environment creates a set of VMs to manage as if they were bare metal
 hosts.
 
-There are two different host OSs that the metal3-dev-env setup process is tested on.
+There are two different host OSs that the metal3-dev-env setup process is
+tested on.
 
-1. Host VM/Server on CentOS, while the target can be Ubuntu or CentOS, Cirros, or FCOS.
-2. Host VM/Server on Ubuntu, while the target can be Ubuntu or CentOS, Cirros, or FCOS.
+1. Host VM/Server on CentOS, while the target can be Ubuntu or CentOS, Cirros,
+   or FCOS.
+2. Host VM/Server on Ubuntu, while the target can be Ubuntu or CentOS, Cirros,
+   or FCOS.
 
-The way the k8s cluster is running in the above two scenarios is different. For CentOS `minikube` cluster is used as the source cluster, for Ubuntu, a `kind` cluster is being created.
-As such, when the host (where the `make` command was issued) OS is CentOS, there should be three libvirt VMs and one of them should be a `minikube` VM.
+The way the k8s cluster is running in the above two scenarios is different. For
+CentOS `minikube` cluster is used as the source cluster, for Ubuntu, a `kind`
+cluster is being created. As such, when the host (where the `make` command was
+issued) OS is CentOS, there should be three libvirt VMs and one of them should
+be a `minikube` VM.
 
-In case the host OS is Ubuntu, the k8s source cluster is created by using `kind`, so in this case the `minikube` VM won't be present.
+In case the host OS is Ubuntu, the k8s source cluster is created by using
+`kind`, so in this case the `minikube` VM won't be present.
 
-To configure what tool should be used for creating source k8s cluster the `EPHEMERAL_CLUSTER` environment variable is responsible.
-The `EPHEMERAL_CLUSTER` is configured to build `minikube` cluster by default on a CentOS host and `kind` cluster on a Ubuntu host.
+To configure what tool should be used for creating source k8s cluster the
+`EPHEMERAL_CLUSTER` environment variable is responsible. The `EPHEMERAL_CLUSTER`
+is configured to build `minikube` cluster by default on a CentOS host and
+`kind` cluster on a Ubuntu host.
 
 VMs can be listed using `virsh` cli tool.
 
@@ -180,8 +207,8 @@ $ sudo virsh list
  2     node_1     running
 ```
 
-In case the `EPHEMERAL_CLUSTER` environment variable is set to `minikube` the list of
-running virtual machines will look like this:
+In case the `EPHEMERAL_CLUSTER` environment variable is set to `minikube` the
+list of running virtual machines will look like this:
 
 ```console
 $ sudo virsh list
@@ -326,13 +353,17 @@ This section describes how to trigger the provisioning of a cluster and hosts vi
 `Machine` objects as part of the Cluster API integration. This uses Cluster API
 [v1beta1](https://github.com/kubernetes-sigs/cluster-api/tree/v1.0.2) and
 assumes that metal3-dev-env is deployed with the environment variable
-**CAPM3_VERSION** set to **v1beta1**. This is the default behavior. The v1beta1 deployment can be done with
-Ubuntu 22.04 or Centos 9 Stream target host images. Please make sure to meet
-[resource requirements](#11-prerequisites) for successful deployment:
+**CAPM3_VERSION** set to **v1beta1**. This is the default behavior. The v1beta1
+deployment can be done with Ubuntu 22.04 or Centos 9 Stream target host images.
+Please make sure to meet [resource requirements](#11-prerequisites) for
+successful deployment:
 
-See [support version](https://github.com/metal3-io/cluster-api-provider-metal3#compatibility-with-cluster-api) for more on CAPI compatibility
+See
+[support version](https://github.com/metal3-io/cluster-api-provider-metal3#compatibility-with-cluster-api)
+for more on CAPI compatibility
 
-The following scripts can be used to provision a cluster, controlplane node and worker node.
+The following scripts can be used to provision a cluster, controlplane node and
+worker node.
 
 ```console
 ./tests/scripts/provision/cluster.sh
@@ -341,10 +372,11 @@ The following scripts can be used to provision a cluster, controlplane node and 
 ```
 
 At this point, the `Machine` actuator will respond and try to claim a
-`BareMetalHost` for this `Metal3Machine`. You can check the logs of the actuator.
+`BareMetalHost` for this `Metal3Machine`. You can check the logs of the
+actuator.
 
-First, check the names of the pods running in the `baremetal-operator-system` namespace and the output should be something similar
-to this:
+First, check the names of the pods running in the `baremetal-operator-system`
+namespace and the output should be something similar to this:
 
 ```console
 $ kubectl -n baremetal-operator-system get pods
@@ -352,8 +384,9 @@ NAME                                                    READY   STATUS    RESTAR
 baremetal-operator-controller-manager-5fd4fb6c8-c9prs   2/2     Running   0          71m
 ```
 
-In order to get the logs of the actuator the logs of the baremetal-operator-controller-manager instance have to be queried with
-the following command:
+In order to get the logs of the actuator the logs of the
+baremetal-operator-controller-manager instance have to be queried with the
+following command:
 
 ```console
 $ kubectl logs -n baremetal-operator-system pod/baremetal-operator-controller-manager-5fd4fb6c8-c9prs -c manager
@@ -362,12 +395,12 @@ $ kubectl logs -n baremetal-operator-system pod/baremetal-operator-controller-ma
 ...
 ```
 
-Keep in mind that the suffix hashes e.g. `5fd4fb6c8-c9prs` are automatically generated and change in case of a different
-deployment.
+Keep in mind that the suffix hashes e.g. `5fd4fb6c8-c9prs` are automatically
+generated and change in case of a different deployment.
 
-If you look at the yaml representation of the `Metal3Machine` object, you will see a
-new annotation that identifies which `BareMetalHost` was chosen to satisfy this
-`Metal3Machine` request.
+If you look at the yaml representation of the `Metal3Machine` object, you will
+see a new annotation that identifies which `BareMetalHost` was chosen to
+satisfy this `Metal3Machine` request.
 
 First list the `Metal3Machine` objects present in the `metal3` namespace:
 
@@ -378,8 +411,9 @@ test1-controlplane-jjd9l   metal3://d4848820-55fd-410a-b902-5b2122dd206c   true 
 test1-workers-bx4wp        metal3://ee337588-be96-4d5b-95b9-b7375969debd   true    test1
 ```
 
-Based on the name of the `Metal3Machine` objects you can check the yaml representation of the object and
-see from its annotation which `BareMetalHost` was chosen.
+Based on the name of the `Metal3Machine` objects you can check the yaml
+representation of the object and see from its annotation which `BareMetalHost`
+was chosen.
 
 ```console
 $ kubectl get metal3machine test1-workers-bx4wp -n metal3 -o yaml
@@ -390,7 +424,8 @@ $ kubectl get metal3machine test1-workers-bx4wp -n metal3 -o yaml
 ```
 
 You can also see in the list of `BareMetalHosts` that one of the hosts is now
-provisioned and associated with a `Metal3Machines` by looking at the `CONSUMER` output column of the following command:
+provisioned and associated with a `Metal3Machines` by looking at the `CONSUMER`
+output column of the following command:
 
 ```console
 $ kubectl get baremetalhosts -n metal3
@@ -399,8 +434,8 @@ node-0   provisioned   test1-controlplane-jjd9l   true             122m
 node-1   provisioned   test1-workers-bx4wp        true             122m
 ```
 
-It is also possible to check which `Metal3Machine` serves as the infrastructure for the ClusterAPI `Machine`
-objects.
+It is also possible to check which `Metal3Machine` serves as the infrastructure
+for the ClusterAPI `Machine` objects.
 
 First list the `Machine` objects:
 
@@ -411,8 +446,8 @@ test1-6d8cc5965f-wvzms   test1     test1-6d8cc5965f-wvzms   metal3://7f51f14b-77
 test1-nphjx              test1     test1-nphjx              metal3://14fbcd25-4d09-4aca-9628-a789ba3e175c   Running   55m   v1.22.3
 ```
 
-As a next step you can check what serves as the infrastructure backend for e.g. `test1-6d8cc5965f-wvzms` `Machine`
-object:
+As a next step you can check what serves as the infrastructure backend for e.g.
+`test1-6d8cc5965f-wvzms` `Machine` object:
 
 ```console
 $ kubectl get machine test1-6d8cc5965f-wvzms -n metal3 -o yaml
@@ -426,14 +461,14 @@ $ kubectl get machine test1-6d8cc5965f-wvzms -n metal3 -o yaml
 ...
 ```
 
-Based on the result of the query `test1-6d8cc5965f-wvzms` ClusterAPI `Machine` object is backed by
-`test1-workers-bx4wp` `Metal3Machine` object.
+Based on the result of the query `test1-6d8cc5965f-wvzms` ClusterAPI `Machine`
+object is backed by `test1-workers-bx4wp` `Metal3Machine` object.
 
 You should be able to ssh into your host once provisioning is completed.
 The default username for both CentOS & Ubuntu images is `metal3`.
 For the IP address, you can either use the API endpoint IP of the target cluster
-which is - `192.168.111.249` by default or use the predictable IP address of the first
-master node - `192.168.111.100`.
+which is - `192.168.111.249` by default or use the predictable IP address of
+the first master node - `192.168.111.100`.
 
 ```console
  ssh metal3@192.168.111.249
@@ -441,7 +476,9 @@ master node - `192.168.111.100`.
 
 ### 2.3. Deprovision Cluster and Machines
 
-Deprovisioning of the target cluster is done just by deleting `Cluster` and `Machine` objects or by executing the de-provisioning scripts in reverse order than provisioning:
+Deprovisioning of the target cluster is done just by deleting `Cluster` and
+`Machine` objects or by executing the de-provisioning scripts in reverse order
+than provisioning:
 
 ```console
 ./tests/scripts/deprovision/worker.sh
@@ -449,16 +486,23 @@ Deprovisioning of the target cluster is done just by deleting `Cluster` and `Mac
 ./tests/scripts/deprovision/cluster.sh
 ```
 
-Note that you can easily de-provision worker Nodes by decreasing the number of replicas in the `MachineDeployment` object created when executing the `provision/worker.sh` script:
+Note that you can easily de-provision worker Nodes by decreasing the number of
+replicas in the `MachineDeployment` object created when executing the
+`provision/worker.sh` script:
 
 ```console
 kubectl scale machinedeployment test1 -n metal3 --replicas=0
 ```
 
 > warning "Warning"
-> control-plane and cluster are very tied together. This means that you are not able to de-provision the control-plane of a cluster and then provision a new one within the same cluster. Therefore, in case you want to de-provision the control-plane you need to **de-provision the cluster** as well and provision both again.
+> control-plane and cluster are very tied together. This means that you are not
+> able to de-provision the control-plane of a cluster and then provision a new
+> one within the same cluster. Therefore, in case you want to de-provision the
+> control-plane you need to **de-provision the cluster** as well and provision
+> both again.
 
-Below, it is shown how the de-provisioning can be executed in a more manual way by just deleting the proper Custom Resources (CR).
+Below, it is shown how the de-provisioning can be executed in a more manual way
+by just deleting the proper Custom Resources (CR).
 
 The order of deletion is:
 
@@ -468,8 +512,10 @@ The order of deletion is:
 4. Metal3Machine objects of the control plane
 5. The cluster object
 
-An additional detail is that the `Machine` object `test1-workers-bx4wp` is controlled by the `test1` `MachineDeployment`
-the object thus in order to avoid reprovisioning of the `Machine` object the `MachineDeployment` has to be deleted instead of the `Machine` object in the case of `test1-workers-bx4wp`.
+An additional detail is that the `Machine` object `test1-workers-bx4wp` is
+controlled by the `test1` `MachineDeployment` the object thus in order to avoid
+reprovisioning of the `Machine` object the `MachineDeployment` has to be
+deleted instead of the `Machine` object in the case of `test1-workers-bx4wp`.
 
 ```console
 $ # By deleting the Machine or MachineDeployment object the related Metal3Machine object(s) should be deleted automatically.
@@ -488,15 +534,20 @@ $ kubectl delete machine test1-m77bn -n metal3
 machine.cluster.x-k8s.io "test1-m77bn" deleted
 
 
-$ # When a Machine object is deleted directly and not by deleting a MachineDeployment the "machine.cluster.x-k8s.io "test1-m77bn" deleted" will be only visible when the Machine and the
-$ # related Metal3Machine object has been fully removed from the cluster. The deletion process could take a few minutes thus the command line will be unresponsive (blocked) for the time being.
+$ # When a Machine object is deleted directly and not by deleting a
+$ # MachineDeployment the "machine.cluster.x-k8s.io "test1-m77bn" deleted" will
+$ # be only visible when the Machine and the related Metal3Machine object has
+$ # been fully removed from the cluster. The deletion process could take a few
+$ # minutes thus the command line will be unresponsive (blocked) for the time
+$ # being.
 
 
 $ kubectl delete cluster test1 -n metal3
 cluster.cluster.x-k8s.io "test1" deleted
 ```
 
-Once the deletion has finished, you can see that the `BareMetalHosts` are offline and `Cluster` object is not present anymore
+Once the deletion has finished, you can see that the `BareMetalHosts` are
+offline and `Cluster` object is not present anymore
 
 ```console
 $ kubectl get baremetalhosts -n metal3
@@ -512,8 +563,10 @@ No resources found in metal3 namespace.
 ### 2.4. Running Custom Baremetal-Operator
 
 The `baremetal-operator` comes up running in the cluster by default, using an
-image built from the [metal3-io/baremetal-operator](https://github.com/metal3-io/baremetal-operator) repository. If you’d like to test changes to the
-`baremetal-operator`, you can follow this process.
+image built from the
+[metal3-io/baremetal-operator](https://github.com/metal3-io/baremetal-operator)
+repository. If you'd like to test changes to the `baremetal-operator`, you can
+follow this process.
 
 First, you must scale down the deployment of the `baremetal-operator` running
 in the cluster.

@@ -72,7 +72,7 @@ a more lightweight approach just for BIOS configuration.
 
 This proposal does not attempt to fulfill the following goals:
 
-- Allow the transfer of BIOS configuration between different vendor’s
+- Allow the transfer of BIOS configuration between different vendor's
   servers or different vendor models
 - Support bulk set of other configurations besides BIOS
 - Provide storage mechanism for BIOS settings
@@ -98,8 +98,8 @@ This ensures all the machines will have the identical settings, reducing issues
 caused by unexpected configuration differences.
 
 Since the name/value pair mapping is vendor specific and not intuitive, it
-doesn’t lend itself to creating the input by hand using existing vendor
-documentation, except for potentially a small subset of names. It’s desirable
+doesn't lend itself to creating the input by hand using existing vendor
+documentation, except for potentially a small subset of names. It's desirable
 to take an existing BIOS config set and modify the current settings to the
 desired settings. The BIOS Registry can be used as a source of documentation
 to modify the settings.

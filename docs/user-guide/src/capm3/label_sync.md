@@ -28,7 +28,8 @@ kubectl label baremetalhosts node-0 my-prefix/rack=xyz-123 -n=metal3
 kubectl label baremetalhosts node-0 test.foobar.io/group=abc -n=metal3
 ```
 
-**Note:** Prefixes should be separated from the rest of the label key by **"/"**, e.g. my-prefix/rack, test.foobar.io/xyz
+**Note:** Prefixes should be separated from the rest of the label key by
+**"/"**, e.g. my-prefix/rack, test.foobar.io/xyz
 
 Now label sync controller will apply same labels to corresponding Kubernetes node.
 

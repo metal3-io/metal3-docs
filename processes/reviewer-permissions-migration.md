@@ -61,7 +61,7 @@ process for that.
 
 If we focus on the transition for now, we can define that process
 separately later. So, I propose that we take the contributors with 10
-or more commits according to github’s contribution list (via the page
+or more commits according to github's contribution list (via the page
 like
 <https://github.com/metal3-io/cluster-api-provider-metal3/graphs/contributors>)
 as the initial set of reviewers for each repo. That will allow us to
@@ -69,7 +69,7 @@ complete the migration and we can expand the list further afterwards.
 
 After we agree on this process, I will propose PRs to each repo to add
 reviewers to the owners files. When we have merged those PRs, we can
-change Prow’s configuration to have it use the OWNERS file instead of
+change Prow's configuration to have it use the OWNERS file instead of
 github org membership for /lgtm permissions. We should also update the
 maintainers process document to include instructions for managing the
 list of org members and for managing the reviewer list for a repo.
