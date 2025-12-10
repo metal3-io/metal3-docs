@@ -22,11 +22,12 @@ aliases:
   # design
   metal3-docs-design-maintainers:
   - dtantsur
+  - elfosardo
   - fmuyassarov
   - kashifest
+  - lentzi90
   - Rozzii
   - zaneb
 
   metal3-docs-design-reviewers:
-  - elfosardo
-  - lentzi90
+  - tuminoid
