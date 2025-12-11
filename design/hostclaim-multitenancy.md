@@ -283,10 +283,10 @@ cluster. However, the resources I intend to use (such as BareMetalHosts or
 KubeVirt virtual machines) will be defined in a separate cluster.
 
 The [multi-tenancy extension](./cluster-api-provider-metal3/multi-tenancy_contract.md)
-for BareMetalHost is extended to HostClaims. The Metal3Machine field ``identityRef`` points to a
-secret containing a kubeconfig object. This kubeconfig will be utilized instead
-of the HostClaim controller service account to create and manage HostClaim
-resources on the remote cluster.
+for BareMetalHost is extended to HostClaims. The Metal3Machine field
+`identityRef` points to a secret containing a kubeconfig object. This
+kubeconfig will be utilized instead of the HostClaim controller service account
+to create and manage HostClaim resources on the remote cluster.
 
 HostClaims do not have an identityRef field; they must be located on the same
 cluster as the BareMetalHost.
@@ -418,9 +418,9 @@ the associated BareMetalHost. It could be modified by a malicious tenant if the
 RBAC privileges are too lenient on the HostClaim namespace (right given to the
 user to modify not only the spec part but also the status part).
 
-But the BareMetalHost has also a consumer reference. The HostClaim status is only an
-indication of the binding. If the consumer reference and the HostClaim status
-differ, priority is given to the consumer reference on the BareMetalHost.
+But the BareMetalHost has also a consumer reference. The HostClaim status is
+only an indication of the binding. If the consumer reference and the HostClaim
+status differ, priority is given to the consumer reference on the BareMetalHost.
 
 #### Performance Impact
 
@@ -549,8 +549,8 @@ The disadvantages of the BareMetalPool approach are:
 
 The first proof of concept of HostClaims copied inspection data from the BareMetalHost
 to the HostClaim. There was no inventory of available hardware visible to the end-user.
-The code was also more complex especially because of metadata synchronization (details in
-the next section).
+The code was also more complex especially because of metadata synchronization
+(details in the next section).
 
 #### Alternative Handling of Metadata
 
@@ -558,21 +558,26 @@ Here are some alternative methods for handling metadata associated with BareMeta
 and used by the Metal3 provider (selection and construction of cloud-init/ignition
 data):
 
-* **Keep metadata in BareMetalHost. Copy to HostClaims** : the purpose of HostClaims is to hide
-  BareMetalHost from users. Selectors and important metadata values would be
-  hidden from their user. Even if infrastructure managers can convey information
-  through other means, this is awkward. The proof of concept had complex rules to maintain
-  HostClaim metadata synchronized with BareMetalHosts.
+* **Keep metadata in BareMetalHost. Copy to HostClaims** : the purpose of
+  HostClaims is to hide BareMetalHost from users. Selectors and important
+  metadata values would be hidden from their user. Even if infrastructure
+  managers can convey information through other means, this is awkward. The
+  proof of concept had complex rules to maintain HostClaim metadata synchronized
+  with BareMetalHosts.
 * **Metadata in HardwareData without synchronization** : infrastructure managers
-  must then create empty HardwareData to define the metadata visible to end users. This simplifies
-  HostDeployPolicy. The main drawback is that it is a non-compatible change with current deployments
-  of BareMetalHosts. Process annotating BareMetalHosts automatically would require modifications.
-* **Metadata in a new custom resource** : This custom resource would only exist for this purpose.
-  Having too many custom resources for a single concept is not a good idea.
-* **Keep some metadata on HardwareData not automatically synchronized with BareMetalHost metadata** :
-  metadata on HardwareData with keys that are not explicitly handled by the HostDeployPolicy would
-  be preserved. This is complex. The only purpose would be for automatic processes labeling HardwareData
-  based on their content, but they can always label BareMetalHost instead of HardwareData. The cost
-  of maintaining such partial synchronization is high.
+  must then create empty HardwareData to define the metadata visible to end
+  users. This simplifies HostDeployPolicy. The main drawback is that it is a
+  non-compatible change with current deployments of BareMetalHosts. Process
+  annotating BareMetalHosts automatically would require modifications.
+* **Metadata in a new custom resource** : This custom resource would only exist
+  for this purpose. Having too many custom resources for a single concept is not
+  a good idea.
+* **Keep some metadata on HardwareData not automatically synchronized with
+  BareMetalHost metadata** : metadata on HardwareData with keys that are not
+  explicitly handled by the HostDeployPolicy would be preserved. This is
+  complex. The only purpose would be for automatic processes labeling
+  HardwareData based on their content, but they can always label BareMetalHost
+  instead of HardwareData. The cost of maintaining such partial synchronization
+  is high.
 
 ## References

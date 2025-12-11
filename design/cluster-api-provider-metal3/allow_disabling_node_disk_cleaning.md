@@ -24,7 +24,7 @@ Currently, when provisioning & de-provisioning Ironic nodes go
 through the [automated-cleaning](https://docs.openstack.org/ironic/latest/admin/cleaning.html#automated-cleaning)
 operation by default. This operation wipes out all the available
 disks on every node. While upgrade operations in Kubernetes,
-we want to ensure we don’t lose the data on the disks attached to
+we want to ensure we don't lose the data on the disks attached to
 the nodes. As such, we need a way to disable automated cleaning per
 node so that we can avoid disk cleaning while upgrading the cluster node(s).
 
@@ -32,12 +32,12 @@ node so that we can avoid disk cleaning while upgrading the cluster node(s).
 
 #### Story 1
 
-As a cluster admin, I would like my node’s disks data kept untouched
+As a cluster admin, I would like my node's disks data kept untouched
 while I'm upgrading my Kubernetes cluster node(s).
 
 #### Story 2
 
-As a cluster admin, I would like my node’s disks to be cleaned
+As a cluster admin, I would like my node's disks to be cleaned
 while provisioning/de-provisioning (i.e. not upgrade scenario)
 operations.
 
@@ -73,7 +73,7 @@ In the Metal³, we will need changes both in CAPM3 and BMO as follows
 
 We introduce a new field `automatedCleaningMode` in the spec of the
 Metal3MachineTemplate object. `automatedCleaningMode` store a enum type
-of value. Setting it to Disabled means don’t perform automated cleaning, while
+of value. Setting it to Disabled means don't perform automated cleaning, while
 Metadata value enables automated cleaning. By default, `automatedCleaningMode` will
 be set to Metadata (i.e. do perform automated cleaning as it is now).
 

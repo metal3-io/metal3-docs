@@ -1,11 +1,15 @@
 # Reconstructing Host Status
 
-The status annotation is useful when you need to avoid inspection of a BareMetalHost.
-This can happen if the status is already known, for example, when moving the BareMetalHost from one cluster to another.
-By setting this annotation, the BareMetal Operator will take the status of the BareMetalHost directly from the annotation.
+The status annotation is useful when you need to avoid inspection of a
+BareMetalHost. This can happen if the status is already known, for example,
+when moving the BareMetalHost from one cluster to another. By setting this
+annotation, the BareMetal Operator will take the status of the BareMetalHost
+directly from the annotation.
 
-The annotation key is `baremetalhost.metal3.io/status` and the value is a JSON representation of the BareMetalHosts `status` field.
-One simple way of extracting the status and turning it into an annotation is using kubectl like this:
+The annotation key is `baremetalhost.metal3.io/status` and the value is a JSON
+representation of the BareMetalHosts `status` field. One simple way of
+extracting the status and turning it into an annotation is using kubectl like
+this:
 
 ```bash
 # Save the status in json format to a file
@@ -16,15 +20,20 @@ kubectl -n metal3 annotate bmh <name-of-bmh> \
   --dry-run=client -o yaml > bmh.yaml
 ```
 
-Note that the above example does not apply the annotation to the BareMetalHost directly since this is most likely not useful to apply it on one that already has a status.
-Instead it saves the BareMetalHost *with the annotation applied* to a file `bmh.yaml`.
-This file can then be applied in another cluster.
-The status would be discarded at this point since the user is usually not allowed to set it, but the annotation is still there and would be used by the BareMetal Operator to set status again.
-Once this is done, the operator will remove the status annotation.
-In this situation you may also want to check the [detached annotation](./detached_annotation.md) for how to remove the BareMetalHost from the old cluster without going through deprovisioning.
+Note that the above example does not apply the annotation to the BareMetalHost
+directly since this is most likely not useful to apply it on one that already
+has a status. Instead it saves the BareMetalHost *with the annotation applied*
+to a file `bmh.yaml`. This file can then be applied in another cluster. The
+status would be discarded at this point since the user is usually not allowed
+to set it, but the annotation is still there and would be used by the BareMetal
+Operator to set status again. Once this is done, the operator will remove the
+status annotation. In this situation you may also want to check the
+[detached annotation](./detached_annotation.md) for how to remove the
+BareMetalHost from the old cluster without going through deprovisioning.
 
-Here is an example of a BareMetalHost, first without the annotation, but with status and spec, and then the other way around.
-This shows how the status field is turned into the annotation value.
+Here is an example of a BareMetalHost, first without the annotation, but with
+status and spec, and then the other way around. This shows how the status field
+is turned into the annotation value.
 
 ```yaml
 apiVersion: metal3.io/v1alpha1

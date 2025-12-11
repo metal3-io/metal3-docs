@@ -1,12 +1,15 @@
 # Baremetal provisioning
 
-This is a guide to provision baremetal servers using the Metal³ project. It is a generic guide with basic implementation, different hardware may require different configuration.
+This is a guide to provision baremetal servers using the Metal3 project. It is
+a generic guide with basic implementation, different hardware may require
+different configuration.
 
 In this guide we will use minikube as management cluster.
 
 All commands are executed on the host where minikube is set up.
 
-This is a separate machine, e.g. your laptop or one of the servers, that has access to the network where the servers are in order to provision them.
+This is a separate machine, e.g. your laptop or one of the servers, that has
+access to the network where the servers are in order to provision them.
 
 ## Install requirements on the host
 
@@ -63,13 +66,15 @@ See [Install Ironic](../ironic/ironic_installation.md) for other requirements.
 
 ## Prepare image cache
 
-- Start httpd container. This is used to host the the OS images that the BareMetalHosts will be provisioned with.
+- Start httpd container. This is used to host the the OS images that the
+  BareMetalHosts will be provisioned with.
 
   ```bash
   sudo docker run -d --net host --privileged --name httpd-infra -v /opt/metal3-dev-env/ironic:/shared --entrypoint /bin/runhttpd --env
   ```
 
-  Download the node image and put it in the folder where the httpd container can host it.
+  Download the node image and put it in the folder where the httpd container
+  can host it.
 
   ```bash
   wget -O /opt/metal3-dev-env/ironic/html/images https://artifactory.nordix.org/artifactory/metal3/images/k8s_v1.33.0
@@ -198,9 +203,11 @@ See [Install Ironic](../ironic/ironic_installation.md) for other requirements.
   kubectl apply -f ./bmh1.yaml -n metal3
   ```
 
-  At this point, the BareMetalHosts will go through `registering` and `inspection` phases before they become `available`.
+  At this point, the BareMetalHosts will go through `registering` and
+  `inspection` phases before they become `available`.
 
-  Wait for all of them to be available. You can check their status with `kubectl get bmh -n metal3`.
+  Wait for all of them to be available. You can check their status with
+  `kubectl get bmh -n metal3`.
 
   The next step is to create a workload cluster from these BareMetalHosts.
 

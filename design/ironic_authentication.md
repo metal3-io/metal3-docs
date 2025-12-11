@@ -255,7 +255,7 @@ Ironic supports basic authentication. Ironic can also run with an HTTPS
 endpoint. However, offloading the encryption to a reverse proxy could help with
 regards to performances and encryption support. The reverse proxy could also
 take care of the authentication temporarily, or pass the headers to Ironic and
-Inspector. If not using Ironic’s built-in basic authentication, the endpoints
+Inspector. If not using Ironic's built-in basic authentication, the endpoints
 used by IPA must remain free of authentication.
 
 The content of the `htpasswd` file would need to be based on a shared secret

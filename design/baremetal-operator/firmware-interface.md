@@ -84,7 +84,7 @@ After executing the cleaning, Ironic will re-read the information about the
 firmware components and cache them, the new information can be retrieved by
 the BMO and used to update `components`.
 
-If the update fails we won’t keep trying to reconcile, the BMO will put the
+If the update fails we won't keep trying to reconcile, the BMO will put the
 node in a `FirmwareUpdateError` state. We will allow deletion of the BMH when
 in this state. When in `FirmwareUpdateError` state the following actions can
 be executed:

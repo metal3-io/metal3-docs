@@ -92,7 +92,7 @@ Ironic's internal database.
 ## BMH registration errors
 
 BMC credentials may be incorrect or missing. These issues appear in the
-BareMetalHost’s status and in Events.
+BareMetalHost's status and in Events.
 
 Check both `kubectl describe bmh <name>` and recent Events for details.
 

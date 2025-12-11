@@ -70,7 +70,7 @@ metadata:
 spec:
    hostName: ostest-worker-1
    destination: https://events.apps.corp.example.com/webhook
-   context: “SomeUserContext”
+   context: "SomeUserContext"
    httpHeadersRef:
      name: some-secret-name
      namespace: some-namespace

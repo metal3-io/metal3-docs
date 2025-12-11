@@ -12,7 +12,9 @@ Each GitHub project has its own directory to keep related documents.For example:
 - `docs/user-guide/src/ironic` for Ironic related content
 - `docs/user-guide/src/ipam` for Ip-address-manager related content
 
-Similarly, we have the copy of the OWNERS file from each project, which gives reviewer and approver rights on the docs to the same maintainers of the project:
+Similarly, we have the copy of the OWNERS file from each project, which gives
+reviewer and approver rights on the docs to the same maintainers of the
+project:
 
 - `docs/user-guide/src/bmo/OWNERS`
 - `docs/user-guide/src/capm3/OWNERS`
@@ -21,9 +23,12 @@ Similarly, we have the copy of the OWNERS file from each project, which gives re
 
 ## Automatic build process
 
-Netlify is configured to build the user-guide periodically from the current state of the main branch. As such, when there is a documentation change merged, at the latest it will be visible in the official user-guide the next day.
+Netlify is configured to build the user-guide periodically from the current
+state of the main branch. As such, when there is a documentation change merged,
+at the latest it will be visible in the official user-guide the next day.
 
-Whenever build is triggered, Netlify will fetch the mdbook binary first and run `make build` to build the content.
+Whenever build is triggered, Netlify will fetch the mdbook binary first and run
+`make build` to build the content.
 This generates HTML content to be published under `docs/user-guide/book` directory.
 Last step, Netlify publishes the final content from `docs/user-guide/book`.
 The final content is built on the fly by Netlify as such, we don't store it on GitHub.
@@ -34,13 +39,17 @@ The final content is built on the fly by Netlify as such, we don't store it on G
 
 ## How to check book content when reviewing a GitHub patch
 
-Netlify is configured to build the book from a pull request branch and it will be reported on the PR as `netlify/metal3-user-guide/deploy-preview`.
-As such, it helps reviewers to review the patch not as the markdown only but also as the final user-guide.
+Netlify is configured to build the book from a pull request branch and it will
+be reported on the PR as `netlify/metal3-user-guide/deploy-preview`.
+As such, it helps reviewers to review the patch not as the markdown only but
+also as the final user-guide.
 Our Netlify configuration is in the [netlify.toml](https://github.com/metal3-io/metal3-docs/blob/main/netlify.toml).
 
 ## Mdbook maintenance
 
-All the configurations of the mdbook, such as content path, version, from where to get the binary while building the user-guide is defined in the [Makefile](https://github.com/metal3-io/metal3-docs/blob/main/Makefile).
+All the configurations of the mdbook, such as content path, version, from where
+to get the binary while building the user-guide is defined in the
+[Makefile](https://github.com/metal3-io/metal3-docs/blob/main/Makefile).
 
 ```sh
 MDBOOK_BIN_VERSION ?= v0.4.15
@@ -56,7 +65,8 @@ MDBOOK_BIN := $(BIN_DIR)/mdbook
 
 ## How to preview changes locally
 
-Before submitting document change, you can run the same mdbook binary to preview the book.
+Before submitting document change, you can run the same mdbook binary to preview
+the book.
 
 1. Install the mdbook by following official docs [here](https://rust-lang.github.io/mdBook/)
 
@@ -68,4 +78,5 @@ Before submitting document change, you can run the same mdbook binary to preview
     ```
 
 You should have the user-guide available now at `localhost:3000`.
-Also, the serve command watches the `src` directory for changes and rebuilds the user-guide for every change.
+Also, the serve command watches the `src` directory for changes and rebuilds
+the user-guide for every change.

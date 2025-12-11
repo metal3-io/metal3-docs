@@ -123,7 +123,7 @@ See [PoC code](https://github.com/kubevirt/machine-remediation/)
 
 ### Dependencies
 
-This design is intended to integrate with OpenShift’s [Machine HealthCheck
+This design is intended to integrate with OpenShift's [Machine HealthCheck
 implementation](https://github.com/openshift/machine-api-operator/blob/master/pkg/controller/machinehealthcheck/machinehealthcheck_controller.go#L407)
 
 ### Test Plan

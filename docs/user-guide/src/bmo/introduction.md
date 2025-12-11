@@ -6,13 +6,13 @@ resources*.
 
 BMO is responsible for the following operations:
 
-- Inspecting the host’s hardware and reporting the details on the corresponding
+- Inspecting the host's hardware and reporting the details on the corresponding
   BareMetalHost. This includes information about CPUs, RAM, disks, NICs, and
   more.
 - Optionally preparing the host by configuring RAID, changing firmware settings
   or updating the system and/or BMC firmware.
 - Provisioning the host with a desired image.
-- Cleaning the host’s disk contents before and after provisioning.
+- Cleaning the host's disk contents before and after provisioning.
 
 Under the hood, BMO uses [Ironic](../ironic/introduction) to conduct these
 actions.
