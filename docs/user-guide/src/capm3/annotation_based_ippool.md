@@ -25,6 +25,10 @@ The `fromPoolAnnotation` field contains:
 
 > **Note:** When `fromPoolAnnotation` is set, `fromIPPool` and `fromPoolRef`
 > fields are ignored. The annotation-based reference takes priority.
+>
+> If you don't need dynamic IPPool resolution, use `fromIPPool` (reference by
+> name in same namespace) or `fromPoolRef` (reference by name, namespace, and
+> API group) for static IPPool assignment in your Metal3DataTemplate.
 
 ## Example
 
