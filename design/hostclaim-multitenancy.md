@@ -115,37 +115,36 @@ by the hardware administrator on the BareMetalHost when it was defined.
   I should use to locate a machine with the right hardware details.
 * I create a resource with the following content:
 
-  ```yaml
-  apiVersion: metal3.io/v1alpha1
-  kind: HostClaim
-  metadata:
-    name: my-host
-    namespace: myns
-  spec:
-    online: false
-
-    hostSelector:
-      matchLabels:
-        infra-kind: medium
-  ```
+```yaml
+apiVersion: metal3.io/v1alpha1
+kind: HostClaim
+metadata:
+  name: my-host
+  namespace: myns
+spec:
+  online: false
+  hostSelector:
+    matchLabels:
+      infra-kind: medium
+```
 
 * After a while, the system associates the claim with a real server, and
   the resource's status is populated with the following information:
 
-  ```yaml
-  status:
-    bareMetalHostRef:
-      name: server-123
-      namespace: infra
-    conditions:
-    - lastTransitionTime: "2024-03-29T14:33:19Z"
-      status: "True"
-      type: Ready
-    - lastTransitionTime: "2024-03-29T14:33:19Z"
-      status: "True"
-      type: AssociateHost
-    lastUpdated: "2024-03-29T14:33:19Z"
-  ```
+```yaml
+status:
+  bareMetalHostRef:
+    name: server-123
+    namespace: infra
+  conditions:
+  - lastTransitionTime: "2024-03-29T14:33:19Z"
+    status: "True"
+    type: Ready
+  - lastTransitionTime: "2024-03-29T14:33:19Z"
+    status: "True"
+    type: AssociateHost
+  lastUpdated: "2024-03-29T14:33:19Z"
+```
 
   The BareMetalHost resource is updated so that the consumerRef field points
   to the HostClaim resource.
@@ -155,27 +154,28 @@ by the hardware administrator on the BareMetalHost when it was defined.
   status and meta data to customize the scripts they contain.
 * I modify the HostClaim to point to those secrets and start the server:
 
-  ```yaml
-  apiVersion: metal3.io/v1alpha1
-  kind: HostClaim
-  metadata:
-    name: my-host
-  spec:
-    online: true
-    image:
-      checksum: https://url_image.qcow2.md5
-      url: https://url_image.qcow2
-      format: qcow2
-    userData:
-      name: my-user-data
-    networkData:
-      name: my-network-data
-    hostSelector:
-      matchLabels:
-        infra-kind: medium
-  ```
+```yaml
+apiVersion: metal3.io/v1alpha1
+kind: HostClaim
+metadata:
+  name: my-host
+spec:
+  online: true
+  image:
+    checksum: https://url_image.qcow2.md5
+    url: https://url_image.qcow2
+    format: qcow2
+  userData:
+    name: my-user-data
+  networkData:
+    name: my-network-data
+  hostSelector:
+    matchLabels:
+      infra-kind: medium
+```
 
   Note: customDeploy must be supported as an alternative to images.
+
 * The workload is launched. When the machine is fully provisioned, the boolean
   field ready in the status becomes true. I can stop the server by changing
   the online status. I can also perform a reboot by adding a

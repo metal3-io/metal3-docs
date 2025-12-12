@@ -211,7 +211,6 @@ resources:
 - github.com/metal3-io/baremetal-operator/deploy/operator/?ref=main
 - github.com/metal3-io/baremetal-operator/deploy/crds/?ref=main
 - github.com/metal3-io/baremetal-operator/deploy/rbac/?ref=main
-
 configMapGenerator:
 - behavior: create
   literals:
@@ -220,14 +219,11 @@ configMapGenerator:
   - IRONIC_ENDPOINT=${IRONIC_URL}
   - IRONIC_INSPECTOR_ENDPOINT=${IRONIC_INSPECTOR_URL}
   name: ironic-bmo-configmap
-
 patchesStrategicMerge:
 - bmo_image_patch.yaml
 - bmo_pull_policy.yaml
-
 configurations:
 - kustomizeconfig.yaml
-
 ```
 
 The kustomization file deploys `operator`, `rbac` and `crds` defined in

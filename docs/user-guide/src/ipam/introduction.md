@@ -56,14 +56,14 @@ spec:
   clusterName: cluster1
   namePrefix: test1-prov
   pools:
-    - start: 192.168.0.10
-      end: 192.168.0.30
-      prefix: 25
-      gateway: 192.168.0.1
-    - subnet: 192.168.1.1/26
-    - subnet: 192.168.1.128/25
-  prefix: 24
-  gateway: 192.168.1.1
+  - start: 192.168.0.10
+    end: 192.168.0.30
+    prefix: 25
+    gateway: 192.168.0.1
+  - subnet: 192.168.1.1/26
+  - subnet: 192.168.1.128/25
+    prefix: 24
+    gateway: 192.168.1.1
   preAllocations:
     claim1: 192.168.0.12
 ```

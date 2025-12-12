@@ -160,8 +160,8 @@ spec:
   credentialsName: my-eos-secret
   networkOS: eos
   vlans:
-    - id: 10
-      name: test-vlan
+  - id: 10
+    name: test-vlan
 ```
 
 #### Conclusions

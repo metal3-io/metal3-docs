@@ -18,7 +18,7 @@ This is how the status of a healthy provisioned host may look like:
 ```yaml
 status:
  # ...
- operationHistory:
+  operationHistory:
     deprovision:
       end: null
       start: null

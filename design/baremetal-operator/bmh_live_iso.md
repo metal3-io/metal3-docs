@@ -51,11 +51,11 @@ Add a option to the BareMetalHost DiskFormat spec which indicates that instead
 of deploying an image to disk, a live-iso image will be booted:
 
 ```yaml
-  spec:
-    image:
-      url: http://1.2.3.4/image.iso
-      format: live-iso
-    online: true
+spec:
+  image:
+    url: http://1.2.3.4/image.iso
+    format: live-iso
+  online: true
 ```
 
 Note that in this mode, `rootDeviceHints` and `userData` will not be used

@@ -40,11 +40,10 @@ metadata:
   name: test1-controlplane
   namespace: metal3
 spec:
-  nodeReuse: True
+  nodeReuse: true
   template:
     spec:
       image:
-      ...
 ```
 
 There could be two Metal3MachineTemplate objects, one referenced by
@@ -55,7 +54,7 @@ be reused. If left unchanged, by default, `nodeReuse` field is set to **false**
 resulting in no host reusing being performed in the workflow. If you would like
 to know more about the internals of controller logic, please check the original
 proposal for the feature
-[here](https://github.com/metal3-io/metal3-docs/blob/main/design/cluster-api-provider-metal3/node_reuse.md)
+[over here](https://github.com/metal3-io/metal3-docs/blob/main/design/cluster-api-provider-metal3/node_reuse.md)
 
 Once `nodeReuse` field is set to **true**, user has to make sure that scale-in
 feature is enabled as suggested above, and proceed with updating the desired

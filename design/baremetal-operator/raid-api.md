@@ -66,11 +66,11 @@ into a RAID volume via the RAID controller hardware in the host.
 spec:
   raid:
     hardwareVolumes:
-      - sizeGibibytes: 1000
-        level: 1
-        name: volume-name
-        rotational: true
-        numberOfPhysicalDisks: 2
+    - sizeGibibytes: 1000
+      level: 1
+      name: volume-name
+      rotational: true
+      numberOfPhysicalDisks: 2
 ```
 
 - The RAID level for a volume is required and should be expressed as
@@ -88,11 +88,11 @@ drivers, without using any special hardware.
 spec:
   raid:
     softwareVolumes:
-      - sizeGibibytes: 1000
-        level: 1
-        physicalDisks:
-          - deviceName: /dev/sda
-          - deviceName: /dev/sdb
+    - sizeGibibytes: 1000
+      level: 1
+      physicalDisks:
+      - deviceName: /dev/sda
+      - deviceName: /dev/sdb
 ```
 
 - The RAID level for a volume is required and should be expressed as

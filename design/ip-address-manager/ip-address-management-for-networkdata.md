@@ -16,7 +16,7 @@ implemented
 <!-- markdownlint-disable link-fragments -->
 <!--ts-->
 
-- [Title](#title)
+- [IP address management for networkdata](#ip-address-management-for-networkdata)
    - [Status](#status)
    - [Table of Contents](#table-of-contents)
    - [Summary](#summary)
@@ -24,19 +24,23 @@ implemented
       - [Goals](#goals)
       - [Non-Goals](#non-goals)
    - [Proposal](#proposal)
-      - [User Stories](#user-stories-optional)
+         - [User Stories](#user-stories)
          - [Story 1](#story-1)
          - [Story 2](#story-2)
-      - [Implementation Details/Notes/Constraints [optional]](#implementation-detailsnotesconstraints-optional)
+         - [Story 3](#story-3)
+         - [Story 4](#story-4)
+      - [Implementation Details/Notes/Constraints](#implementation-detailsnotesconstraints)
       - [Risks and Mitigations](#risks-and-mitigations)
    - [Design Details](#design-details)
+      - [Annotation-based IPPool Reference](#annotation-based-ippool-reference)
+         - [Example Configuration](#example-configuration)
       - [Work Items](#work-items)
       - [Dependencies](#dependencies)
       - [Test Plan](#test-plan)
       - [Upgrade / Downgrade Strategy](#upgrade--downgrade-strategy)
       - [Version Skew Strategy](#version-skew-strategy)
-   - [Drawbacks [optional]](#drawbacks-optional)
-   - [Alternatives [optional]](#alternatives-optional)
+   - [Drawbacks](#drawbacks)
+   - [Alternatives](#alternatives)
    - [References](#references)
 
 <!-- Added by: stack, at: 2019-02-15T11:41-05:00 -->
@@ -165,22 +169,22 @@ metadata:
 spec:
   clusterName: cluster-1
   pools:
-    - start: 192.168.0.10
-      end: 192.168.0.15
-      subnet: 192.168.0.0/24
-      gateway: 192.168.0.1
-      prefix: 24
-      dnsServers:
-        - 8.8.8.8
-    - start: 192.168.1.10
-      end: 192.168.1.15
-      subnet: 192.168.1.0/24
-      gateway: 192.168.1.1
-      prefix: 24
+  - start: 192.168.0.10
+    end: 192.168.0.15
+    subnet: 192.168.0.0/24
+    gateway: 192.168.0.1
+    prefix: 24
+    dnsServers:
+    - 8.8.8.8
+  - start: 192.168.1.10
+    end: 192.168.1.15
+    subnet: 192.168.1.0/24
+    gateway: 192.168.1.1
+    prefix: 24
   gateway: 192.168.1.1
   prefix: 24
   dnsServers:
-    - 8.8.4.4
+  - 8.8.4.4
   preAllocations:
     "RenderedData-10": 192.168.0.9
     "RenderedData-9": 192.168.0.8
@@ -241,7 +245,7 @@ spec:
   prefix: 24
   gateway: 192.168.0.1
   dnsServers:
-    - 8.8.8.8
+  - 8.8.8.8
   pool:
     Name: pool-1
 status:
@@ -329,44 +333,44 @@ metadata:
 spec:
   metaData:
     ipAddressesFromIPPool:
-      - name: pool-1
-        key: "ip-address-1"
+    - name: pool-1
+      key: "ip-address-1"
     prefixesFromIPPool:
-      - name: pool-1
-        key: "netmask-1"
+    - name: pool-1
+      key: "netmask-1"
     gatewaysFromIPPool:
-      - name: pool-1
-        key: "gateway-1"
+    - name: pool-1
+      key: "gateway-1"
     dnsServersFromIPPool:
-      - name: pool-1
-        key: "dns-1"
+    - name: pool-1
+      key: "dns-1"
   networkData:
     networks:
       ipv4:
-        - id: "Baremetal"
-          link: "vlan1"
-          ipAddressfromIPPool: pool-1
-          routes:
-            - network: "0.0.0.0"
-              prefix: 0
-              gateway:
-                fromIPPool: pool-1
-              services:
-                dnsFromIPPool: pool-1
-        - id: "Provisioning"
-          link: "vlan2"
-          ipAddressfromIPPool: pool-2
-          routes:
-            - network: "0.0.0.0"
-              prefix: 0
-              gateway:
-                string: "192.168.1.1"
-              services:
-                dns:
-                  - "8.8.4.4"
+      - id: "Baremetal"
+        link: "vlan1"
+        ipAddressfromIPPool: pool-1
+        routes:
+        - network: "0.0.0.0"
+          prefix: 0
+          gateway:
+            fromIPPool: pool-1
+          services:
+            dnsFromIPPool: pool-1
+      - id: "Provisioning"
+        link: "vlan2"
+        ipAddressfromIPPool: pool-2
+        routes:
+        - network: "0.0.0.0"
+          prefix: 0
+          gateway:
+            string: "192.168.1.1"
+          services:
+            dns:
+            - "8.8.4.4"
     services:
       dns:
-        - "8.8.8.8"
+      - "8.8.8.8"
 status:
   indexes:
     "0": "machine-1"
@@ -417,18 +421,18 @@ spec:
   networkData:
     networks:
       ipv4:
-        - id: "Provisioning"
-          link: "vlan2"
-          fromPoolAnnotation:
-            object: baremetalhost
-            annotation: ippool.metal3.io/provisioning
-          routes:
-            - network: "0.0.0.0"
-              prefix: 0
-              gateway:
-                fromPoolAnnotation:
-                  object: baremetalhost
-                  annotation: ippool.metal3.io/provisioning
+      - id: "Provisioning"
+        link: "vlan2"
+        fromPoolAnnotation:
+          object: baremetalhost
+          annotation: ippool.metal3.io/provisioning
+        routes:
+        - network: "0.0.0.0"
+          prefix: 0
+          gateway:
+            fromPoolAnnotation:
+              object: baremetalhost
+              annotation: ippool.metal3.io/provisioning
 ```
 
 The corresponding BareMetalHost is annotated with the IPPool name:

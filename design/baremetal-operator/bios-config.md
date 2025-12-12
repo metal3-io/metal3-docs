@@ -54,17 +54,17 @@ parameters
 apiVersion: metal3.io/v1alpha1
 kind: BareMetalHost
 metadata:
- name: bm0
+  name: bm0
 spec:
- online: true
- bmc:
-   address: idrac://192.168.122.1:6230/
-   credentialsName: bm0-bmc-secret
- bootMACAddress: 52:54:00:b7:b2:6f
- firmware:
-   sriovEnabled: false
-   virtualizationDisabled: false
-   simultaneousMultithreadingDisabled: false
+  online: true
+  bmc:
+    address: idrac://192.168.122.1:6230/
+    credentialsName: bm0-bmc-secret
+  bootMACAddress: 52:54:00:b7:b2:6f
+  firmware:
+    sriovEnabled: false
+    virtualizationDisabled: false
+    simultaneousMultithreadingDisabled: false
 ```
 
 We've decided to name the section "firmware" to make it future proof,
@@ -82,11 +82,11 @@ be used:
 
 ```yaml
 firmware:
-   attr: value
-   attr: value
-   vendor:
-      vendor_attr: value
-      vendor_attr: value
+  attr: value1
+  #attr: value2
+  vendor:
+    vendor_attr: value1
+    #vendor_attr: value2
 ```
 
 The proposal only deals with the generic BIOS configurations (listed
