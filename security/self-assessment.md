@@ -347,7 +347,7 @@ More use-cases can be found in our
 
 ### Related Projects / Vendors
 
-* [Canonical MAAS](https://maas.io/) - An open source bare metal provisioning
+* [Canonical MAAS](https://canonical.com/maas) - An open source bare metal provisioning
   and lifecycle management system. MAAS treats physical servers like virtual
   instances in the cloud, providing API-driven IPAM, PXE boot, hardware
   inventory, and operating system deployment. It operates as a standalone

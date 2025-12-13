@@ -1,7 +1,7 @@
 # Metal3 Roadmap
 
 The Metal3 Roadmap is maintained as a Github project and can be found
-[here](https://github.com/orgs/metal3-io/projects/2).
+[here](https://github.com/orgs/metal3-io/projects/8).
 
 ## Description
 

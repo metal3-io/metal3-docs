@@ -149,4 +149,4 @@ a cloud-provider of their own.
 
 ## Related
 
-* [CAPV FD support](https://github.com/kubernetes-sigs/cluster-api-provider-vsphere/blob/master/docs/proposal/20201103-failure-domain.md)
+* [CAPV FD support](https://github.com/kubernetes-sigs/cluster-api-provider-vsphere/blob/main/docs/proposal/20201103-failure-domain.md)
