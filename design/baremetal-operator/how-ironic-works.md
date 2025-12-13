@@ -342,7 +342,7 @@ Starting with the bare metal node in the "available" provision_state:
    The particular interfaces that would be important to pay attention to are
    'boot', 'deploy', 'power', 'management'.
 
-   More information can be found in the [API documentation](https://developer.openstack.org/api-ref/baremetal/?expanded=validate-node-detail).
+   More information can be found in the [API documentation](https://docs.openstack.org/api-ref/baremetal/?expanded=validate-node-detail).
 
 3. Craft a configuration drive file
 

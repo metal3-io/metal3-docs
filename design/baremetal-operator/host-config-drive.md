@@ -120,4 +120,4 @@ N/A
 ## References
 
 - [CoreOS setting for the config drive user data path](https://github.com/coreos/ignition/blob/master/internal/providers/openstack/openstack.go#L42)
-- [golang config drive builder in gophercloud/utils](https://github.com/gophercloud/utils/blob/master/openstack/baremetal/v1/nodes/configdrive.go)
+- [golang config drive builder in gophercloud/utils](https://github.com/gophercloud/utils/blob/main/openstack/baremetal/v1/nodes/configdrive.go)
