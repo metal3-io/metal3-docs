@@ -4,18 +4,18 @@
 
 Assuming you've deployed Baremetal Operator and CAPM3, you will likely provision
 a cluster and control-plane/worker nodes. This process creates several
-interconnected resources and this document aims to explain those. As metal3 is
-an infrastructure provider for cluster API (CAPI), it necessarily references
-also other CAPI resources, however, this document focuses on metal3 resources.
+interconnected resources and this document aims to explain those. As Metal3 is
+an infrastructure provider for Cluster API (CAPI), it necessarily references
+also other CAPI resources, however, this will focuses on Metal3 resources.
 
-For more details about CAPI resources and to get a big picture, refer to
+For more details about CAPI resources and to get the big picture, refer to
 CAPI [docs](https://cluster-api.sigs.k8s.io/user/concepts). **Please note that the
 following CAPI examples are only to illustrate how metal3 resources fit into the
 big picture, so for up to date documentation of CAPI resources, refer to the
 official docs.**
 
-Visualization of relationships between metal3 resources can be found for example
-[here](https://github.com/metal3-io/cluster-api-provider-metal3/issues/1358).
+Visualization of relationships between Metal3 resources can be found in this 
+[CAPM3 isssue](https://github.com/metal3-io/cluster-api-provider-metal3/issues/1358).
 **Note that the graph is not perfect and there can be missing information.**
 
 The example values in this document are from a cluster deployed with
@@ -26,13 +26,13 @@ The example values in this document are from a cluster deployed with
 The `Cluster` resource is **CAPI resource** and includes a reference to the control
 plane via the `controlPlaneRef` field:
 
-``` yaml
+```yaml
 controlPlaneRef:
     apiVersion: controlplane.cluster.x-k8s.io/v1beta1
     kind: KubeadmControlPlane
     name: test1
     namespace: metal3
-````
+```
 
 This object defines the cluster and links it to the control plane configuration.
 
@@ -70,7 +70,7 @@ Please refer to official docs for more details.
 
 ### 4. `Metal3MachineTemplate` → `Metal3Machine`
 
-The `Metal3MachineTemplate` is **metal3 resource** and it is used to generate
+The `Metal3MachineTemplate` is **Metal3 resource** and it is used to generate
 `Metal3Machine` resources on demand when `KubeadmControlPlane` or
 `MachineDeployment` triggers the creation (for example when scaling up). Each
 `Metal3Machine`:
@@ -94,7 +94,7 @@ status:
 
 ### 5. `Metal3DataTemplate` → `Metal3Data`
 
-The `Metal3DataTemplate` is **metal3 resource** and it is used to
+The `Metal3DataTemplate` is **Metal3 resource** and it is used to
 create `Metal3Data` objects. These objects contain machine-specific
 configuration, such as:
 
