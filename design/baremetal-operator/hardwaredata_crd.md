@@ -96,7 +96,7 @@ BareMetalHost will result in deletion of a HardwareData respectively.
 HardwareData should be immutable and this will be controlled via
 [Validating Webhook](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#validatingadmissionwebhook)
 and with RBAC permissions. In case, when
-[re-inspection](https://github.com/metal3-io/baremetal-operator/blob/master/docs/inspectAnnotation.md)
+[re-inspection](https://github.com/metal3-io/baremetal-operator/blob/main/docs/inspectAnnotation.md)
 of a `available` BareMetalHost is requested, new HardwareData will be
 re-created, because updating the old HardwareData will be blocked by the
 Validating Webhook.
@@ -247,7 +247,7 @@ None
 
 - [Discussion issue CAPM3](https://github.com/metal3-io/cluster-api-provider-metal3/issues/266)
 - [Discussion issue BMO](https://github.com/metal3-io/baremetal-operator/issues/952)
-- [Status annotation](https://github.com/metal3-io/baremetal-operator/blob/master/docs/statusAnnotation.md)
+- [Status annotation](https://github.com/metal3-io/baremetal-operator/blob/main/docs/statusAnnotation.md)
 - [clusterctl move](https://cluster-api.sigs.k8s.io/clusterctl/commands/move.html#clusterctl-move)
 - [Pause annotation](https://github.com/metal3-io/baremetal-operator/blob/master/docs/api.md#pausing-reconciliation)
 - [Disable inspection](https://github.com/metal3-io/metal3-docs/blob/master/design/baremetal-operator/external-introspection.md#disable-inspection-proposal)
