@@ -8,3 +8,4 @@
 - [Detaching Hosts from Provisioner](./detached_annotation.md)
 - [External Inspection](./external_inspection.md)
 - [Reconstructing Host Status](./status_annotation.md)
+- [Multi tenancy with Hostclaims](./hostclaim.md)
