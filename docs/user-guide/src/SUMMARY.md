@@ -28,6 +28,7 @@
       - [Adopting Externally Provisioned Hosts](bmo/externally_provisioned.md)
       - [Advanced Instance Customization](bmo/advanced_instance_customization.md)
       - [Booting from Live ISO](bmo/live-iso.md)
+      - [Changing BMC Address](bmo/changing_bmc_address.md)
       - [Detaching Hosts from Provisioner](bmo/detached_annotation.md)
       - [External Inspection](bmo/external_inspection.md)
       - [Reconstructing Host Status](bmo/status_annotation.md)
