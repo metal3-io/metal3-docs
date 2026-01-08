@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ironic-standalone-operator-ironic-standalone-operator-config
+  namespace: ironic-standalone-operator-system
+data:
+  IPA_BASEURI: "http://192.168.222.1"
