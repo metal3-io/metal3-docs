@@ -17,9 +17,10 @@ Cluster API Provider Metal3
 
 | Minor release | API version | Status    |
 | ------------- | ----------- | --------- |
+| v1.12         | v1beta1     | Supported |
 | v1.11         | v1beta1     | Supported |
-| v1.10         | v1beta1     | Supported |
-| v1.9          | v1beta1     | Tested    |
+| v1.10         | v1beta1     | Tested    |
+| v1.9          | v1beta1     | EOL       |
 | v1.8          | v1beta1     | EOL       |
 | v1.7          | v1beta1     | EOL       |
 | v1.6          | v1beta1     | EOL       |
@@ -33,9 +34,10 @@ IP Address Manager
 
 | Minor release | API version | Status    |
 | ------------- | ----------- | --------- |
+| v1.12         | v1beta1     | Supported |
 | v1.11         | v1beta1     | Supported |
-| v1.10         | v1beta1     | Supported |
-| v1.9          | v1beta1     | Tested    |
+| v1.10         | v1beta1     | Tested    |
+| v1.9          | v1beta1     | EOL       |
 | v1.8          | v1beta1     | EOL       |
 | v1.7          | v1beta1     | EOL       |
 | v1.6          | v1beta1     | EOL       |
@@ -56,9 +58,10 @@ supported releases. Following table summarizes BMO release/test process:
 
 | Minor release | Status    |
 | ------------- | --------- |
+| v0.12         | Supported |
 | v0.11         | Supported |
-| v0.10         | Supported |
-| v0.9          | Tested    |
+| v0.10         | Tested    |
+| v0.9          | EOL       |
 | v0.8          | EOL       |
 | v0.6          | EOL       |
 | v0.5          | EOL       |
@@ -83,7 +86,7 @@ Following table summarizes Ironic-image release/test process:
 | v30.0         | EOL       | bugfix/30.0         |
 | v29.0         | Tested    | stable/2025.1       |
 | v28.0         | EOL       | bugfix/28.0 (EOL)   |
-| v27.0         | Tested    | bugfix/27.0 (EOL)   |
+| v27.0         | EOL       | bugfix/27.0 (EOL)   |
 | v26.0         | EOL       | bugfix/26.0 (EOL)   |
 | v25.0         | EOL       | bugfix/25.0 (EOL)   |
 | v24.1         | EOL       | stable/2024.1 (EOL) |
@@ -119,24 +122,24 @@ The table describes which branches/image-tags are tested in each periodic CI tes
 | --------------------------------------------------------------- | ------------ | ------------ | -------------- | -------------- | ----------- | ---------- |
 | metal3-periodic-ubuntu/centos-e2e-integration-test-main         | main         | main         | main           | latest         | latest      | latest     |
 | metal3_periodic_main_integration_test_ubuntu/centos             | main         | main         | main           | latest         | latest      | latest     |
+| metal3-periodic-ubuntu/centos-e2e-integration-test-release-1-11 | release-1.12 | release-1.12 | release-0.12   | latest         | latest      | v33.0.0    |
 | metal3-periodic-ubuntu/centos-e2e-integration-test-release-1-11 | release-1.11 | release-1.11 | release-0.11   | latest         | latest      | v31.0.0    |
 | metal3-periodic-ubuntu/centos-e2e-integration-test-release-1-10 | release-1.10 | release-1.10 | release-0.10   | latest         | latest      | v29.0.0    |
-| metal3-periodic-ubuntu/centos-e2e-integration-test-release-1-9  | release-1.9  | release-1.9  | release-0.9    | v0.9.0         | latest      | v27.0.0    |
 
 | FEATURE AND E2E TESTS                                            | CAPM3 branch | IPAM branch  | BMO branch/tag | Keepalived tag | MariaDB tag | Ironic tag |
 | ---------------------------------------------------------------- | ------------ | ------------ | -------------- | -------------- | ----------- | ---------- |
 | metal3-periodic-centos-e2e-feature-test-main-pivoting            | main         | main         | main           | latest         | latest      | latest     |
+| metal3-periodic-centos-e2e-feature-test-release-1-11-pivoting    | release-1.12 | release-1.12 | release-0.12   | latest         | latest      | v33.0.0    |
 | metal3-periodic-centos-e2e-feature-test-release-1-11-pivoting    | release-1.11 | release-1.11 | release-0.11   | latest         | latest      | v31.0.0    |
 | metal3-periodic-centos-e2e-feature-test-release-1-10-pivoting    | release-1.10 | release-1.10 | release-0.10   | latest         | latest      | v29.0.0    |
-| metal3-periodic-centos-e2e-feature-test-release-1-9-pivoting     | release-1.9  | release-1.9  | release-0.9    | v0.9.0         | latest      | v27.0.0    |
 | metal3-periodic-centos-e2e-feature-test-main-remediation         | main         | main         | main           | latest         | latest      | latest     |
+| metal3-periodic-centos-e2e-feature-test-release-1-11-pivoting    | release-1.12 | release-1.12 | release-0.12   | latest         | latest      | v33.0.0    |
 | metal3-periodic-centos-e2e-feature-test-release-1-11-remediation | release-1.11 | release-1.11 | release-0.11   | latest         | latest      | v31.0.0    |
 | metal3-periodic-centos-e2e-feature-test-release-1-10-remediation | release-1.10 | release-1.10 | release-0.10   | latest         | latest      | v29.0.0    |
-| metal3-periodic-centos-e2e-feature-test-release-1-9-remediation  | release-1.9  | release-1.9  | release-0.9    | v0.9.0         | latest      | v27.0.0    |
 | metal3-periodic-centos-e2e-feature-test-main-features            | main         | main         | main           | latest         | latest      | latest     |
+| metal3-periodic-centos-e2e-feature-test-release-1-11-pivoting    | release-1.12 | release-1.12 | release-0.12   | latest         | latest      | v33.0.0    |
 | metal3-periodic-centos-e2e-feature-test-release-1-11-features    | release-1.11 | release-1.11 | release-0.11   | latest         | latest      | v31.0.0    |
 | metal3-periodic-centos-e2e-feature-test-release-1-10-features    | release-1.10 | release-1.10 | release-0.10   | latest         | latest      | v29.0.0    |
-| metal3-periodic-centos-e2e-feature-test-release-1-9-features     | release-1.9  | release-1.9  | release-0.9    | v0.9.0         | latest      | v27.0.0    |
 
 | EPHEMERAL TESTS                                                | CAPM3 branch | IPAM branch | BMO branch/tag | Keepalived tag | MariaDB tag | Ironic tag |
 | -------------------------------------------------------------- | ------------ | ----------- | -------------- | -------------- | ----------- | ---------- |
