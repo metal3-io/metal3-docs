@@ -1,13 +1,19 @@
 # External inspection
 
-Similar to the [status annotation](status_annotation.md), external inspection makes it possible to skip the inspection step.
-The difference is that the status annotation can only be used on the very first reconcile and allows setting all the fields under `status`.
-In contrast, external inspection limits the changes so that only HardwareDetails can be modified, and it can be used at any time when inspection is disabled (with the `inspect.metal3.io: disabled` annotation) or when there is no existing HardwareDetails data.
+Similar to the [status annotation](status_annotation.md), external inspection
+makes it possible to skip the inspection step. The difference is that the
+status annotation can only be used on the very first reconcile and allows
+setting all the fields under `status`. In contrast, external inspection limits
+the changes so that only HardwareDetails can be modified, and it can be used at
+any time when inspection is disabled (with the `inspect.metal3.io: disabled`
+annotation) or when there is no existing HardwareDetails data.
 
 External inspection is controlled through an annotation on the BareMetalHost.
-The annotation key is `inspect.metal3.io/hardwaredetails` and the value is a JSON representation of the BareMetalHosts `status.hardware` field.
+The annotation key is `inspect.metal3.io/hardwaredetails` and the value is a
+JSON representation of the BareMetalHosts `status.hardware` field.
 
-Here is an example with a BMH that has inspection disabled and is using the external inspection feature to add the HardwareDetails.
+Here is an example with a BMH that has inspection disabled and is using the
+external inspection feature to add the HardwareDetails.
 
 ```yaml
 apiVersion: metal3.io/v1alpha1
@@ -25,10 +31,15 @@ spec:
 
 Why is this needed?
 
-- It allows avoiding an extra reboot for live-images that include their own inspection tooling.
+- It allows avoiding an extra reboot for live-images that include their own
+  inspection tooling.
 - It provides an arguably safer alternative to the status annotation in some cases.
 
 Caveats:
 
-- If both `baremetalhost.metal3.io/status` and `inspect.metal3.io/hardwaredetails` are specified on BareMetalHost creation, `inspect.metal3.io/hardwaredetails` will take precedence and overwrite any hardware data specified via `baremetalhost.metal3.io/status`.
-- If the BareMetalHost is in the `Available` state the controller will not attempt to match profiles based on the annotation.
+- If both `baremetalhost.metal3.io/status` and
+  `inspect.metal3.io/hardwaredetails` are specified on BareMetalHost creation,
+  `inspect.metal3.io/hardwaredetails` will take precedence and overwrite any
+  hardware data specified via `baremetalhost.metal3.io/status`.
+- If the BareMetalHost is in the `Available` state the controller will not
+  attempt to match profiles based on the annotation.

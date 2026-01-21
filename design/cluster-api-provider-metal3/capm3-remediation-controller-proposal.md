@@ -27,7 +27,8 @@ recovery of unhealthy nodes we need a programmatic way to put them back into a
 safe and healthy state.
 
 The Cluster API includes an optional
-[MachineHealthcheck](https://cluster-api.sigs.k8s.io/tasks/automated-machine-management/healthchecking) (MHC)
+[MachineHealthcheck](https://cluster-api.sigs.k8s.io/tasks/automated-machine-management/healthchecking)
+(MHC)
 component that implements automated health checking capability, and with
 the [External Remediation proposal](https://github.com/kubernetes-sigs/cluster-api/pull/3190)
 it will be possible to plug in Metal3 specific remediation strategies to
@@ -40,7 +41,7 @@ meet unhealthiness criteria set by Cluster API MHC.
 
 ### Goals
 
-* Enable automated remediation that doesn’t always reprovision the node.
+* Enable automated remediation that doesn't always reprovision the node.
 * Integrate with Cluster API MHC.
 * Support remediation based on power cycling the underlying hardware.
 * Support use of BMO reboot API and Cluster-API-Provider-Metal3 (CAPM3)
@@ -149,9 +150,9 @@ metadata:
   name: NAME_OF_UNHEALTHY_MACHINE
   namespace: NAMESPACE_OF_UNHEALTHY_MACHINE
   ownerReferences:
-   - apiVersion: cluster.x-k8s.io/v1alphaX
-     kind: Machine
-     name: MACHINE_NAME
+  - apiVersion: cluster.x-k8s.io/v1alphaX
+    kind: Machine
+    name: MACHINE_NAME
 spec:
   strategy:
     type: reboot

@@ -47,7 +47,8 @@ spec:
 updated
 - use the format above, ensure `firmwareSettings` and/or `firmwareUpdates` is
 set to `onReboot`
-- make changes to [HostFirmwareSettings](./firmware_settings.md) and/or [HostFirmwareComponents](./firmware_updates.md) as required
+- make changes to [HostFirmwareSettings](./firmware_settings.md) and/or
+  [HostFirmwareComponents](./firmware_updates.md) as required
 - make sure the modified resources are considered valid (see `Conditions`)
 - if you're updating a Kubernetes node, make sure to drain it and mark as
 not schedulable
@@ -59,7 +60,7 @@ not schedulable
 
 Below commands may be used to perform servicing operation on a bareMetalHost:
 
-```yaml
+```bash
 cat << EOF > hup.yaml
 apiVersion: metal3.io/v1alpha1
 kind: HostUpdatePolicy
@@ -98,8 +99,9 @@ kubectl uncordon worker-0
 Once changes similar to the above are made to the relevant CRDs, the following
 will occur:
 
-- BMO will generate [servicing steps](https://docs.openstack.org/ironic/latest/admin/servicing.html) (similar to manual cleaning steps)
-required to perform the requested changes
+- BMO will generate
+  [servicing steps](https://docs.openstack.org/ironic/latest/admin/servicing.html)
+  (similar to manual cleaning steps) required to perform the requested changes
 - BMH will transition to `servicing` operationalStatus
 - BMO will make calls to Ironic which will perform the servicing operation
 - Ironic will reboot the BMH into the IPA image and perform requested changes

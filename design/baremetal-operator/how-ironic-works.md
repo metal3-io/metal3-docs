@@ -229,7 +229,7 @@ ironic 12.0.0 is: idrac, ilo, ipmi, irmc, redfish, snmp, and xclarity.
 
 Usually more info are provided, at least a node name and parameters to
 initialize the drivers, such as username and password, if needed, passed
-through the “driver_info” option.
+through the "driver_info" option.
 
 An example of a typical node create request in JSON format:
 
@@ -246,7 +246,7 @@ An example of a typical node create request in JSON format:
 ```
 
 The response, if successful, contains a complete record of the node in JSON
-format with provided or default ({}, “null”, or “”) values.
+format with provided or default ({}, "null", or "") values.
 
 ## Updating information about a hardware node in ironic
 
@@ -303,11 +303,11 @@ Starting with the bare metal node in the "available" provision_state:
 
    ```json
        {
-       {“op”: “replace”, “path”: “/instance_info”, “value”: {
-           “image_source”: “http://url-to-image”,
-           “image_os_hash_algo”: “sha256”,
-           “image_os_hash_value”: “abcdefghi…”}},
-       {“op”: “replace”, “path”: “/instance_uuid”, “value”: “anyuuidvalue”}},
+       {"op": "replace", "path": "/instance_info", "value": {
+           "image_source": "http://url-to-image",
+           "image_os_hash_algo": "sha256",
+           "image_os_hash_value": "abcdefghi…"}},
+       {"op": "replace", "path": "/instance_uuid", "value": "anyuuidvalue"}},
        }
    ```
 
@@ -340,16 +340,16 @@ Starting with the bare metal node in the "available" provision_state:
    ```
 
    The particular interfaces that would be important to pay attention to are
-   ‘boot’, ‘deploy’, ‘power’, ‘management’.
+   'boot', 'deploy', 'power', 'management'.
 
-   More information can be found in the [API documentation](https://developer.openstack.org/api-ref/baremetal/?expanded=validate-node-detail).
+   More information can be found in the [API documentation](https://docs.openstack.org/api-ref/baremetal/?expanded=validate-node-detail).
 
 3. Craft a configuration drive file
 
    Configuration drives are files that contain a small ISO9660 filesystem
    which contains configuration metadata and user defined "user-data".
 
-   1) Create a folder called “TEMPDIR”
+   1) Create a folder called "TEMPDIR"
    2) In the case of ignition based configuration, that file would be
       renamed "user_data" and placed in `TEMPDIR/openstack/latest/`
       folder.
@@ -358,7 +358,7 @@ Starting with the bare metal node in the "available" provision_state:
       `TEMPDIR/openstack/latest` as well. This is out of scope, but is well
       documented in the OpenStack community.
    4) Create an iso9660 image containing the contents of TEMPDIR using
-      a label of “config-2”.
+      a label of "config-2".
    5) Compress the resulting ISO9660 image file using the gzip
       algorithm.
    6) Encode the resulting gzip compressed image file in base64 for
@@ -369,8 +369,8 @@ Starting with the bare metal node in the "available" provision_state:
    the deployment
 
    ```json
-       {“target”: “active”,
-        “configdrive”: “http://url-to-config-drive/node.iso.gz”}
+       {"target": "active",
+        "configdrive": "http://url-to-config-drive/node.iso.gz"}
    ```
 
    Once the request to make the node active has been received by ironic,

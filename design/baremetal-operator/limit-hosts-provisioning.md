@@ -77,9 +77,9 @@ if provisioning_slots < 0 then
 
 ### Risks and Mitigations
 
-- In a worst case scenario we could have a high number of “bad” hosts under
+- In a worst case scenario we could have a high number of "bad" hosts under
   provisioning but into an error state not recoverable. If such number is equal
-  to the configured threshold, then the “bad” hosts could prevent other hosts
+  to the configured threshold, then the "bad" hosts could prevent other hosts
   to be correctly provisioned. A fair scheduling approach will be required
   to ensure that the available provisioning slots will be distributed evenly
   (the recently added _BMH ErrorCount_ field could be used for that)

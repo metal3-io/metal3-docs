@@ -68,12 +68,12 @@ kind: BMCEventSubscription
 metadata:
   name: worker-1-events
 spec:
-   hostName: ostest-worker-1
-   destination: https://events.apps.corp.example.com/webhook
-   context: “SomeUserContext”
-   httpHeadersRef:
-     name: some-secret-name
-     namespace: some-namespace
+  hostName: ostest-worker-1
+  destination: https://events.apps.corp.example.com/webhook
+  context: "SomeUserContext"
+  httpHeadersRef:
+    name: some-secret-name
+    namespace: some-namespace
 status:
   errorMessage: ""
   subscriptionID: aa618a32-9335-42bc-a04b-20ddeed13ade
@@ -139,7 +139,6 @@ implementations (if they exist at all).
 ## References
 
 - [Ironic Vendor Passthru for Subscriptions](https://storyboard.openstack.org/#!/story/2009061)
-- [Supermicro Redfish Guide](https://www.supermicro.com/manuals/other/RedfishRefGuide.pdf)
 - [DMTF: Redfish Eventing](https://www.dmtf.org/sites/default/files/Redfish%20School%20-%20Events.pdf)
 - [Redfish Event Controller (POC)](https://github.com/dhellmann/redfish-event-controller)
 - [Redfish Event Experiment (POC)](https://github.com/dhellmann/redfish-event-experiment)

@@ -101,11 +101,10 @@ E.g. Metal3MachineTemplate CR
 apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
 kind: Metal3MachineTemplate
 spec:
-  nodeReuse: True
+  nodeReuse: true
   template:
     spec:
       image:
-        ...
 ```
 
 During upgrade, to avoid our hosts from being selected for other KCP/MD pools,
@@ -120,8 +119,8 @@ E.g. BareMetalHost CR
 apiVersion: metal3.io/v1alpha1
 kind: BareMetalHost
 metadata:
-    labels:
-      infrastructure.cluster.x-k8s.io/node-reuse: md-pool1
+  labels:
+    infrastructure.cluster.x-k8s.io/node-reuse: md-pool1
 ```
 
 ### Implementation Details/Notes/Constraints

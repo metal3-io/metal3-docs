@@ -16,3 +16,4 @@ docs/presentations/plugin
 
 # Development containers (https://containers.dev/)
 .devcontainer
+.claude

@@ -1,6 +1,7 @@
 # Metal3 Project
 
-[comment]: After adding the releasetag preprocessor the build fails with output "thread 'main' panicked at '', src/utils/fs.rs:45:10" if there are links with empty paths.
+<!-- After adding the releasetag preprocessor the build fails with -->
+<!-- "thread 'main' panicked" if there are links with empty paths. -->
 
 [Introduction](introduction.md)
 
@@ -27,6 +28,7 @@
       - [Adopting Externally Provisioned Hosts](bmo/externally_provisioned.md)
       - [Advanced Instance Customization](bmo/advanced_instance_customization.md)
       - [Booting from Live ISO](bmo/live-iso.md)
+      - [Changing BMC Address](bmo/changing_bmc_address.md)
       - [Detaching Hosts from Provisioner](bmo/detached_annotation.md)
       - [External Inspection](bmo/external_inspection.md)
       - [Reconstructing Host Status](bmo/status_annotation.md)
@@ -48,6 +50,7 @@
       - [Data sources](capm3/data_sources.md)
       - [ClusterClass](capm3/clusterclass.md)
       - [Failure Domain](capm3/failure_domain.md)
+      - [Annotation-based IPPool](capm3/annotation_based_ippool.md)
 - [Ip-address-manager](ipam/introduction.md)
    - [Install Ip-address-manager](ipam/ipam_installation.md)
 - [Troubleshooting FAQ](troubleshooting.md)

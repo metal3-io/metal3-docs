@@ -22,7 +22,7 @@ the project to make the user getting-started experience easier.
 
 Currently all the documentation describing different parts
 of the Metal³ project is scattered across different repositories
-which doesn’t bring a good user experience from the documentation
+which doesn't bring a good user experience from the documentation
 perspective.
 
 ### Goals
@@ -82,7 +82,7 @@ There are two possible ways for that.
 
 **Where do we store mdbook auto-generated files like CSS/HTML ?**
 
-Since we are using Netlify, we don’t have to store those files within the Metal3-docs
+Since we are using Netlify, we don't have to store those files within the Metal3-docs
 Github repository. Because, Netlify will run the mdbook binary, which will be looking
 for the book structure file in `.toml` format. As such, the user-guide is generated
 on the fly, and the output (i.e. online user-guide) is stored and published via
@@ -100,7 +100,7 @@ and publish the final-user guide and a temporary URL.
 
 Netlify allows us to configure automatic-triggering N times per day. As such,
 we can decide how many times in a day we want to trigger it. And it actually
-depends on what’s the frequency of PRs in the Metal3-docs repository. But since
+depends on what's the frequency of PRs in the Metal3-docs repository. But since
 the frequency of the documentation is very low we can configure it to be once a
 day for now.
 

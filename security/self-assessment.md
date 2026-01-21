@@ -44,7 +44,7 @@ Metal3 has been in CNCF Sandbox since 2020, and is now applying for
 
 ## Overview
 
-The Metal3 Project (pronounced: “Metal Kubed”) empowers organizations with a
+The Metal3 Project (pronounced: "Metal Kubed") empowers organizations with a
 flexible, open-source solution for bare metal provisioning that combines the
 benefits of bare metal performance with the ease of use and automation provided
 by Kubernetes. Metal3 provides a comprehensive set of components for baremetal
@@ -72,7 +72,7 @@ of bare-metal infrastructure.
 
 This is paired with one of the components from the OpenStack ecosystem, Ironic
 for booting and installing machines. Metal³ handles the installation of Ironic
-as a standalone component (there’s no need to bring along the rest of
+as a standalone component (there's no need to bring along the rest of
 OpenStack). Ironic is supported by a mature community of hardware vendors and
 supports a wide range of bare metal management protocols which are continuously
 tested on a variety of hardware. Backed by Ironic, Metal³ can provision
@@ -114,13 +114,13 @@ hosts, represented in Kubernetes by BareMetalHost (BMH) custom resources.
 
 BMO is responsible for the following operations:
 
-* Inspecting the host’s hardware and reporting the details on the corresponding
+* Inspecting the host's hardware and reporting the details on the corresponding
    BareMetalHost. This includes information about CPUs, RAM, disks, NICs, and
    more.
 * Optionally preparing the host by configuring RAID, changing firmware settings
    or updating the system and/or BMC firmware.
 * Provisioning the host with a desired image.
-* Cleaning the host’s disk contents before and after provisioning.
+* Cleaning the host's disk contents before and after provisioning.
 
 Under the hood, BMO uses Ironic to conduct these actions.
 
@@ -347,7 +347,7 @@ More use-cases can be found in our
 
 ### Related Projects / Vendors
 
-* [Canonical MAAS](https://maas.io/) - An open source bare metal provisioning
+* [Canonical MAAS](https://canonical.com/maas) - An open source bare metal provisioning
   and lifecycle management system. MAAS treats physical servers like virtual
   instances in the cloud, providing API-driven IPAM, PXE boot, hardware
   inventory, and operating system deployment. It operates as a standalone

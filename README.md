@@ -23,7 +23,8 @@ Kubernetes interfaces.
 
 ## Documentation
 
-Please see our [user-guide](https://book.metal3.io/) to familiarize yourself with Metal³ and its features. We are currently in the process of writing
+Please see our [user-guide](https://book.metal3.io/) to familiarize yourself
+with Metal³ and its features. We are currently in the process of writing
 the user-guide. As such, not all the topics might be covered yet.
 
 ## Community
@@ -32,8 +33,9 @@ Metal³ is constantly growing and we would be happy to collaborate with you.
 If you are interested in Metal³ or would like to reach out its community then
 come talk to us!
 
-* We are available on Kubernetes [slack](http://slack.k8s.io/) in the
-  [#cluster-api-baremetal](https://kubernetes.slack.com/messages/CHD49TLE7)
+* We are available on Kubernetes
+[slack](https://communityinviter.com/apps/kubernetes/community) in the
+  [#cluster-api-baremetal](https://kubernetes.slack.com/?redir=%2Fmessages%2FCHD49TLE7)
   channel
 * Join to the [Metal3-dev](https://groups.google.com/forum/#!forum/metal3-dev)
   google group for the edit access to the

@@ -115,37 +115,36 @@ by the hardware administrator on the BareMetalHost when it was defined.
   I should use to locate a machine with the right hardware details.
 * I create a resource with the following content:
 
-  ```yaml
-  apiVersion: metal3.io/v1alpha1
-  kind: HostClaim
-  metadata:
-    name: my-host
-    namespace: myns
-  spec:
-    online: false
-
-    hostSelector:
-      matchLabels:
-        infra-kind: medium
-  ```
+```yaml
+apiVersion: metal3.io/v1alpha1
+kind: HostClaim
+metadata:
+  name: my-host
+  namespace: myns
+spec:
+  online: false
+  hostSelector:
+    matchLabels:
+      infra-kind: medium
+```
 
 * After a while, the system associates the claim with a real server, and
   the resource's status is populated with the following information:
 
-  ```yaml
-  status:
-    bareMetalHostRef:
-      name: server-123
-      namespace: infra
-    conditions:
-    - lastTransitionTime: "2024-03-29T14:33:19Z"
-      status: "True"
-      type: Ready
-    - lastTransitionTime: "2024-03-29T14:33:19Z"
-      status: "True"
-      type: AssociateHost
-    lastUpdated: "2024-03-29T14:33:19Z"
-  ```
+```yaml
+status:
+  bareMetalHostRef:
+    name: server-123
+    namespace: infra
+  conditions:
+  - lastTransitionTime: "2024-03-29T14:33:19Z"
+    status: "True"
+    type: Ready
+  - lastTransitionTime: "2024-03-29T14:33:19Z"
+    status: "True"
+    type: AssociateHost
+  lastUpdated: "2024-03-29T14:33:19Z"
+```
 
   The BareMetalHost resource is updated so that the consumerRef field points
   to the HostClaim resource.
@@ -155,27 +154,28 @@ by the hardware administrator on the BareMetalHost when it was defined.
   status and meta data to customize the scripts they contain.
 * I modify the HostClaim to point to those secrets and start the server:
 
-  ```yaml
-  apiVersion: metal3.io/v1alpha1
-  kind: HostClaim
-  metadata:
-    name: my-host
-  spec:
-    online: true
-    image:
-      checksum: https://url_image.qcow2.md5
-      url: https://url_image.qcow2
-      format: qcow2
-    userData:
-      name: my-user-data
-    networkData:
-      name: my-network-data
-    hostSelector:
-      matchLabels:
-        infra-kind: medium
-  ```
+```yaml
+apiVersion: metal3.io/v1alpha1
+kind: HostClaim
+metadata:
+  name: my-host
+spec:
+  online: true
+  image:
+    checksum: https://url_image.qcow2.md5
+    url: https://url_image.qcow2
+    format: qcow2
+  userData:
+    name: my-user-data
+  networkData:
+    name: my-network-data
+  hostSelector:
+    matchLabels:
+      infra-kind: medium
+```
 
   Note: customDeploy must be supported as an alternative to images.
+
 * The workload is launched. When the machine is fully provisioned, the boolean
   field ready in the status becomes true. I can stop the server by changing
   the online status. I can also perform a reboot by adding a
@@ -283,10 +283,10 @@ cluster. However, the resources I intend to use (such as BareMetalHosts or
 KubeVirt virtual machines) will be defined in a separate cluster.
 
 The [multi-tenancy extension](./cluster-api-provider-metal3/multi-tenancy_contract.md)
-for BareMetalHost is extended to HostClaims. The Metal3Machine field ``identityRef`` points to a
-secret containing a kubeconfig object. This kubeconfig will be utilized instead
-of the HostClaim controller service account to create and manage HostClaim
-resources on the remote cluster.
+for BareMetalHost is extended to HostClaims. The Metal3Machine field
+`identityRef` points to a secret containing a kubeconfig object. This
+kubeconfig will be utilized instead of the HostClaim controller service account
+to create and manage HostClaim resources on the remote cluster.
 
 HostClaims do not have an identityRef field; they must be located on the same
 cluster as the BareMetalHost.
@@ -418,9 +418,9 @@ the associated BareMetalHost. It could be modified by a malicious tenant if the
 RBAC privileges are too lenient on the HostClaim namespace (right given to the
 user to modify not only the spec part but also the status part).
 
-But the BareMetalHost has also a consumer reference. The HostClaim status is only an
-indication of the binding. If the consumer reference and the HostClaim status
-differ, priority is given to the consumer reference on the BareMetalHost.
+But the BareMetalHost has also a consumer reference. The HostClaim status is
+only an indication of the binding. If the consumer reference and the HostClaim
+status differ, priority is given to the consumer reference on the BareMetalHost.
 
 #### Performance Impact
 
@@ -549,8 +549,8 @@ The disadvantages of the BareMetalPool approach are:
 
 The first proof of concept of HostClaims copied inspection data from the BareMetalHost
 to the HostClaim. There was no inventory of available hardware visible to the end-user.
-The code was also more complex especially because of metadata synchronization (details in
-the next section).
+The code was also more complex especially because of metadata synchronization
+(details in the next section).
 
 #### Alternative Handling of Metadata
 
@@ -558,21 +558,26 @@ Here are some alternative methods for handling metadata associated with BareMeta
 and used by the Metal3 provider (selection and construction of cloud-init/ignition
 data):
 
-* **Keep metadata in BareMetalHost. Copy to HostClaims** : the purpose of HostClaims is to hide
-  BareMetalHost from users. Selectors and important metadata values would be
-  hidden from their user. Even if infrastructure managers can convey information
-  through other means, this is awkward. The proof of concept had complex rules to maintain
-  HostClaim metadata synchronized with BareMetalHosts.
+* **Keep metadata in BareMetalHost. Copy to HostClaims** : the purpose of
+  HostClaims is to hide BareMetalHost from users. Selectors and important
+  metadata values would be hidden from their user. Even if infrastructure
+  managers can convey information through other means, this is awkward. The
+  proof of concept had complex rules to maintain HostClaim metadata synchronized
+  with BareMetalHosts.
 * **Metadata in HardwareData without synchronization** : infrastructure managers
-  must then create empty HardwareData to define the metadata visible to end users. This simplifies
-  HostDeployPolicy. The main drawback is that it is a non-compatible change with current deployments
-  of BareMetalHosts. Process annotating BareMetalHosts automatically would require modifications.
-* **Metadata in a new custom resource** : This custom resource would only exist for this purpose.
-  Having too many custom resources for a single concept is not a good idea.
-* **Keep some metadata on HardwareData not automatically synchronized with BareMetalHost metadata** :
-  metadata on HardwareData with keys that are not explicitly handled by the HostDeployPolicy would
-  be preserved. This is complex. The only purpose would be for automatic processes labeling HardwareData
-  based on their content, but they can always label BareMetalHost instead of HardwareData. The cost
-  of maintaining such partial synchronization is high.
+  must then create empty HardwareData to define the metadata visible to end
+  users. This simplifies HostDeployPolicy. The main drawback is that it is a
+  non-compatible change with current deployments of BareMetalHosts. Process
+  annotating BareMetalHosts automatically would require modifications.
+* **Metadata in a new custom resource** : This custom resource would only exist
+  for this purpose. Having too many custom resources for a single concept is not
+  a good idea.
+* **Keep some metadata on HardwareData not automatically synchronized with
+  BareMetalHost metadata** : metadata on HardwareData with keys that are not
+  explicitly handled by the HostDeployPolicy would be preserved. This is
+  complex. The only purpose would be for automatic processes labeling
+  HardwareData based on their content, but they can always label BareMetalHost
+  instead of HardwareData. The cost of maintaining such partial synchronization
+  is high.
 
 ## References

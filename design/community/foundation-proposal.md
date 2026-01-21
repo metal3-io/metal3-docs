@@ -32,7 +32,7 @@ more important.  If the project worked out and we started building a community,
 then we would revisit formalizing project governance for the future.
 
 After a year, we have produced useful code and a community involving multiple
-companies has formed to collaborate.  It’s a good time to consider what changes
+companies has formed to collaborate.  It's a good time to consider what changes
 might best support this community for the future.
 
 Some changes have already started happening, such as formalizing the process
@@ -63,7 +63,7 @@ The [Goals](#goals) section discusses some of the immediate changes we should
 expect, but as the project continues to mature, many of the other services
 provided by the CNCF would be very beneficial to metal3-io.  The CNCF web site
 does a nice job discussing what services they offer projects on the
-[Services for CNCF Projects](https://www.cncf.io/services-for-projects/) page.
+[Services for CNCF Projects](https://contribute.cncf.io/resources/services/) page.
 
 ## Design Details
 
@@ -94,7 +94,7 @@ the benefits of being more closely aligned with the CNCF ecosystem.
 
 The baremetal-operator makes use of Ironic, which came out of OpenStack.
 Ironic is hidden as an implementation detail, though.  In terms of where we
-expect the metal3 components to be used, it’s really more closely aligned with
+expect the metal3 components to be used, it's really more closely aligned with
 the Kubernetes ecosystem and the CNCF.
 
 ### Kubernetes Cluster Lifecycle SIG
@@ -105,7 +105,7 @@ provider itself could fall under this SIG, the scope of metal3-io is larger
 than supporting cluster-api.  metal3-io provides a Kubernetes API for generic
 bare metal host provisioning and cluster-api integration is just one use case.
 Since the scope of metal3-io is more broadly about bare metal host
-provisioning, we decided to organize it as an independent project.  It’s also
+provisioning, we decided to organize it as an independent project.  It's also
 convenient to keep the cluster-api provider along side the other related git
 repositories as part of metal3-io.  metal3-io community members do continue to
 collaborate with the cluster-api project.

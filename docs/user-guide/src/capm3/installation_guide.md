@@ -9,11 +9,17 @@ install them yourself.
 
 ## Prerequisites
 
-1. Install `clusterctl`, refer to Cluster API [book](https://cluster-api.sigs.k8s.io/user/quick-start.html#install-clusterctl) for installation instructions.
-1. Install `kustomize`, refer to official instructions [here](https://kubectl.docs.kubernetes.io/installation/kustomize/).
+1. Install `clusterctl`, refer to Cluster API
+   [book](https://cluster-api.sigs.k8s.io/user/quick-start.html#install-clusterctl)
+   for installation instructions.
+1. Install `kustomize`, refer to official instructions
+   [here](https://kubectl.docs.kubernetes.io/installation/kustomize/).
 1. Install Ironic, refer to [this page](../ironic/ironic_installation.html).
-1. Install Baremetal Operator, refer to [this page](../bmo/install_baremetal_operator.html).
-1. Install Cluster API core components i.e., core, bootstrap and control-plane providers. This will also install cert-manager, if it is not already installed.
+1. Install Baremetal Operator, refer to
+   [this page](../bmo/install_baremetal_operator.html).
+1. Install Cluster API core components i.e., core, bootstrap and control-plane
+   providers. This will also install cert-manager, if it is not already
+   installed.
 
     ```bash
      clusterctl init --core cluster-api{{#releasetag owner:"kubernetes-sigs" repo:"cluster-api"}} --bootstrap kubeadm{{#releasetag owner:"kubernetes-sigs" repo:"cluster-api"}} \
@@ -22,7 +28,10 @@ install them yourself.
 
 ## With clusterctl
 
-This method is recommended. You can specify the CAPM3 version you want to install by appending a version tag, e.g. `{{#releasetag owner:"metal3-io" repo:"cluster-api-provider-metal3" }}`. If the version is not specified, the latest version available will be installed.
+This method is recommended. You can specify the CAPM3 version you want to
+install by appending a version tag, e.g.
+`{{#releasetag owner:"metal3-io" repo:"cluster-api-provider-metal3" }}`. If the
+version is not specified, the latest version available will be installed.
 
 ```bash
 clusterctl init --infrastructure metal3{{#releasetag owner:"metal3-io" repo:"cluster-api-provider-metal3"}}
@@ -30,7 +39,9 @@ clusterctl init --infrastructure metal3{{#releasetag owner:"metal3-io" repo:"clu
 
 ## With kustomize
 
-To install a specific version, checkout the `github.com/metal3-io/cluster-api-provider-metal3.git` to the tag with the desired version
+To install a specific version, checkout the
+`github.com/metal3-io/cluster-api-provider-metal3.git` to the tag with the
+desired version
 
 ```bash
 git clone https://github.com/metal3-io/cluster-api-provider-metal3.git

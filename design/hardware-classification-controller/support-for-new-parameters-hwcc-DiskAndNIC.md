@@ -70,16 +70,16 @@ Add support for new parameters:
    Below YAML example indicates that user want 1 disk1 with pattern given in
    `diskSelector` field with size of 2200 GB.
 
-     ```yaml
-     spec:
-     hardwareCharacteristics:
-       Disk:
-          minimumCount: 1
-          minimumIndividualSizeGB: 2200
-          diskSelector:
-            - hctl: "0:0:N:0"
-              rotational: false
-     ```
+```yaml
+spec:
+hardwareCharacteristics:
+  Disk:
+  minimumCount: 1
+  minimumIndividualSizeGB: 2200
+  diskSelector:
+  - hctl: "0:0:N:0"
+    rotational: false
+```
 
    YAML rules for multiple Disks:
 
@@ -90,18 +90,18 @@ Add support for new parameters:
    Below YAML example indicates that user want 4 disks with pattern given in
    `diskSelector` field with individual size of 2200 GB.
 
-     ```yaml
-     spec:
-     hardwareCharacteristics:
-       Disk:
-          minimumCount: 4
-          minimumIndividualSizeGB: 2200
-          diskSelector:
-            - hctl: "0:0:N:0"
-              rotational: false
-            - hctl: "0:0:N:0"
-              rotational: true
-     ```
+```yaml
+spec:
+hardwareCharacteristics:
+  Disk:
+    minimumCount: 4
+    minimumIndividualSizeGB: 2200
+    diskSelector:
+    - hctl: "0:0:N:0"
+      rotational: false
+    - hctl: "0:0:N:0"
+      rotational: true
+```
 
    User have to provide `hctl` value in pattern format only.
    For example: if user specify 0:0:N:0 then every value have third
@@ -125,49 +125,48 @@ Add support for new parameters:
 
    Investigation details: Below is sample introspection data for NICs.
 
-      ```yaml
-     hardware:
-       nics:
-       - ip: ""
-         mac: 24:6e:96:aa:bb:cc
-         model: 0x8086 0x1234
-         name: eth3
-         pxe: false
-     ```
+```yaml
+hardware:
+  nics:
+  - ip: ""
+    mac: 24:6e:96:aa:bb:cc
+    model: 0x8086 0x1234
+    name: eth3
+    pxe: false
+```
 
 ### Implementation Details/Notes/Constraints
 
 Link for Existing HWCC Specs
-[Existing YAML](https://github.com/metal3-io/hardware-classification-controller/blob/master/config/samples/metal3.io_v1alpha1_hardwareclassification.yaml)
+[Existing YAML](https://github.com/metal3-io/hardware-classification-controller/blob/main/config/samples/metal3.io_v1alpha1_hardwareclassification.yaml)
 
 * Below is sample yaml for additional parameters in HardwareClassification.
 
-   ```yaml
-
-   apiVersion: metal3.io.sigs.k8s.io/v1alpha1
-   kind: HardwareClassification
-   metadata:
-     name: profile1
-   spec:
-     hardwareCharacteristics:
-       Disk:
-          minimumCount: 5
-          minimumIndividualSizeGB: 2200
-          diskSelector:
-            - hctl: "0:0:N:0"
-              rotational: false
-            - hctl: "0:0:N:0"
-              rotational: true
-            - hctl: "0:N:0:0"
-              rotational: true
-            - hctl: "N:0:0:0"
-              rotational: false
-       NIC:
-          minimumCount: 2
-          vendorSelector:
-            - vendor: 0x8086
-            - vendor: 0x15b3
-   ```
+```yaml
+apiVersion: metal3.io.sigs.k8s.io/v1alpha1
+kind: HardwareClassification
+metadata:
+  name: profile1
+spec:
+  hardwareCharacteristics:
+    Disk:
+      minimumCount: 5
+      minimumIndividualSizeGB: 2200
+      diskSelector:
+      - hctl: "0:0:N:0"
+        rotational: false
+      - hctl: "0:0:N:0"
+        rotational: true
+      - hctl: "0:N:0:0"
+        rotational: true
+      - hctl: "N:0:0:0"
+        rotational: false
+    NIC:
+      minimumCount: 2
+      vendorSelector:
+      - vendor: 0x8086
+      - vendor: 0x15b3
+```
 
 * Update the existing Schema `HardwareClassification` by adding new
   parameters "diskSelector" and "vendor" under Disk and NIC respectively.

@@ -75,7 +75,6 @@ spec:
       controlPlane: true
     fd-2:
       controlPlane: true
-...
 ```
 
 When a control-plane node needs to be created, KCP will choose an FD from this set
@@ -87,7 +86,6 @@ kind: Machine
 name: mycluster-control-plane-7wrls
 spec:
   failureDomain: fd-1
-...
 ```
 
 The operator has added the following label to a host in fd-1:
@@ -98,13 +96,12 @@ name: some-bmh-in-fd-1
 metadata:
   labels:
     infrastructure.cluster.x-k8s.io/failure-domain: fd-1
-...
 ```
 
 When CAPM3 reconciles the `Metal3Machine` object representing the control-plane
 Machine that KCP created, it will check if `Machine.Spec.FailureDomain` has a value,
-which in our example is fd-1. CAPM3 will pick a BMH that has the fd-1 label, such as
-the one we have defined above.
+which in our example is fd-1. CAPM3 will pick a BMH that has the fd-1 label,
+such as the one we have defined above.
 
 ## FD labels on the Node object
 
@@ -152,4 +149,4 @@ a cloud-provider of their own.
 
 ## Related
 
-* [CAPV FD support](https://github.com/kubernetes-sigs/cluster-api-provider-vsphere/blob/master/docs/proposal/20201103-failure-domain.md)
+* [CAPV FD support](https://github.com/kubernetes-sigs/cluster-api-provider-vsphere/blob/main/docs/proposal/20201103-failure-domain.md)

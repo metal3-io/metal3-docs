@@ -91,9 +91,10 @@ values for each branch and release of the operator:
 
 | Operator version | Ironic version(s)                    | Default version | Support status |
 | ---------------- | ------------------------------------ | --------------- | -------------- |
-| latest (main)    | latest, 32.0, 31.0, 30.0             | latest          | Supported      |
+| latest (main)    | latest, 33.0, 32.0, 31.0             | latest          | Supported      |
+| 0.7.0            | 33.0, 32,0, 31.0                     | 33.0            | Supported      |
 | 0.6.0            | 32.0, 31.0, 30.0                     | 32.0            | Supported      |
-| 0.5.0            | 31.0, 30.0, 29.0, 28.0, 27.0         | 31.0            | Supported      |
+| 0.5.0            | 31.0, 30.0, 29.0, 28.0, 27.0         | 31.0            | EOL            |
 | 0.4.0            | 30.0, 29.0, 28.0, 27.0               | 30.0            | EOL            |
 | 0.3.0            | 29.0, 28.0, 27.0                     | latest          | EOL            |
 | 0.2.0            | 28.0, 27.0                           | latest          | EOL            |

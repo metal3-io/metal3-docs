@@ -64,8 +64,8 @@ discussed.
 ## Proposal
 
 The prototype should explore the re-use of [Ansible
-Networking](https://docs.ansible.com/ansible/latest/network/index.html) to
-perform device configuration.  Ansible includes modules for managing the
+Networking](https://docs.ansible.com/projects/ansible/latest/network/index.html)
+ to perform device configuration.  Ansible includes modules for managing the
 configuration of many different network devices.  Creation of CRDs in this new
 API can use modeling from Ansible as inspiration, particularly if there is any
 vendor neutral modeling already done there.
@@ -160,8 +160,8 @@ spec:
   credentialsName: my-eos-secret
   networkOS: eos
   vlans:
-    - id: 10
-      name: test-vlan
+  - id: 10
+    name: test-vlan
 ```
 
 #### Conclusions
@@ -239,7 +239,7 @@ possible future prototypes can be added to this section.
 
 ## References
 
-- <https://docs.ansible.com/ansible/latest/network/index.html>
+- <https://docs.ansible.com/projects/ansible/latest/network/index.html>
 - <https://networking-ansible.readthedocs.io/en/latest/>
 - <https://github.com/operator-framework/operator-sdk>
 - <https://github.com/zalando-incubator/kopf>
