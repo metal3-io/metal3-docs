@@ -105,7 +105,7 @@ configuration, such as:
 > configuration because CAPM3 does some preprocessing with the networking data.
 > With other templates the data is mostly just copied over to deployed resources
 > but the networking template supports convenience features like matching NICs
-> (see [NIC matching](### NIC matching). Misconfiguration here can lead to
+> (see [NIC matching](#nic-matching)). Misconfiguration here can lead to
 > provisioning errors:
 >
 > ```text
