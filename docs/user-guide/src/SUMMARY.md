@@ -58,3 +58,4 @@
 - [API Reference](reference.md)
 - [Version Support](version_support.md)
 - [Project Security Policy](security_policy.md)
+- [Glossary](glossary.md)
