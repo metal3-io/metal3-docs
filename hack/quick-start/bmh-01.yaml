@@ -1,7 +1,7 @@
 apiVersion: metal3.io/v1alpha1
 kind: BareMetalHost
 metadata:
-  name: bml-vm-01
+  name: bmh-vm-01
 spec:
   online: true
   bootMACAddress: 00:60:2f:31:81:01

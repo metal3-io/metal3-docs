@@ -40,8 +40,15 @@ You will need the following tools installed.
   cluster that you want to use)
 - clusterctl
 - kubectl
-- htpasswd
 - virsh and virt-install for the virtualized setup
+
+There are multiple files you will create when following this quick start guide.
+Set the `QUICK_START_BASE` environment variable to the base where you are
+creating all the files. For example
+
+```bash
+export QUICK_START_BASE=$(pwd)
+```
 
 ## Baremetal lab configuration
 
@@ -83,7 +90,7 @@ and the MAC address:
 Start by defining a libvirt network:
 
 ```xml
-{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"docs/user-guide/examples/net.xml"}}
+{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"hack/quick-start/net.xml"}}
 ```
 
 Save this as `net.xml`.
@@ -95,7 +102,7 @@ the form of [sushy-tools](https://docs.openstack.org/sushy/latest/).
 We need to create a configuration file for sushy-tools:
 
 ```conf
-{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"docs/user-guide/examples/sushy-emulator.conf"}}
+{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"hack/quick-start/sushy-emulator.conf"}}
 ```
 
 Finally, we start up the virtual baremetal lab and create VMs to simulate the
@@ -105,7 +112,7 @@ At least one is needed, although more could be nice for scenario 2, to have more
 than one node in the cluster.
 
 ```bash
-{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"docs/user-guide/examples/setup-virtual-lab.sh"}}
+{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"hack/quick-start/setup-virtual-lab.sh"}}
 ```
 
 ## Common setup
@@ -119,10 +126,16 @@ Operator.
 
 In order to do anything useful, we will need a server for hosting disk images
 that can be used to provision the servers. In this guide, we will use an nginx
-container for this. We also download some images that will be used later.
+container for this. We download some images that will be used later.
 
 ```bash
-{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"docs/user-guide/examples/image-server.sh"}}
+{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"hack/quick-start/setup-image-server-dir.sh"}}
+```
+
+Then we start image server.
+
+```bash
+{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"hack/quick-start/start-image-server.sh"}}
 ```
 
 ### DHCP server
@@ -145,7 +158,7 @@ that this is absolutely not intended for production environments.
 We will use the following configuration file for kind, save it as `kind.yaml`:
 
 ```yaml
-{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"docs/user-guide/examples/kind.yaml"}}
+{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"hack/quick-start/kind.yaml"}}
 ```
 
 As you can see, it has a few ports forwarded from the host. This is to make
@@ -155,7 +168,7 @@ We will also need to install cert-manager and Ironic Standalone Operator.
 Finally, we deploy Ironic and Bare Metal Operator.
 
 ```bash
-{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"docs/user-guide/examples/setup-bootstrap.sh"}}
+{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"hack/quick-start/setup-bootstrap.sh"}}
 ```
 
 We use the following manifest to deploy Ironic. Feel free to adjust as needed
@@ -163,23 +176,36 @@ for your environment.
 
 ```yaml
 # kustomization.yaml
-{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"docs/user-guide/examples/ironic/kustomization.yaml"}}
+{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"hack/quick-start/ironic/kustomization.yaml"}}
 ```
 
 ```yaml
 # ironic.yaml
-{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"docs/user-guide/examples/ironic/ironic.yaml"}}
+{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"hack/quick-start/ironic/ironic.yaml"}}
 ```
 
 ```yaml
 # certificate.yaml
-{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"docs/user-guide/examples/ironic/certificate.yaml"}}
+{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"hack/quick-start/ironic/certificate.yaml"}}
+```
+
+For the Ironic Standalone Operator, we use a kustomization
+and patch that looks like this:
+
+```yaml
+# kustomization.yaml
+{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"hack/quick-start/irso/kustomization.yaml"}}
+```
+
+```yaml
+patch-configmap.yaml
+{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"hack/quick-start/irso/patch-configmap.yaml"}}
 ```
 
 For the Bare Metal Operator, we use a kustomization that looks like this:
 
 ```yaml
-{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"docs/user-guide/examples/bmo/kustomization.yaml"}}
+{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"hack/quick-start/bmo/kustomization.yaml"}}
 ```
 
 ## Create BareMetalHosts
@@ -194,7 +220,7 @@ accessing its BMC. No credentials are needed in the virtualized setup but you
 still need to create the secret with some values. Here is an example:
 
 ```yaml
-{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"docs/user-guide/examples/bmc-secret.yaml"}}
+{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"hack/quick-start/bmc-secret.yaml"}}
 ```
 
 Then continue by creating the BareMetalHost manifest. You can put it in the same
@@ -223,7 +249,7 @@ spec:
 Here is the same for the virtualized BareMetalHost:
 
 ```yaml
-{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"docs/user-guide/examples/bmh-01.yaml"}}
+{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"hack/quick-start/bmh-01.yaml"}}
 ```
 
 Apply these in the cluster with `kubectl apply -f path/to/file`.
@@ -329,7 +355,7 @@ options:
    control-plane nodes.
 
 ```bash
-{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"docs/user-guide/examples/capm3-vars.sh"}}
+{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"hack/quick-start/capm3-vars.sh"}}
 ```
 
 With the variables in place, we can render the manifests and apply:
@@ -369,19 +395,10 @@ Cluster/my-cluster                                  1/1       1          1      
 
 ## Cleanup
 
-If you created a cluster using Cluster API, delete that first:
+Delete clusters:
 
 ```bash
-kubectl delete cluster my-cluster
-```
-
-Delete all BareMetalHosts with `kubectl delete bmh <name>`. This ensures that
-the servers are cleaned and powered off.
-
-Delete the management cluster.
-
-```bash
-kind delete cluster
+{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"hack/quick-start/cleanup-clusters.sh"}}
 ```
 
 Stop image server. It is automatically removed when stopped.
@@ -400,5 +417,5 @@ If you did the virtualized setup you will also need to cleanup the sushy-tools
 container and the VM(s).
 
 ```bash
-{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"docs/user-guide/examples/cleanup-virtual-lab.sh"}}
+{{#embed-github repo:"metal3-io/metal3-docs" branch:"main" path:"hack/quick-start/cleanup-virtlab.sh"}}
 ```
