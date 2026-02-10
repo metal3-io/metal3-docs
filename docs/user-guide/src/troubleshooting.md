@@ -159,6 +159,28 @@ You have options:
 - Update your BareMetalHost definition with the `bootMode` value that matches
   what your hardware supports.
 
+### Duplicate network interfaces
+
+If inspection succeeds on a subset of the hosts and fails for the rest, and you
+see the following message in the Ironic logs:
+
+```text
+DuplicateNodeOnLookup: Multiple nodes with port addresses [...] were found
+```
+
+there may be at least two different reasons for that:
+
+1. One host has `bootMacAddress` from a wrong host.
+1. Hosts have virtual network devices with a hardcoded MAC address (the same
+for all of them).
+
+The latter is a common case with virtual devices provided by BMCs. Such devices
+are represented to the operating system similarly to USB ethernet dongles. They
+use drivers like `cdc_ether` or `cdc_ncm`, and names like "HPE Virtual NIC
+(NCM)". You should disable these devices in the BMC. Not only do they break
+inspection, they may provide local users of the machine with direct access to
+the BMC.
+
 ## Provisioning errors
 
 Errors during provisioning will be visible when listing the BareMetalHosts:
