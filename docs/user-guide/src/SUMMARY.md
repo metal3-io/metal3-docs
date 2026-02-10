@@ -41,6 +41,7 @@
    - [Old Installation Process](ironic/ironic_installation.md)
 - [Cluster-api-provider-metal3](capm3/introduction.md)
    - [Install Metal³ provider](capm3/installation_guide.md)
+   - [Metrics](capm3/metrics.md)
    - [Features](capm3/features.md)
       - [Remediation](capm3/remediaton.md)
       - [Node Reuse](capm3/node_reuse.md)
