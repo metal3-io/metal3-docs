@@ -1,0 +1,17 @@
+name: Test Quick Start Guide Periodic
+
+on:
+  schedule:
+  - cron: "0 0 * * *"
+
+permissions: {}
+
+jobs:
+  periodic-e2e-test:
+    if: github.repository == 'metal3-io/metal3-docs'
+    uses: ./.github/workflows/test-quick-start-guide.yml
+    with:
+      runner: "oracle-vm-4cpu-16gb-x86-64"
+      timeout-minutes: 90
+    permissions:
+      contents: read

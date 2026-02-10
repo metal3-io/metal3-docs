@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: ironic-standalone-operator-system
+
+resources:
+- https://github.com/metal3-io/ironic-standalone-operator/releases/latest/download/install.yaml
+
+patches:
+- path: patch-configmap.yaml
