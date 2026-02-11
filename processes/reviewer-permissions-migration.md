@@ -35,8 +35,8 @@ with blanket permissions across all of our repositories.
 ### Non-Goals
 
 1. Define a new process for approving reviewers.
-2. Change the process for approving approvers.
-3. Change the permissions for managing the CI infrastructure.
+1. Change the process for approving approvers.
+1. Change the permissions for managing the CI infrastructure.
 
 ## Proposal
 

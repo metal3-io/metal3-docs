@@ -152,10 +152,10 @@ The rough upgrade plan will be:
 
 1. Upgrade BMO to the version that supports both ironic-inspector and the new
    inspection.
-2. Update ironic-image to the version that allows disabling ironic-inspector.
-3. Change the Ironic deployment to enable the new inspection and disable
+1. Update ironic-image to the version that allows disabling ironic-inspector.
+1. Change the Ironic deployment to enable the new inspection and disable
    ironic-inspector.
-4. Further upgrades are possible at this point.
+1. Further upgrades are possible at this point.
 
 Operators not using ironic-image will need to decide on their strategy.
 They will be able to use new BMO for the time being, but will be encouraged

@@ -20,7 +20,7 @@ document.
 To start the provisioning process, you need at least two bits of information:
 
 1. the URL of the image you want to put on the target host,
-2. the value or the URL of the image checksum using either SHA256 or SHA512
+1. the value or the URL of the image checksum using either SHA256 or SHA512
    (MD5 is supported but deprecated and not compatible with FIPS 140 mode).
 
 The minimum example looks like this:
@@ -47,8 +47,8 @@ In most real cases, you will also want to provide
 
 1. first-boot configuration as described in [instance
    customization](./instance_customization.md),
-2. [hints to choose the target root device](./root_device_hints.md),
-3. the format of the image you use.
+1. [hints to choose the target root device](./root_device_hints.md),
+1. the format of the image you use.
 
 As a result, a more complete example will look like this:
 

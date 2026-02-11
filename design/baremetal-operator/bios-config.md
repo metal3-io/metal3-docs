@@ -27,7 +27,7 @@ attributes in the BareMetalHost YAML.
 
 1. To agree on the format of the attributes that are to be supported
    as a starting point
-2. To keep the attribute naming vendor agnostic
+1. To keep the attribute naming vendor agnostic
 
 ### Non-Goals
 

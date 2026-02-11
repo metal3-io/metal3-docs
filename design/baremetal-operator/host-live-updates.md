@@ -96,13 +96,13 @@ As an operator, I want to update firmware on my Kubernetes worker node. My
 actions:
 
 1. Mark the affected node as non-schedulable, drain the workloads from it.
-2. Find the corresponding `HostFirmwareComponents` resource, edit it to put
+1. Find the corresponding `HostFirmwareComponents` resource, edit it to put
    an HTTP link to the expected firmware image(s).
-3. Edit the `BareMetalHost` resource to add the reboot annotations.
-4. Wait for the host's `operationalStatus` field to first change to
+1. Edit the `BareMetalHost` resource to add the reboot annotations.
+1. Wait for the host's `operationalStatus` field to first change to
    `servicing`, then back to `OK`.
-5. Wait for the node's status to become `Ready` again.
-6. Mark the node as schedulable.
+1. Wait for the node's status to become `Ready` again.
+1. Mark the node as schedulable.
 
 ### Implementation Details/Notes/Constraints
 

@@ -41,7 +41,7 @@ More specifically, synchronization accomplishes the following:
 1. Addition/Removal of a label, within the set of predefined prefixes, on the
   BMH will result in the addition/removal of that label on the corresponding
   Node. Labels outside the prefix set will be ignored.
-2. Addition/Removal of a label, within the set of predefined prefixes,
+1. Addition/Removal of a label, within the set of predefined prefixes,
   *directly* on the Node will result in the removal/re-adding of that label
   on the Node.
 
@@ -98,12 +98,12 @@ Scenario (i) can be handled as follows:
 
     baremetalhosts,verbs=get;list;watch
 
-2. On each BMH reconcile event, the controller will fetch the corresponding
+1. On each BMH reconcile event, the controller will fetch the corresponding
   Node. The *mapping* can be accomplished by:
 
     BMH.ConsumerRef --> Metal3Machine.OwnerRef --> Machine.Status.NodeRef
 
-3. Synchronize the labels and update the Node in the workload cluster. CAPM3
+1. Synchronize the labels and update the Node in the workload cluster. CAPM3
   already fetches the Node objects from the workload clusters today using a
   remote client. We would leverage that same capability here.
 
@@ -190,7 +190,7 @@ Removal of a prefix, p1, from the configuration, has two consequences:
 1. Any additional labels with prefix p1 placed on the BMH will not be
   synchronized to the corresponding Node.
 
-2. Any existing labels with prefix p1 present on the BMH or Node objects
+1. Any existing labels with prefix p1 present on the BMH or Node objects
   will not be removed. Removal of these labels is the users responsibility.
 
 #### Delay between Node create and label sync
@@ -262,15 +262,15 @@ however document this limitation.
     1. Labels are only applicable at creation time. Adding/Removing a new
       label requires a complete MachineDeployment rollout. This is highly
       undesirable in a baremetal environment.
-    2. MachineDeployment grouping may not always provide the needed
+    1. MachineDeployment grouping may not always provide the needed
       granularity; effectively a MachineDeployment == workload type. Depending
       on the how granular the user wants their labeling, this may lead to a
       large number of MachineDeployments.
-    3. There are cases where a logical grouping like MachineDeployment is not
+    1. There are cases where a logical grouping like MachineDeployment is not
       appropriate when trying to capture physical grouping. For example, you
       may want a specific label on all hosts in the same rack but logically
       hosts in the rack may belong to different MachineDeployments.
-    4. There are security concerns with kubelet's `--node-labels` flag (as
+    1. There are security concerns with kubelet's `--node-labels` flag (as
       mentioned in this proposal). This is not a deal breaker but definitely
       undesirable.
 * Using node-feature-discovery to apply labels. This approach is also
@@ -279,7 +279,7 @@ however document this limitation.
       For example, user intent cases such as I want to label certain hosts as
       temporary so only workloads that can tolerate interruptions are scheduled
       there.
-    2. It would require that users deploy (and potentially implement)
+    1. It would require that users deploy (and potentially implement)
       controllers for feature discovery. The proposed mechanism for label sync
       would provide a convenient, albeit more manual, alternative.
 

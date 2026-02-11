@@ -91,7 +91,7 @@ successfully:
    Moreover, the IP of the BMH might change after the move and the DHCP-leases
    from the management cluster are not moved to target cluster.
 
-2. Before the move process is initialized, it is important to delete the Ironic
+1. Before the move process is initialized, it is important to delete the Ironic
    pod/Ironic containers. If Ironic is deployed in cluster the deployment is named
    `metal3-ironic`, if it is deployed locally outside the cluster then the user
    has to make sure that all of the ironic related containers are correctly deleted.
@@ -101,7 +101,7 @@ successfully:
    Also there would be two dnsmasq existent in the deployment if there would be
    two Ironic deployment which is undesirable.
 
-3. The provisioning bridge where the `ironic-endpoint-IP` is supposed to be
+1. The provisioning bridge where the `ironic-endpoint-IP` is supposed to be
    attached to should have a static IP assignment on it before the Ironic
    pod/containers start to operate in the target cluster. This is important since
    `ironic-endpoint-keepalived` container will only assign the `ironic-endpoint-IP`
@@ -127,10 +127,10 @@ This can now be achieved with the following procedure:
    bootstrap cluster is up and running then the CAPI and provider components
    can be installed with `clusterctl` to the bootstrap cluster.
 
-2. Install Ironic components, namely: ironic, ironic-endpoint-keepalived, httpd
+1. Install Ironic components, namely: ironic, ironic-endpoint-keepalived, httpd
    and dnsmasq.
 
-3. Use clusterctl init to install the provider components
+1. Use clusterctl init to install the provider components
 
    Example:
 
@@ -143,7 +143,7 @@ This can now be achieved with the following procedure:
    and CAPM3 as the infrastructure provider. All of the controllers will be installed
    on namespace `metal3` and they will be watching over objects in namespace `metal3`.
 
-4. Provision target cluster:
+1. Provision target cluster:
 
    Example:
 
@@ -151,13 +151,13 @@ This can now be achieved with the following procedure:
    clusterctl config cluster ... | kubectl apply -f -
    ```
 
-5. Wait for the target management cluster to be up and running and once it is up
+1. Wait for the target management cluster to be up and running and once it is up
  get the kubeconfig for the new target management cluster.
 
-6. Use the new cluster's kubeconfig to install the ironic-components in the
+1. Use the new cluster's kubeconfig to install the ironic-components in the
  target cluster.
 
-7. Use `clusterctl` init with the new cluster's kubeconfig to install the provider
+1. Use `clusterctl` init with the new cluster's kubeconfig to install the provider
  components.
 
     Example:
@@ -167,7 +167,7 @@ This can now be achieved with the following procedure:
     --target-namespace metal3 --watching-namespace metal3
     ```
 
-8. Use `clusterctl` move to move the Cluster API resources from the bootstrap
+1. Use `clusterctl` move to move the Cluster API resources from the bootstrap
  cluster to the target management cluster.
 
     Example:
@@ -176,4 +176,4 @@ This can now be achieved with the following procedure:
     clusterctl move --to-kubeconfig target.yaml -n metal3 -v 10
     ```
 
-9. Delete the bootstrap cluster
+1. Delete the bootstrap cluster

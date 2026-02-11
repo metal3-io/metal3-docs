@@ -58,7 +58,7 @@ To achieve this, we need to
   This [feature](https://github.com/metal3-io/metal3-docs/blob/main/design/cluster-api-provider-metal3/allow_disabling_node_disk_cleaning.md)
   is implemented.
 
-2. be able reuse the same pool of hosts so that we get the storage
+1. be able reuse the same pool of hosts so that we get the storage
   data back. Currently, there is no mechanism available in Metal³ to pick the
   same pool of hosts that were released while upgrading/remediation - for the
   next provisioning phase. And this proposal tries to solve it.
@@ -131,7 +131,7 @@ We should perform two steps to re-use the same pool of hosts.
 
 1. During host deprovisioning, set the `infrastructure.cluster.x-k8s.io/node-reuse`
   label;
-2. During next provisioning, try to select any host in `Available` state and having
+1. During next provisioning, try to select any host in `Available` state and having
   a matching `infrastructure.cluster.x-k8s.io/node-reuse` label;
 
 The actual implementation will be done within the CAPM3 Machine controller.

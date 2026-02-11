@@ -177,7 +177,7 @@ tested on.
 
 1. Host VM/Server on CentOS, while the target can be Ubuntu or CentOS, Cirros,
    or FCOS.
-2. Host VM/Server on Ubuntu, while the target can be Ubuntu or CentOS, Cirros,
+1. Host VM/Server on Ubuntu, while the target can be Ubuntu or CentOS, Cirros,
    or FCOS.
 
 The way the k8s cluster is running in the above two scenarios is different. For
@@ -507,10 +507,10 @@ by just deleting the proper Custom Resources (CR).
 The order of deletion is:
 
 1. Machine objects of the workers
-2. Metal3Machine objects of the workers
-3. Machine objects of the control plane
-4. Metal3Machine objects of the control plane
-5. The cluster object
+1. Metal3Machine objects of the workers
+1. Machine objects of the control plane
+1. Metal3Machine objects of the control plane
+1. The cluster object
 
 An additional detail is that the `Machine` object `test1-workers-bx4wp` is
 controlled by the `test1` `MachineDeployment` the object thus in order to avoid

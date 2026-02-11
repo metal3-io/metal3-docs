@@ -77,8 +77,8 @@ through the charts metadata (values.yaml files).
    - `mariadb`
    - `baremetal-operator`
 
-2. Create a CI for building the Helm chart and smoke verification.
-3. Create a CI for testing Helm chart deployment and functional
+1. Create a CI for building the Helm chart and smoke verification.
+1. Create a CI for testing Helm chart deployment and functional
    testing.
 
 ### Dependencies

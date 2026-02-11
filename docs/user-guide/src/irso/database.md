@@ -70,7 +70,7 @@ follows:
 
    **Note:** a lot of parameters can be tuned here - see official examples.
 
-2. Create the database for Ironic:
+1. Create the database for Ironic:
 
    ```yaml
    apiVersion: k8s.mariadb.com/v1alpha1
@@ -88,7 +88,7 @@ follows:
      collate: utf8_general_ci
    ```
 
-3. Create a user and grant it all privileges to the new database:
+1. Create a user and grant it all privileges to the new database:
 
    ```yaml
    ---
@@ -146,7 +146,7 @@ follows:
    operation of Ironic. The exact value depends on your environment, 100 is the
    value used in the CI.
 
-4. After making sure that all objects are created and in `Ready` state, you can
+1. After making sure that all objects are created and in `Ready` state, you can
    link to the database via its service endpoint:
 
    ```yaml

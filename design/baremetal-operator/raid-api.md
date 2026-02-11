@@ -22,21 +22,21 @@ metal3 could do that work for them.
 
 1. Provide an API to specify the RAID storage configuration to use
    when provisioning a host.
-2. Outline the controller/provisioner logic changes needed to pass the
+1. Outline the controller/provisioner logic changes needed to pass the
    instructions to Ironic to have the storage configured.
-3. Support basic RAID levels `0`, `1`, and `1+0`.
+1. Support basic RAID levels `0`, `1`, and `1+0`.
 
 ### Non-Goals
 
 1. Provide default RAID configuration.
-2. Retain existing RAID configuration on a host if it matches the
+1. Retain existing RAID configuration on a host if it matches the
    desired configuration at the time of provisioning (we make no
    assumptions about preserving the state of the storage system or its
    contents).
-3. Re-provision a host if the RAID settings change. (Users are
+1. Re-provision a host if the RAID settings change. (Users are
    expected to explicitly deprovision the host and then reprovision
    it.)
-4. Support every possible RAID configuration.
+1. Support every possible RAID configuration.
 
 ## Proposal
 
@@ -44,7 +44,7 @@ metal3 could do that work for them.
 
 1. As a user, I can specify the RAID configuration for a host before
    provisioning it.
-2. As a user, I can choose between hardware and software RAID for each
+1. As a user, I can choose between hardware and software RAID for each
    host.
 
 ## Design Details

@@ -33,7 +33,7 @@ how to support ironic/dnsmasq integration, how to load images for use.
 ### Non-Goals
 
 1. To list the scheme to use for every type of controller.
-2. To specify the user interface for entering address information.
+1. To specify the user interface for entering address information.
 
 ## Proposal
 
@@ -43,9 +43,9 @@ The ironic+bmo pod has a number of constraints that cause a fairly
 specific configuration to be required.  These include:
 
 1. Having the images available for download via http and tftp
-2. Having a static IP on the provisioning network so that dnsmasq
+1. Having a static IP on the provisioning network so that dnsmasq
    can operate as a DHCP server to serve PXE requests.
-3. Shared storage for ironic, ironic inspector, and dnsmasq to allow
+1. Shared storage for ironic, ironic inspector, and dnsmasq to allow
    ironic to update the image being deployed via dnsmasq configuration
    changes.
 
@@ -66,13 +66,13 @@ From the ip-address manpage:
 - valid_lft LFT
 
   The valid lifetime of this address; see section 5.5.4 of RFC
-  4862. When it expires, the address is removed by the kernel.
+  1. When it expires, the address is removed by the kernel.
   Defaults to forever.
 
 - preferred_lft LFT
 
   The preferred lifetime of this address; see section 5.5.4 of RFC
-  4862. When it expires, the address is no longer used for new outgoing
+  1. When it expires, the address is no longer used for new outgoing
   connections. Defaults to forever.
 
 So again, an init container is used to set the IP address to a
@@ -101,7 +101,7 @@ we could use here to perform fencing in this situation.
 
 1. Use access to the shared storage as a method to determine if we
    have lost connectivity and self-fence.
-2. Have the new ironic pod destroy the previous node if it can safely
+1. Have the new ironic pod destroy the previous node if it can safely
    determine that the old host is still running.
 
 ## Design Details

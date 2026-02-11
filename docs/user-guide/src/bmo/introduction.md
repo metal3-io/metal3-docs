@@ -24,14 +24,14 @@ the following properties:
 
 1. The IP address and credentials of the BMC - the remote management controller
    of the host.
-2. The protocol that the BMC understands. Most common are IPMI and Redfish.
+1. The protocol that the BMC understands. Most common are IPMI and Redfish.
    See [supported hardware](supported_hardware) for more details.
-3. Boot technology that can be used with the host and the chosen protocol.
+1. Boot technology that can be used with the host and the chosen protocol.
    Most hardware can use network booting, but some Redfish implementations also
    support virtual media (CD) boot.
-4. MAC address that is used for booting. **Important:** it's a MAC address of
+1. MAC address that is used for booting. **Important:** it's a MAC address of
    an actual NIC of the host, not the BMC MAC address.
-5. The desired boot mode: UEFI or legacy BIOS. UEFI is the default and should
+1. The desired boot mode: UEFI or legacy BIOS. UEFI is the default and should
    be used unless there are serious reasons not to.
 
 This is a minimal example of a valid BareMetalHost:
@@ -62,12 +62,12 @@ To provision a bare-metal machine, you will need a few more properties:
    [Ubuntu](https://cloud-images.ubuntu.com/) or
    [CentOS](https://cloud.centos.org/centos/). **Important:** not all images
    are compatible with UEFI boot - check their description.
-2. Optionally, user data: a secret with a configuration or a script that is
+1. Optionally, user data: a secret with a configuration or a script that is
    interpreted by the first-boot service embedded in your image. The most
    common service is
    [cloud-init](https://cloudinit.readthedocs.io/en/latest/index.html), some
    distributions use [ignition](https://coreos.github.io/ignition/).
-3. Optionally, network data: a secret with the network configuration that is
+1. Optionally, network data: a secret with the network configuration that is
    interpreted by the first-boot service. In some cases, the network data is
    embedded in the user data instead.
 

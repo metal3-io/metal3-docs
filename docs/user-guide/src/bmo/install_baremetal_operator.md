@@ -5,8 +5,8 @@
 Installing Baremetal Operator (BMO) involves usually three steps:
 
 1. Clone Metal3 BMO repository `https://github.com/metal3-io/baremetal-operator.git`.
-2. Adapt the configuration settings to your specific needs.
-3. Deploy BMO in the cluster with or without Ironic.
+1. Adapt the configuration settings to your specific needs.
+1. Deploy BMO in the cluster with or without Ironic.
 
 *Note*: This guide assumes that a local clone of the repository is available.
 
@@ -69,8 +69,8 @@ It is possible to deploy ```baremetal-operator``` with three different operator
 configurations, namely:
 
 1. operator with ironic
-2. operator without ironic
-3. ironic without operator
+1. operator without ironic
+1. ironic without operator
 
 A detailed overview of the configuration is presented in the following sections.
 
@@ -129,9 +129,9 @@ Operator(BMO) with or without Ironic as well as deploying only Ironic scenario.
 
 1. Deploying baremetal-operator with Ironic.
 
-2. Deploying baremetal-operator without Ironic.
+1. Deploying baremetal-operator without Ironic.
 
-3. Deploying only Ironic.
+1. Deploying only Ironic.
 
 ### Current structure of baremetal-operator config directory
 
@@ -322,10 +322,10 @@ useful as well. For example:
    [(CAPM3)](https://github.com/metal3-io/cluster-api-provider-metal3) when
    a successful pivoting state was met and ironic being deployed.
 
-2. BMO and Ironic are deployed together, in a case when CAPM3 is not used and
+1. BMO and Ironic are deployed together, in a case when CAPM3 is not used and
    baremetal-operator and ironic containers to be deployed together.
 
-3. Only Ironic is deployed, in a case when BMO is deployed as part of CAPM3 and
+1. Only Ironic is deployed, in a case when BMO is deployed as part of CAPM3 and
    only Ironic setup is sufficient, e.g.
    [clusterctl](https://cluster-api.sigs.k8s.io/clusterctl/commands/move.html)
    provided by Cluster API(CAPI) deploys BMO, so that it can take care of moving

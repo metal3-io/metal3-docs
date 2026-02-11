@@ -138,22 +138,22 @@ spec:
 1. User wants to disable disk cleaning before upgrading the nodes that are part
    of the same KCP/MD.
 
-2. User sets Disabled for the `automatedCleaningMode` field on a
+1. User sets Disabled for the `automatedCleaningMode` field on a
    Metal3MachineTemplate which is referenced by `infrastructureTemplate` field
    in the KCP/MD.
 
-3. Metal3MachineTemplate controller keeps reconciling the Metal3MachineTemplate objects.
+1. Metal3MachineTemplate controller keeps reconciling the Metal3MachineTemplate objects.
    Once the update is seen on the Metal3MachineTemplate, Metal3MachineTemplate controller
    starts mapping all the Metal3Machines referenced by that particular Metal3MachineTemplate,
    and updates the `automatedCleaningMode` field to Disabled on all the referenced
    Metal3Machines.
 
-4. Metal3Machine controller keeps reconciling the Metal3Machine objects.
+1. Metal3Machine controller keeps reconciling the Metal3Machine objects.
    Once the update is seen on the Metal3Machine, Metal3Machine controller starts
    mapping the BareMetalHosts referenced by the Metal3Machines, and updates the
    `automatedCleaningMode` field to Disabled on all the referenced BaremetalHosts.
 
-5. Since the `automatedCleaningMode` field is set to Disabled on the BaremetalHosts,
+1. Since the `automatedCleaningMode` field is set to Disabled on the BaremetalHosts,
    Baremetal Operator instructs the Ironic to disable disk cleaning for Ironic
    nodes referenced by the BaremetalHosts.
 
@@ -161,10 +161,10 @@ spec:
 
 1. User wants to disable disk cleaning for a single host
 
-2. User sets Disabled for the `automatedCleaningMode` field on a
+1. User sets Disabled for the `automatedCleaningMode` field on a
    BareMetalHost spec.
 
-3. Baremetal Operator keeps reconciling the BareMetalHost, and after the update on
+1. Baremetal Operator keeps reconciling the BareMetalHost, and after the update on
    the BareMetalHost, BMO instructs the Ironic to disable disk cleaning
    for the node.
 
@@ -224,7 +224,7 @@ cleaning. However, this option introduces a couple of issues:
 1. As mentioned by @dtantsur in [2008113](https://storyboard.openstack.org/#!/story/2008113)
    there could be some security concerns if we disable automated cleaning globally.
 
-2. Upgrade operations do not happen as frequently as provisioning & de-provisioning.
+1. Upgrade operations do not happen as frequently as provisioning & de-provisioning.
    As such, this would require admins to always enable node automated
    cleaning whenever they perform normal provisioning/de-provisioning.
 
