@@ -38,8 +38,8 @@ up-to-date vision on the status of the devices.
 ### Goals
 
 1. Decide which information on the devices to retrieve.
-2. Agree on how to retrieve such information.
-3. Provide a way to manually/automatically collect and update the
+1. Agree on how to retrieve such information.
+1. Provide a way to manually/automatically collect and update the
    devices information.
 
 ### Non-Goals

@@ -4,9 +4,9 @@ To deploy metal3-components on vanilla K8s cluster, the following prerequisites
 have to be met:
 
 1. **Ironic should have access to layer-2 network for provisioning.**
-2. **Firewall is configured properly**
-3. **Webserver container containing  node images is running and reachable**
-4. **Ironic-bmo-configmap is populated correctly**
+1. **Firewall is configured properly**
+1. **Webserver container containing  node images is running and reachable**
+1. **Ironic-bmo-configmap is populated correctly**
 
 We elaborate these points in detail here:
 
@@ -18,7 +18,7 @@ We elaborate these points in detail here:
    so that it can determine from which host the introspection data is
    coming from.
 
-2. Firewall should be configured to allow the required traffic to pass
+1. Firewall should be configured to allow the required traffic to pass
    through.  The following traffic should be allowed at least:
    - ARP
    - DHCP
@@ -33,7 +33,7 @@ We elaborate these points in detail here:
       - 6385 --> for ironic-endpoint
       - 9999 --> for ironic-ipa
 
-3. The webserver container containing node images volume should be
+1. The webserver container containing node images volume should be
    running and reachable. It is called the `httpd-infra` container in
    metal3-dev-env, which runs on ironic image and contains the node
    images (OS images). It also caches a few other packages which are
@@ -63,7 +63,7 @@ We elaborate these points in detail here:
    └── tmp
    ```
 
-4. The environments variables defined in `ironic-bmo-configmap`
+1. The environments variables defined in `ironic-bmo-configmap`
    required for `Baremetal Operator` deployment needs to be defined
    prior to deploying the provider components in management cluster:
 

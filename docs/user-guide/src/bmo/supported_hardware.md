@@ -13,7 +13,7 @@ the two boot methods must be supported:
    network* for isolated L2 traffic between the Metal3 control plane and the
    machines.
 
-2. Virtual media boot. Some hardware model support directly booting an ISO 9660
+1. Virtual media boot. Some hardware model support directly booting an ISO 9660
    image as a virtual CD device over HTTP(s). An important benefit of this
    approach is the ability to boot hardware over L3 networks, potentially
    without DHCP at all.

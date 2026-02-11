@@ -30,7 +30,7 @@ potentially the path.
 ### Non-Goals
 
 1. To list the scheme to use for every type of controller.
-2. To specify the user interface for entering address information.
+1. To specify the user interface for entering address information.
 
 ## Proposal
 

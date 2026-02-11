@@ -13,7 +13,7 @@ describes the process for adding reviewers to a metal3 project repo.
 ### Goals
 
 1. Describe a process for adding reviewers.
-2. Keep the process light-weight.
+1. Keep the process light-weight.
 
 ### Non-Goals
 

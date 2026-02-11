@@ -30,7 +30,7 @@ This approach has two major downsides:
 
 1. Per-host images take a lot of disk space, especially since Ironic has a
    local image cache.
-2. *diskimage-builder* allows only basic customization out of box, code will
+1. *diskimage-builder* allows only basic customization out of box, code will
    need to be written for anything complex.
 
 It is recommended to use [UserData](#userdata) or [NetworkData](#networkdata)

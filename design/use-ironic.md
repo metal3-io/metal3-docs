@@ -29,14 +29,14 @@ Kubernetes environment. Ironic meets all of those criteria.
 
 1. Choose an existing provisioning/deployment tool to be used to
    configure hosts and their images.
-2. Create an architecture that allows us to choose a different tool
+1. Create an architecture that allows us to choose a different tool
    later, if we have some reason to do that.
 
 ### Non-Goals
 
 1. Build a new provisioning/deployment tool for the sake of having one
    written in golang.
-2. Integrate with every provisioning/deployment tool potential users
+1. Integrate with every provisioning/deployment tool potential users
    of Metal3 might have in their data centers.
 
 ## Proposal

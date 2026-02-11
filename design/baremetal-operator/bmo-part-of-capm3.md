@@ -12,11 +12,11 @@ the BaremetalHost during the pivoting.
 
 1. Production.
 
-2. Local developer.
+1. Local developer.
 
-3. Ironic running outside of the cluster.
+1. Ironic running outside of the cluster.
 
-4. Pivoting.
+1. Pivoting.
 
 As a starting point, we decided to have a cleaner structure of the
 `baremetal-operator/deploy` folder and make it as simple as possible and it will

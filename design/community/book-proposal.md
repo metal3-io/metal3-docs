@@ -30,15 +30,15 @@ perspective.
 1. Use mdbook tool to create the online/web-based user-guide from
     the markdown-based documents available under /doc in metal3-docs Github repository.
 
-2. Configure Netlify for the book preview as part of a PR review for document changes.
+1. Configure Netlify for the book preview as part of a PR review for document changes.
 
-3. Write-down and add missing documents.
+1. Write-down and add missing documents.
 
 ### Non-Goals
 
 1. Create developer-guide
 
-2. Keep HTML/CSS files within the repository
+1. Keep HTML/CSS files within the repository
 
 ## Proposal
 
@@ -56,13 +56,13 @@ will combine documents under metal3-docs/docs and publish them as a single user-
 
 1. Renders a book content from markdown files
 
-2. Automatically generates all the HTML/CSS files for you
+1. Automatically generates all the HTML/CSS files for you
 
-3. Used by several open source projects including Kubernetes ecosystems such as
+1. Used by several open source projects including Kubernetes ecosystems such as
     Cluster API, Cluster-api-provider-aws, some docs of Kubernetes
     and etc.
 
-4. Offers preview capabilities to detect issues before they get merged.
+1. Offers preview capabilities to detect issues before they get merged.
 
 Netlify deployment will be configured for the metal3-docs repository to have a
 preview process when a future commit introduces documentation changes.
@@ -77,7 +77,7 @@ There are two possible ways for that.
     first run the Makefile target/script under Metal3-docs and then publish the output
     (i.e. final user-guide with updated content).
 
-2. Add the script within Netlify to build the user-guide from the current content
+1. Add the script within Netlify to build the user-guide from the current content
     and configure Netlify automatic-triggering.
 
 **Where do we store mdbook auto-generated files like CSS/HTML ?**
@@ -132,12 +132,12 @@ None
 ### Work Items
 
 1. Write down documentation
-2. Create code-based architectures so that it is easy to modify after a while if
+1. Create code-based architectures so that it is easy to modify after a while if
     there are architectural changes. Example via PlantUml
-3. Configure the Netlify
-4. Refactor the existing documents. This includes typos, indentation, etc.
-5. Write down documentation
-6. Create mdbook book structure
+1. Configure the Netlify
+1. Refactor the existing documents. This includes typos, indentation, etc.
+1. Write down documentation
+1. Create mdbook book structure
 
 ### Dependencies
 
@@ -166,8 +166,8 @@ Use asciidoctor.
 *Advantages:*
 
 1. Asciidoc provides easily referencing documents via the URL.
-2. Can convert the book into different formats, such as HTML, PDF, etc.
-3. Makes it easy to create a book with different versions of the product. For example,
+1. Can convert the book into different formats, such as HTML, PDF, etc.
+1. Makes it easy to create a book with different versions of the product. For example,
     different versions of BMO can introduce new types, etc.
 
 *Disadvantages:*
@@ -178,10 +178,10 @@ Use asciidoctor.
 
 1. Mdbook: <https://github.com/rust-lang/mdBook>
 
-2. Cluster-api book: <https://cluster-api.sigs.k8s.io/>
+1. Cluster-api book: <https://cluster-api.sigs.k8s.io/>
 
-3. Cluster-api-provider-aws book: <https://cluster-api-aws.sigs.k8s.io/>
+1. Cluster-api-provider-aws book: <https://cluster-api-aws.sigs.k8s.io/>
 
-4. PlantUML: <https://plantuml.com/>
+1. PlantUML: <https://plantuml.com/>
 
-5. Asciidoctor: <https://asciidoctor.org/>
+1. Asciidoctor: <https://asciidoctor.org/>
