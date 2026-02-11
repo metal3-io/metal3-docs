@@ -23,7 +23,7 @@ On every source code change, a new IrSO image is built and published at
 we also publish a manifest for each release. You can install it this way:
 
 ```console
-IRSO_VERSION=0.6.0
+IRSO_VERSION=0.8.0
 kubectl apply -f \
     https://github.com/metal3-io/ironic-standalone-operator/releases/download/v${IRSO_VERSION}/install.yaml
 kubectl wait --for=condition=Available --timeout=120s \
@@ -91,9 +91,10 @@ values for each branch and release of the operator:
 
 | Operator version | Ironic version(s)                    | Default version | Support status |
 | ---------------- | ------------------------------------ | --------------- | -------------- |
-| latest (main)    | latest, 33.0, 32.0, 31.0             | latest          | Supported      |
+| latest (main)    | latest, 34.0, 33.0, 32.0             | latest          | Supported      |
+| 0.8.0            | 34.0, 33.0, 32.0                     | 34.0            | Supported      |
 | 0.7.0            | 33.0, 32,0, 31.0                     | 33.0            | Supported      |
-| 0.6.0            | 32.0, 31.0, 30.0                     | 32.0            | Supported      |
+| 0.6.0            | 32.0, 31.0, 30.0                     | 32.0            | EOL            |
 | 0.5.0            | 31.0, 30.0, 29.0, 28.0, 27.0         | 31.0            | EOL            |
 | 0.4.0            | 30.0, 29.0, 28.0, 27.0               | 30.0            | EOL            |
 | 0.3.0            | 29.0, 28.0, 27.0                     | latest          | EOL            |

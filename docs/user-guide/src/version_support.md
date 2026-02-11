@@ -80,10 +80,11 @@ Following table summarizes Ironic-image release/test process:
 
 | Minor release | Status    | Ironic Branch       |
 | ------------- | --------- | ------------------- |
+| v34.0         | Supported | bugfix/34.0         |
 | v33.0         | Supported | bugfix/33.0         |
 | v32.0         | Supported | stable/2025.2       |
-| v31.0         | Supported | bugfix/31.0         |
-| v30.0         | EOL       | bugfix/30.0         |
+| v31.0         | Tested    | bugfix/31.0         |
+| v30.0         | EOL       | bugfix/30.0 (EOL)   |
 | v29.0         | Tested    | stable/2025.1       |
 | v28.0         | EOL       | bugfix/28.0 (EOL)   |
 | v27.0         | EOL       | bugfix/27.0 (EOL)   |
