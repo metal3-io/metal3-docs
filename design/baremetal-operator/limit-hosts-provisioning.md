@@ -33,8 +33,8 @@ could suffer issues produced from the sudden resources depletion
 ### Non-Goals
 
 1. Optimize the deployment time of large batches of nodes
-2. Allow the user to configure such behavior
-3. Modify the current Ironic service layout
+1. Allow the user to configure such behavior
+1. Modify the current Ironic service layout
 
 ## Proposal
 

@@ -27,7 +27,7 @@ options:
 
 1. Copy the `dist` and `plugin` directories from revealjs repository to the
    presentations directory.
-2. Copy all the presentation files under the revealjs repository and open the
+1. Copy all the presentation files under the revealjs repository and open the
    presentation `.html` file inside a browser.
 
 Here is an example :

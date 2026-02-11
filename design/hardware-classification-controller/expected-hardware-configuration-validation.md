@@ -110,23 +110,23 @@ Classification Controller.
 ### Work Items
 
 1. Implement CRD for `HardwareClassification`.
-2. Create the Schema struct for HardwareConfiguration inside
+1. Create the Schema struct for HardwareConfiguration inside
    HardwareClassificationSpec, in file pkg/api/metal3/v1alpha1
    hardwareClassification_types.go
-3. Add a watch on kind BareMetalHost to get updated baremetal host
+1. Add a watch on kind BareMetalHost to get updated baremetal host
    lists.
-4. Fetch baremetal host list from the baremetal operator running in
+1. Fetch baremetal host list from the baremetal operator running in
    the metal3 cluster.
-5. Extract the expectedHardwareConfiguration from HCC profile CR
+1. Extract the expectedHardwareConfiguration from HCC profile CR
    applied to the CRD.
-6. Create a FactoryClassificationManager.go file. Write a function to
+1. Create a FactoryClassificationManager.go file. Write a function to
    call appropriate filter algorithm written in
    ClassificationFilters.go.
-7. Create a ClassificationFilters.go file. Write comparison
+1. Create a ClassificationFilters.go file. Write comparison
    algorithms based on minimum or maximum requirements given by user
    to classify host.
-8. Set labels for baremetal host CR.
-9. Write unit tests for above implementation.
+1. Set labels for baremetal host CR.
+1. Write unit tests for above implementation.
 
 ### Dependencies
 

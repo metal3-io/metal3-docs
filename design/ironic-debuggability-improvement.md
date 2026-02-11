@@ -25,7 +25,7 @@ We need to make Ironic logs accessible to the end user.
 ### Goals
 
 1. Make it easier to understand what happened when a deployment fails.
-2. Avoid old logs pile up and take all available space.
+1. Avoid old logs pile up and take all available space.
 
 ### Non-Goals
 
@@ -78,7 +78,7 @@ Both scripts will be added as new container entry points to
 Proposed implementation includes two stages:
 
 1. Print log contents with UUID reference.
-2. Print log contents with node name reference.
+1. Print log contents with node name reference.
 
 The second stage is dependent on these Ironic changes:
 <https://storyboard.openstack.org/#!/story/2008280>

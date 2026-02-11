@@ -109,17 +109,17 @@ admission web hooks to validate BareMetalHost resources.
 The process for creating the proof-of-concept migration was basically:
 
 1. Move everything in the git repository out of the way.
-2. Remove the copy of operator-sdk.
-3. Use kubebuilder init to create a new project in the repository,
+1. Remove the copy of operator-sdk.
+1. Use kubebuilder init to create a new project in the repository,
    setting the domain to an empty string.
-4. Update the kubebuilder and controller-gen settings to allow "unsafe
+1. Update the kubebuilder and controller-gen settings to allow "unsafe
    fields".
-5. Use kubebuilder to create an API and controller for BareMetalHost,
+1. Use kubebuilder to create an API and controller for BareMetalHost,
    then replace the implementations with the existing ones.
-6. Restore the rest of the existing code from the pkg directory,
+1. Restore the rest of the existing code from the pkg directory,
    moving it to the root of the repository.
-7. Fix everything so it compiles and the tests run.
-8. Add missing targets to the Makefile (lint, sec, openapi generation,
+1. Fix everything so it compiles and the tests run.
+1. Add missing targets to the Makefile (lint, sec, openapi generation,
    etc.).
 
 ### Implementation Details/Notes/Constraints
@@ -169,12 +169,12 @@ make future API changes easier to follow.
 
 1. Tag a release and create a maintenance branch for the
    baremetal-operator.
-2. Follow a process as described in the Design Details section above
+1. Follow a process as described in the Design Details section above
    to migrate to kubebuilder.
-3. Tag a release to use for including in the cluster API providers.
-4. Rebase all open PRs after the new implementation is approved.
-5. Update the imports in CAPM3.
-6. Update the imports and vendoring in CAPBM (only for downstream
+1. Tag a release to use for including in the cluster API providers.
+1. Rebase all open PRs after the new implementation is approved.
+1. Update the imports in CAPM3.
+1. Update the imports and vendoring in CAPBM (only for downstream
    consumers).
 
 ### Dependencies

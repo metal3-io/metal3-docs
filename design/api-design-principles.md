@@ -53,7 +53,7 @@ every API parameter.
    ours. This exposes the underlying API in a way that makes it more
    difficult to change the metal3 API, while simultaneously making
    using metal3 for our users.
-2. Future versions of kubernetes will improve support for OpenAPI
+1. Future versions of kubernetes will improve support for OpenAPI
    validation, and will require good validation by default as a
    security measure. Passing unstructured data through the API and
    storing it exposes clusters to security issues if an API changes

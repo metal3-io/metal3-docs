@@ -64,22 +64,22 @@ whole disk images.
 The basic workflow consists of:
 
 1. Booting the deployment ramdisk
-2. The deployment ramdisk checks in with the ironic introspection
+1. The deployment ramdisk checks in with the ironic introspection
    service which updates configuration information stored in ironic
    about the baremetal machine.
-3. The deployment ramdisk checks in with the ironic service and leverages
+1. The deployment ramdisk checks in with the ironic service and leverages
    the MAC addresses to help identify the physical machine in the hardware
    inventory.
-4. Ironic initiates deployment by first identifying the root disk upon
+1. Ironic initiates deployment by first identifying the root disk upon
    which the disk image is to be written. By default this will be the
    smallest storage device available, and can be overridden via explicit
    configuration of a [root_device hint](https://docs.openstack.org/ironic/latest/install/advanced.html#specifying-the-disk-for-deployment-root-device-hints)
-5. The deployment ramdisk downloads the image to be written and streams
+1. The deployment ramdisk downloads the image to be written and streams
    that to the storage device.
-6. If defined as part of the deployment, ironic will add an additional
+1. If defined as part of the deployment, ironic will add an additional
    partition for a configuration drive. Ironic will then write the
    configuration drive to disk
-7. Finally ironic reboots the machine.
+1. Finally ironic reboots the machine.
 
 There are some additional steps that ironic performs, mainly fixing
 partition table data with GPT based partition tables in order to
@@ -320,7 +320,7 @@ Starting with the bare metal node in the "available" provision_state:
    an API client. The instance_uuid can be set to any value, and is
    ultimately not required.
 
-2. Request ironic to perform a "validate" operation on the information
+1. Request ironic to perform a "validate" operation on the information
    it is presently configured with. The expected response is a HTTP 200
    return code, with a message body that consists of a list of "driver"
    interfaces and any errors if applicable.
@@ -344,28 +344,28 @@ Starting with the bare metal node in the "available" provision_state:
 
    More information can be found in the [API documentation](https://docs.openstack.org/api-ref/baremetal/?expanded=validate-node-detail).
 
-3. Craft a configuration drive file
+1. Craft a configuration drive file
 
    Configuration drives are files that contain a small ISO9660 filesystem
    which contains configuration metadata and user defined "user-data".
 
-   1) Create a folder called "TEMPDIR"
-   2) In the case of ignition based configuration, that file would be
+   1. Create a folder called "TEMPDIR"
+   1. In the case of ignition based configuration, that file would be
       renamed "user_data" and placed in `TEMPDIR/openstack/latest/`
       folder.
-   3) Metadata for networking configuration setup using "cloud-init" or
+   1. Metadata for networking configuration setup using "cloud-init" or
       a similar application would also be written to the
       `TEMPDIR/openstack/latest` as well. This is out of scope, but is well
       documented in the OpenStack community.
-   4) Create an iso9660 image containing the contents of TEMPDIR using
+   1. Create an iso9660 image containing the contents of TEMPDIR using
       a label of "config-2".
-   5) Compress the resulting ISO9660 image file using the gzip
+   1. Compress the resulting ISO9660 image file using the gzip
       algorithm.
-   6) Encode the resulting gzip compressed image file in base64 for
+   1. Encode the resulting gzip compressed image file in base64 for
       storage and transport. Ironic does the needful to decode and decompress
       the configuration drive prior to deployment.
 
-4. Send a HTTP POST to `/v1/nodes/node-id/states/provision` to initiate
+1. Send a HTTP POST to `/v1/nodes/node-id/states/provision` to initiate
    the deployment
 
    ```json
@@ -378,7 +378,7 @@ Starting with the bare metal node in the "available" provision_state:
    steps to help ensure the baremetal node reboots into the requested
    disk image.
 
-5. Monitor the provisioning operation by [fetching the machine
+1. Monitor the provisioning operation by [fetching the machine
    state](#how-do-i-identify-the-current-state) periodically, looking
    for it to be set to `active`.
 

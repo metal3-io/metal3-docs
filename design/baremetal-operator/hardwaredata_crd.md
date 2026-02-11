@@ -116,7 +116,7 @@ the current state of the BareMetalHost.
     finalizer blocks HardwareData deletion until BareMetalHost exists.
 - host is available:
     1. copy inspection data from the status of BareMetalHost if exists;
-    2. re-inspect the host if inspection data doesn't exist in the BareMetalHost
+    1. re-inspect the host if inspection data doesn't exist in the BareMetalHost
         status. This will be the first and only option in the future when
         `status.hardware` is removed;
 

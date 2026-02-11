@@ -82,16 +82,16 @@ The expected workflow is as follows:
 
 1. A user sets `CustomDeploy.Method = "step_name"` and optionally `Image.URL`,
    `UserData` and `NetworkData`.
-2. BMO sets `Node.DeployInterface = "custom-agent"` and requests deployment
+1. BMO sets `Node.DeployInterface = "custom-agent"` and requests deployment
    with a custom deploy step `step_name`.
-3. Ironic boots the agent (if not booted for inspection/cleaning already).
-4. Ironic requests the agent to execute the deploy step `step_name` (it is
+1. Ironic boots the agent (if not booted for inspection/cleaning already).
+1. Ironic requests the agent to execute the deploy step `step_name` (it is
    an error to provide a non-existing step), providing it the complete Node
    object, including `configdrive`.
-5. Ironic waits for the step to finish.
-6. Ironic configures the Node's boot device and clean ups the deployment
+1. Ironic waits for the step to finish.
+1. Ironic configures the Node's boot device and clean ups the deployment
    environment.
-7. Ironic reboots the node into the instance.
+1. Ironic reboots the node into the instance.
 
 On failure (including unsupported deploy step) the node will be moved to the
 `deploy failed` state, and the `LastError` field will be populated.

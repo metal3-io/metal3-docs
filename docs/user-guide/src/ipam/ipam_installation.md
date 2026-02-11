@@ -65,7 +65,7 @@ in the **IPPool** object will block the deletion.
 ## References
 
 1. [IPAM](https://github.com/metal3-io/ip-address-manager/).
-2. [IPAM deployment workflow](https://github.com/metal3-io/ip-address-manager/blob/main/docs/deployment_workflow.md).
-3. Custom resource (CR) examples in
+1. [IPAM deployment workflow](https://github.com/metal3-io/ip-address-manager/blob/main/docs/deployment_workflow.md).
+1. Custom resource (CR) examples in
    [metal3-dev-env](https://github.com/metal3-io/metal3-dev-env), in the
    [templates](https://github.com/metal3-io/metal3-dev-env/tree/main/tests/roles/run_tests/templates).

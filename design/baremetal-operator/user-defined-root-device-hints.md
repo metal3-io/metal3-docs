@@ -34,7 +34,7 @@ available so that device is not chosen randomly
 ### Goals
 
 1. Decide which root device hints are needed be supported.
-2. Agree on the way how information is propagated to ironic through BMO
+1. Agree on the way how information is propagated to ironic through BMO
 
 ### Non-Goals
 

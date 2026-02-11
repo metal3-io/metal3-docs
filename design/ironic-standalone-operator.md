@@ -148,7 +148,7 @@ copies in most cases). This has two benefits:
 
 1. Ironic can be updated in a rolling fashion without an interruption in the
    service.
-2. Due to the way Ironic is designed, each replica will handle its proportion
+1. Due to the way Ironic is designed, each replica will handle its proportion
    (1/3 in most cases) of nodes (active/active architecture, not
    active/backup).
 

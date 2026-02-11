@@ -97,8 +97,8 @@ section.
 
 1. Define the new state:
    <https://github.com/metal3-io/baremetal-operator/pull/571>
-2. Update `cluster-api-provider-metal3` delete code
-3. Update `baremetal-operator` to implement the new state:
+1. Update `cluster-api-provider-metal3` delete code
+1. Update `baremetal-operator` to implement the new state:
    <https://github.com/metal3-io/baremetal-operator/pull/569/>
 
 ### Upgrade / Downgrade Strategy

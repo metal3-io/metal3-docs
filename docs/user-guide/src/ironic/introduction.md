@@ -104,9 +104,9 @@ host `compute-0` in the `metal3` namespace will receive the Ironic name
 `metal3~compute-0`. If no record is found:
 
 1. A new record is created in Ironic.
-2. BMC credentials are verified by Ironic by reading the current power state of
+1. BMC credentials are verified by Ironic by reading the current power state of
    the machine.
-3. The
+1. The
    [inspection](https://docs.openstack.org/ironic/latest/admin/inspection/index.html)
    process is started.
 
@@ -148,7 +148,7 @@ being immediately removed on deletion. Before the finalizer is removed, the
 host is:
 
 1. cleaned to remove the partitioning tables from all its disks,
-2. powered off to stop it from running the service ramdisk.
+1. powered off to stop it from running the service ramdisk.
 
 The cleaning process is retried several times. If due to a problem with the
 host cleaning is no longer possible, disable cleaning first by setting the
