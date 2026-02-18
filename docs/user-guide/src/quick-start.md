@@ -18,18 +18,12 @@ scenarios.
 
 In a nut-shell, this is what we will do:
 
-- [Quick-start for Metal3](#quick-start-for-metal3)
-      - [Prerequisites](#prerequisites)
-      - [Baremetal lab configuration](#baremetal-lab-configuration)
-      - [Virtualized configuration](#virtualized-configuration)
-      - [Common setup](#common-setup)
-        - [Image server](#image-server)
-        - [DHCP server](#dhcp-server)
-        - [Management cluster](#management-cluster)
-      - [Create BareMetalHosts](#create-baremetalhosts)
-      - [(Scenario 1) Provision BareMetalHosts](#scenario-1-provision-baremetalhosts)
-      - [(Scenario 2) Metal3 and Cluster API](#scenario-2-metal3-and-cluster-api)
-      - [Cleanup](#cleanup)
+1. [(Optional) Setup virtualized lab environment](#virtualized-configuration)
+1. [Setup a disk image server](#image-server)
+1. [Setup a management cluster](#management-cluster)
+1. [Create BareMetalHosts to represent the servers](#create-baremetalhosts)
+1. [(Scenario 1) Provision the BareMetalHosts](#scenario-1-provision-baremetalhosts)
+1. [(Scenario 2) Deploy Cluster API and turn the BareMetalHosts into a Kubernetes cluster](#scenario-2-metal3-and-cluster-api)
 
 ## Prerequisites
 
