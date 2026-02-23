@@ -1,5 +1,8 @@
 # Glossary
 
+Metal3 is a Cluster API provider, you might also want to take a look at
+[CAPI glossary](https://cluster-api.sigs.k8s.io/reference/glossary).
+
 ## Abbreviations
 
 | Abbreviation | Full Name | Description |
