@@ -65,14 +65,14 @@ From the ip-address manpage:
 
 - valid_lft LFT
 
-  The valid lifetime of this address; see section 5.5.4 of RFC
-  1. When it expires, the address is removed by the kernel.
+  The valid lifetime of this address; see section 5.5.4 of RFC 4862.
+  When it expires, the address is removed by the kernel.
   Defaults to forever.
 
 - preferred_lft LFT
 
-  The preferred lifetime of this address; see section 5.5.4 of RFC
-  1. When it expires, the address is no longer used for new outgoing
+  The preferred lifetime of this address; see section 5.5.4 of RFC 4862.
+  When it expires, the address is no longer used for new outgoing
   connections. Defaults to forever.
 
 So again, an init container is used to set the IP address to a
