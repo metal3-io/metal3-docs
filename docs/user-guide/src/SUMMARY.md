@@ -52,6 +52,7 @@
       - [ClusterClass](capm3/clusterclass.md)
       - [Failure Domain](capm3/failure_domain.md)
       - [Annotation-based IPPool](capm3/annotation_based_ippool.md)
+      - [ProviderID Workflow](capm3/providerid-workflow.md)
 - [Ip-address-manager](ipam/introduction.md)
    - [Install Ip-address-manager](ipam/ipam_installation.md)
 - [Troubleshooting FAQ](troubleshooting.md)
