@@ -14,4 +14,4 @@ permissions:
 
 jobs:
   check-links:
-    uses: metal3-io/project-infra/.github/workflows/scheduled-link-check.yml@main
+    uses: metal3-io/project-infra/.github/workflows/scheduled-link-check.yml@main # zizmor: ignore[unpinned-uses]
