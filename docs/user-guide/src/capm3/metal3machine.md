@@ -32,7 +32,7 @@ The fields are:
   would not be managed by the Metal3DataTemplate controller, if provided by the
   user for example, the ownerreference should be set properly to ensure that the
   secret belongs to the cluster ownerReference tree (see
-  [doc](https://cluster-api.sigs.k8s.io/clusterctl/provider-contract.html#ownerreferences-chain)).
+  [doc](https://cluster-api.sigs.k8s.io/developer/providers/contracts/clusterctl#ownerreferences-chain)).
 
 
 - **networkData** is a reference to a secret containing the network data
@@ -40,7 +40,7 @@ The fields are:
   In case this would not be managed by the Metal3DataTemplate controller, if
   provided by the user for example, the ownerreference should be set properly to
   ensure that the secret belongs to the cluster ownerReference tree (see
-  [doc](https://cluster-api.sigs.k8s.io/clusterctl/provider-contract.html#ownerreferences-chain)).
+  [doc](https://cluster-api.sigs.k8s.io/developer/providers/contracts/clusterctl#ownerreferences-chain)).
   The content of the secret should be a yaml equivalent of a json object that
   follows the format definition that can be found
   [here](https://docs.openstack.org/nova/latest/_downloads/9119ca7ac90aa2990e762c08baea3a36/network_data.json).
