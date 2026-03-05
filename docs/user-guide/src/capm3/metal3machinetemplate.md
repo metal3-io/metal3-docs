@@ -21,12 +21,12 @@ remediation. For example, the same pool of hosts need to be used after cluster
 upgrade and no data of secondary storage should be lost. To achieve that:
 
 
-1. `spec.nodeReuse` field of metal3MachineTemplate must be set to `True`. This
+1. `spec.nodeReuse` field of Metal3MachineTemplate must be set to `True`. This
    tells that we want to reuse the same hosts after the upgrade, or to be exact
    same BareMetalHosts should be provisioned.
 
 
-1. `spec.template.spec.automatedCleaningMode` field of metal3MachineTemplate
+1. `spec.template.spec.automatedCleaningMode` field of Metal3MachineTemplate
    must be set to `disabled`. This tells that we want secondary/hosted storage
    data to persist even after upgrade.
 
@@ -37,7 +37,7 @@ Above field changes need to be made before you start upgrading your cluster.
 #### Node Reuse flow
 
 
-When `spec.nodeReuse` field of metal3MachineTemplate is set to `True`, CAPM3
+When `spec.nodeReuse` field of Metal3MachineTemplate is set to `True`, CAPM3
 Machine controller:
 
 

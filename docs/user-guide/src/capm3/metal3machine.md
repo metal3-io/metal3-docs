@@ -2,7 +2,7 @@
 
 
 The Metal3Machine contains information related to the deployment of the
-BareMetalHost such as the image and the host selector. For each machine, there
+BareMetalHost such as the image and the host selector. For each Machine, there
 must be a Metal3Machine.
 
 
@@ -54,10 +54,10 @@ The fields are:
 - **automatedCleaningMode** -- An interface to enable or disable Ironic
   automated cleaning during provisioning or deprovisioning of a host. When set
   to `disabled`, automated cleaning will be skipped, where `metadata` value
-  enables it. It is recommended to tune the cleaning via metal3MachineTemplate
-  rather than metal3Machine. When `spec.template.spec.automatedCleaningMode`
-  field of metal3MachineTemplate is updated, metal3MachineTemplate controller
-  will update all the metal3Machines (generated from the metal3MachineTemplate)
+  enables it. It is recommended to tune the cleaning via Metal3MachineTemplate
+  rather than Metal3Machine. When `spec.template.spec.automatedCleaningMode`
+  field of Metal3MachineTemplate is updated, Metal3MachineTemplate controller
+  will update all the Metal3Machines (generated from the Metal3MachineTemplate)
   and eventually BareMetalHosts with the same value.
 
 

@@ -1,6 +1,6 @@
 # Metal3Cluster
 
-The metal3Cluster object contains information related to the deployment of the
+The Metal3Cluster object contains information related to the deployment of the
 cluster on Baremetal. It currently has two specification fields :
 
 - **controlPlaneEndpoint**: contains the target cluster API server address and
