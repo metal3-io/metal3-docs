@@ -9,6 +9,8 @@ updates:
   directory: "/" # Location of package manifests
   schedule:
     interval: "weekly"
+  cooldown:
+    default-days: 7
 
 # Maintain dependencies for GitHub Actions
 - package-ecosystem: "github-actions"
@@ -16,6 +18,8 @@ updates:
   schedule:
     interval: "monthly"
   target-branch: main
+  cooldown:
+    default-days: 7
   ## group all action bumps into single PR
   groups:
     github-actions:
