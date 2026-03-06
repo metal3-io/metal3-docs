@@ -1,0 +1,4 @@
+# Temp files that are created when running the quick start guide
+disk-images
+bmh-vm-01.xml
+kubeconfig.yaml

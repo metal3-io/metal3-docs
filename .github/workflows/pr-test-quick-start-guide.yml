@@ -1,0 +1,19 @@
+name: PR Test Quick Start Guide
+
+on:
+  pull_request:
+    types: [ opened, edited, reopened, synchronize, ready_for_review ]
+    branches:
+    - main
+    paths:
+    - "docs/user-guide/src/quick-start.md"
+    - "hack/quick-start/**"
+
+permissions: {}
+
+jobs:
+  e2e-test:
+    uses: ./.github/workflows/test-quick-start-guide.yml
+    with:
+      runner: "ubuntu-latest"
+      timeout-minutes: 90
