@@ -15,7 +15,7 @@ images already come with one of these programs installed and configured.
 instance provisioned by Metal3 and do not apply during the inspection,
 preparing and provisioning phases.
 
-[cloud-init]: https://cloudinit.readthedocs.io/en/latest/index.html
+[cloud-init]: https://docs.cloud-init.io/en/latest/index.html
 [glean]: https://opendev.org/opendev/glean/
 [ignition]: https://coreos.github.io/ignition/
 
@@ -223,7 +223,7 @@ spec:
     name: host-0-userdata
 ```
 
-[cloud-config]: https://cloudinit.readthedocs.io/en/latest/explanation/format.html
+[cloud-config]: https://docs.cloud-init.io/en/latest/explanation/format/index.html
 [ignition-config]: https://coreos.github.io/ignition/specs/
 
 ## Implementation notes

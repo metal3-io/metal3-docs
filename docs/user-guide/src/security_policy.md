@@ -88,7 +88,7 @@ SL will have to request a CVE number for the security advisory.
 As GitHub is a CVE Numbering authority (CNA) there is an option to either use an
 existing CVE number or request a new one from GitHub. More about the GitHub
 security advisory and the CVE numbering process can be found
-[here](https://docs.github.com/en/code-security/security-advisories/working-with-repository-security-advisories/about-repository-security-advisories).
+[here](https://docs.github.com/en/code-security/concepts/vulnerability-reporting-and-management/about-repository-security-advisories).
 
 The original reporter(s) of the security issue has to be notified about the
 release date of the fix and the advisory and about both the content of the fix
