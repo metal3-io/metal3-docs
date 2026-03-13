@@ -34,8 +34,8 @@ If you are interested in Metal³ or would like to reach out its community then
 come talk to us!
 
 * We are available on Kubernetes
-[slack](https://communityinviter.com/apps/kubernetes/community) in the
-  [#cluster-api-baremetal](https://kubernetes.slack.com/?redir=%2Fmessages%2FCHD49TLE7)
+[slack](https://slack.k8s.io/) in the
+  [#cluster-api-baremetal](https://kubernetes.slack.com/archives/CHD49TLE7)
   channel
 * Join to the [Metal3-dev](https://groups.google.com/forum/#!forum/metal3-dev)
   google group for the edit access to the

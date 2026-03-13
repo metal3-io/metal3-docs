@@ -43,7 +43,7 @@ Metal3 is a Cluster API provider, you might also want to take a look at
 | [Bare Metal Operator](./bmo/introduction.md) (BMO) | Metal3 controller reconciling BareMetalHost resources via Ironic |
 | [Bifrost](https://docs.openstack.org/bifrost/latest/) | OpenStack tool for standalone Ironic deployment |
 | [Bootstrap Cluster](https://cluster-api.sigs.k8s.io/reference/glossary#bootstrap-cluster) | Temporary cluster used to provision a target management cluster |
-| [cloud-init](https://cloudinit.readthedocs.io/en/latest/) | Industry-standard tool for cloud instance initialization and configuration |
+| [cloud-init](https://docs.cloud-init.io/en/latest/) | Industry-standard tool for cloud instance initialization and configuration |
 | [Cluster API](https://cluster-api.sigs.k8s.io/) (CAPI) | Kubernetes SIG project for declarative cluster lifecycle management |
 | [Cluster API Provider Metal3](./capm3/introduction.md) (CAPM3) | Metal3's infrastructure provider for Cluster API |
 | [clusterctl](https://cluster-api.sigs.k8s.io/clusterctl/overview) | CLI tool for Cluster API cluster lifecycle management |

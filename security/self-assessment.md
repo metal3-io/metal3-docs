@@ -274,8 +274,8 @@ The Metal3 project does not comply with any specific security standard.
 Detailed from the
 [community README.md](https://github.com/metal3-io/community/blob/main/README.md):
 
-* We are available on Kubernetes [slack](http://slack.k8s.io/) in the
-   [#cluster-api-baremetal](https://kubernetes.slack.com/messages/CHD49TLE7)
+* We are available on Kubernetes [slack](https://slack.k8s.io/)
+   in the [#cluster-api-baremetal](https://kubernetes.slack.com/archives/CHD49TLE7)
    channel
 * Join to the [Metal3-dev](https://groups.google.com/forum/#!forum/metal3-dev)
    google group for the edit access to the
@@ -325,12 +325,6 @@ Metal3 has had four vulnerabilities:
 > * Related Projects / Vendors. Reflect on times prospective users have asked
 >    about the differences between your project and projectX. Reviewers will have
 >    the same question.
-
-**OpenSSF Best Practices**
-
-Metal3 has passing page in
-[CII/OpenSSF Best Practices](https://www.bestpractices.dev/en/projects/9160)
-and is at 167% completion level, working towards the Silver badge.
 
 ### Case Studies
 
