@@ -1,10 +1,14 @@
+#!/usr/bin/env bash
+
 # Baremetal lab image variables
 # export IMAGE_URL="http://192.168.0.150/CENTOS_10_NODE_IMAGE_K8S_v1.34.1.qcow2"
 # export IMAGE_CHECKSUM="http://192.168.0.150/CENTOS_10_NODE_IMAGE_K8S_v1.34.1.qcow2.sha256sum"
 # export IMAGE_FORMAT="qcow2"
+# Export the checksum from the disk image file (extract just the hash part, not the filename)
+IMAGE_CHECKSUM=$(awk '{print $1}' "${QUICK_START_BASE}/disk-images/CENTOS_10_NODE_IMAGE_K8S_v1.34.1.raw.sha256sum")
+export IMAGE_CHECKSUM
 # Virtualized setup variables
 export IMAGE_URL="http://192.168.222.1/CENTOS_10_NODE_IMAGE_K8S_v1.34.1.raw"
-export IMAGE_CHECKSUM="http://192.168.222.1/CENTOS_10_NODE_IMAGE_K8S_v1.34.1.raw.sha256sum"
 export IMAGE_FORMAT="raw"
 # Common variables
 export IMAGE_CHECKSUM_TYPE="sha256"

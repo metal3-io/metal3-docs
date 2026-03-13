@@ -1,0 +1,17 @@
+name: Test Quick Start Guide Periodic
+
+on:
+  schedule:
+  - cron: "0 0 * * *"
+
+permissions: {}
+
+jobs:
+  quick-start-test-periodic:
+    if: github.repository == 'metal3-io/metal3-docs'
+    permissions:
+      contents: read
+    uses: ./.github/workflows/test-quick-start-guide.yml  # zizmor: ignore[unpinned-uses]
+    with:
+      runner: "ubuntu-latest"
+      timeout-minutes: 90

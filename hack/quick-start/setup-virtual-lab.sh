@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Define and start the baremetal-e2e network
-virsh -c qemu:///system net-define net.xml
+virsh -c qemu:///system net-define "${QUICK_START_BASE}/net.xml"
 virsh -c qemu:///system net-start baremetal-e2e
 
 # We need to create veth pair to connect the baremetal-e2e net (defined above)
@@ -35,12 +35,13 @@ sudo iptables -I FORWARD -i metal3 -o kind -j ACCEPT
 # Start the sushy-emulator container that acts as BMC
 docker run --name sushy-tools --rm --network host -d \
   -v /var/run/libvirt:/var/run/libvirt \
-  -v "$(pwd)/sushy-emulator.conf:/etc/sushy/sushy-emulator.conf" \
+  -v "${QUICK_START_BASE}/sushy-emulator.conf:/etc/sushy/sushy-emulator.conf" \
   -e SUSHY_EMULATOR_CONFIG=/etc/sushy/sushy-emulator.conf \
   quay.io/metal3-io/sushy-tools:latest sushy-emulator
 
 # Generate a VM definition xml file and then define the VM
 # use --ram=8192 for Scenario 2
+SERIAL_LOG_PATH="/var/log/libvirt/qemu/bmh-vm-01-serial0.log"
 virt-install \
   --connect qemu:///system \
   --name bmh-vm-01 \
@@ -48,11 +49,15 @@ virt-install \
   --osinfo=ubuntu-lts-latest \
   --ram=4096 \
   --vcpus=2 \
-  --disk size=25 \
+  --disk size=8 \
   --boot uefi,hd,network \
   --import \
+  --serial file,path="${SERIAL_LOG_PATH}" \
+  --xml "./devices/serial/@type=pty" \
+  --xml "./devices/serial/log/@file=${SERIAL_LOG_PATH}" \
+  --xml "./devices/serial/log/@append=on" \
   --network network=baremetal-e2e,mac="00:60:2f:31:81:01" \
   --noautoconsole \
-  --print-xml > bmh-vm-01.xml
-virsh define bmh-vm-01.xml
-rm bmh-vm-01.xml
+  --print-xml > "${QUICK_START_BASE}/bmh-vm-01.xml"
+
+virsh -c qemu:///system define "${QUICK_START_BASE}/bmh-vm-01.xml"
