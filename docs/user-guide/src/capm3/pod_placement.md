@@ -3,7 +3,7 @@
 By default, the CAPM3 controller manager deployment is aligned with
 upstream Cluster API:
 
-- The pod has **tolerations** so it can run on control-plane nodes, which
+- The pod has **toleration** so it can run on control-plane nodes, which
    are typically tainted:
    - `node-role.kubernetes.io/master:NoSchedule`
    - `node-role.kubernetes.io/control-plane:NoSchedule`
@@ -30,7 +30,7 @@ default, but you can add your own scheduling constraints via:
    [`clusterctl generate provider`](https://cluster-api.sigs.k8s.io/clusterctl/commands/generate-provider)
    to customize the rendered manifests.
 - **kustomize** – patch the CAPM3 manager `Deployment` to add
-   `spec.template.spec.affinity.nodeAffinity` and any extra tolerations.
+   `spec.template.spec.affinity.nodeAffinity` and any extra toleration's.
 
 ## Example: affinity for control-plane / infra nodes
 
@@ -46,4 +46,3 @@ You can use this example as a starting point and adapt it to match the
 labels and policies used in your own clusters. For example, you might
 replace `node-role.kubernetes.io/infra` with a custom label that marks
 dedicated infrastructure nodes in your environment.
-
