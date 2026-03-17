@@ -2,9 +2,10 @@
 
 ## Summary
 
-Ironic Standalone Operator should emit Kubernetes Events on the `Ironic` custom resource to make
-reconciliation progress and failures visible to cluster users (`kubectl describe
-ironic ...`), without flooding the cluster with repetitive messages.
+Ironic Standalone Operator should emit Kubernetes Events on the `Ironic`
+custom resource to make reconciliation progress and failures visible to
+cluster users (`kubectl describe ironic ...`), without flooding the cluster
+with repetitive messages.
 
 This document proposes a small, stable set of **Event reasons**, their **types**
 (Normal/Warning), and the **conditions under which they are recorded**.
@@ -93,11 +94,11 @@ need explicit breadcrumbs.
 ## Testing plan
 
 - Add unit tests for event emission in the controller using a fake recorder:
-  - Ready transition emits `IronicReady` once.
-  - Missing Secret/ConfigMap emits `SecretNotFound` / `ConfigMapNotFound`.
-  - Transient reconcile errors emit `ReconcileFailed`.
+   - Ready transition emits `IronicReady` once.
+   - Missing Secret/ConfigMap emits `SecretNotFound` / `ConfigMapNotFound`.
+   - Transient reconcile errors emit `ReconcileFailed`.
 - Validate via e2e/functional tests (optional, if already covering these flows):
-  - Deploy an `Ironic` CR and assert at least one `IronicReady` event appears.
+   - Deploy an `Ironic` CR and assert at least one `IronicReady` event appears.
 
 ## Compatibility and upgrade considerations
 
