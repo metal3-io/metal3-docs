@@ -79,6 +79,74 @@ When the provisioning state of the host becomes `provisioned`, your instance is
 ready to use. Note, however, that booting the operating system and applying the
 first boot scripts will take a few more minutes after that.
 
+### Using OCI registries
+
+<!-- cSpell:ignore ORAS -->
+
+Starting with BMO 0.12 and Ironic 33.0, Metal3 supports deploying images from
+[OCI artifacts](https://oras.land/docs/concepts/artifact/). Such artifacts can
+be uploaded to most OCI-compatible registries, e.g. using helper tools such as
+[ORAS](https://oras.land/).
+
+Images can be provided by using a URL with an `oci://` scheme in the
+`image.url` field. You can use the short form with only a tag:
+
+```yaml
+apiVersion: metal3.io/v1alpha1
+kind: BareMetalHost
+metadata:
+  name: host-0
+  namespace: my-cluster
+spec:
+  online: true
+  bootMACAddress: 80:c1:6e:7a:e8:10
+  bmc:
+    address: ipmi://192.168.1.13
+    credentialsName: host-0-bmc
+  image:
+    url: oci://registry.example.com/project/myimage:1.2.3
+  rootDeviceHints:
+    wwn: "0x55cd2e415652abcd"
+  userData:
+    name: host-0-userdata
+```
+
+However, in this variant there is no way to provide a checksum (the `checksum`
+field is ignored for OCI images). Thus, it is highly recommended to use the
+full form with the hash:
+
+```yaml
+apiVersion: metal3.io/v1alpha1
+kind: BareMetalHost
+metadata:
+  name: host-0
+  namespace: my-cluster
+spec:
+  online: true
+  bootMACAddress: 80:c1:6e:7a:e8:10
+  bmc:
+    address: ipmi://192.168.1.13
+    credentialsName: host-0-bmc
+  image:
+    url: oci://registry.example.com/project/myimage@sha256:<digest>
+  rootDeviceHints:
+    wwn: "0x55cd2e415652abcd"
+  userData:
+    name: host-0-userdata
+```
+
+**Warning:** BMO does not yet support authenticated registries; support is
+expected in BMO 0.13 or later. Registries that serve images over plain
+HTTP instead of HTTPS require Ironic 34.0 or later.
+
+**Note:** the type of the image can be auto-detected or provided via the
+`disktype` attribute in the image manifest.
+
+See [Ironic documentation on OCI
+registries](https://docs.openstack.org/ironic/latest/admin/oci-container-registry.html)
+for more details, including limitations of the feature and examples of using
+the ORAS command.
+
 ### Note on images
 
 Two image formats are commonly used with Metal3: QEMU's
