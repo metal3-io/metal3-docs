@@ -1,0 +1,42 @@
+name: Test Quick Start Guide
+
+on:
+  workflow_call:
+    inputs:
+      runner:
+        type: string
+        default: "ubuntu-latest"
+      ref:
+        type: string
+        default: ${{ github.ref }}
+      timeout-minutes:
+        type: number
+        default: 90
+
+permissions: {}
+
+jobs:
+  test:
+    name: Quick Start Test
+    runs-on: ${{ inputs.runner }}
+    permissions:
+      contents: read
+    timeout-minutes: ${{ inputs.timeout-minutes }}
+
+    steps:
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        ref: ${{ inputs.ref }}
+        persist-credentials: false
+
+    - name: Install libvirt
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libvirt-daemon-system qemu-kvm virt-manager libvirt-dev
+
+    - name: Run Quick Start Test
+      # We need a new shell to pick up the new group. That is why we do the sudo -s -u "${USER}"  ...
+      # Remove the pre-installed go version. We install the exact version we need.
+      run: |
+        sudo usermod -a -G libvirt "${USER}"
+        sudo -s -u "${USER}"  --preserve-env bash ${{ github.workspace }}/hack/quick-start/quick-start-test.sh

@@ -1,3 +1,4 @@
+# ironic.yaml
 apiVersion: ironic.metal3.io/v1alpha1
 kind: Ironic
 metadata:
