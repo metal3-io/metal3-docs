@@ -9,3 +9,4 @@
 - [ClusterClass](./clusterclass.md)
 - [Failure domain](./failure_domain.md)
 - [Annotation-based IPPool](./annotation_based_ippool.md)
+- [Controller pod placement](./pod_placement.md)
