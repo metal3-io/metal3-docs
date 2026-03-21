@@ -48,6 +48,7 @@
       - [Metal3MachineTemplate](capm3/metal3machinetemplate.md)
    - [Features](capm3/features.md)
       - [Remediation](capm3/remediaton.md)
+      - [Unhealthy Annotation](capm3/unhealthy_annotation.md)
       - [Node Reuse](capm3/node_reuse.md)
       - [Pivoting](capm3/pivoting.md)
       - [Automated cleaning](capm3/automated_cleaning.md)
