@@ -54,4 +54,5 @@ to reuse the same physical host for another Machine after remediation failure.
 The host remains excluded from new provisioning until an operator manually
 removes the annotation after verifying and correcting the underlying issue.
 
-Check the [Remediation](https://book.metal3.io/capm3/remediaton/) process fro more details.
+Check the [Remediation](https://book.metal3.io/capm3/remediaton/) process
+for more details.
