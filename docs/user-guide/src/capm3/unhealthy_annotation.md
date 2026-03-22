@@ -44,9 +44,9 @@ If the final timeout expires and the node remains unhealthy:
 1. The corresponding `BareMetalHost` is automatically annotated with:
 
 ```yaml
-   metadata:
-     annotations:
-       capi.metal3.io/unhealthy: "true"
+metadata:
+  annotations:
+    capi.metal3.io/unhealthy: "true"
 ```
 
 This automatic annotation ensures that CAPM3 does not immediately attempt
