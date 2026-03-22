@@ -1,17 +1,18 @@
-## Unhealthy Annotation
+# Unhealthy Annotation
 
-The `capi.metal3.io/unhealthy` annotation is used by Cluster API Provider Metal³ (CAPM3)
-to mark **BareMetalHost** objects that should not be selected for provisioning new
-`Metal3Machine` resources.
+The `capi.metal3.io/unhealthy` annotation is used by
+Cluster API Provider Metal³ (CAPM3) to mark **BareMetalHost** objects
+that should not be selected for provisioning new `Metal3Machine` resources.
 
-When this annotation is present, CAPM3 excludes the annotated host from consideration
-when matching available hardware to new Machines. This prevents the reuse of hosts that
-are known to be unhealthy or have failed remediation attempts.
+When this annotation is present, CAPM3 excludes the annotated host from
+consideration when matching available hardware to new Machines.
+This prevents the reuse of hosts that are known to be unhealthy or
+have failed remediation attempts.
 
 ## Manual usage
 
-Operators can manually mark a host as unhealthy by adding the following annotation to a
-`BareMetalHost` object:
+Operators can manually mark a host as unhealthy by adding the following annotation
+to a `BareMetalHost` object:
 
 ```yaml
 metadata:
@@ -40,7 +41,7 @@ If the final timeout expires and the node remains unhealthy:
 1. CAPM3 sets the `MachineOwnerRemediatedCondition=False` condition on the affected
    `Machine` to begin deletion of the unhealthy `Machine` and related remediation
    objects.
-2. The corresponding `BareMetalHost` is automatically annotated with:
+1. The corresponding `BareMetalHost` is automatically annotated with:
 
 ```yaml
    metadata:
@@ -48,9 +49,9 @@ If the final timeout expires and the node remains unhealthy:
        capi.metal3.io/unhealthy: "true"
 ```
 
-This automatic annotation ensures that CAPM3 does not immediately attempt to reuse the
-same physical host for another Machine after remediation failure. The host remains
-excluded from new provisioning until an operator manually removes the annotation after
-verifying and correcting the underlying issue.
+This automatic annotation ensures that CAPM3 does not immediately attempt
+to reuse the same physical host for another Machine after remediation failure.
+The host remains excluded from new provisioning until an operator manually
+removes the annotation after verifying and correcting the underlying issue.
 
 Check the [Remediation](https://book.metal3.io/capm3/remediaton/) process fro more details.
