@@ -25,8 +25,8 @@ Removing the annotation re-enables the host for normal provisioning by CAPM3.
 ## Automatic application after remediation timeout
 
 Starting from CAPM3 API version `v1alpha4` (available in previous release branches),
-this annotation may also be **applied automatically** when remediation attempts time
-out and the node fails to recover.
+this annotation may also be **applied automatically** when remediation attempts
+timeout and the node fails to recover.
 
 During a remediation cycle managed by a `Metal3Remediation` resource, the following
 parameters define retry and timeout behavior:
