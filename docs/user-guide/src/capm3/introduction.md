@@ -61,12 +61,12 @@ do!
 
 All the repositories in the Metal3 project, including the Cluster API Provider
 Metal3 GitHub repository, use the Kubernetes bot commands. The full list of the
-commands can be found [command help documentation.](https://prow.k8s.io/command-help)
+commands can be found in the [command help documentation.](https://prow.k8s.io/command-help)
 Note that some of them might not be implemented in metal3 CI.
 
 ## Community
 
-Community resources and contact details can be found
+Community resources and contact details can be found in the
 [Metal3 community documentation.](https://github.com/metal3-io/metal3-docs#community)
 
 ## Github issues
