@@ -32,9 +32,16 @@
 ### 1.1. Prerequisites
 
 - System with CentOS 9 Stream or Ubuntu 22.04
-- Bare metal preferred, as we will be creating VMs to emulate bare metal hosts
+- A virtualization-capable environment is required since Metal3 uses
+  VMs to emulate bare metal hosts
 - Run as a user with passwordless sudo access
 - Minimum resource requirements for the host machine: 4C CPUs, 16 GB RAM memory
+
+> **Note:**
+> The `metal3-dev-env` scripts modify parts of the host system,
+> including networking and installed packages.
+> It is strongly recommended to run them in a virtual machine or
+> a dedicated environment to avoid unintended changes to your primary system.
 
 For execution with VMs
 
@@ -44,8 +51,8 @@ For execution with VMs
   sudo visudo
 ```
 
-- Include this line at the end of the sudoers file (replace 'username' with the actual
-  account name for passwordless sudo access)
+- Include this line at the end of the sudoers file (replace 'username' with the
+  actual account name for passwordless sudo access)
 
 ```console
   username  ALL=(ALL) NOPASSWD: ALL
@@ -154,8 +161,8 @@ configured.
 
 > **_info:_** "Environment variables"
 > More information about the specific environment variables used to set up
-> metal3-dev-env can be found
-> [here](https://github.com/metal3-io/metal3-dev-env/blob/main/vars.md).
+> metal3-dev-env can be found in the
+> [metal3-dev-env documentation](https://github.com/metal3-io/metal3-dev-env/blob/main/vars.md).
 
 To set environment variables persistently, export them from the configuration
 file used by metal3-dev-env scripts:
