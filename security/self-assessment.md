@@ -30,11 +30,11 @@ Metal3 has been in CNCF Sandbox since 2020, and is now applying for
 
 |                   |                                              |
 | ----------------- | -------------------------------------------- |
-| Assessment Stage  | In Progress                                  |
+| Assessment Stage  | Complete                                     |
 | Software          | <https://github.com/metal3-io/>              |
 | Security Provider | No                                           |
 | Languages         | Go, Bash, Python                             |
-| SBOM              | Metal3 does not generate SBOMs currently     |
+| SBOM              | All release container images include SBOM attestation and are signed (BMO, CAPM3, IPAM, IrSO) |
 
 ### Security links
 
@@ -142,6 +142,22 @@ introducing a stand alone operator to deploy ironic instances.
 Alternatively, Bare Metal Operator can be set up to use an externally managed
 Ironic instance.
 
+#### Ironic Standalone Operator (IrSO)
+
+The Ironic Standalone Operator (IrSO) is a Kubernetes controller that installs
+and manages Ironic in a configuration suitable for Metal3. IrSO replaces the
+previous shell-based deployment method for Ironic and provides:
+
+* Flexible networking configuration with support for Keepalived
+* SQLite or MariaDB as the database backend
+* Optional DHCP service (dnsmasq) for network boot
+* Optional automatic download of the Ironic Python Agent (IPA) image
+* High-availability (HA) Ironic deployments across control plane nodes
+
+IrSO uses the `Ironic` custom resource to manage Ironic and all of its
+auxiliary services. When authentication is not explicitly configured by the
+user, IrSO creates secrets with random credentials automatically.
+
 ### Actions
 
 Metal3 follows the Kubernetes declarative model where users interact with the
@@ -235,10 +251,16 @@ security audit.
 * Cluster API Provider Metal3 (CAPM3): CAPM3 has cluster-wide access to BMH
    CRDs which can be used to change the installation content. It also has access
    to supplied `userData`, which might contain sensitive information.
+* Ironic Standalone Operator (IrSO): IrSO manages the deployment and
+   configuration of Ironic, including credential generation and TLS setup.
+   Compromise of IrSO could lead to a misconfigured or insecure Ironic
+   deployment.
 
 ## Project compliance
 
-The Metal3 project does not comply with any specific security standard.
+The Metal3 project is compliant with
+[OpenSSF Open Source Project Security (OSPS) Baseline](https://baseline.openssf.org/)
+Level 1 and is working towards Level 2 compliance.
 
 ## Secure development practices
 
@@ -335,6 +357,8 @@ Metal3 has had four vulnerabilities:
    solution for automating the deployment of bare metal clusters.
 * SUSE: Metal3 is used for automated bare metal deployment as part of the
    SUSE Edge solution.
+* Mistral AI: Mistral AI uses Metal3 for bare metal Kubernetes cluster
+   management in its Mistral Compute cloud offering.
 
 More use-cases can be found in our
 [ADOPTERS.md](https://github.com/metal3-io/community/blob/main/ADOPTERS.md).
