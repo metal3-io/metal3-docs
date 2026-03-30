@@ -32,8 +32,8 @@
 ### 1.1. Prerequisites
 
 - System with CentOS 9 Stream or Ubuntu 22.04
-- A virtualization-capable environment is required since Metal3 uses
-  VMs to emulate bare metal hosts
+- A hosting operating system with QEMU/KVM is required,
+  as this development environment uses VMs to emulate bare metal hosts
 - Run as a user with passwordless sudo access
 - Minimum resource requirements for the host machine: 4C CPUs, 16 GB RAM memory
 
