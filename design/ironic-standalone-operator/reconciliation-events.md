@@ -3,9 +3,9 @@
 ## Summary
 
 Ironic Standalone Operator should emit Kubernetes Events on the `Ironic`
-custom resource to make meaningful state transitions and actionable failures visible to
-cluster users (`kubectl describe ironic ...`), without flooding the cluster
-with repetitive messages.
+custom resource to make meaningful state transitions and actionable
+failures visible to cluster users (`kubectl describe ironic ...`), without
+flooding the cluster with repetitive messages.
 
 This document proposes a small, stable set of **Event reasons**, their **types**
 (Normal/Warning), and the **conditions under which they are recorded**.
