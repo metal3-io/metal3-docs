@@ -4,6 +4,7 @@ aliases:
   # root
   metal3-docs-maintainers:
   - dtantsur
+  - fmuyassarov
   - kashifest
   - lentzi90
   - zaneb
@@ -11,7 +12,6 @@ aliases:
   metal3-docs-reviewers:
   - adilGhaffarDev
   - elfosardo
-  - fmuyassarov
   - hroyrh
   - Rozzii
   - smoshiur1237
