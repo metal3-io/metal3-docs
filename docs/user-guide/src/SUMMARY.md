@@ -41,6 +41,7 @@
    - [Old Installation Process](ironic/ironic_installation.md)
 - [Cluster-api-provider-metal3](capm3/introduction.md)
    - [Install Metal³ provider](capm3/installation_guide.md)
+   - [Migration Guide: v1beta1 to v1beta2](capm3/migration_v1beta1_to_v1beta2.md)
    - [Metrics](capm3/metrics.md)
    - [Custom Resources](capm3/custom_resources.md)
       - [Metal3Cluster](capm3/metal3cluster.md)
