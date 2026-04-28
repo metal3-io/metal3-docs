@@ -65,8 +65,8 @@ format is right for your machine.
 |                 | Virtual media | `redfish-virtualmedia://<host>:<port>/<systemID>` | **Must not** be used for Dell machines.                                 |
 | Dell iDRAC 8+   | iPXE          | `idrac-redfish://<host>:<port>/<systemID>`        |                                                                         |
 |                 | Virtual media | `idrac-virtualmedia://<host>:<port>/<systemID>`   | Requires firmware v6.10.30.00+ for iDRAC 9, v2.75.75.75+ for iDRAC 8.   |
-| HPE iLO 5 and 6 | iPXE          | `ilo5-redfish://<host>:<port>/<systemID>`         | An alias of `redfish` for convenience. RAID management only on iLO 6.   |
-|                 | Virtual media | `ilo5-virtualmedia://<host>:<port>/<systemID>`    | An alias of `redfish` for convenience. RAID management only on iLO 6.   |
+| HPE iLO 5+      | iPXE          | `redfish://<host>:<port>/<systemID>`              | Requires firmware v1.57+ for iLO 6. No RAID management in iLO 5.        |
+|                 | Virtual media | `redfish-virtualmedia://<host>:<port>/<systemID>` | Requires firmware v1.57+ for iLO 6. No RAID management in iLO 5.        |
 
 <!-- markdownlint-enable MD013 -->
 
@@ -77,6 +77,9 @@ regularly tested by the team.
 All drivers based on Redfish allow optionally specifying the carrier protocol
 in the form of `+http` or `+https`, for example: `redfish+http://...` or
 `idrac-virtualmedia+https`. When not specified, HTTPS is used by default.
+
+**NOTE:** `ilo5-redfish` and `ilo5-virtualmedia` are aliases for `redfish` and
+`redfish-virtualmedia` accordingly and should not be used any more.
 
 ### Redfish interoperability
 
@@ -101,16 +104,16 @@ and undocumented.
 [Ironic interoperability documentation]: https://docs.openstack.org/ironic/latest/admin/drivers/redfish/interop.html
 [ipe]: https://docs.openstack.org/ironic-prometheus-exporter/latest/
 
-## Vendor-specific protocols
+## Deprecated vendor-specific protocols
 
 <!-- markdownlint-disable MD013 -->
 
-| Technology      | Protocol | Boot method   | BMC address format                  | Notes                                                                   |
-|-----------------|----------|---------------|-------------------------------------|-------------------------------------------------------------------------|
-| Fujitsu iRMC    | iRMC     | iPXE          | `irmc://<host>:<port>`              | **Deprecated**, to be removed after BMO 0.12.                           |
-| HPE iLO 4       | iLO      | iPXE          | `ilo4://<host>:<port>`              | **Removed** after BMO 0.11 / Ironic 32.0.                               |
-|                 | iLO      | Virtual media | `ilo4-virtualmedia://<host>:<port>` | **Removed** after BMO 0.11 / Ironic 32.0.                               |
-| HPE iLO 5       | iLO      | iPXE          | `ilo5://<host>:<port>`              | **Removed** after BMO 0.11 / Ironic 32.0.                               |
+| Technology      | Protocol | Boot method   | BMC address format                  | Status                                       |
+|-----------------|----------|---------------|-------------------------------------|----------------------------------------------|
+| Fujitsu iRMC    | iRMC     | iPXE          | `irmc://<host>:<port>`              | **Removed** in BMO 0.13 / Ironic Image 35.0. |
+| HPE iLO 4       | iLO      | iPXE          | `ilo4://<host>:<port>`              | **Removed** in BMO 0.12 / Ironic Image 33.0. |
+|                 | iLO      | Virtual media | `ilo4-virtualmedia://<host>:<port>` | **Removed** in BMO 0.12 / Ironic Image 33.0. |
+| HPE iLO 5       | iLO      | iPXE          | `ilo5://<host>:<port>`              | **Removed** in BMO 0.12 / Ironic Image 33.0. |
 
 <!-- markdownlint-enable MD013 -->
 
