@@ -87,7 +87,7 @@ Following table summarizes Ironic-image release/test process:
 | v34.0         | Supported | bugfix/34.0         |
 | v33.0         | Supported | bugfix/33.0         |
 | v32.0         | Supported | stable/2025.2       |
-| v31.0         | EOL       | bugfix/31.0         |
+| v31.0         | Tested    | bugfix/31.0         |
 | v30.0         | EOL       | bugfix/30.0 (EOL)   |
 | v29.0         | EOL       | stable/2025.1       |
 | v28.0         | EOL       | bugfix/28.0 (EOL)   |
@@ -111,7 +111,7 @@ of the operator:
 | latest (main)    | latest, 35.0, 34.0, 33.0             | latest          | Supported      |
 | 0.9.0            | 35.0, 34.0, 33.0                     | 35.0            | Supported      |
 | 0.8.0            | 34.0, 33.0, 32.0                     | 34.0            | Supported      |
-| 0.7.0            | 33.0, 32,0, 31.0                     | 33.0            | EOL            |
+| 0.7.0            | 33.0, 32,0, 31.0                     | 33.0            | Tested         |
 | 0.6.0            | 32.0, 31.0, 30.0                     | 32.0            | EOL            |
 | 0.5.0            | 31.0, 30.0, 29.0, 28.0, 27.0         | 31.0            | EOL            |
 | 0.4.0            | 30.0, 29.0, 28.0, 27.0               | 30.0            | EOL            |
