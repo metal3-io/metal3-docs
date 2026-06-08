@@ -408,7 +408,7 @@ while `networkData` will be rendered into a map equivalent of
 [Nova network_data.json](https://docs.openstack.org/nova/latest/user/metadata.html#openstack-format-metadata).
 On the target node, the network data will be rendered as a json object that
 follows the format definition that can be found
-[over here](https://docs.openstack.org/nova/latest/_downloads/9119ca7ac90aa2990e762c08baea3a36/network_data.json).
+[over here](https://docs.openstack.org/nova/latest/_downloads/4e8fe1ae7db6dd6eebca372db68fe63e/network_data.json).
 
 #### Metadata Specifications
 
