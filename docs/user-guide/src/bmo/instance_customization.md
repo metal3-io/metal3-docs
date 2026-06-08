@@ -79,7 +79,7 @@ spec:
 ```
 
 [network_data]: https://docs.openstack.org/nova/latest/user/metadata.html#openstack-format-metadata
-[network_data schema]: https://docs.openstack.org/nova/latest/_downloads/9119ca7ac90aa2990e762c08baea3a36/network_data.json
+[network_data schema]: https://docs.openstack.org/nova/latest/_downloads/4e8fe1ae7db6dd6eebca372db68fe63e/network_data.json
 
 ### NetworkData examples
 
