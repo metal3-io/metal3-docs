@@ -10,7 +10,7 @@ updates:
   schedule:
     interval: "weekly"
   cooldown:
-    default-days: 7
+    default-days: 3
 
 # Maintain dependencies for GitHub Actions
 - package-ecosystem: "github-actions"
@@ -19,7 +19,7 @@ updates:
     interval: "monthly"
   target-branch: main
   cooldown:
-    default-days: 7
+    default-days: 3
   ## group all action bumps into single PR
   groups:
     github-actions:
