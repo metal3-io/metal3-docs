@@ -17,7 +17,7 @@ together in Metal3, but enabling one does not enable the other.
 
 When a Metal3Machine is deleted, CAPM3 normally lets the BareMetalHost power off
 as part of deprovisioning. With Fast Track enabled, CAPM3 can keep the host
-powered on when automated cleaning is not disabled.
+powered on when automated cleaning is set to any value other than `disabled`.
 
 When automated cleaning is enabled, the physical machine boots into the Ironic
 Python Agent to run cleaning. CAPM3 Fast Track keeps the machine running with
@@ -42,8 +42,7 @@ The behavior is controlled by three factors:
 | false           | false            | not disabled (metadata today) | Off                      |
 | false           | true             | not disabled (metadata today) | **On** (Fast Track)      |
 
-Since PR #3106 (`Allow disable_power_off together with autoclean`, merged on
-2026-03-05), `DisablePowerOff=true` can be combined with
+Starting with CAPM3 v1.13.0, `DisablePowerOff=true` can be combined with
 `AutomatedCleaningMode=metadata`. In that case, `DisablePowerOff` still takes
 priority and keeps the host online.
 
@@ -59,8 +58,8 @@ Metal3Machine without waiting for a full power cycle.
 
 ## When to Use Fast Track
 
-Fast Track is beneficial when BareMetalHosts are expected to be re-used and
-power consumption is not a limiting factor, for example:
+Fast Track is beneficial in use cases where BareMetalHosts are expected to be
+re-used eventually and power consumption is not a factor, for example:
 
 - **Rolling upgrades**: Nodes are being replaced one at a time, and speed is
   important
