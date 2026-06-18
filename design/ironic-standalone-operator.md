@@ -49,8 +49,7 @@ Explicitly not planned:
   minor things.
 - Support for versions of ironic-image predating this proposal (e.g. the ones
   containing ironic-inspector).
-- Deprecate or discourage alternative ways to install Ironic for Metal3, get
-  rid of ironic-image/mariadb-image.
+- Deprecate or discourage alternative ways to install Ironic for Metal3.
 - Install BMO, IPAM or CAPM3 via the same operator.
 
 May happen in the future but not as part of this proposal:
@@ -108,13 +107,13 @@ the operator currently does.
 
 #### Current architecture
 
-The operator has two controllers: for MariaDB and for Ironic plus its auxiliary
-containers.
+The operator has two controllers: for Ironic and its auxiliary containers.
+MariaDB support has been deprecated in favor of 3rd-party operators.
 
-The MariaDB controller, also referred to as the *database controller* in this
-context, starts a MariaDB instance in a *deployment* using
-[mariadb-image][mariadb-image]. As with Metal3 now, MariaDB is optional: if it
-is not configured, SQLite is used instead.
+**NOTE:** The `IronicDatabase` resource is deprecated. For database
+management, use [MariaDB Operator](https://github.com/mariadb-operator/mariadb-operator)
+or other external database operators. MariaDB is optional: if not
+configured, SQLite is used instead.
 
 The Ironic controller starts and manages the following components:
 
@@ -125,16 +124,15 @@ The Ironic controller starts and manages the following components:
 - IPA downloader
 
 All these components are used in the same way as in a traditional Metal3
-installation. Note that the IPA Downloader fate is under discussion: there is
-a strong desire to make it optional and maybe replace with a different method
-of delivering IPA images.
+installation. Note that the IPA Downloader fate is under discussion: there
+is a strong desire to make it optional and maybe replace with a different
+method of delivering IPA images.
 
-Unlike the current Metal3, the operator requires authentication and will create
-secrets with random credentials when a user does not provide them. We're
-considering to do the same with TLS, but it requires [figuring out CA
-integration][issue4].
+Unlike the current Metal3, the operator requires authentication and will
+create secrets with random credentials when a user does not provide them.
+We're considering to do the same with TLS, but it requires
+[figuring out CA integration][issue4].
 
-[mariadb-image]: https://github.com/metal3-io/mariadb-image/
 [issue4]: https://github.com/metal3-io/ironic-standalone-operator/issues/4
 
 #### HA architecture
