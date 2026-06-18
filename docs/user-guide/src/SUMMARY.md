@@ -60,6 +60,7 @@
       - [Annotation-based IPPool](capm3/annotation_based_ippool.md)
       - [Controller pod placement](capm3/pod_placement.md)
       - [ProviderID Workflow](capm3/providerid-workflow.md)
+      - [Fast Track](capm3/fast_track.md)
 - [Ip-address-manager](ipam/introduction.md)
    - [Install Ip-address-manager](ipam/ipam_installation.md)
 - [Troubleshooting FAQ](troubleshooting.md)
