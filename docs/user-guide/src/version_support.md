@@ -83,11 +83,12 @@ Following table summarizes Ironic-image release/test process:
 
 | Minor release | Status    | Ironic Branch       |
 | ------------- | --------- | ------------------- |
+| v37.0         | Supported | bugfix/37.0         |
 | v35.0         | Supported | stable/2026.1       |
 | v34.0         | Supported | bugfix/34.0         |
 | v33.0         | Supported | bugfix/33.0         |
-| v32.0         | Supported | stable/2025.2       |
-| v31.0         | Tested    | bugfix/31.0         |
+| v32.0         | Tested    | stable/2025.2       |
+| v31.0         | Tested    | bugfix/31.0 (EOL)   |
 | v30.0         | EOL       | bugfix/30.0 (EOL)   |
 | v29.0         | EOL       | stable/2025.1       |
 | v28.0         | EOL       | bugfix/28.0 (EOL)   |
@@ -108,10 +109,11 @@ of the operator:
 
 | Operator version | Ironic version(s)                    | Default version | Support status |
 | ---------------- | ------------------------------------ | --------------- | -------------- |
-| latest (main)    | latest, 35.0, 34.0, 33.0             | latest          | Supported      |
+| latest (main)    | latest, 37.0, 35.0, 34.0             | latest          | Supported      |
+| 0.10.0           | 37.0, 35.0, 34.0                     | 37.0            | Supported      |
 | 0.9.0            | 35.0, 34.0, 33.0                     | 35.0            | Supported      |
-| 0.8.0            | 34.0, 33.0, 32.0                     | 34.0            | Supported      |
-| 0.7.0            | 33.0, 32,0, 31.0                     | 33.0            | Tested         |
+| 0.8.0            | 34.0, 33.0, 32.0                     | 34.0            | Tested         |
+| 0.7.0            | 33.0, 32,0, 31.0                     | 33.0            | EOL            |
 | 0.6.0            | 32.0, 31.0, 30.0                     | 32.0            | EOL            |
 | 0.5.0            | 31.0, 30.0, 29.0, 28.0, 27.0         | 31.0            | EOL            |
 | 0.4.0            | 30.0, 29.0, 28.0, 27.0               | 30.0            | EOL            |
@@ -138,8 +140,8 @@ Here are some examples:
 - quay.io/metal3-io/cluster-api-provider-metal3:v1.13.0
 - quay.io/metal3-io/baremetal-operator:v0.13.0
 - quay.io/metal3-io/ip-address-manager:v1.13.0
-- quay.io/metal3-io/ironic:v35.0.0
-- quay.io/metal3-io/ironic-standalone-operator:v0.9.0
+- quay.io/metal3-io/ironic:v37.0.0
+- quay.io/metal3-io/ironic-standalone-operator:v0.10.0
 
 ## CI Test Matrix
 

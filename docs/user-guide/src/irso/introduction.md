@@ -23,7 +23,7 @@ On every source code change, a new IrSO image is built and published at
 we also publish a manifest for each release. You can install it this way:
 
 ```console
-IRSO_VERSION=0.8.0
+IRSO_VERSION=0.10.0
 kubectl apply -f \
     https://github.com/metal3-io/ironic-standalone-operator/releases/download/v${IRSO_VERSION}/install.yaml
 kubectl wait --for=condition=Available --timeout=120s \
