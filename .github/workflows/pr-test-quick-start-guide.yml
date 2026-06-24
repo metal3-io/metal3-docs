@@ -6,10 +6,13 @@ on:
     branches:
     - main
     paths:
-    - "docs/user-guide/src/quick-start.md"
-    - "hack/quick-start/**"
+    - 'docs/user-guide/src/quick-start.md'
+    - 'hack/quick-start/**'
+    - '.github/workflows/test-quick-start-guide.yml'
+    - '.github/workflows/pr-test-quick-start-guide.yml'
 
-permissions: {}
+permissions:
+  contents: read
 
 jobs:
   e2e-test:
