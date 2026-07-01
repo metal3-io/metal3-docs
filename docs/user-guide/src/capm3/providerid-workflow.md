@@ -14,22 +14,9 @@ registers. Without a matching `providerID` on both the `Machine` and the `Node`,
 CAPI never sets `Machine.status.nodeRef` and the cluster never transitions to
 `Running`.
 
-## CAPM3 ProviderID Formats
+## CAPM3 ProviderID Format
 
-**Legacy format** — built from the BareMetalHost UID:
-
-```yaml
-metal3://<BMH-UID>
-```
-
-Example: `metal3://d668eb95-5df6-4c10-a01a-fc69f4299fc6`
-
-> **Deprecation notice:** The legacy ProviderID format **will be deprecated
-> in CAPM3 v1.13** and **removed in CAPM3 v1.14**. New clusters should always
-> use the new format below. Existing clusters using the legacy format must
-> migrate before upgrading to v1.14.
-
-**New format** — built from Kubernetes object names:
+The ProviderID format used by CAPM3 is built from Kubernetes object names:
 
 ```yaml
 metal3://<namespace>/<bmh-name>/<m3m-name>
@@ -37,11 +24,17 @@ metal3://<namespace>/<bmh-name>/<m3m-name>
 
 Example: `metal3://metal3/node-0/test-m3m`
 
-**This is the only format supported from CAPM3 v1.14 onwards.**
+This is the only format supported from CAPM3 v1.14 onwards. CAPM3 generates
+this value automatically when a node is provisioned — no user configuration is
+needed.
 
-The new format is used for all freshly provisioned nodes. The legacy format
-is still accepted in v1.13 so that clusters provisioned with older CAPM3 versions
-continue to work after an upgrade — but this compatibility window closes in v1.14.
+> **History:** Before the name-based format was introduced in release v1.1.1
+> the ProviderID used a legacy format based on the BareMetalHost
+> UID: `metal3://<BMH-UID>` (e.g.
+> `metal3://d668eb95-5df6-4c10-a01a-fc69f4299fc6`). Support for this legacy
+> format was deprecated in v1.13 and **removed in v1.14**. See
+> [Migrating from Legacy ProviderID](#migrating-from-legacy-providerid) below
+> for upgrade guidance.
 
 ## The `metal3.io/uuid` Node Label
 
@@ -84,17 +77,17 @@ the following steps in order and returns as soon as one succeeds.
 
 ### Step 1 — Check for an existing matching Node
 
-The reconciler computes both the legacy and new ProviderID values for this
-machine, then lists all nodes on the workload cluster and compares each node's
-`spec.providerID` against both values. If a matching node is found, the machine
-is marked ready and the reconciler returns — nothing more needs to be done
-except wait for CAPI to set `Machine.status.nodeRef`.
+The reconciler computes the ProviderID (`metal3://<namespace>/<bmh-name>/<m3m-name>`)
+for this machine, then lists all nodes on the workload cluster and compares each
+node's `spec.providerID` against this value. If a matching node is found, the
+machine is marked ready and the reconciler returns — nothing more needs to be
+done except wait for CAPI to set `Machine.status.nodeRef`.
 
-The two IDs are derived as follows:
+The ProviderID is derived as follows:
 
 - The BMH name comes from the `metal3.io/BareMetalHost` annotation on the
   `Metal3Machine`, which takes the form `<namespace>/<name>`.
-- The BMH UID comes from a live lookup of the `BareMetalHost` object.
+- The Metal3Machine name and namespace come from the object itself.
 
 ---
 
@@ -105,14 +98,9 @@ This step is taken when `Metal3Cluster.spec.cloudProviderEnabled` is `true`, or
 
 When a cloud provider is present, it is responsible for setting `spec.providerID`
 on the workload-cluster node before CAPM3 runs. CAPM3 searches for a node whose
-`spec.providerID` matches either the legacy format (`metal3://<bmh-uuid>`) or
-the new format (`metal3://<namespace>/<bmh-name>/<m3m-name>`). When a matching
-node is found, CAPM3 copies the node's `spec.providerID` value verbatim to
-`Metal3Machine.spec.providerID` and marks the machine ready.
-
-This means the ProviderID on the `Metal3Machine` will be in whatever format the
-cloud provider chose. CAPM3 itself does not set or override a different format in
-this path.
+`spec.providerID` matches `metal3://<namespace>/<bmh-name>/<m3m-name>`. When a
+matching node is found, CAPM3 copies the node's `spec.providerID` value verbatim
+to `Metal3Machine.spec.providerID` and marks the machine ready.
 
 ---
 
@@ -130,13 +118,12 @@ This is the path taken in the vast majority of Metal3 deployments.
    — this is a misconfiguration.
 1. If exactly one node is found:
    - If the node has no `spec.providerID` yet: sets
-     `Metal3Machine.spec.providerID` to the **new format**, marks the machine
-     ready, then patches `node.spec.providerID` on the workload cluster.
-   - If the node already has a ProviderID matching the new format: copies it to
-     `Metal3Machine.spec.providerID` and marks the machine ready (covers the
-     CAPI pivot / move scenario).
-   - If the node already has a ProviderID matching the legacy format: copies it
-     to `Metal3Machine.spec.providerID` and marks the machine ready.
+     `Metal3Machine.spec.providerID` to `metal3://<namespace>/<bmh-name>/<m3m-name>`,
+     marks the machine ready, then patches `node.spec.providerID` on the
+     workload cluster.
+   - If the node already has a ProviderID matching the expected format: copies
+     it to `Metal3Machine.spec.providerID` and marks the machine ready (covers
+     the CAPI pivot / move scenario).
    - Any other ProviderID format on the node is an error.
 
 Only `node.spec.providerID` is patched on the workload-cluster node. No node
@@ -152,7 +139,7 @@ the node was provisioned without a bootstrap `ConfigRef`. It is a best-effort
 fallback.
 
 If `Metal3Machine.spec.providerID` is not yet set, it is first assigned the
-new-format value `metal3://<namespace>/<bmh-name>/<m3m-name>`.
+value `metal3://<namespace>/<bmh-name>/<m3m-name>`.
 
 The reconciler then attempts to find the correct workload-cluster node by
 hostname:
@@ -193,3 +180,97 @@ joinConfiguration:
 - `Metal3Machine.status.ready = true` — set in the same step that sets the
   ProviderID.
 - `node.spec.providerID` on the workload-cluster Node — patched in Steps 3 and 4.
+
+---
+
+## Migrating from Legacy ProviderID
+
+### Who is affected
+
+The legacy ProviderID format (`metal3://<BMH-UID>`) was the only format before
+the name-based format was introduced in release v1.1.1
+[PR #563](https://github.com/metal3-io/cluster-api-provider-metal3/pull/563)
+(March 2022). It was still accepted by CAPM3 through v1.13. In CAPM3 v1.14,
+all code supporting the legacy format has been removed.
+
+**Most users are not affected.** The standard `clusterctl` templates generated
+by CAPM3 do **not** include a `--provider-id` kubelet argument. Without that
+argument, CAPM3 assigns the ProviderID automatically (in the correct format) and
+no manual configuration is needed.
+
+You **are** affected only if your `KubeadmControlPlane` or
+`KubeadmConfigTemplate` manifests explicitly set the kubelet `--provider-id`
+argument to the legacy format:
+
+```yaml
+kubeletExtraArgs:
+- name: provider-id
+  value: "metal3://{{ ds.meta_data.uuid }}"
+```
+
+This was never part of the official `clusterctl` template, but it may exist in
+custom user configurations.
+
+### What happens if you don't migrate
+
+Upgrading CAPM3 to v1.14 alone does **not** cause immediate issues. Existing
+nodes keep running with whatever ProviderID was previously set, and the CAPM3
+controller is not triggered to re-check existing nodes.
+
+The problem surfaces on the **next rolling update** (e.g. a Kubernetes version
+upgrade or any change that triggers machine replacement). When new nodes are
+provisioned:
+
+1. The kubelet boots with `--provider-id=metal3://{{ ds.meta_data.uuid }}`,
+   setting `node.spec.providerID` to `metal3://<BMH-UID>`.
+1. The upgraded CAPM3 controller expects
+   `metal3://<namespace>/<bmh-name>/<m3m-name>`.
+1. The mismatch causes the controller to fail matching the node to the Machine,
+   and new machines get stuck and never become ready.
+
+### Migration steps
+
+Perform this migration **before or during** the upgrade to CAPM3 v1.14, and
+**before** triggering any rolling updates on your workload clusters.
+
+#### 1. Identify affected templates
+
+Check your `KubeadmControlPlane` and `KubeadmConfigTemplate` resources for
+the legacy `provider-id` kubelet argument. If neither contains a `provider-id`
+entry with `metal3://{{ ds.meta_data.uuid }}` you are not affected and no
+action is needed.
+
+#### 2. Remove the legacy provider-id argument
+
+Remove the `provider-id` entry from `kubeletExtraArgs` in both
+`initConfiguration` and `joinConfiguration` sections. CAPM3 will then
+automatically assign the correct format when new nodes are provisioned.
+
+The entry to remove looks like this:
+
+```yaml
+- name: provider-id
+  value: "metal3://{{ ds.meta_data.uuid }}"
+```
+
+**Do not** remove the `node-labels` entry — the `metal3.io/uuid` label is still
+required for CAPM3 to locate nodes:
+
+```yaml
+- name: node-labels
+  value: "metal3.io/uuid={{ ds.meta_data.uuid }}"
+```
+
+Upgrade to CAPM3 v1.14. After the template change and CAPM3 upgrade, any rolling
+update (Kubernetes version bump, machine template change, etc.) will create new
+nodes without the explicit `--provider-id` flag. CAPM3 will automatically assign
+`metal3://<namespace>/<bmh-name>/<m3m-name>` to each new node.
+
+Existing nodes that were provisioned with the legacy ProviderID continue to
+work — CAPM3 does not re-evaluate the ProviderID on already-running machines.
+The old ProviderID value remains on those nodes and their corresponding
+`Metal3Machine` objects until the machines are replaced through a rolling
+update.
+
+After a full rolling update completes, all nodes in the cluster will have the
+new format.
