@@ -32,7 +32,7 @@ is:open`
 - Make a best guess at priority, if the issue isn't actively being
   worked on
 - If needed, ask for more information from the reporter or a
-  developer. Label this issue `priority/awaiting-evidence`.
+  developer. Label this issue `priority/awaiting-more-evidence`.
 - Mark trivial issues as `good first issue`
 
 ### Awaiting Evidence

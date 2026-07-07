@@ -41,7 +41,7 @@ netlify-build: $(MDBOOK_EMBED) $(RELEASETAGS) $(MDBOOK_BIN)
 ## Documentation tooling for local dev
 ## ------------------------------------
 
-.PHONY: build
+.PHONY: docker-build
 docker-build: # Build the mdbook container image
 	$(CONTAINER_RUNTIME) build --build-arg MDBOOK_RELEASE_URL=$(MDBOOK_RELEASE_URL) \
 	--tag $(IMAGE_NAME):$(IMAGE_TAG) -f docs/Dockerfile .

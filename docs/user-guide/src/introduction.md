@@ -52,7 +52,7 @@ contributions. The community meets at the following venues:
 * \#cluster-api-baremetal on [Kubernetes Slack](https://slack.k8s.io/)
 * Metal³ development [mailing list](https://groups.google.com/g/metal3-dev)
 * From the mailing list, you'll also be able to find the details of a weekly
-  Zoom community call on Wednesdays at 14:00 GMT
+  Zoom community call on Wednesdays at 14:00 UTC
 
 # About this guide
 
