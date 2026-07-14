@@ -68,7 +68,7 @@ MDBOOK_BIN := $(BIN_DIR)/mdbook
 Before submitting document change, you can run the same mdbook binary to preview
 the book.
 
-1. Install the mdbook by following official docs [here](https://rust-lang.github.io/mdBook/)
+1. Install the mdbook by following [official docs](https://rust-lang.github.io/mdBook/)
 
 1. You can use serve command to preview the user-guide running at localhost:3000
 

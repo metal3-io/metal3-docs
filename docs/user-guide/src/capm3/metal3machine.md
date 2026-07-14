@@ -35,8 +35,8 @@ The fields are:
   ensure that the secret belongs to the cluster ownerReference tree (see
   [doc](https://cluster-api.sigs.k8s.io/developer/providers/contracts/clusterctl#ownerreferences-chain)).
   The content of the secret should be a yaml equivalent of a json object that
-  follows the format definition that can be found
-  [here](https://docs.openstack.org/nova/latest/_downloads/4e8fe1ae7db6dd6eebca372db68fe63e/network_data.json).
+  follows the format definition that can be found in
+  [network data schema](https://docs.openstack.org/nova/latest/_downloads/4e8fe1ae7db6dd6eebca372db68fe63e/network_data.json).
 
 - **hostSelector** -- Specify criteria for matching labels on `BareMetalHost`
   objects. This can be used to limit the set of available `BareMetalHost`

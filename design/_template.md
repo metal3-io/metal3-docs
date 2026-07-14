@@ -67,7 +67,7 @@ To get started with this template:
     changes.
 
 The canonical place for the latest set of instructions (and the likely
-source of this file) is [here](/design/_template.md).
+source of this file) is [design/\_template.md](/design/_template.md).
 
 ## Status
 

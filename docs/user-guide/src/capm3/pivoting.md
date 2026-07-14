@@ -10,8 +10,8 @@ Cluster API Provider Metal3 (CAPM3) implements support for CAPI's
 CAPI Pivoting feature is a process of moving the provider components and
 declared Cluster API resources from a source management cluster to a target
 management cluster by using the `clusterctl` functionality called "move". More
-information about the general CAPI "move" functionality can be found
-[here](https://cluster-api.sigs.k8s.io/clusterctl/commands/move.html).
+information about the general CAPI "move" functionality can be found in
+[move command reference](https://cluster-api.sigs.k8s.io/clusterctl/commands/move.html).
 
 In Metal3, pivoting is performed by using the CAPI `clusterctl` tool provided
 by Cluster-API project. `clusterctl` recognizes pivoting as move. During the

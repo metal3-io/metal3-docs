@@ -48,7 +48,7 @@ cp ${your_presentation_directory}/* ${revealjs_directory}
 ```
 
 For full scale revealjs deployment refer
-[here](https://revealjs.com/installation/#full-setup)
+[revealjs setup guide](https://revealjs.com/installation/#full-setup).
 
 Now you can simply edit the presentation html, markdown files(when using an
 external markdown file) to build on top of the presentation.

@@ -15,7 +15,7 @@ big picture, so for up to date documentation of CAPI resources, refer to the
 official docs.**
 
 Visualization of relationships between metal3 resources can be found for example
-[here](https://github.com/metal3-io/cluster-api-provider-metal3/issues/1358).
+in [issue 1358](https://github.com/metal3-io/cluster-api-provider-metal3/issues/1358).
 **Note that the graph is not perfect and there can be missing information.**
 
 The example values in this document are from a cluster deployed with

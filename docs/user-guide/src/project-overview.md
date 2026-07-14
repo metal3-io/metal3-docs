@@ -59,9 +59,9 @@ can be used to assign IP addresses to the hosts.
 ## Requirements
 
 - Server(s) with baseboard management capabilities (i.e. Redfish, iDRAC, IPMI,
-  etc.). For development you can use virtual machines with Sushy-tools. More
-  information [here](./bmo/supported_hardware.md).
-- An Ironic instance. More information [here](./ironic/introduction.md).
+  etc.). For development you can use virtual machines with Sushy-tools. For
+  more information see [supported hardware](./bmo/supported_hardware.md).
+- An Ironic instance. See [introduction in Ironic](./ironic/introduction.md).
 - A Kubernetes cluster (the management cluster) where the user stores and
   manages the Metal3 resources. A [kind cluster](https://kind.sigs.k8s.io/) is
   enough for bootstrapping or development.
