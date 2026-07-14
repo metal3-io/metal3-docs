@@ -37,8 +37,8 @@ is consumed by the Mdbook, and defines the content structure.
 
 All parameters and configurations of the user-guide is done via book.toml.
 These include output parameters, redirects, metadata such as title,
-description, authors, language, etc. More information on that can be found
-[here](https://rust-lang.github.io/mdBook/format/config.html).
+description, authors, language, etc. More information on that can be found in
+[mdBook configuration documentation](https://rust-lang.github.io/mdBook/format/config.html).
 
 ### SUMMARY.md
 
