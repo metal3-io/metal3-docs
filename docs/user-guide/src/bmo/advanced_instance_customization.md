@@ -13,10 +13,9 @@ for the deploy ramdisk running `ironic-python-agent` (IPA).
 
 Usage of this API requires an IPA ramdisk image with a tool capable of
 interpreting and applying the data such as *cloud-init*, *Glean* or
-alternative. The default community supported ramdisk does not currently contain
-such a tool, but it is possible to build a custom image, for example using
-[ironic-python-agent-builder][ipa_builder] with the [simple-init][simple_init]
-element enabled.
+alternative. The default community supported ramdisk uses [Glean][glean], which
+is a lightweight first-boot tool designed to provide a minimalistic alternative
+to *cloud-init*.
 
 Specifying pre-provisioning network data is useful in DHCP-less scenarios,
 where we cannot rely on DHCP to provide network configuration for the IPA
@@ -25,9 +24,9 @@ use redfish virtualmedia to boot the IPA ramdisk, and the generated virtualmedia
 ISO will also serve as a configuration drive to provide the network
 configuration.
 
-The data is specified in the [OpenStack network_data.json][network_data] format
-as described for *Network data* in the
-[instance customization](./instance_customization.md) section.
+The data is specified in the [OpenStack network\_data.json][network_data]
+format as described for *Network data* in the [instance
+customization](./instance_customization.md) section.
 
 Usually, one pre-provisioning network data secret is created per host and
 should be linked to it like *Network data*. If you require the same
@@ -59,5 +58,4 @@ spec:
 ```
 
 [network_data]: https://docs.openstack.org/nova/latest/user/metadata.html#openstack-format-metadata
-[ipa_builder]: https://docs.openstack.org/ironic-python-agent-builder/latest/
-[simple_init]: https://docs.openstack.org/diskimage-builder/latest/elements/simple-init/README.html
+[glean]: https://docs.openstack.org/infra/glean/
