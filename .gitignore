@@ -17,6 +17,6 @@ docs/presentations/plugin
 # Development containers (https://containers.dev/)
 .devcontainer
 .claude
-
+.vscode
 # macOS
 .DS_Store

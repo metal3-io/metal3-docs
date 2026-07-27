@@ -71,12 +71,22 @@ the bootstrap cluster.
    BMO/BMH CRDs are not deployed as part of CAPM3 deployment anymore.
    This is a prerequisite for both the management and the target cluster.
 
-1. **Objects should have a proper owner reference chain.**
+1. **Objects should have a proper owner reference chain or clusterctl move labels.**
 
-   `clusterctl move` moves all the objects to the target cluster following the
-   [owner reference chain](https://cluster-api.sigs.k8s.io/developer/providers/contracts/clusterctl#ownerreferences-chain).
-   So, it is necessary to verify that all the desired objects that needs to
-   be moved to the target cluster have a proper owner reference chain.
+   `clusterctl move` moves all the objects to the target cluster
+   following either:
+
+   - The [owner reference chain][owner-ref], or
+   - The object carries the `clusterctl.cluster.x-k8s.io/move` or the
+     `clusterctl.cluster.x-k8s.io/move-hierarchy` label, or is connected
+     through the owner reference chain to an object carrying the
+     `clusterctl.cluster.x-k8s.io/move-hierarchy` label.
+
+   So, it is necessary to verify that all the desired objects that need
+   to be moved to the target cluster have either a proper owner reference
+   chain or the appropriate clusterctl labels applied.
+
+[owner-ref]: https://cluster-api.sigs.k8s.io/developer/providers/contracts/clusterctl#ownerreferences-chain
 
 ## Important Notes
 
@@ -90,6 +100,20 @@ successfully:
    repopulated and eventually the cluster will end up in an erroneous state.
    Moreover, the IP of the BMH might change after the move and the DHCP-leases
    from the management cluster are not moved to target cluster.
+
+1. CAPM3 automatically sets the `clusterctl.cluster.x-k8s.io/block-move`
+   annotation on a BareMetalHost until its pause and status annotations
+   are fully applied, then removes it. This prevents `clusterctl move`
+   from relocating a BareMetalHost mid-transition.
+
+   `block-move` only tracks CAPM3's own annotation state, not whether
+   Ironic is still mid-provisioning. The BMH must still be in a
+   steady state before starting the move.
+
+   `block-move` blocks `clusterctl move` from creating **any** resource on
+   the destination cluster while present on **any** targeted object, so a
+   BareMetalHost stuck in this state stalls the entire move, not just its
+   own cluster.
 
 1. Before the move process is initialized, it is important to delete the Ironic
    pod/Ironic containers. If Ironic is deployed in cluster the deployment is named
