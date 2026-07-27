@@ -4,16 +4,16 @@ aliases:
   # root
   metal3-docs-maintainers:
   - dtantsur
+  - elfosardo
   - fmuyassarov
   - kashifest
   - lentzi90
+  - Rozzii
   - zaneb
 
   metal3-docs-reviewers:
   - adilGhaffarDev
-  - elfosardo
   - hroyrh
-  - Rozzii
   - smoshiur1237
   - s3rj1k
   - tuminoid
