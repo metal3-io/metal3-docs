@@ -77,6 +77,10 @@ PASSWORD=$(kubectl get secrets/$SECRET -n "$NAMESPACE" --template={{.data.passwo
 
 Now you can point BMO at the Ironic's service at `ironic.test-ironic.svc`.
 
+**NOTE:** you can provide your own secret with credentials. In this case, it
+**must** have a label `environment.metal3.io/ironic-standalone-operator` set to
+`true` to be recognized as a valid secret.
+
 ## Scenario 1: no network boot, no dedicated networking
 
 In this scenario, Ironic will use whatever networking is used by the cluster.
@@ -139,6 +143,8 @@ openssl req -x509 -new -subj "/CN=ironic.test-ironic.svc" \
     -newkey ec -pkeyopt ec_paramgen_curve:prime256v1 -nodes \
     -keyout ironic-tls.key -out ironic-tls.crt
 kubectl create secret tls ironic-tls -n test-ironic --key=ironic-tls.key --cert=ironic-tls.crt
+kubectl label secret ironic-tls -n test-ironic \
+    environment.metal3.io/ironic-standalone-operator=true
 ```
 
 **NOTE:** without a dedicated interface we would have to add all cluster IP
@@ -158,11 +164,15 @@ spec:
   networking:
     interface: "em2"
     ipAddress: "192.0.2.1"
-    ipAddressManager: keepalived
+    keepalived:
+      enabled: true
   tls:
     certificateName: ironic-tls
   version: "37.0"
 ```
+
+**NOTE:** if using IrSO older than 0.10, replace the `keepalived` structure
+with `ipAddressManager: keepalived`.
 
 Now you can access Ironic either via the service or at `192.0.2.1:6385`.
 
@@ -185,7 +195,8 @@ spec:
       networkCIDR: "192.0.2.0/24"
     interface: "em2"
     ipAddress: "192.0.2.1"
-    ipAddressManager: keepalived
+    keepalived:
+      enabled: true
   tls:
     certificateName: ironic-tls
   version: "37.0"
@@ -193,6 +204,9 @@ spec:
 
 **NOTE:** when the DHCP range is not provided, IrSO will pick one for you. In
 this example, it will be `192.0.2.10 - 192.0.2.253`.
+
+**NOTE:** if using IrSO older than 0.10, replace the `keepalived` structure
+with `ipAddressManager: keepalived`.
 
 ## What's next?
 
