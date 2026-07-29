@@ -61,7 +61,8 @@ advisable to let it co-exist with tenant workload.
 
 ### Installed components
 
-An Ironic installation always contains these three components:
+An Ironic installation always contains these three components installed by a
+deployment called `<Ironic Name>-service`:
 
 - `ironic` is the main API service, as well as the conductor process that
   handles actions on bare-metal machines.
@@ -82,6 +83,9 @@ When network boot (iPXE) is enabled, another component is deployed:
 With Keepalived support enabled:
 
 - `keepalived` manages the IP address on the provisioning interface.
+
+When networking service is enabled, it is started as a separate deployment
+called `<Ironic Name>-networking`. Ironic service accesses it via JSON RPC.
 
 ### Supported versions
 
