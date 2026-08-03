@@ -149,32 +149,32 @@ The table describes which branches/image-tags are tested in each periodic CI tes
 
 <!-- markdownlint-disable MD013 -->
 
-| INTEGRATION TESTS                                               | CAPM3 branch | IPAM branch  | BMO branch/tag | Keepalived tag | MariaDB tag | Ironic tag |
-| --------------------------------------------------------------- | ------------ | ------------ | -------------- | -------------- | ----------- | ---------- |
-| metal3-periodic-ubuntu/centos-e2e-integration-test-main         | main         | main         | main           | latest         | latest      | latest     |
-| metal3_periodic_main_integration_test_ubuntu/centos             | main         | main         | main           | latest         | latest      | latest     |
-| metal3-periodic-ubuntu/centos-e2e-integration-test-release-1-13 | release-1.13 | release-1.13 | release-0.13   | latest         | latest      | v35.0.0    |
-| metal3-periodic-ubuntu/centos-e2e-integration-test-release-1-12 | release-1.12 | release-1.12 | release-0.12   | latest         | latest      | v33.0.0    |
-| metal3-periodic-ubuntu/centos-e2e-integration-test-release-1-11 | release-1.11 | release-1.11 | release-0.11   | latest         | latest      | v31.0.0    |
+| INTEGRATION TESTS                                               | CAPM3 branch | IPAM branch  | BMO branch/tag | Keepalived tag | Ironic tag |
+| --------------------------------------------------------------- | ------------ | ------------ | -------------- | -------------- | ---------- |
+| metal3-periodic-ubuntu/centos-e2e-integration-test-main         | main         | main         | main           | latest         | latest     |
+| metal3_periodic_main_integration_test_ubuntu/centos             | main         | main         | main           | latest         | latest     |
+| metal3-periodic-ubuntu/centos-e2e-integration-test-release-1-13 | release-1.13 | release-1.13 | release-0.13   | latest         | v35.0.0    |
+| metal3-periodic-ubuntu/centos-e2e-integration-test-release-1-12 | release-1.12 | release-1.12 | release-0.12   | latest         | v33.0.0    |
+| metal3-periodic-ubuntu/centos-e2e-integration-test-release-1-11 | release-1.11 | release-1.11 | release-0.11   | latest         | v31.0.0    |
 
-| FEATURE AND E2E TESTS                                            | CAPM3 branch | IPAM branch  | BMO branch/tag | Keepalived tag | MariaDB tag | Ironic tag |
-| ---------------------------------------------------------------- | ------------ | ------------ | -------------- | -------------- | ----------- | ---------- |
-| metal3-periodic-centos-e2e-feature-test-main-pivoting            | main         | main         | main           | latest         | latest      | latest     |
-| metal3-periodic-centos-e2e-feature-test-release-1-13-pivoting    | release-1.13 | release-1.13 | release-0.13   | latest         | latest      | v35.0.0    |
-| metal3-periodic-centos-e2e-feature-test-release-1-12-pivoting    | release-1.12 | release-1.12 | release-0.12   | latest         | latest      | v33.0.0    |
-| metal3-periodic-centos-e2e-feature-test-release-1-11-pivoting    | release-1.11 | release-1.11 | release-0.11   | latest         | latest      | v31.0.0    |
-| metal3-periodic-centos-e2e-feature-test-main-remediation         | main         | main         | main           | latest         | latest      | latest     |
-| metal3-periodic-centos-e2e-feature-test-release-1-13-remediation | release-1.13 | release-1.13 | release-0.13   | latest         | latest      | v35.0.0    |
-| metal3-periodic-centos-e2e-feature-test-release-1-12-remediation | release-1.12 | release-1.12 | release-0.12   | latest         | latest      | v33.0.0    |
-| metal3-periodic-centos-e2e-feature-test-release-1-11-remediation | release-1.11 | release-1.11 | release-0.11   | latest         | latest      | v31.0.0    |
-| metal3-periodic-centos-e2e-feature-test-main-features            | main         | main         | main           | latest         | latest      | latest     |
-| metal3-periodic-centos-e2e-feature-test-release-1-13-features    | release-1.13 | release-1.13 | release-0.13   | latest         | latest      | v35.0.0    |
-| metal3-periodic-centos-e2e-feature-test-release-1-12-features    | release-1.12 | release-1.12 | release-0.12   | latest         | latest      | v33.0.0    |
-| metal3-periodic-centos-e2e-feature-test-release-1-11-features    | release-1.11 | release-1.11 | release-0.11   | latest         | latest      | v31.0.0    |
+| FEATURE AND E2E TESTS                                            | CAPM3 branch | IPAM branch  | BMO branch/tag | Keepalived tag | Ironic tag |
+| ---------------------------------------------------------------- | ------------ | ------------ | -------------- | -------------- | ---------- |
+| metal3-periodic-centos-e2e-feature-test-main-pivoting            | main         | main         | main           | latest         | latest     |
+| metal3-periodic-centos-e2e-feature-test-release-1-13-pivoting    | release-1.13 | release-1.13 | release-0.13   | latest         | v35.0.0    |
+| metal3-periodic-centos-e2e-feature-test-release-1-12-pivoting    | release-1.12 | release-1.12 | release-0.12   | latest         | v33.0.0    |
+| metal3-periodic-centos-e2e-feature-test-release-1-11-pivoting    | release-1.11 | release-1.11 | release-0.11   | latest         | v31.0.0    |
+| metal3-periodic-centos-e2e-feature-test-main-remediation         | main         | main         | main           | latest         | latest     |
+| metal3-periodic-centos-e2e-feature-test-release-1-13-remediation | release-1.13 | release-1.13 | release-0.13   | latest         | v35.0.0    |
+| metal3-periodic-centos-e2e-feature-test-release-1-12-remediation | release-1.12 | release-1.12 | release-0.12   | latest         | v33.0.0    |
+| metal3-periodic-centos-e2e-feature-test-release-1-11-remediation | release-1.11 | release-1.11 | release-0.11   | latest         | v31.0.0    |
+| metal3-periodic-centos-e2e-feature-test-main-features            | main         | main         | main           | latest         | latest     |
+| metal3-periodic-centos-e2e-feature-test-release-1-13-features    | release-1.13 | release-1.13 | release-0.13   | latest         | v35.0.0    |
+| metal3-periodic-centos-e2e-feature-test-release-1-12-features    | release-1.12 | release-1.12 | release-0.12   | latest         | v33.0.0    |
+| metal3-periodic-centos-e2e-feature-test-release-1-11-features    | release-1.11 | release-1.11 | release-0.11   | latest         | v31.0.0    |
 
-| EPHEMERAL TESTS                                                | CAPM3 branch | IPAM branch | BMO branch/tag | Keepalived tag | MariaDB tag | Ironic tag |
-| -------------------------------------------------------------- | ------------ | ----------- | -------------- | -------------- | ----------- | ---------- |
-| metal3_periodic_e2e_ephemeral_test_centos                      | main         | main        | main           | latest         | latest      | latest     |
+| EPHEMERAL TESTS                                                | CAPM3 branch | IPAM branch | BMO branch/tag | Keepalived tag | Ironic tag |
+| -------------------------------------------------------------- | ------------ | ----------- | -------------- | -------------- | ---------- |
+| metal3_periodic_e2e_ephemeral_test_centos                      | main         | main        | main           | latest         | latest     |
 
 <!-- markdownlint-enable MD013 -->
 

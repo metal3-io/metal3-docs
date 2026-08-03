@@ -282,10 +282,6 @@ for you.
 * certificates exist
 * IRONIC_CERT_FILE : Ironic certificate path
 * IRONIC_KEY_FILE : Ironic certificate key path
-* MARIADB_KEY_FILE: Path to the key of MariaDB
-* MARIADB_CERT_FILE:  Path to the cert of MariaDB
-* MARIADB_CAKEY_FILE: Path to the CA key of MariaDB
-* MARIADB_CACERT_FILE: Path to the CA certificate of MariaDB
 
 Before version 0.5.0, Ironic Inspector parameters were also used:
 
