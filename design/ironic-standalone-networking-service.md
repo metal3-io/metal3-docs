@@ -771,6 +771,6 @@ Ironic Networking service. Add detailed status reporting and error messages.
 
 ## References
 
-- [Ironic Networking Specification](https://specs.openstack.org/openstack/ironic-specs/specs/backlog/standalone-networking.html)
+- [Ironic Networking Specification](https://specs.openstack.org/openstack/ironic-specs/specs/35.0/standalone-networking.html)
 - [networking-generic-switch Project](https://github.com/openstack/networking-generic-switch)
 - [networking-generic-switch Device Types](https://github.com/openstack/networking-generic-switch/blob/8c0f1ec30bd0d765cd539de068a0c02cd9c8d699/setup.cfg#L35)
