@@ -23,8 +23,6 @@ A few other containers are optional:
 - dnsmasq (to support DHCP on the provisioning network and to implement
   network boot via iPXE)
 - ironic-log-watch (to provide access to the deployment ramdisk logs)
-- mariadb (the provisioning service database; SQLite can be used as
-  a lightweight alternative)
 - ironic-inspector (the auxiliary inspection service - only used in older
   versions of Metal3)
 
@@ -117,7 +115,6 @@ installation script. This will start below containers:
 - ipa-downloader
 - dnsmasq
 - httpd
-- mariadb; if `IRONIC_USE_MARIADB` = "true"
 
 If in-cluster ironic installation, we used different manifests for TLS and
 basic auth, here we are exporting environment variables for enabling/disabling
