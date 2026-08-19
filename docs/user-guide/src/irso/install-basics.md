@@ -97,7 +97,7 @@ metadata:
   name: ironic
   namespace: test-ironic
 spec:
-  version: "37.0"
+  version: "38.0"
 ```
 
 **HINT:** there is no need to configure API credentials: IrSO will generate a
@@ -116,7 +116,7 @@ metadata:
 spec:
   deployRamdisk:
     sshKey: "ssh-ed25519 AAAAC3..."
-  version: "37.0"
+  version: "38.0"
 ```
 
 **WARNING:** the provided SSH key will **not** be installed on the machines
@@ -168,7 +168,7 @@ spec:
       enabled: true
   tls:
     certificateName: ironic-tls
-  version: "37.0"
+  version: "38.0"
 ```
 
 **NOTE:** if using IrSO older than 0.10, replace the `keepalived` structure
@@ -199,7 +199,7 @@ spec:
       enabled: true
   tls:
     certificateName: ironic-tls
-  version: "37.0"
+  version: "38.0"
 ```
 
 **NOTE:** when the DHCP range is not provided, IrSO will pick one for you. In
