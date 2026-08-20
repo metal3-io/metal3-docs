@@ -55,7 +55,7 @@ an externally managed Ironic instance.
 - Enabled hardware types and interfaces that match the supported Metal3 drivers
   (at least the ones you intend to use).
 - [API version](https://docs.openstack.org/ironic/latest/contributor/webapi-version-history.html)
-  1.81 (2023.1 "Antelope" release cycle) or newer must be available.
+  1.89 (2024.1 "Caracal" release cycle) or newer must be available.
 - Built-in in-band inspection (ironic-inspector is no longer supported).
 - Deploy interface `direct` enabled and used by default.
 - No-op network interface (OpenStack Networking is not supported).
