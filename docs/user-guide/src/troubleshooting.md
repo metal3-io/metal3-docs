@@ -159,6 +159,34 @@ You have options:
 - Update your BareMetalHost definition with the `bootMode` value that matches
   what your hardware supports.
 
+### Duplicate MACs on HPE systems
+
+Some HPE systems come with a virtual device that allows in-band access to the
+BMC. Unfortunately, these devices all come with the same MAC address (often
+starting with `fa:4b:7f` and using a kernel driver with `cdc` in its name),
+which breaks inspection. You can disable the virtual device in the machine's
+management UI. For example, for HPE:
+
+```text
+iLO → Security → Access Settings → iLO Configuration → Virtual NIC → Disable
+```
+
+followed by an iLO reset. Same in Redfish:
+
+```bash
+curl -u <USERNAME>:<PASSWORD> -X PATCH -H "Content-Type: application/json" \
+    -d '{"Oem": {"Hpe": {"VirtualNICEnabled": false}}}' \
+    https://<iLO IP ADDRESS>/redfish/v1/Managers/1/
+curl -u <USERNAME>:<PASSWORD> -X POST -H "Content-Type: application/json" \
+    -d '{"ResetType": "GracefulRestart"}' \
+    https://<iLO IP ADDRESS>/redfish/v1/Managers/1/Actions/Manager.Reset/
+```
+
+Starting with Ironic Python Agent 12.0, devices with MAC addresses starting
+with `fa:4b:7f` are ignored. It's still recommended to disable these devices
+since they may provide an additional attack surface for multi-tenant
+environments.
+
 ## Provisioning errors
 
 Errors during provisioning will be visible when listing the BareMetalHosts:
