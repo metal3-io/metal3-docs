@@ -68,5 +68,6 @@
 - [Try it (for developers)](developer_environment/tryit.md)
 - [API Reference](reference.md)
 - [Version Support](version_support.md)
+- [Security Best Practices](security/introduction.md)
 - [Project Security Policy](security_policy.md)
 - [Glossary](glossary.md)
