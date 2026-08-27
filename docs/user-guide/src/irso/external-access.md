@@ -27,12 +27,32 @@ metadata:
 spec:
   networking:
     externalIP: 192.0.2.42
-  version: "37.0"
+  version: "38.0"
 ```
 
 **WARNING:** the IP address must be accessible from one of the host's NIC as
 well as from the BMC. This is because the provisioning ISO is downloaded by the
 BMC itself.
+
+Starting with version 0.11, you can also provide separate URL overrides for
+Ironic API and its image server:
+
+```yaml
+apiVersion: ironic.metal3.io/v1alpha1
+kind: Ironic
+metadata:
+  name: ironic
+  namespace: test-ironic
+spec:
+  networking:
+    externalCallbackURL: https://proxy.example.com/ironic/api
+    imageServerExternalURL: https://proxy.example.com/ironic/images
+  version: "38.0"
+```
+
+**NOTE:** this image server is the internal server from which Ironic serves
+images to the BMC and to the agent on the machine. It's **not** the server that
+hosts user's images.
 
 ## Ingress
 
@@ -47,8 +67,50 @@ metadata:
 spec:
   ingress:
     host: myironic.example.com
-  version: "37.0"
+  version: "38.0"
 ```
 
 **WARNING:** the ingress host must be accessible from one of the host's NIC as
 well as from the BMC.
+
+Starting with version 0.11, you can also override API URL or image server URL
+separately as shown in the previous section.
+
+## Disabling host network
+
+By default, the Ironic pod runs with host networking to ensure that bare-metal
+machines can reach its API and its DHCP server. Starting with IrSO 0.11, you
+can disable host networking, provided that only virtual media is used.  This
+feature must be combined with [external IP](#external-ip) or
+[ingress](#ingress) to make sure that Ironic API is still accessible by BMCs
+and the machines themselves:
+
+```yaml
+apiVersion: ironic.metal3.io/v1alpha1
+kind: Ironic
+metadata:
+  name: ironic
+  namespace: test-ironic
+spec:
+  ingress:
+    host: myironic.example.com
+  networking:
+    disableHostNetworking: true
+  version: "38.0"
+```
+
+```yaml
+apiVersion: ironic.metal3.io/v1alpha1
+kind: Ironic
+metadata:
+  name: ironic
+  namespace: test-ironic
+spec:
+  networking:
+    disableHostNetworking: true
+    externalIP: 192.0.2.42
+  version: "38.0"
+```
+
+**WARNING:** most `networking` fields cannot be set together with
+`disableHostNetworking`.
