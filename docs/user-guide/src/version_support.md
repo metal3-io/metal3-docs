@@ -17,9 +17,10 @@ Cluster API Provider Metal3
 
 | Minor release | API version | Status    |
 | ------------- | ----------- | --------- |
+| v1.14         | v1beta2     | Supported |
 | v1.13         | v1beta2     | Supported |
-| v1.12         | v1beta1     | Supported |
-| v1.11         | v1beta1     | Tested    |
+| v1.12         | v1beta1     | tested    |
+| v1.11         | v1beta1     | EOL       |
 | v1.10         | v1beta1     | EOL       |
 | v1.9          | v1beta1     | EOL       |
 | v1.8          | v1beta1     | EOL       |
@@ -35,9 +36,10 @@ IP Address Manager
 
 | Minor release | API version | Status    |
 | ------------- | ----------- | --------- |
+| v1.14         | v1beta2     | Supported |
 | v1.13         | v1beta2     | Supported |
-| v1.12         | v1beta1     | Supported |
-| v1.11         | v1beta1     | Tested    |
+| v1.12         | v1beta1     | Tested    |
+| v1.11         | v1beta1     | EOL       |
 | v1.10         | v1beta1     | EOL       |
 | v1.9          | v1beta1     | EOL       |
 | v1.8          | v1beta1     | EOL       |
@@ -60,9 +62,10 @@ supported releases. Following table summarizes BMO release/test process:
 
 | Minor release | Status    |
 | ------------- | --------- |
+| v0.14         | Supported |
 | v0.13         | Supported |
-| v0.12         | Supported |
-| v0.11         | Tested    |
+| v0.12         | Tested    |
+| v0.11         | EOL       |
 | v0.10         | EOL       |
 | v0.9          | EOL       |
 | v0.8          | EOL       |
@@ -86,7 +89,7 @@ Following table summarizes Ironic-image release/test process:
 | v38.0         | Supported | bugfix/38.0         |
 | v37.0         | Supported | bugfix/37.0         |
 | v35.0         | Supported | stable/2026.1       |
-| v34.0         | Tested    | bugfix/34.0 (EOL)   |
+| v34.0         | EOL       | bugfix/34.0 (EOL)   |
 | v33.0         | EOL       | bugfix/33.0 (EOL)   |
 | v32.0         | EOL       | stable/2025.2       |
 | v31.0         | EOL       | bugfix/31.0 (EOL)   |
@@ -139,10 +142,10 @@ All container images are published through the
 [Metal³ organization in Quay](https://quay.io/organization/metal3-io/).
 Here are some examples:
 
-- quay.io/metal3-io/cluster-api-provider-metal3:v1.13.0
-- quay.io/metal3-io/baremetal-operator:v0.13.0
-- quay.io/metal3-io/ip-address-manager:v1.13.0
-- quay.io/metal3-io/ironic:v38.0.0
+- quay.io/metal3-io/cluster-api-provider-metal3:v1.14.0
+- quay.io/metal3-io/baremetal-operator:v0.14.0
+- quay.io/metal3-io/ip-address-manager:v1.14.0
+- quay.io/metal3-io/ironic:v37.0.0
 - quay.io/metal3-io/ironic-standalone-operator:v0.11.0
 
 ## CI Test Matrix
@@ -155,24 +158,24 @@ The table describes which branches/image-tags are tested in each periodic CI tes
 | --------------------------------------------------------------- | ------------ | ------------ | -------------- | -------------- | ---------- |
 | metal3-periodic-ubuntu/centos-e2e-integration-test-main         | main         | main         | main           | latest         | latest     |
 | metal3_periodic_main_integration_test_ubuntu/centos             | main         | main         | main           | latest         | latest     |
+| metal3-periodic-ubuntu/centos-e2e-integration-test-release-1-14 | release-1.14 | release-1.14 | release-0.14   | latest         | v37.0.0    |
 | metal3-periodic-ubuntu/centos-e2e-integration-test-release-1-13 | release-1.13 | release-1.13 | release-0.13   | latest         | v35.0.0    |
 | metal3-periodic-ubuntu/centos-e2e-integration-test-release-1-12 | release-1.12 | release-1.12 | release-0.12   | latest         | v33.0.0    |
-| metal3-periodic-ubuntu/centos-e2e-integration-test-release-1-11 | release-1.11 | release-1.11 | release-0.11   | latest         | v31.0.0    |
 
 | FEATURE AND E2E TESTS                                            | CAPM3 branch | IPAM branch  | BMO branch/tag | Keepalived tag | Ironic tag |
 | ---------------------------------------------------------------- | ------------ | ------------ | -------------- | -------------- | ---------- |
 | metal3-periodic-centos-e2e-feature-test-main-pivoting            | main         | main         | main           | latest         | latest     |
+| metal3-periodic-centos-e2e-feature-test-release-1-14-pivoting    | release-1.14 | release-1.14 | release-0.14   | latest         | v37.0.0    |
 | metal3-periodic-centos-e2e-feature-test-release-1-13-pivoting    | release-1.13 | release-1.13 | release-0.13   | latest         | v35.0.0    |
 | metal3-periodic-centos-e2e-feature-test-release-1-12-pivoting    | release-1.12 | release-1.12 | release-0.12   | latest         | v33.0.0    |
-| metal3-periodic-centos-e2e-feature-test-release-1-11-pivoting    | release-1.11 | release-1.11 | release-0.11   | latest         | v31.0.0    |
 | metal3-periodic-centos-e2e-feature-test-main-remediation         | main         | main         | main           | latest         | latest     |
+| metal3-periodic-centos-e2e-feature-test-release-1-14-remediation | release-1.14 | release-1.14 | release-0.14   | latest         | v37.0.0    |
 | metal3-periodic-centos-e2e-feature-test-release-1-13-remediation | release-1.13 | release-1.13 | release-0.13   | latest         | v35.0.0    |
 | metal3-periodic-centos-e2e-feature-test-release-1-12-remediation | release-1.12 | release-1.12 | release-0.12   | latest         | v33.0.0    |
-| metal3-periodic-centos-e2e-feature-test-release-1-11-remediation | release-1.11 | release-1.11 | release-0.11   | latest         | v31.0.0    |
 | metal3-periodic-centos-e2e-feature-test-main-features            | main         | main         | main           | latest         | latest     |
+| metal3-periodic-centos-e2e-feature-test-release-1-14-features    | release-1.14 | release-1.14 | release-0.14   | latest         | v37.0.0    |
 | metal3-periodic-centos-e2e-feature-test-release-1-13-features    | release-1.13 | release-1.13 | release-0.13   | latest         | v35.0.0    |
 | metal3-periodic-centos-e2e-feature-test-release-1-12-features    | release-1.12 | release-1.12 | release-0.12   | latest         | v33.0.0    |
-| metal3-periodic-centos-e2e-feature-test-release-1-11-features    | release-1.11 | release-1.11 | release-0.11   | latest         | v31.0.0    |
 
 | EPHEMERAL TESTS                                                | CAPM3 branch | IPAM branch | BMO branch/tag | Keepalived tag | Ironic tag |
 | -------------------------------------------------------------- | ------------ | ----------- | -------------- | -------------- | ---------- |
