@@ -44,9 +44,7 @@ for that topic.
   cipher suites for the Ironic API and the virtual-media/image HTTP servers
   (`IRONIC_SSL_PROTOCOL`, `IRONIC_TLS_*`, and the `IRONIC_VMEDIA_*` equivalents),
   and the deployment-level switch when installing with the Ironic Standalone
-  Operator. See the
-  [ironic-image TLS configuration](https://github.com/metal3-io/ironic-image/blob/main/README.md)
-  reference and [Install Ironic with IrSO](../irso/install-basics.md).
+  Operator. See [TLS configuration and hardening](./tls.md).
 - **Certificate supply and lifecycle.** Providing certificates (self-signed for
   test, [cert-manager](https://cert-manager.io) for production), the required
   Subject Alternative Names (DNS name **and** IP), rotation and renewal, how BMO
