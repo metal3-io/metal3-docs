@@ -17,7 +17,7 @@
 set -eux
 
 USR_LOCAL_BIN="/usr/local/bin"
-MINIMUM_KUBECTL_VERSION=v1.34.1
+MINIMUM_KUBECTL_VERSION=v1.37.0
 
 # Ensure the kubectl tool exists and is a viable version, or installs it
 verify_kubectl_version()
