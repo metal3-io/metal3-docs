@@ -72,7 +72,7 @@ scenario_2() {
 
     # Render and apply manifests
     clusterctl generate cluster my-cluster --control-plane-machine-count 1 --worker-machine-count 0 | kubectl apply -f -
-    
+
     # Wait for all BMHs in default namespace to be provisioned
     if ! kubectl wait --for=jsonpath='{.status.provisioning.state}'=provisioned --timeout=1800s bmh --all; then
         echo "ERROR: BMHs failed to reach 'provisioned' state within timeout."
@@ -125,15 +125,7 @@ setup_disk_images_dir() {
     fi
 }
 
-cleanup() {
-    echo "Cleaning up the quick start test environment..."
-    "${QUICK_START_BASE}/cleanup-clusters.sh"
-    docker stop image-server
-    "${QUICK_START_BASE}/cleanup-virtlab.sh"
-}
-
 ensure_env
 setup
 create_bmhs
 scenario_2
-cleanup
