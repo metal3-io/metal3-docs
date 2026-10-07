@@ -10,6 +10,24 @@ set -eux
 # Default QUICK_START_BASE to the absolute path of this script's directory if not already set.
 export QUICK_START_BASE=${QUICK_START_BASE:="$(dirname -- "$(readlink -f "${BASH_SOURCE[0]}")")"}
 
+# Run collect_artifacts on any non-zero exit so we capture the live state
+# before the shell terminates.
+collect_artifacts() {
+    # Preserve the exit code of the command that triggered the trap.
+    local exit_code=$?
+
+    # Only collect artifacts on failure; a clean exit needs no dump.
+    if [[ "${exit_code}" -eq 0 ]]; then
+        return 0
+    fi
+
+    set +eux
+    echo "Script exited with code ${exit_code}; collecting artifacts ..."
+    "${QUICK_START_BASE}/collect_artifacts.sh"
+    return "${exit_code}"
+}
+trap 'collect_artifacts' EXIT
+
 ensure_env() {
     echo "Ensuring kubectl is installed and meets minimum version requirements..."
     "${QUICK_START_BASE}/ensure/ensure_kubectl.sh"
@@ -54,7 +72,7 @@ scenario_2() {
 
     # Render and apply manifests
     clusterctl generate cluster my-cluster --control-plane-machine-count 1 --worker-machine-count 0 | kubectl apply -f -
-    
+
     # Wait for all BMHs in default namespace to be provisioned
     if ! kubectl wait --for=jsonpath='{.status.provisioning.state}'=provisioned --timeout=1800s bmh --all; then
         echo "ERROR: BMHs failed to reach 'provisioned' state within timeout."
@@ -107,15 +125,7 @@ setup_disk_images_dir() {
     fi
 }
 
-cleanup() {
-    echo "Cleaning up the quick start test environment..."
-    "${QUICK_START_BASE}/cleanup-clusters.sh"
-    docker stop image-server
-    "${QUICK_START_BASE}/cleanup-virtlab.sh"
-}
-
 ensure_env
 setup
 create_bmhs
 scenario_2
-cleanup
