@@ -5,3 +5,4 @@ metadata:
   namespace: ironic-standalone-operator-system
 data:
   IPA_BASEURI: "http://192.168.222.1"
+  IPA_FLAVOR: "centos10"

@@ -374,7 +374,7 @@ Deploy Calico as CNI:
 
 ```bash
 clusterctl get kubeconfig my-cluster > kubeconfig.yaml
-kubectl --kubeconfig=kubeconfig.yaml apply --server-side -f https://raw.githubusercontent.com/projectcalico/calico/v3.31.0/manifests/calico.yaml
+kubectl --kubeconfig=kubeconfig.yaml apply --server-side -f https://raw.githubusercontent.com/projectcalico/calico/v3.32.2/manifests/calico.yaml
 ```
 
 Check cluster health with `clusterctl describe cluster my-cluster`:

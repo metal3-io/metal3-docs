@@ -77,7 +77,7 @@ See [Install Ironic](../ironic/ironic_installation.md) for other requirements.
   can host it.
 
   ```bash
-  wget -O /opt/metal3-dev-env/ironic/html/images https://artifactory.nordix.org/artifactory/metal3/images/k8s_v1.33.0
+  wget -O /opt/metal3-dev-env/ironic/html/images https://idknxc8t3pjc.objectstorage.eu-paris-1.oci.customer-oci.com/p/qBVVBPA7b72OTvcnLaKDkn7N4_YmWeVlBvaIsEnzX9EHGqBXQZyFxG15piXNjYot/n/idknxc8t3pjc/b/public-metal3-node-image-bucket/o/CENTOS_10_NODE_IMAGE_K8S_v1.37.0.qcow2
   ```
 
   Convert the qcow2 image to raw format and get the hash of the raw image
@@ -85,8 +85,8 @@ See [Install Ironic](../ironic/ironic_installation.md) for other requirements.
    ```bash
   # Change IMAGE_NAME and IMAGE_RAW_NAME according to what you download from artifactory
   cd /opt/metal3-dev-env/ironic/html/images
-  IMAGE_NAME="CENTOS_9_NODE_IMAGE_K8S_v1.33.0.qcow2"
-  IMAGE_RAW_NAME="CENTOS_9_NODE_IMAGE_K8S_v1.33.0-raw.img"
+  IMAGE_NAME="CENTOS_10_NODE_IMAGE_K8S_v1.37.0.qcow2"
+  IMAGE_RAW_NAME="CENTOS_10_NODE_IMAGE_K8S_v1.37.0-raw.img"
   qemu-img convert -O raw "${IMAGE_NAME}" "${IMAGE_RAW_NAME}"
 
   # Create sha256 hash
@@ -220,8 +220,8 @@ See [Install Ironic](../ironic/ironic_installation.md) for other requirements.
 
   # Export node image variable and node image hash variable that we created before.
   # Change name according to what was downloaded from artifactory
-  export IMAGE_URL=http://172.22.0.1/images/CENTOS_9_NODE_IMAGE_K8S_v1.33.0-raw.img
-  export IMAGE_CHECKSUM=http://172.22.0.1/images/CENTOS_9_NODE_IMAGE_K8S_v1.33.0-raw.img.sha256sum
+  export IMAGE_URL=http://172.22.0.1/images/CENTOS_10_NODE_IMAGE_K8S_v1.37.0-raw.img
+  export IMAGE_CHECKSUM=http://172.22.0.1/images/CENTOS_10_NODE_IMAGE_K8S_v1.37.0-raw.img.sha256sum
   export IMAGE_CHECKSUM_TYPE=sha256
   export IMAGE_FORMAT=raw
 

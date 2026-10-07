@@ -10,6 +10,24 @@ set -eux
 # Default QUICK_START_BASE to the absolute path of this script's directory if not already set.
 export QUICK_START_BASE=${QUICK_START_BASE:="$(dirname -- "$(readlink -f "${BASH_SOURCE[0]}")")"}
 
+# Run collect_artifacts on any non-zero exit so we capture the live state
+# before the shell terminates.
+collect_artifacts() {
+    # Preserve the exit code of the command that triggered the trap.
+    local exit_code=$?
+
+    # Only collect artifacts on failure; a clean exit needs no dump.
+    if [[ "${exit_code}" -eq 0 ]]; then
+        return 0
+    fi
+
+    set +eux
+    echo "Script exited with code ${exit_code}; collecting artifacts ..."
+    "${QUICK_START_BASE}/collect_artifacts.sh"
+    return "${exit_code}"
+}
+trap 'collect_artifacts' EXIT
+
 ensure_env() {
     echo "Ensuring kubectl is installed and meets minimum version requirements..."
     "${QUICK_START_BASE}/ensure/ensure_kubectl.sh"
@@ -54,7 +72,7 @@ scenario_2() {
 
     # Render and apply manifests
     clusterctl generate cluster my-cluster --control-plane-machine-count 1 --worker-machine-count 0 | kubectl apply -f -
-    
+
     # Wait for all BMHs in default namespace to be provisioned
     if ! kubectl wait --for=jsonpath='{.status.provisioning.state}'=provisioned --timeout=1800s bmh --all; then
         echo "ERROR: BMHs failed to reach 'provisioned' state within timeout."
@@ -72,10 +90,10 @@ scenario_2() {
     done
     echo "Target cluster API server is ready."
 
-    kubectl --kubeconfig="${QUICK_START_BASE}/kubeconfig.yaml" apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.31.0/manifests/calico.yaml
+    kubectl --kubeconfig="${QUICK_START_BASE}/kubeconfig.yaml" apply --server-side -f https://raw.githubusercontent.com/projectcalico/calico/v3.32.2/manifests/calico.yaml
 
     # Wait for the control plane machine to be ready
-    if ! kubectl wait --for=condition=Ready --timeout=600s machine --all; then
+    if ! kubectl wait --for=condition=Ready --timeout=1200s machine --all; then
         echo "ERROR: Machine failed to reach 'Ready' state within timeout."
         exit 1
     fi
@@ -85,9 +103,9 @@ setup_disk_images_dir() {
     DISK_IMAGE_DIR="${QUICK_START_BASE}/disk-images"
     REQUIRED_FILES=(
         "jammy-server-cloudimg-amd64.img"
-        "CENTOS_10_NODE_IMAGE_K8S_v1.34.1.qcow2"
-        "CENTOS_10_NODE_IMAGE_K8S_v1.34.1.raw"
-        "ipa-centos9-master.tar.gz"
+        "CENTOS_10_NODE_IMAGE_K8S_v1.37.0.qcow2"
+        "CENTOS_10_NODE_IMAGE_K8S_v1.37.0.raw"
+        "ipa-centos10-master.tar.gz"
     )
 
     missing_files=0
