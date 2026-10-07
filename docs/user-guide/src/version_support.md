@@ -86,6 +86,7 @@ Following table summarizes Ironic-image release/test process:
 
 | Minor release | Status    | Ironic Branch       |
 | ------------- | --------- | ------------------- |
+| v39.0         | Supported | stable/2026.2       |
 | v38.0         | Supported | bugfix/38.0         |
 | v37.0         | Supported | bugfix/37.0         |
 | v35.0         | Supported | stable/2026.1       |
@@ -113,10 +114,11 @@ of the operator:
 
 | Operator version | Ironic version(s)                    | Default version | Support status |
 | ---------------- | ------------------------------------ | --------------- | -------------- |
-| latest (main)    | latest, 38.0, 37.0, 35.0             | latest          | Supported      |
+| latest (main)    | latest, 39.0, 38.0, 37.0             | latest          | Supported      |
+| 0.12.0           | 39.0, 38.0, 37.0                     | 39.0            | Supported      |
 | 0.11.0           | 38.0, 37.0, 35.0                     | 38.0            | Supported      |
-| 0.10.0           | 37.0, 35.0, 34.0                     | 37.0            | Supported      |
-| 0.9.0            | 35.0, 34.0, 33.0                     | 35.0            | Tested         |
+| 0.10.0           | 37.0, 35.0, 34.0                     | 37.0            | Tested         |
+| 0.9.0            | 35.0, 34.0, 33.0                     | 35.0            | EOL            |
 | 0.8.0            | 34.0, 33.0, 32.0                     | 34.0            | EOL            |
 | 0.7.0            | 33.0, 32.0, 31.0                     | 33.0            | EOL            |
 | 0.6.0            | 32.0, 31.0, 30.0                     | 32.0            | EOL            |
@@ -145,8 +147,8 @@ Here are some examples:
 - quay.io/metal3-io/cluster-api-provider-metal3:v1.14.0
 - quay.io/metal3-io/baremetal-operator:v0.14.0
 - quay.io/metal3-io/ip-address-manager:v1.14.0
-- quay.io/metal3-io/ironic:v37.0.0
-- quay.io/metal3-io/ironic-standalone-operator:v0.11.0
+- quay.io/metal3-io/ironic:v39.0.0
+- quay.io/metal3-io/ironic-standalone-operator:v0.12.0
 
 ## CI Test Matrix
 
