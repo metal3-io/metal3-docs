@@ -70,5 +70,6 @@
 - [API Reference](reference.md)
 - [Version Support](version_support.md)
 - [Security Best Practices](security/introduction.md)
+   - [Certificate Supply and Lifecycle](security/certificates.md)
 - [Project Security Policy](security_policy.md)
 - [Glossary](glossary.md)
