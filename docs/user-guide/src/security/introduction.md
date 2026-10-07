@@ -56,7 +56,8 @@ for that topic.
   [quick-start](../quick-start.md).
 - **Ironic authentication.** The Ironic `auth_strategy` modes (`noauth` versus
   `http_basic`), where BMO reads the credentials, and the fact that OpenStack
-  Identity (Keystone) is not supported. See the
+  Identity (Keystone) is not supported. See
+  [Ironic authentication](./ironic-authentication.md) and the
   [Bare Metal Operator Authentication guide](https://github.com/metal3-io/baremetal-operator/blob/main/docs/ironic-authentication.md).
 - **TLS-enabled network boot (iPXE).** Running HTTPS iPXE end to end: building
   an iPXE binary with an embedded trust anchor, how it ties into the httpd TLS
