@@ -599,19 +599,18 @@ controller for Metal3.
 
 #### Tilt development environment
 
-<!-- markdownlint-disable link-fragments -->
-
 [Tilt](https://tilt.dev) setup can deploy CAPM3 in a local kind cluster. Since
 Tilt is applied in the metal3-dev-env deployment, you can make changes inside
 the `cluster-api-provider-metal3` folder and Tilt will deploy the changes
 automatically.
 If you deployed CAPM3 separately and want to make changes to it, then
-follow [CAPM3 instructions](#tilt-for-dev-in-capm3). This will save you from
+follow [CAPM3 instructions][tilt-capm3]. This will save you from
 having to build all of the images for CAPI, which can take a while. If the
 scope of your development will span both CAPM3 and CAPI, then follow the
-[CAPI and CAPM3 instructions](#tilt-for-dev-in-both-capm3-and-capi).
+[CAPI and CAPM3 instructions][tilt-capm3-capi].
 
-<!-- markdownlint-enable link-fragments -->
+[tilt-capm3]: https://github.com/metal3-io/cluster-api-provider-metal3/blob/main/docs/dev-setup.md#tilt-for-dev-in-capm3
+[tilt-capm3-capi]: https://github.com/metal3-io/cluster-api-provider-metal3/blob/main/docs/dev-setup.md#tilt-for-dev-in-both-capm3-and-capi
 
 ### 2.6. Accessing Ironic API
 
