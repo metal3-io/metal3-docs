@@ -3,7 +3,7 @@
 set -eux
 
 USR_LOCAL_BIN="/usr/local/bin"
-MINIMUM_CLUSTERCTL_VERSION=v1.12.1
+MINIMUM_CLUSTERCTL_VERSION=v1.14.2
 
 # Ensure the clusterctl tool exists and is a viable version, or installs it
 verify_clusterctl_version()
