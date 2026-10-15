@@ -32,6 +32,7 @@
       - [Detaching Hosts from Provisioner](bmo/detached_annotation.md)
       - [External Inspection](bmo/external_inspection.md)
       - [Reconstructing Host Status](bmo/status_annotation.md)
+      - [Multi tenancy with Hostclaim](bmo/hostclaim.md)
 - [Ironic in Metal3](ironic/introduction.md)
    - [Ironic Python Agent](ironic/ironic-python-agent.md)
    - [Ironic Container Images](ironic/ironic-container-images.md)
