@@ -54,7 +54,7 @@ scenario_2() {
 
     # Render and apply manifests
     clusterctl generate cluster my-cluster --control-plane-machine-count 1 --worker-machine-count 0 | kubectl apply -f -
-    
+
     # Wait for all BMHs in default namespace to be provisioned
     if ! kubectl wait --for=jsonpath='{.status.provisioning.state}'=provisioned --timeout=1800s bmh --all; then
         echo "ERROR: BMHs failed to reach 'provisioned' state within timeout."
@@ -85,8 +85,8 @@ setup_disk_images_dir() {
     DISK_IMAGE_DIR="${QUICK_START_BASE}/disk-images"
     REQUIRED_FILES=(
         "jammy-server-cloudimg-amd64.img"
-        "CENTOS_10_NODE_IMAGE_K8S_v1.34.1.qcow2"
-        "CENTOS_10_NODE_IMAGE_K8S_v1.34.1.raw"
+        "CENTOS_10_NODE_IMAGE_K8S_v1.34.9.qcow2"
+        "CENTOS_10_NODE_IMAGE_K8S_v1.34.9.raw"
         "ipa-centos9-master.tar.gz"
     )
 
