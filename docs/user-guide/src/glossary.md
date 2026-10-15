@@ -21,7 +21,7 @@ Metal3 is a Cluster API provider, you might also want to take a look at
 | IPA | [Ironic Python Agent](./ironic/ironic-python-agent.md) | Agent running in a ramdisk that executes Ironic commands on bare-metal hosts (inspection, deployment, cleaning) |
 | IPAM | [IP Address Manager](./ipam/introduction.md) | Metal3 controller managing static IP allocations for cluster nodes |
 | IPMI | [Intelligent Platform Management Interface](./bmo/supported_hardware.md#ipmi) | Legacy protocol for remote hardware management; less secure than Redfish |
-| iRMC | [Integrated Remote Management Controller](./bmo/supported_hardware.md#vendor-specific-protocols) | Fujitsu's BMC implementation (deprecated in Metal3) |
+| iRMC | [Integrated Remote Management Controller](./bmo/supported_hardware.md#previously-available-vendor-specific-protocols) | Fujitsu's BMC implementation (deprecated in Metal3) |
 | IrSO | [Ironic Standalone Operator](./irso/introduction.md) | Metal3 Kubernetes operator that deploys and manages Ironic |
 | MAC | [Media Access Control](https://en.wikipedia.org/wiki/MAC_address) | Unique hardware address identifying a network interface |
 | NIC | [Network Interface Card](https://en.wikipedia.org/wiki/Network_interface_controller) | Hardware providing network connectivity |
