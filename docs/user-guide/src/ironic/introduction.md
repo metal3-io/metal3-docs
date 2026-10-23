@@ -106,14 +106,7 @@ host `compute-0` in the `metal3` namespace will receive the Ironic name
 1. A new record is created in Ironic.
 1. BMC credentials are verified by Ironic by reading the current power state of
    the machine.
-1. The
-   [inspection](https://docs.openstack.org/ironic/latest/admin/inspection/index.html)
-   process is started.
-
-Once inspection finishes successfully, the hardware inventory is fetched from
-Ironic and stored in a corresponding `HardwareData` resource. Note that this
-information is never updated unless a new inspection happens (see [inspect
-annotation](../bmo/inspect_annotation)).
+1. The [inspection](../bmo/inspect_annotation.md) process is started.
 
 ### Host provisioning
 
