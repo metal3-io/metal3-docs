@@ -11,7 +11,7 @@ jobs:
     if: github.repository == 'metal3-io/metal3-docs'
     permissions:
       contents: read
-    uses: ./.github/workflows/test-quick-start-guide.yml  # zizmor: ignore[unpinned-uses]
+    uses: $/.github/workflows/test-quick-start-guide.yml
     with:
       runner: "ubuntu-latest"
       timeout-minutes: 90
