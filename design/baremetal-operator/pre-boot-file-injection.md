@@ -70,12 +70,9 @@ early booting.
 
 ## Design Details
 
-A new field `InjectFiles` in `BaremetalHost.Spec.Image` will be added. It
-will contain `files` and `priority`. Priority is an integer between 41-79
-(inclusive). The priority is 50 by default and it corresponds to the Ironic
-deploy step priority. The priority is optional field.
-
-Files is a list of items, and each item in the list contains
+A new field `InjectFiles` in `BaremetalHost.Spec.Image` will be added. It will
+contain `files` and `priority`. Files is a list of items, and each item in the
+list contains
 
 - A reference to a secret (`secretName`) containing the file contents. The
   secret must be in the same namespace as BMH (and PPI).
@@ -85,27 +82,6 @@ Files is a list of items, and each item in the list contains
 - Integer fields `owner`, `group`, `mode`, `dirmode`.
 - A boolean field `deleted`.
 - A string field `partition`.
-
-Item details:
-
-- The secret will contain one key-value pair. The key is `content` and the value
-  is the file contents. No checks for the file contents are made, it can be
-  practically any data.
-- If the `InjectFiles` field is absent or the list is empty, no files are
-  injected.
-- If the file contents are provided, file path is required and vice versa.
-- Both `deleted` and `secretName` (file contents) cannot be provided at the same
-  time.
-- Content can be a base64 encoded string or an URL to the content (without
-  base64 encoding).
-- Partition can be provided in three different ways:
-   - A number is treated as a partition index
-   - A path is treated as a block device path
-   - If missing, the ironic-python-agent will try to determine the partition.
-     partition label.
-- The priority will be validated to be in the correct range (41-79). 
-- Path is always required. One of `URL`, `deleted`, and `secretName` is
-  required. The rest of fields are optional.
 
 Example:
 
@@ -142,32 +118,7 @@ spec:
 - The default implementation will be done using [Ironic file injection deploy
   step](https://docs.openstack.org/ironic-python-agent/latest/admin/hardware_managers.html#injecting-files).
   No new dependencies are needed to implement this.
-- The implementation also extends the `Provisioner` interface, and hence any
-  compatible provisioner could provide the feature.
-   - A setter function `SetFileInjections` will be added. It will set the files
-     to be injected for the next deployment. The files to be injected must be
-     set after each deployment. The file contents and file paths are handed to
-     the provisioner through arguments.
-   - The `Provisioner` interface will also be extended in such a way that BMO
-     can find out whether the provisioner supports this feature or not. A
-     function `SupportedFeatures` will be added. The function has no arguments.
-     A supporting provisioner must include a constant in the return value of
-     `SupportedFeatures` identified as `PreBootFileInjection`.
-   - `SupportedFeatures` is a generic function which will serve a
-     multi-provisioner model. It takes no arguments and returns a list of
-     strings (or integers) which define which features are supported. Each
-     provisioner can specify which features it supports through this.
-   - The constant variable `PreBootFileInjection` can have either string value
-     or integer value. The value itself is not relevant, as long as all the
-     different features will have unique value. The constant will be public so
-     that provisioners can return the set of variables that they support.
-- There will be no hashes of the injected file (or checking hashes). That is
-  out of the scope. The file is only delivered, not executed during delivery.
-  The file contents are not checked in any way. The file might be executed or
-  used by Systemd after the quest boots up, if the written file is binary or
-  part of system configuration.
 - LVM is not supported.
-- Names are not supported for `owner` and `group`.
 - No files can be injected with live-ISO. This is checked when validating the
   data. To specify the file injections, we require that the image field and
   image type are populated.
@@ -178,10 +129,62 @@ spec:
   `PreBootFileInjection`, baremetal-operator will fail the deployment. A
   deployment failure event will be recorded. The user then needs to switch the
   provisioner or remove file injections.
+- If the `InjectFiles` field is absent or the list is empty, no files are
+  injected.
+
+The implementation also extends the `Provisioner` interface, and hence any
+compatible provisioner could provide the feature.
+
+- A setter function `SetFileInjections` will be added. It will set the files
+  to be injected for the next deployment. The files to be injected must be
+  set after each deployment. The file contents and file paths are handed to
+  the provisioner through arguments.
+- The `Provisioner` interface will also be extended in such a way that BMO
+  can find out whether the provisioner supports this feature or not. A
+  function `SupportedFeatures` will be added. The function has no arguments.
+  A supporting provisioner must include a constant in the return value of
+  `SupportedFeatures` identified as `PreBootFileInjection`.
+- `SupportedFeatures` is a generic function which will serve a
+  multi-provisioner model. It takes no arguments and returns a list of
+  strings (or integers) which define which features are supported. Each
+  provisioner can specify which features it supports through this.
+- The constant variable `PreBootFileInjection` can have either string value
+  or integer value. The value itself is not relevant, as long as all the
+  different features will have unique value. The constant will be public so
+  that provisioners can return the set of variables that they support.
+
+Single file item details:
+
+- The secret will contain one key-value pair. The key is `content` and the value
+  is the file contents. No checks for the file contents are made, it can be
+  practically any data.
+- File to be injected can be also located behind URL. Because base64 encoding
+  has quirks with URLs, a file content behind URL can not be specified in the
+  secret, instead it must be specified with field `URL`.
+- Only one of `URL`, `deleted` and `secretName` can be defined at a time.
+- Partition can be provided in three different ways:
+   - A number is treated as a partition index
+   - A path is treated as a block device path
+   - If missing, the ironic-python-agent will try to determine the partition.
+     partition label.
+- Path is always required. One of `URL`, `deleted`, and `secretName` is
+  required. The rest of fields are optional.
+- There will be no hashes of the injected file (or checking hashes). That is
+  out of the scope. The file is only delivered, not executed during delivery.
+  The file contents are not checked in any way. The file might be executed or
+  used by Systemd after the quest boots up, if the written file is binary or
+  part of system configuration.
+- Names are not supported for `owner` and `group`.
 - `mode` and `dirMode` are integer fields and they need to be prefixed with `0`
   or `0o` in order for yaml to interpret them as octal numbers. The mode can
   also be provided as decimal number, but the user should notice that it does
   not match octal representation.
+
+Priority details:
+
+- Priority will be validated to be an integer between 41-79 (inclusive).
+- The priority is 50 by default
+- Priority corresponds to the Ironic deploy step priority.
 
 ### Risks and Mitigations
 
