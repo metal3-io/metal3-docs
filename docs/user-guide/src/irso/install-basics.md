@@ -18,7 +18,8 @@ answer a few questions before you can pick the one that suits you:
 
 - Are you going to use TLS for the Ironic API? It is not recommended to run
   without TLS. To enable it, you need to manage the TLS secret. [Cert
-  Manager](https://cert-manager.io/) is the recommended service for it.
+  Manager](https://cert-manager.io/) is the recommended service for it. See
+  [TLS and certificates](./tls.md) for all TLS-related fields.
 
 - Do you need persistence for the Ironic's internal database? The examples in
   this guide assume no persistence, i.e. that **all data is lost on the pod
@@ -175,6 +176,9 @@ spec:
 with `ipAddressManager: keepalived`.
 
 Now you can access Ironic either via the service or at `192.0.2.1:6385`.
+
+See [TLS and certificates](./tls.md) for the required Subject Alternative
+Names, trusting BMCs and image servers, and certificate rotation.
 
 ## Scenario 3: dedicated networking with DHCP and Keepalived
 
