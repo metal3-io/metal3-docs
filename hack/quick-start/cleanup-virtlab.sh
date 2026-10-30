@@ -5,13 +5,12 @@ set -x
 # Stop and remove containers
 docker rm -f sushy-tools
 
-# Cleanup VM 
-virsh -c qemu:///system destroy --domain "bmh-vm-01"
-virsh -c qemu:///system undefine --domain "bmh-vm-01" --remove-all-storage --nvram
+sudo virsh -c qemu:///system destroy --domain "bmh-vm-01"
+sudo virsh -c qemu:///system undefine --domain "bmh-vm-01" --remove-all-storage --nvram
 
 # Cleanup network
-virsh -c qemu:///system net-destroy baremetal-e2e
-virsh -c qemu:///system net-undefine baremetal-e2e
+sudo virsh -c qemu:///system net-destroy baremetal-e2e
+sudo virsh -c qemu:///system net-undefine baremetal-e2e
 
 # Cleanup network interfaces and docker network
 sudo ip link delete metalend type veth
