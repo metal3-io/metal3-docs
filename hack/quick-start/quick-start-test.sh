@@ -6,7 +6,6 @@
 # DHCP and image servers, and deploying Ironic and baremetal operators.
 #------------------------------------------------------------------------------
 set -eux
-
 # Default QUICK_START_BASE to the absolute path of this script's directory if not already set.
 export QUICK_START_BASE=${QUICK_START_BASE:="$(dirname -- "$(readlink -f "${BASH_SOURCE[0]}")")"}
 
@@ -16,6 +15,9 @@ ensure_env() {
 
     echo "Ensuring clusterctl is installed and meets minimum version requirements..."
     "${QUICK_START_BASE}/ensure/ensure_clusterctl.sh"
+
+    echo "Ensuring kind is installed and meets minimum version requirements..."
+    "${QUICK_START_BASE}/ensure/ensure_kind.sh"
 }
 
 setup() {
