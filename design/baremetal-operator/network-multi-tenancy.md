@@ -141,6 +141,34 @@ spec:
   nativeVLAN: 100
 ```
 
+Relying solely on VLAN limits the number of networks per infrastructure
+namespace. To specify that a group of HNA serves the same purpose (i.e.
+connects to the same virtual network), we create a HostNetworkAttachmentGroup:
+
+```yaml
+apiVersion: metal3.io/v1alpha1
+kind: HostNetworkAttachmentGroup
+metadata:
+  name: tenant-blue-worker-external
+  namespace: infra-pool42
+spec:
+  group:
+  - hostNetworkAttachment:
+      name: tenant-blue-worker-external-rack3
+    interfaceFilter:
+      switchID: aa:bb:cc:dd:ee:ff
+  - hostNetworkAttachment:
+      name: tenant-blue-worker-external-rack5
+    interfaceFilter:
+      switchID: 11:22:33:44:55:66
+  - hostNetworkAttachment:
+      name: tenant-blue-worker-external
+```
+
+This group provides three alternative HNA, depending on the switch the
+interface is connected to. The last option does not have a filter and thus is
+used by default.
+
 #### Network policies
 
 Now I create two policies for two kinds of nodes. They need to be designed in a
@@ -163,12 +191,13 @@ spec:
     matchLabels:
       hostclaimnetworkpolicy.example.com/worker: "true"
   networkInterfaces:
-  # NIC with label "embedded" must exist and will get the linked HNA
+  # NIC with label "embedded" must exist and will get one of the HNA from the
+  # provided group, depending on the rules in the group.
   - label: embedded
-    hostNetworkAttachment:
+    hostNetworkAttachmentGroup:
       name: tenant-blue-worker-external
-  # Same here, but the process won't fail if the NIC with label "trunk-100g"
-  # is missing on the host.
+  # If NIC with label "trunk-100g" exists on the host, it will get the provided
+  # attachment.
   - label: trunk-100g
     hostNetworkAttachment:
       name: tenant-blue-worker-trunk
@@ -220,6 +249,10 @@ spec:
 
 - New NetworkPolicies: TODO
 
+### HostNetworkAttachmentGroup resource
+
+TODO
+
 ### HostClaimNetworkPolicy resource
 
 TODO
@@ -235,7 +268,7 @@ TODO
 - HostClaims without `networkPolicy` field do not match HostDeployPolicies
   with `networkPolicies` set to `required`.
 
-If a HostClaim specifies a HostClaimDeployPolicy...
+If a HostClaim specifies a HostClaimNetworkPolicy...
 
 - ... that doesn't exist in the HostDeployPolicy namespace, hosts in this
   namespace don't match.
@@ -248,6 +281,11 @@ If a HostClaim specifies a HostClaimDeployPolicy...
 
 - ... hosts with labels on its `networkInterfaces` not matching the policy's
   non-optional `networkInterfaces` are skipped.
+
+- ... and any of the required interfaces in the HostClaimNetworkPolicy link to
+  a HostNetworkAttachmentGroup, and the host's interface with the expected
+  label doesn't match any of interface filters in the group, the host doesn't
+  match.
 
 ### Risks and Mitigations
 
