@@ -34,8 +34,7 @@ come talk to us!
 
 * We are available on Kubernetes
 [slack](https://slack.k8s.io/) in the
-  [#cluster-api-baremetal](https://kubernetes.slack.com/archives/CHD49TLE7)
-  channel
+  \#cluster-api-baremetal channel
 * Join to the [Metal3-dev](https://groups.google.com/forum/#!forum/metal3-dev)
   google group for the edit access to the
   [Community meetings Notes](https://docs.google.com/document/d/1IkEIh-ffWY3DaNX3aFcAxGbttdEY_symo7WAGmzkWhU/edit)
