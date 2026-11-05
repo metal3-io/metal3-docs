@@ -1,7 +1,13 @@
-# FailureDomain-aware DataTemplate Selection
+# FailureDomain DataTemplate and BMH Namespace Selection
 
-This proposal extends the [FD Support for Control-Plane Nodes](fd-support-kcp.md)
-design to add per-FD network configuration.
+This proposal extends the
+[FD Support for Control-Plane Nodes](fd-support-kcp.md) design in two
+complementary ways: (1) per-FD `Metal3DataTemplate` mapping for network
+configuration, and (2) per-FD BareMetalHost (BMH) namespace placement so
+that physical site boundaries (rack, row, AZ) map directly to Kubernetes
+namespace boundaries. Both are independently opt-in. (2) depends on PR
+[metal3-io/cluster-api-provider-metal3#2506][pr-2506], which removes the
+BMH `ownerReference`.
 
 ## Motivation
 
@@ -27,6 +33,20 @@ This creates two problems:
    defined once. There is no way to assign different VLAN IDs to different
    CP nodes (e.g. VLAN 100 for rack1, VLAN 200 for rack2).
 
+### Namespace-based site separation
+
+Separately, the existing FD design places all BMHs in a single namespace
+(typically `metal3`) and uses labels to distinguish failure domains.
+Representing each FD as its own Kubernetes namespace makes the boundary of a
+physical site (rack, row, AZ) coincide with the namespace boundary:
+
+- A physical site (e.g. `rack1`) maps one-to-one to a Kubernetes namespace.
+  No separate label scheme is required to identify which BMHs belong to
+  which site — the namespace already encodes it.
+- BMH inventory can be managed and queried by namespace
+  (`kubectl -n rack1 get bmh`), and management actions can be scoped to a
+  single site through standard Kubernetes namespace tooling.
+
 ## User Stories
 
 As an operator who has placed their baremetal infrastructure across different
@@ -40,11 +60,25 @@ matching its FD.
   nodes deployed via KCP.
 - Maintain backward compatibility — clusters without this feature are
   unaffected.
+- Add an optional `bmhNamespace` field per FD entry on `Metal3Cluster` —
+  scope a given FD's BMH selection to the named namespace. Independently
+  opt-in from the per-FD `DataTemplate` selection above.
 
 ## Non-Goals
 
 - Changing the `Metal3DataTemplate`, `Metal3DataClaim`, `Metal3Data`, or
   secret rendering pipeline.
+- Many-to-many FD ↔ namespace mapping. Each FD points to at most one
+  namespace (many-to-many is discussed under
+  [Alternatives Considered](#alternatives-considered)).
+- Replacing the
+  [HostClaim multi-tenancy design](hostclaim-multitenancy.md). HostClaim
+  addresses cross-tenant security boundaries; this proposal is scoped to
+  failure-domain placement within a single tenant.
+- Cross-namespace placement for cluster-level objects other than BMH.
+  `Cluster`, `Metal3Cluster`, `KubeadmControlPlane`, `MachineDeployment`,
+  `Metal3Machine`, and template resources all remain co-located in a
+  single namespace (typically `metal3`).
 
 ## Proposal
 
@@ -102,6 +136,80 @@ controller → `Metal3Data` → secret rendering) remains **unchanged**.
    │ networkData secret  │      │ networkData secret  │      │ networkData secret  │
    │ subnet: 10.0.1.0/24 │      │ subnet: 10.0.2.0/24 │      │ subnet: 10.0.3.0/24 │
    │ VLAN: 100           │      │ VLAN: 200           │      │ VLAN: 300           │
+   └─────────────────────┘      └─────────────────────┘      └─────────────────────┘
+```
+
+### bmhNamespace field
+
+Add an optional `bmhNamespace` field (string, DNS-1123 namespace name) to
+each entry of `Metal3Cluster.Spec.FailureDomains`. When set, the BMH
+selection for that FD is restricted to the named namespace; when empty, it
+falls back to the `Metal3Machine`'s own namespace (the existing behavior).
+
+**Behavior:**
+
+- The CAPM3 controller uses `Machine.Spec.FailureDomain` as the key to look
+  up the matching entry in `Metal3Cluster.Spec.FailureDomains`.
+- If that entry has `bmhNamespace` set, the BMH search is scoped to that
+  namespace; otherwise the `Metal3Machine`'s namespace is used.
+- The FD label match from
+  [fd-support-kcp.md](fd-support-kcp.md) applies on top of the resolved
+  namespace, unchanged.
+
+**IPAM:** `Metal3DataClaim`, `Metal3Data`, `IPClaim`, and `IPPool`
+continue to live in the `Metal3Machine`'s namespace; this side is
+unaffected.
+
+**Multiple controller lookup paths must honor the BMH namespace.** Once
+the BMH may live in a different namespace, every controller path that
+references the BMH must follow its actual namespace:
+
+- **Metal3Machine BMH selection** — choosing a host from the candidate
+  pool.
+- **Metal3Machine post-selection lookup** — re-fetching the already
+  selected BMH on subsequent reconciles. Directives such as
+  `Metal3DataTemplate`'s `fromHostInterface` use this path to read the
+  BMH's `Status.HardwareDetails`.
+- **Metal3Remediation BMH lookup** — a distinct lookup path used to
+  start the remediation lifecycle (PowerOff annotation, reboot
+  sequence, etc.).
+
+All three paths today scope the lookup to the Metal3Machine's own
+namespace and must be updated together. The Metal3Cluster-driven
+label-sync fan-out path shares the same assumption and is a secondary
+audit item (a direct BMH watch path exists alongside it, so the impact
+is limited).
+
+#### Flow (BMH selection)
+
+```text
+                                 ┌─────────────────────┐
+                                 │   Metal3Cluster      │
+                                 │   ns=metal3          │
+                                 │                      │
+                                 │ failureDomains:      │
+                                 │  rack1: ns=rack1     │
+                                 │  rack2: ns=rack2     │
+                                 │  rack3: ns=rack3     │
+                                 └──────────┬──────────┘
+                                            │ FD entry lookup
+              ┌─────────────────────────────┼─────────────────────────────┐
+              │                             │                             │
+   ┌──────────▼──────────┐      ┌──────────▼──────────┐      ┌──────────▼──────────┐
+   │   Metal3Machine     │      │   Metal3Machine     │      │   Metal3Machine     │
+   │ ns=metal3           │      │ ns=metal3           │      │ ns=metal3           │
+   │ fd=rack1            │      │ fd=rack2            │      │ fd=rack3            │
+   └──────────┬──────────┘      └──────────┬──────────┘      └──────────┬──────────┘
+              │ chooseHost                  │ chooseHost                  │ chooseHost
+              │ (ns=rack1,                  │ (ns=rack2,                  │ (ns=rack3,
+              │  fd label=rack1)            │  fd label=rack2)            │  fd label=rack3)
+              ▼                             ▼                             ▼
+   ┌─────────────────────┐      ┌─────────────────────┐      ┌─────────────────────┐
+   │   BareMetalHost     │      │   BareMetalHost     │      │   BareMetalHost     │
+   │ ns=rack1            │      │ ns=rack2            │      │ ns=rack3            │
+   │ label fd=rack1      │      │ label fd=rack2      │      │ label fd=rack3      │
+   │ consumerRef:        │      │ consumerRef:        │      │ consumerRef:        │
+   │  → metal3/m3m-1     │      │  → metal3/m3m-2     │      │  → metal3/m3m-3     │
    └─────────────────────┘      └─────────────────────┘      └─────────────────────┘
 ```
 
@@ -383,15 +491,72 @@ status:
     # → secret contents: VLAN 300, subnet 10.0.3.0/24
 ```
 
+### bmhNamespace usage
+
+Building on the 3-rack scenario above, add `bmhNamespace` per FD and place
+each rack's BMHs in its own namespace. The Metal3DataTemplate, IPPool,
+Metal3MachineTemplate, and KubeadmControlPlane definitions above remain
+unchanged.
+
+```yaml
+kind: Metal3Cluster
+metadata:
+  name: my-cluster
+  namespace: metal3
+spec:
+  controlPlaneEndpoint:
+    host: 192.168.0.100
+    port: 6443
+  failureDomains:
+  - name: rack1
+    controlPlane: true
+    bmhNamespace: rack1     # NEW
+  - name: rack2
+    controlPlane: true
+    bmhNamespace: rack2
+  - name: rack3
+    controlPlane: true
+    bmhNamespace: rack3
+```
+
+BMHs move into per-rack namespaces (labels unchanged):
+
+```yaml
+# namespace: rack1
+kind: BareMetalHost
+metadata:
+  name: bmh-cp-01
+  namespace: rack1
+  labels:
+    infrastructure.cluster.x-k8s.io/failure-domain: rack1
+spec:
+  online: true
+  bootMACAddress: "AA:BB:CC:DD:01:01"
+  bmc:
+    address: ipmi://192.168.0.11
+    credentialsName: bmh-cp-01-credentials   # in namespace rack1
+```
+
+(rack2 and rack3 follow the same pattern.)
+
 ## Backward Compatibility
 
-- `failureDomainDataTemplates` is optional. Omitting it preserves the
-  existing behavior — all machines use the single `dataTemplate` from the
-  template spec.
+`failureDomainDataTemplates`:
+
+- Optional field. Omitting it preserves the existing behavior — all
+  machines use the single `dataTemplate` from the template spec.
 - No changes are required to `Metal3DataTemplate`, `Metal3DataClaim`,
   `Metal3Data`, or the secret rendering pipeline.
 - Existing clusters without failure domains or without this field are
   completely unaffected.
+
+`bmhNamespace`:
+
+- Optional field. Omitting it preserves the existing same-namespace BMH
+  selection behavior.
+- Requires PR [#2506][pr-2506]. The earliest CAPM3 release that can
+  carry it is the same release that ships the BMH `ownerReference`
+  removal.
 
 ## Alternatives Considered
 
@@ -409,8 +574,21 @@ Use `FailureDomain.Attributes["dataTemplate"]` to reference a
 conventions without type safety or webhook validation, making it error-prone
 and harder to discover.
 
+### `HostSelector.{Namespaces,NamespaceSelector}` (bmhNamespace alternative)
+
+Add namespace selection directly on `HostSelector` of
+`Metal3MachineTemplate`. Allows many-to-many FD ↔ namespace mapping but
+bypasses CAPI's standard FD spread, repeats the namespace list on every
+template, and introduces xor validation surface. Rejected as the primary
+mechanism; kept as a possible future extension if many-to-many requirements
+emerge.
+
 ## Related
 
 - [FD Support for Control-Plane Nodes](fd-support-kcp.md) — the original
   proposal for FD-based BMH selection
 - [CAPV FD support](https://github.com/kubernetes-sigs/cluster-api-provider-vsphere/blob/main/docs/proposal/20201103-failure-domain.md)
+- [PR metal3-io/cluster-api-provider-metal3#2506 — Remove Metal3Machine owner reference from BMH][pr-2506]
+- [Kubernetes #94631 — ownerReference cross-namespace](https://github.com/kubernetes/kubernetes/issues/94631)
+
+[pr-2506]: https://github.com/metal3-io/cluster-api-provider-metal3/pull/2506
