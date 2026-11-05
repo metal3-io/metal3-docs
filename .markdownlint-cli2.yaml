@@ -12,3 +12,8 @@ config:
 
 # Don't autofix anything, we're linting here
 fix: false
+
+# CLAUDE.md is just a link to AGENTS.md, not a standalone doc, so it fails
+# markdownlint's heading/newline checks even though AGENTS.md itself passes
+ignores:
+- "CLAUDE.md"
