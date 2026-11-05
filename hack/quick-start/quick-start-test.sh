@@ -66,14 +66,32 @@ create_bmhs() {
 }
 
 scenario_2() {
+    local KCP_TIMEOUTS_SED
+
     echo "Running Scenario 2: ..."
     # "clusterctl init --infrastructure metal3 --ipam=metal3" has already been run.
     # Define env variables
     # shellcheck source=/dev/null
     source "${QUICK_START_BASE}/capm3-vars.sh"
 
-    # Render and apply manifests
-    clusterctl generate cluster my-cluster --control-plane-machine-count 1 --worker-machine-count 0 | kubectl apply -f -
+    # Render and apply manifests. Adjust waiting times for control plane health
+    # checks and Kubernetes API calls. This will help avoid timeouts during
+    # cluster creation, especially in resource-constrained environments.
+    KCP_TIMEOUTS_SED='
+/^    initConfiguration:$/a\
+      timeouts:\
+        controlPlaneComponentHealthCheckSeconds: 600\
+        kubernetesAPICallSeconds: 180
+/^    joinConfiguration:$/a\
+      timeouts:\
+        controlPlaneComponentHealthCheckSeconds: 600
+'
+
+    clusterctl generate cluster my-cluster \
+        --control-plane-machine-count 1 \
+        --worker-machine-count 0 \
+        | sed -e "${KCP_TIMEOUTS_SED}" \
+        | kubectl apply -f -
 
     # Wait for all BMHs in default namespace to be provisioned
     if ! kubectl wait --for=jsonpath='{.status.provisioning.state}'=provisioned --timeout=1800s bmh --all; then
