@@ -93,6 +93,36 @@ The following significant changes will be done to the new version:
   fixes, these types got disabled, and it does not look like anyone is
   actually using them.
 
+- Replace `Spec.ConsumerRef`, currently a generic `corev1.ObjectReference`,
+  with a dedicated `ConsumerReference` type that only carries what identifies
+  the consumer:
+
+  ```go
+  type ConsumerReference struct {
+      // APIGroup of the consumer, empty for the core API group.
+      // +optional
+      APIGroup string `json:"apiGroup,omitempty"`
+      // +kubebuilder:validation:MinLength=1
+      Kind string `json:"kind"`
+      // +kubebuilder:validation:MinLength=1
+      Name string `json:"name"`
+      // +optional
+      Namespace string `json:"namespace,omitempty"`
+  }
+  ```
+
+  `corev1.ObjectReference` carries fields that BMO and its consumers do not
+  use (`uid`, `resourceVersion`, `fieldPath`) and models the consumer identity
+  as a single `apiVersion` string. Consumers only care about the group, so
+  they currently parse `apiVersion` and drop the version before comparing,
+  which is what Cluster API Provider Metal3 does. A typed reference with
+  `apiGroup` makes the match version-tolerant by design and lets the CRD
+  validation require `kind` and `name` at admission time. Cluster API made
+  the same change for its object references in `v1beta2`.
+
+  The same change applies to `HostClaim.Spec.ConsumerRef` when `HostClaim`
+  gets a `v1beta1` version.
+
 The following cosmetic changes will be done to the new version:
 
 - Rename `online` to `poweredOn`.
@@ -127,6 +157,21 @@ Similarly, the controller will also the old version to be able to handle
 the fields not present in the new one (and to avoid constant conversion to
 and from the storage version).
 
+`ConsumerRef` needs manual conversion code. From `v1alpha1` to `v1beta1`, the
+group is taken from `apiVersion`, and the version, `uid`, `resourceVersion`
+and `fieldPath` are kept in the existing `metal3.io/conversion-data`
+annotation so that a round trip does not lose them. From `v1beta1` to
+`v1alpha1`, the preserved values are restored when present.
+
+A reference written through `v1beta1` has no version to restore, but the
+`v1alpha1` storage version still needs a full `group/version` in
+`apiVersion`, since consumers parse it with `schema.ParseGroupVersion`. How
+to fill in the version in that case is an open question. The options are
+to look the version up from the consumer's CRD, the way Cluster API resolves
+`ContractVersionedObjectReference` through contract labels, to keep an
+optional `apiVersion` hint in `ConsumerReference` until the storage version
+switches, or to switch the storage version before `ConsumerRef` is changed.
+
 ### Risks and Mitigations
 
 None
@@ -138,6 +183,7 @@ None
 - Add `empty` hardware profile.
 - Add `auto` checksum type.
 - Add `InspectionMode` to the current version.
+- Add the `ConsumerReference` type and its conversion functions.
 - Copy type definitions and modify them.
 - Create a conversion webhook to change between versions.
 - Make a new BMO release and communicate the change to the community.
