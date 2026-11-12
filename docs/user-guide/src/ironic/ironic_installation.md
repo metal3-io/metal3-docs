@@ -125,7 +125,6 @@ TLS and Basic authentication disabled (not recommended)
 ```bash
  export IRONIC_FAST_TRACK="false"  # Example of manipulating Ironic settings
  export IRONIC_TLS_SETUP="false"   # Disable TLS
- export IRONIC_BASIC_AUTH="false"  # Disable basic auth
  ./tools/run_local_ironic.sh
 ```
 
@@ -133,7 +132,8 @@ Basic authentication enabled
 
 ```bash
  export IRONIC_TLS_SETUP="false"
- export IRONIC_BASIC_AUTH="true"
+ export IRONIC_USERNAME="change-this"
+ export IRONIC_PASSWORD="change-this"
  ./tools/run_local_ironic.sh
 ```
 
@@ -141,6 +141,5 @@ TLS enabled
 
 ```bash
  export IRONIC_TLS_SETUP="true"
- export IRONIC_BASIC_AUTH="false"
  ./tools/run_local_ironic.sh
 ```
