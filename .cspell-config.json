@@ -79,6 +79,7 @@
     "entrypoint",
     "env",
     "ethernets",
+    "EVPN",
     "F5",
     "filesystem",
     "finalizer",
