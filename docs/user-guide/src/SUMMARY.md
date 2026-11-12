@@ -37,6 +37,7 @@
    - [Ironic Container Images](ironic/ironic-container-images.md)
    - [Ironic Standalone Operator](irso/introduction.md)
       - [Install Ironic with IrSO](irso/install-basics.md)
+      - [TLS and Certificates](irso/tls.md)
       - [External Database for Ironic](irso/database.md)
       - [External Access](irso/external-access.md)
    - [Old Installation Process](ironic/ironic_installation.md)
