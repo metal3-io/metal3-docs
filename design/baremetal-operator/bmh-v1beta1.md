@@ -108,6 +108,10 @@ The following significant changes will be done to the new version:
       Name string `json:"name"`
       // +optional
       Namespace string `json:"namespace,omitempty"`
+      // APIVersion of the consumer as group/version. Only used to fill in
+      // the v1alpha1 storage version and ignored when matching consumers.
+      // +optional
+      APIVersion string `json:"apiVersion,omitempty"`
   }
   ```
 
@@ -163,14 +167,18 @@ and `fieldPath` are kept in the existing `metal3.io/conversion-data`
 annotation so that a round trip does not lose them. From `v1beta1` to
 `v1alpha1`, the preserved values are restored when present.
 
-A reference written through `v1beta1` has no version to restore, but the
-`v1alpha1` storage version still needs a full `group/version` in
-`apiVersion`, since consumers parse it with `schema.ParseGroupVersion`. How
-to fill in the version in that case is an open question. The options are
-to look the version up from the consumer's CRD, the way Cluster API resolves
-`ContractVersionedObjectReference` through contract labels, to keep an
-optional `apiVersion` hint in `ConsumerReference` until the storage version
-switches, or to switch the storage version before `ConsumerRef` is changed.
+A reference written through `v1beta1` may have no version to restore, but
+the `v1alpha1` storage version still needs a full `group/version` in
+`apiVersion`, since consumers parse it with `schema.ParseGroupVersion`. Unlike
+Cluster API, Metal3 has no contract labels to resolve the version from, and
+looking up the consumer's CRD from the conversion webhook is expensive. So
+`ConsumerReference` keeps an optional `apiVersion`, which clients that know
+the version (Cluster API Provider Metal3 does) should set. When it is empty,
+the conversion writes the group with a fixed placeholder version. Consumers
+only compare the group, and a value without a `/` would be parsed as a
+version with an empty group, so the placeholder keeps the group intact. The
+optional field can be dropped once the storage version switches to
+`v1beta1`.
 
 ### Risks and Mitigations
 
