@@ -39,6 +39,8 @@
       - [Install Ironic with IrSO](irso/install-basics.md)
       - [External Database for Ironic](irso/database.md)
       - [External Access](irso/external-access.md)
+      - [High Availability](irso/ha.md)
+   - [Scaling Ironic for Metal3](ironic/scaling.md)
    - [Old Installation Process](ironic/ironic_installation.md)
 - [Cluster-api-provider-metal3](capm3/introduction.md)
    - [Install Metal³ provider](capm3/installation_guide.md)
