@@ -55,8 +55,8 @@ prevent eavesdropping.
 
 ### Installing with Kustomize
 
-In the quickstart guide, we have demonstrated
-[how to install ironic with kustomize](../quick-start.md#deploy-ironic),
+In an [earlier version of the quickstart guide][qs-deploy-ironic], we
+demonstrated how to install ironic with kustomize,
 by creating an ironic kustomization overlay.
 While that is still what you should follow if you have specific requirements for
 your ironic deployment, we do provide an already-made overlay for the
@@ -72,13 +72,18 @@ clone it first and `cd` to the root path.
 
 The overlay in interest is located at `ironic-deployment/overlay/basic-auth_tls`.
 To make this overlay work, we still need to set up
-[Authentication](../quick-start.md#authentication-configuration) and
-[Ironic Environment Variables](../quick-start.md#ironic-environment-variables),
-as instructed in the quickstart guide.
+[Authentication][qs-auth] and
+[Ironic Environment Variables][qs-env],
+as instructed in that version of the quickstart guide.
 
-Next, check the [Ironic kustomization](../quick-start.md#ironic-kustomization)
-section in the quickstart guide to see how to generate the necessary configMap
+Next, check the [Ironic kustomization][qs-kustomization]
+section in that guide to see how to generate the necessary configMap
 and Secrets for the deployment.
+
+[qs-deploy-ironic]: https://github.com/metal3-io/metal3-docs/blob/85a6ca1a128fc393c6b9ebe09a87868e0cd2c767/docs/user-guide/src/quick-start.md#deploy-ironic
+[qs-auth]: https://github.com/metal3-io/metal3-docs/blob/85a6ca1a128fc393c6b9ebe09a87868e0cd2c767/docs/user-guide/src/quick-start.md#authentication-configuration
+[qs-env]: https://github.com/metal3-io/metal3-docs/blob/85a6ca1a128fc393c6b9ebe09a87868e0cd2c767/docs/user-guide/src/quick-start.md#ironic-environment-variables
+[qs-kustomization]: https://github.com/metal3-io/metal3-docs/blob/85a6ca1a128fc393c6b9ebe09a87868e0cd2c767/docs/user-guide/src/quick-start.md#ironic-kustomization
 
 Also, `cert-manager` should have been installed in the cluster before deploying
 Ironic. If you haven't installed `cert-manager` yet:
