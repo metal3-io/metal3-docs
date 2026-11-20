@@ -52,6 +52,7 @@ for that topic.
   Subject Alternative Names (DNS name **and** IP), rotation and renewal, how BMO
   is told to trust Ironic, the BMC CA trust path, and the meaning of
   `disableCertificateVerification` on a `BareMetalHost`. See
+  [Certificate Supply and Lifecycle](./certificates.md),
   [Install Ironic with IrSO](../irso/install-basics.md) and the
   [quick-start](../quick-start.md).
 - **Ironic authentication.** The Ironic `auth_strategy` modes (`noauth` versus
