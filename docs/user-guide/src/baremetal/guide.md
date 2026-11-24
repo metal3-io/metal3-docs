@@ -66,7 +66,7 @@ See [Install Ironic](../ironic/ironic_installation.md) for other requirements.
 
 ## Prepare image cache
 
-- Start httpd container. This is used to host the the OS images that the
+- Start httpd container. This is used to host the OS images that the
   BareMetalHosts will be provisioned with.
 
   ```bash

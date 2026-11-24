@@ -19,7 +19,7 @@ feature to render node specific configuration for nodes in a machine deployment
 or in a control plane kubeadm object dynamically, where this kind of objects
 cannot be created beforehand. In addition, we want to be
 able to generate node specific network configuration in CAPM3 based on a
-template for nodes that are part of a machine deployment or or a control plane
+template for nodes that are part of a machine deployment or a control plane
 provider object.
 
 This design proposal introduces a new data template object that contains

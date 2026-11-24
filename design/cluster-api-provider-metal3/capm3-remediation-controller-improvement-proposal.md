@@ -23,7 +23,7 @@ some discussion if the Node should be deleted or not \[2\]. The decision was
 to keep it simple and skip Node deletion.
 Skipping Node deletion has a big drawback though: workloads on unresponsive
 Nodes won't be rescheduled quickly, because they are assumed to be still
-running. Deleting the the Node signals that the workloads are not running
+running. Deleting the Node signals that the workloads are not running
 anymore, which results in quickly rescheduled workloads with less downtime.
 
 ### Goals
